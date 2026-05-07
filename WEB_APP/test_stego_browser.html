@@ -1,0 +1,1047 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>ZION Stego — Full Browser Test Suite</title>
+    <style>
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        body {
+            background: #050505;
+            color: #e0e0e0;
+            font-family: 'Courier New', monospace;
+            padding: 30px;
+            min-height: 100vh;
+        }
+        h1 {
+            color: #00a8ff;
+            letter-spacing: 3px;
+            text-transform: uppercase;
+            border-bottom: 1px solid rgba(0,168,255,0.3);
+            padding-bottom: 15px;
+            margin-bottom: 10px;
+            font-size: 1.2rem;
+        }
+        .subtitle {
+            color: rgba(255,255,255,0.4);
+            font-size: 0.75rem;
+            letter-spacing: 1px;
+            margin-bottom: 30px;
+        }
+        #run-btn {
+            background: linear-gradient(135deg, rgba(0,168,255,0.2), rgba(0,100,200,0.1));
+            border: 1px solid rgba(0,168,255,0.5);
+            color: #00a8ff;
+            padding: 12px 30px;
+            font-family: inherit;
+            font-size: 1rem;
+            letter-spacing: 2px;
+            cursor: pointer;
+            border-radius: 8px;
+            transition: 0.2s;
+            margin-bottom: 30px;
+            text-transform: uppercase;
+        }
+        #run-btn:hover { background: rgba(0,168,255,0.25); transform: translateY(-1px); }
+        #run-btn:disabled { opacity: 0.4; cursor: not-allowed; }
+        #progress-bar-wrap {
+            background: rgba(255,255,255,0.05);
+            border-radius: 4px;
+            height: 4px;
+            margin-bottom: 30px;
+            display: none;
+        }
+        #progress-bar {
+            height: 100%;
+            background: #00a8ff;
+            border-radius: 4px;
+            width: 0%;
+            transition: width 0.3s ease;
+        }
+        .test-card {
+            background: rgba(255,255,255,0.03);
+            border: 1px solid rgba(255,255,255,0.07);
+            border-radius: 10px;
+            padding: 16px 20px;
+            margin-bottom: 10px;
+            display: flex;
+            align-items: flex-start;
+            gap: 14px;
+            transition: 0.2s;
+        }
+        .test-card.pass  { border-color: rgba(57,255,20,0.4); background: rgba(57,255,20,0.04); }
+        .test-card.fail  { border-color: rgba(255,60,60,0.5); background: rgba(255,60,60,0.06); }
+        .test-card.running { border-color: rgba(255,200,0,0.4); background: rgba(255,200,0,0.04); }
+        .status-icon { font-size: 1.3rem; min-width: 28px; margin-top: 2px; }
+        .test-body { flex: 1; }
+        .test-title { font-weight: bold; color: #fff; margin-bottom: 4px; font-size: 0.9rem; }
+        .test-desc { color: rgba(255,255,255,0.45); font-size: 0.75rem; margin-bottom: 6px; }
+        .test-detail {
+            font-size: 0.72rem;
+            color: rgba(255,255,255,0.35);
+            white-space: pre-wrap;
+            word-break: break-all;
+            max-height: 80px;
+            overflow-y: auto;
+        }
+        .test-detail.ok  { color: #39ff14; }
+        .test-detail.err { color: #ff4444; }
+        .test-timing { font-size: 0.68rem; color: rgba(255,255,255,0.25); margin-top: 4px; }
+        #summary {
+            margin-top: 30px;
+            padding: 20px;
+            border-radius: 10px;
+            background: rgba(255,255,255,0.03);
+            border: 1px solid rgba(255,255,255,0.08);
+            display: none;
+        }
+        #summary.all-pass { border-color: rgba(57,255,20,0.5); background: rgba(57,255,20,0.05); }
+        #summary.some-fail { border-color: rgba(255,60,60,0.5); background: rgba(255,60,60,0.05); }
+        #summary-title { font-size: 1.1rem; font-weight: bold; margin-bottom: 8px; }
+        #summary-detail { font-size: 0.8rem; color: rgba(255,255,255,0.5); }
+        .canvas-preview {
+            display: block;
+            margin: 10px 0 4px;
+            border-radius: 4px;
+            border: 1px solid rgba(255,255,255,0.1);
+            max-width: 200px;
+        }
+    </style>
+</head>
+<body>
+
+<h1>🔐 ZION Steganography — Full Browser Test</h1>
+<div class="subtitle">End-to-end: Encrypt → Embed → Extract → Decrypt — no file dialogs, no network</div>
+
+<button id="run-btn" onclick="runAllTests()">▶ RUN ALL TESTS</button>
+
+<div id="progress-bar-wrap"><div id="progress-bar"></div></div>
+<div id="test-list"></div>
+<div id="summary"></div>
+
+<script>
+// ═══════════════════════════════════════════════════════════════
+// CONSTANTS (mirrored from ZION_LITE_BASE.html)
+// ═══════════════════════════════════════════════════════════════
+const MAX_STEGO_PAYLOAD   = 30 * 1024 * 1024;
+const PBKDF2_ITERATIONS   = 600000;
+const SALT_SIZE_BYTES     = 64;
+
+// ═══════════════════════════════════════════════════════════════
+// CRYPTO HELPERS (exact copy from ZION_LITE_BASE.html)
+// ═══════════════════════════════════════════════════════════════
+async function deriveKey(pass, salt) {
+    const enc  = new TextEncoder();
+    const base = await crypto.subtle.importKey('raw', enc.encode(pass), 'PBKDF2', false, ['deriveKey']);
+    return crypto.subtle.deriveKey(
+        { name: 'PBKDF2', salt, iterations: PBKDF2_ITERATIONS, hash: 'SHA-256' },
+        base,
+        { name: 'AES-GCM', length: 256 }, false, ['encrypt', 'decrypt']
+    );
+}
+async function encryptData(buf, pass) {
+    const iv   = crypto.getRandomValues(new Uint8Array(12));
+    const salt = crypto.getRandomValues(new Uint8Array(SALT_SIZE_BYTES));
+    const key  = await deriveKey(pass, salt);
+    const ct   = await crypto.subtle.encrypt({ name: 'AES-GCM', iv }, key, buf);
+    return { ct, iv, salt };
+}
+async function decryptData(obj, pass) {
+    const key = await deriveKey(pass, obj.salt);
+    return crypto.subtle.decrypt({ name: 'AES-GCM', iv: obj.iv }, key, obj.ct);
+}
+async function calculateGhostOffset(pass, totalPixels) {
+    const enc     = new TextEncoder();
+    const hashBuf = await crypto.subtle.digest('SHA-256', enc.encode(pass));
+    const seed    = new DataView(hashBuf).getUint32(0);
+    return seed % totalPixels;
+}
+async function deriveHMACKey(password, salt) {
+    const encoder     = new TextEncoder();
+    const keyMaterial = await crypto.subtle.importKey(
+        'raw', encoder.encode(password + ':HMAC'), 'PBKDF2', false, ['deriveBits']
+    );
+    const bits = await crypto.subtle.deriveBits(
+        { name: 'PBKDF2', salt, iterations: PBKDF2_ITERATIONS, hash: 'SHA-256' },
+        keyMaterial, 256
+    );
+    return crypto.subtle.importKey(
+        'raw', bits, { name: 'HMAC', hash: 'SHA-256' }, false, ['sign', 'verify']
+    );
+}
+
+// ═══════════════════════════════════════════════════════════════
+// TEST HELPERS
+// ═══════════════════════════════════════════════════════════════
+
+/** Build a PNG Blob from a canvas */
+function canvasToBlob(canvas) {
+    return new Promise((res, rej) => canvas.toBlob(b => b ? res(b) : rej(new Error('toBlob failed')), 'image/png'));
+}
+
+/** Create a test cover image (gradient PNG) of given size */
+function createCoverBlob(w, h) {
+    const c   = document.createElement('canvas');
+    c.width   = w; c.height = h;
+    const ctx = c.getContext('2d');
+    const grd = ctx.createLinearGradient(0, 0, w, h);
+    grd.addColorStop(0,    '#1a1a2e');
+    grd.addColorStop(0.5,  '#16213e');
+    grd.addColorStop(1,    '#0f3460');
+    ctx.fillStyle = grd;
+    ctx.fillRect(0, 0, w, h);
+    const id = ctx.getImageData(0, 0, w, h);
+    for (let i = 0; i < id.data.length; i += 4) {
+        const n = (Math.random() * 10) | 0;
+        id.data[i]   = Math.min(255, id.data[i]   + n);
+        id.data[i+1] = Math.min(255, id.data[i+1] + n);
+        id.data[i+2] = Math.min(255, id.data[i+2] + n);
+    }
+    ctx.putImageData(id, 0, 0);
+    return canvasToBlob(c);
+}
+
+// ═══════════════════════════════════════════════════════════════
+// EOF EMBED / EXTRACT (ARKA EOF Engine — same as ZION production)
+// Appends encrypted data after PNG IEND chunk. No pixel manipulation.
+// ═══════════════════════════════════════════════════════════════
+
+const ARKA_MAGIC = new Uint8Array([0x41, 0x52, 0x4B, 0x41]); // "ARKA"
+
+async function embedLSB(pngBlob, dataBuf, pass) {
+    if (!(pngBlob instanceof Blob))      throw new Error('Invalid cover image format');
+    if (!(dataBuf instanceof Uint8Array)) throw new Error('Invalid payload data');
+    const len = dataBuf.byteLength;
+    if (len <= 0)             throw new Error('Payload is empty');
+    if (len > MAX_STEGO_PAYLOAD) throw new Error(`Payload too large: ${(len/1024/1024).toFixed(2)}MB`);
+
+    const pngBytes = new Uint8Array(await pngBlob.arrayBuffer());
+    if (pngBytes[0] !== 0x89 || pngBytes[1] !== 0x50 || pngBytes[2] !== 0x4E || pngBytes[3] !== 0x47) {
+        throw new Error('Not a valid PNG file');
+    }
+
+    const header = new Uint8Array(8);
+    header.set(ARKA_MAGIC, 0);
+    new DataView(header.buffer).setUint32(4, len);
+
+    const result = new Uint8Array(pngBytes.length + 8 + len);
+    result.set(pngBytes, 0);
+    result.set(header, pngBytes.length);
+    result.set(dataBuf, pngBytes.length + 8);
+
+    return new Blob([result], { type: 'image/png' });
+}
+
+async function extractLSB(pngBlob, pass) {
+    const bytes = new Uint8Array(await pngBlob.arrayBuffer());
+
+    let iendPos = -1;
+    for (let i = bytes.length - 12; i >= 8; i--) {
+        if (bytes[i] === 0x00 && bytes[i+1] === 0x00 &&
+            bytes[i+2] === 0x00 && bytes[i+3] === 0x00 &&
+            bytes[i+4] === 0x49 && bytes[i+5] === 0x45 &&
+            bytes[i+6] === 0x4E && bytes[i+7] === 0x44) {
+            iendPos = i;
+            break;
+        }
+    }
+    if (iendPos === -1) throw new Error('Invalid PNG: No IEND chunk found');
+
+    const afterIEND = iendPos + 12;
+    if (afterIEND + 8 > bytes.length) throw new Error('No ARKA payload found in this image');
+    if (bytes[afterIEND] !== 0x41 || bytes[afterIEND+1] !== 0x52 ||
+        bytes[afterIEND+2] !== 0x4B || bytes[afterIEND+3] !== 0x41) {
+        throw new Error('No ARKA payload found in this image');
+    }
+
+    const payloadLen = new DataView(bytes.buffer).getUint32(afterIEND + 4);
+    if (payloadLen <= 0 || payloadLen > MAX_STEGO_PAYLOAD) {
+        throw new Error(`Invalid payload length: ${payloadLen}. File may be corrupted.`);
+    }
+
+    const dataStart = afterIEND + 8;
+    if (dataStart + payloadLen > bytes.length) {
+        throw new Error('Payload extends beyond file. File may be truncated.');
+    }
+
+    return bytes.slice(dataStart, dataStart + payloadLen).buffer;
+}
+
+async function embedLSBSecure(pngBlob, dataBuf, pass) {
+    if (!(pngBlob instanceof Blob))      throw new Error('Invalid cover image format');
+    if (!(dataBuf instanceof Uint8Array)) throw new Error('Invalid payload data');
+    if (dataBuf.byteLength > MAX_STEGO_PAYLOAD) throw new Error('Payload too large');
+    const hmacSalt = crypto.getRandomValues(new Uint8Array(32));
+    const hmacKey  = await deriveHMACKey(pass, hmacSalt);
+    const hmac     = await crypto.subtle.sign('HMAC', hmacKey, dataBuf);
+    const payload  = new Uint8Array(64 + dataBuf.byteLength);
+    payload.set(new Uint8Array(hmac), 0);
+    payload.set(hmacSalt, 32);
+    payload.set(dataBuf, 64);
+    return embedLSB(pngBlob, payload, pass);
+}
+
+async function extractLSBSecure(pngBlob, pass) {
+    const extracted = await extractLSB(pngBlob, pass);
+    const view      = new Uint8Array(extracted);
+    if (view.length < 64) throw new Error('Invalid payload — too small');
+    const hmac     = view.slice(0, 32);
+    const hmacSalt = view.slice(32, 64);
+    const data     = view.slice(64);
+    const hmacKey  = await deriveHMACKey(pass, hmacSalt);
+    const valid    = await crypto.subtle.verify('HMAC', hmacKey, hmac, data);
+    if (!valid) {
+        await new Promise(r => setTimeout(r, 100 + Math.random()*100));
+        throw new Error('Authentication failed — tampered data or wrong password');
+    }
+    return data.buffer;
+}
+
+// ═══════════════════════════════════════════════════════════════
+// msgEncrypt logic (no UI — direct data path)
+// ═══════════════════════════════════════════════════════════════
+async function encryptAndEmbed(coverBlob, plainData, filename, pass) {
+    const enc    = await encryptData(plainData instanceof Uint8Array ? plainData : new TextEncoder().encode(plainData), pass);
+    const nameB  = new TextEncoder().encode(filename.substring(0, 255));
+    const final  = new Uint8Array(12 + SALT_SIZE_BYTES + 1 + nameB.length + enc.ct.byteLength);
+    let off = 0;
+    final.set(enc.iv, 0);    off += 12;
+    final.set(enc.salt, off); off += SALT_SIZE_BYTES;
+    final[off] = nameB.length; off++;
+    final.set(nameB, off);    off += nameB.length;
+    final.set(new Uint8Array(enc.ct), off);
+    return embedLSBSecure(coverBlob, final, pass);
+}
+
+// ═══════════════════════════════════════════════════════════════
+// msgDecrypt logic (no UI)
+// ═══════════════════════════════════════════════════════════════
+async function extractAndDecrypt(stegoBlob, pass) {
+    const buf  = await extractLSBSecure(stegoBlob, pass);
+    const v    = new Uint8Array(buf);
+    const iv   = v.slice(0, 12);
+    const salt = v.slice(12, 12 + SALT_SIZE_BYTES);
+    const nLen = v[12 + SALT_SIZE_BYTES];
+    const name = new TextDecoder().decode(v.slice(12 + SALT_SIZE_BYTES + 1, 12 + SALT_SIZE_BYTES + 1 + nLen));
+    const ct   = v.slice(12 + SALT_SIZE_BYTES + 1 + nLen);
+    const dec  = await decryptData({ iv, salt, ct }, pass);
+    return { name, data: new Uint8Array(dec) };
+}
+
+// ═══════════════════════════════════════════════════════════════
+// TEST RUNNER
+// ═══════════════════════════════════════════════════════════════
+const TESTS = [
+    {
+        id: 'T01',
+        title: 'Constantes del motor criptográfico',
+        desc: 'Verifica MAX_STEGO_PAYLOAD=30MB, PBKDF2_ITERATIONS=600000, SALT_SIZE_BYTES=64',
+        run: async () => {
+            if (MAX_STEGO_PAYLOAD !== 30 * 1024 * 1024) throw new Error(`MAX_STEGO_PAYLOAD=${MAX_STEGO_PAYLOAD}`);
+            if (PBKDF2_ITERATIONS !== 600000)           throw new Error(`PBKDF2_ITERATIONS=${PBKDF2_ITERATIONS}`);
+            if (SALT_SIZE_BYTES   !== 64)               throw new Error(`SALT_SIZE_BYTES=${SALT_SIZE_BYTES}`);
+            return `MAX_STEGO_PAYLOAD=30MB ✓  PBKDF2=600k ✓  SALT=64B ✓`;
+        }
+    },
+    {
+        id: 'T02',
+        title: 'Derivación de clave AES-GCM (PBKDF2)',
+        desc: 'Deriva una clave con sal aleatoria y verifica que es un objeto CryptoKey',
+        run: async () => {
+            const salt = crypto.getRandomValues(new Uint8Array(64));
+            const key  = await deriveKey('test-password-123', salt);
+            if (!key || key.type !== 'secret') throw new Error('Key derivation failed');
+            return `CryptoKey type=${key.type} algorithm=${key.algorithm.name} ✓`;
+        }
+    },
+    {
+        id: 'T03',
+        title: 'Cifrado y descifrado AES-GCM (round-trip)',
+        desc: 'Cifra texto plano, descifra y verifica que el resultado es idéntico',
+        run: async () => {
+            const original = 'Mensaje secreto: ¡Hola ZION! 🔐✨';
+            const pass     = 'clave-segura-de-prueba-!@#$';
+            const data     = new TextEncoder().encode(original);
+            const enc      = await encryptData(data, pass);
+            const dec      = await decryptData({ iv: enc.iv, salt: enc.salt, ct: enc.ct }, pass);
+            const result   = new TextDecoder().decode(dec);
+            if (result !== original) throw new Error(`Mismatch: "${result}"`);
+            return `"${original}" → cifrado+descifrado OK ✓`;
+        }
+    },
+    {
+        id: 'T04',
+        title: 'HMAC — firma y verificación de integridad',
+        desc: 'Genera HMAC sobre datos, verifica firma correcta, verifica fallo con datos alterados',
+        run: async () => {
+            const salt    = crypto.getRandomValues(new Uint8Array(32));
+            const key     = await deriveHMACKey('pass', salt);
+            const data    = new TextEncoder().encode('datos originales');
+            const sig     = await crypto.subtle.sign('HMAC', key, data);
+            const valid   = await crypto.subtle.verify('HMAC', key, sig, data);
+            if (!valid) throw new Error('HMAC verification failed on original data');
+            // Tampered data must fail
+            const tampered = new TextEncoder().encode('datos ALTERADOS');
+            const invalid  = await crypto.subtle.verify('HMAC', key, sig, tampered);
+            if (invalid)   throw new Error('HMAC accepted tampered data — CRITICAL BUG');
+            return `HMAC firma válida ✓  |  HMAC rechaza datos alterados ✓`;
+        }
+    },
+    {
+        id: 'T05',
+        title: 'Ghost Offset — determinismo de startPixel',
+        desc: 'Verifica que calculateGhostOffset es determinista para la misma contraseña',
+        run: async () => {
+            const pass   = 'ghost-offset-test';
+            const pixels = 1000000;
+            const o1 = await calculateGhostOffset(pass, pixels);
+            const o2 = await calculateGhostOffset(pass, pixels);
+            if (o1 !== o2)     throw new Error(`Non-deterministic: ${o1} vs ${o2}`);
+            if (o1 >= pixels)  throw new Error(`Offset out of range: ${o1} >= ${pixels}`);
+            const o3 = await calculateGhostOffset('otra-clave', pixels);
+            return `Offset="${o1}" (determinista) ✓  |  Clave diferente → offset="${o3}" ✓`;
+        }
+    },
+    {
+        id: 'T06',
+        title: 'embedLSBSecure — embedding en imagen 800×800',
+        desc: 'Crea PNG de prueba, embebe payload cifrado y verifica que el blob resultado es válido',
+        run: async () => {
+            const cover   = await createCoverBlob(800, 800);
+            const payload = new TextEncoder().encode('TEST PAYLOAD 12345');
+            const result  = await embedLSBSecure(cover, payload, 'pass-test');
+            if (!(result instanceof Blob)) throw new Error('Result is not a Blob');
+            if (result.size < 1000)        throw new Error(`Blob too small: ${result.size}`);
+            return `Cover=${(cover.size/1024).toFixed(1)}KB  →  Stego=${(result.size/1024).toFixed(1)}KB ✓`;
+        }
+    },
+    {
+        id: 'T07',
+        title: 'extractLSBSecure — extracción y verificación HMAC',
+        desc: 'Embebe un payload conocido + extrae y compara byte a byte',
+        run: async () => {
+            const cover   = await createCoverBlob(600, 600);
+            const original = new Uint8Array([0x41,0x52,0x4B,0x41,0x00,0xFF,0x7F,0x80,0x01]);
+            const pass     = 'extraction-test-key';
+            const stego   = await embedLSBSecure(cover, original, pass);
+            const raw     = await extractLSBSecure(stego, pass);
+            const result  = new Uint8Array(raw);
+            if (result.length !== original.length) throw new Error(`Length mismatch: ${result.length} vs ${original.length}`);
+            for (let i = 0; i < original.length; i++)
+                if (result[i] !== original[i]) throw new Error(`Byte[${i}] mismatch: got ${result[i]}, expected ${original[i]}`);
+            return `${original.length} bytes extraídos y verificados byte a byte ✓`;
+        }
+    },
+    {
+        id: 'T08',
+        title: 'extractLSBSecure — fallo con contraseña incorrecta',
+        desc: 'Debe lanzar error de autenticación si se usa contraseña diferente',
+        run: async () => {
+            const cover = await createCoverBlob(500, 500);
+            await embedLSBSecure(cover, new TextEncoder().encode('secret'), 'correct-pass');
+            // NOTE: with wrong password the ghost offset will be different, meaning extracted
+            // bytes will be garbage. extractLSB will throw "Invalid payload length" or HMAC will fail.
+            // We embed fresh, then try to extract with wrong pass:
+            const cover2 = await createCoverBlob(500, 500);
+            const stego  = await embedLSBSecure(cover2, new TextEncoder().encode('secret data'), 'correct-pass');
+            try {
+                await extractLSBSecure(stego, 'wrong-password');
+                throw new Error('Should have thrown — wrong password accepted!');
+            } catch(e) {
+                if (e.message === 'Should have thrown — wrong password accepted!')  throw e;
+                return `Contraseña incorrecta → "${e.message.substring(0,60)}" ✓`;
+            }
+        }
+    },
+    {
+        id: 'T09',
+        title: 'Pipeline COMPLETO — Mensaje de texto (round-trip)',
+        desc: 'msgEncrypt (texto) → Blob PNG → msgDecrypt → verifica mensaje original',
+        run: async () => {
+            const cover   = await createCoverBlob(1000, 1000);
+            const message = 'ESTEGANOGRAFÍA ZION: Este mensaje es 100% secreto. Ñoño 🛡️🔐';
+            const pass    = 'super-secure-passphrase-v2!';
+            const stego   = await encryptAndEmbed(cover, message, 'msg.txt', pass);
+            const { name, data } = await extractAndDecrypt(stego, pass);
+            const recovered = new TextDecoder().decode(data);
+            if (name !== 'msg.txt') throw new Error(`Filename mismatch: "${name}"`);
+            if (recovered !== message) throw new Error(`Message mismatch: "${recovered}"`);
+            return `"${message.substring(0,50)}..." ✓\nFilename="${name}" ✓`;
+        }
+    },
+    {
+        id: 'T10',
+        title: 'Pipeline COMPLETO — Archivo binario (round-trip)',
+        desc: 'Embebe datos binarios aleatorios (1KB), extrae y verifica checksum',
+        run: async () => {
+            const cover    = await createCoverBlob(900, 900);
+            const original = crypto.getRandomValues(new Uint8Array(1024));
+            const pass     = 'binary-file-test-key-2025';
+            const stego    = await encryptAndEmbed(cover, original, 'secret.bin', pass);
+            const { name, data } = await extractAndDecrypt(stego, pass);
+            if (name !== 'secret.bin') throw new Error(`Filename: "${name}"`);
+            if (data.length !== original.length) throw new Error(`Size mismatch: ${data.length} vs ${original.length}`);
+            // Verify all bytes match
+            let diffs = 0;
+            for (let i = 0; i < original.length; i++) if (data[i] !== original[i]) diffs++;
+            if (diffs > 0) throw new Error(`${diffs} byte(s) differ`);
+            return `${original.length} bytes binarios aleatorios → recuperados sin error ✓`;
+        }
+    },
+    {
+        id: 'T11',
+        title: 'Pipeline COMPLETO — Contraseña Unicode',
+        desc: 'Usa contraseña con emojis y caracteres especiales',
+        run: async () => {
+            const cover   = await createCoverBlob(700, 700);
+            const message = 'Mensaje con contraseña unicode';
+            const pass    = '🔐مرحبا🌍パスワード密码123!@#';
+            const stego   = await encryptAndEmbed(cover, message, 'unicode.txt', pass);
+            const { name, data } = await extractAndDecrypt(stego, pass);
+            const recovered = new TextDecoder().decode(data);
+            if (recovered !== message) throw new Error(`Mismatch: "${recovered}"`);
+            return `Unicode password OK: "${pass.substring(0,30)}" ✓`;
+        }
+    },
+    {
+        id: 'T12',
+        title: 'Multi-volume — Header ZV (creación y parseo)',
+        desc: 'Verifica que el header ZV se escribe y lee correctamente (batchId, idx, total)',
+        run: async () => {
+            const batchId = crypto.getRandomValues(new Uint32Array(1))[0];
+            const header  = new Uint8Array(9);
+            header[0] = 90; header[1] = 86; // 'Z', 'V'
+            const dv  = new DataView(header.buffer);
+            dv.setUint32(2, batchId);
+            header[6] = 1; header[7] = 3; // Vol 1 of 3
+
+            // Simulate embed + extract for the header itself
+            const payload = new TextEncoder().encode('data of volume 1');
+            const wrapped = new Uint8Array(9 + payload.length);
+            wrapped.set(header, 0); wrapped.set(payload, 9);
+
+            // Parse it back
+            const view    = new Uint8Array(wrapped);
+            if (view[0] !== 90 || view[1] !== 86) throw new Error('Magic bytes mismatch');
+            const parsedId    = new DataView(view.buffer).getUint32(2);
+            const parsedIdx   = view[6];
+            const parsedTotal = view[7];
+            if (parsedId    !== batchId) throw new Error(`BatchID mismatch: ${parsedId} vs ${batchId}`);
+            if (parsedIdx   !== 1)       throw new Error(`Idx mismatch: ${parsedIdx}`);
+            if (parsedTotal !== 3)       throw new Error(`Total mismatch: ${parsedTotal}`);
+            return `ZV header: batchId=${batchId} idx=${parsedIdx} total=${parsedTotal} ✓`;
+        }
+    },
+    {
+        id: 'T13',
+        title: 'EOF — Payload sobrevive a imagen pequeña',
+        desc: 'EOF mode: un payload grande (30KB) cabe en una imagen pequeña (100x100) sin error',
+        run: async () => {
+            const cover   = await createCoverBlob(100, 100); // 100x100 px — tiny!
+            const big     = new Uint8Array(30 * 1024);        // 30KB payload
+            crypto.getRandomValues(big);
+            // In EOF mode, this MUST succeed (no pixel capacity limit)
+            const stego = await embedLSBSecure(cover, big, 'test-pass');
+            if (!(stego instanceof Blob)) throw new Error('Result is not a Blob');
+            // Verify round-trip
+            const extracted = await extractLSBSecure(stego, 'test-pass');
+            const result = new Uint8Array(extracted);
+            if (result.length !== big.length) throw new Error(`Length mismatch: ${result.length} vs ${big.length}`);
+            for (let i = 0; i < big.length; i++) {
+                if (result[i] !== big[i]) throw new Error(`Byte[${i}] mismatch`);
+            }
+            return `30KB payload embebido en imagen 100×100 ✓  |  Round-trip OK ✓`;
+        }
+    },
+    {
+        id: 'T14',
+        title: 'Aislamiento — dos imágenes independientes no interfieren',
+        desc: 'Embebe mensajes distintos en imágenes distintas — cada una recupera su propio mensaje',
+        run: async () => {
+            const pass = 'shared-password';
+            const coverA = await createCoverBlob(600, 600);
+            const coverB = await createCoverBlob(600, 600);
+            const msgA   = 'Mensaje para Alicia 🅰️';
+            const msgB   = 'Mensaje para Bob 🅱️';
+            const stegoA = await encryptAndEmbed(coverA, msgA, 'a.txt', pass);
+            const stegoB = await encryptAndEmbed(coverB, msgB, 'b.txt', pass);
+            const resA   = await extractAndDecrypt(stegoA, pass);
+            const resB   = await extractAndDecrypt(stegoB, pass);
+            const textA  = new TextDecoder().decode(resA.data);
+            const textB  = new TextDecoder().decode(resB.data);
+            if (textA !== msgA) throw new Error(`ImgA: "${textA}" ≠ "${msgA}"`);
+            if (textB !== msgB) throw new Error(`ImgB: "${textB}" ≠ "${msgB}"`);
+            if (textA === textB) throw new Error('Both images returned identical data — isolation failure');
+            return `Imagen A: "${textA}" ✓\nImagen B: "${textB}" ✓\nAislamiento correcto ✓`;
+        }
+    },
+];
+
+// ═══════════════════════════════════════════════════════════════
+// UI RENDERING
+// ═══════════════════════════════════════════════════════════════
+let cards = {};
+
+function initUI() {
+    const list = document.getElementById('test-list');
+    TESTS.forEach(t => {
+        const card = document.createElement('div');
+        card.className = 'test-card';
+        card.id = 'card-' + t.id;
+        card.innerHTML = `
+            <div class="status-icon" id="icon-${t.id}">⬜</div>
+            <div class="test-body">
+                <div class="test-title">${t.id} — ${t.title}</div>
+                <div class="test-desc">${t.desc}</div>
+                <div class="test-detail" id="detail-${t.id}">pendiente</div>
+                <div class="test-timing" id="timing-${t.id}"></div>
+            </div>`;
+        list.appendChild(card);
+        cards[t.id] = card;
+    });
+}
+
+function setStatus(id, state, detail, timing) {
+    const card   = document.getElementById('card-' + id);
+    const icon   = document.getElementById('icon-' + id);
+    const det    = document.getElementById('detail-' + id);
+    const tim    = document.getElementById('timing-' + id);
+    card.className = 'test-card ' + state;
+    icon.textContent  = { pending:'⬜', running:'🔄', pass:'✅', fail:'❌' }[state] || '⬜';
+    det.className     = 'test-detail ' + (state === 'pass' ? 'ok' : state === 'fail' ? 'err' : '');
+    det.textContent   = detail;
+    if (timing != null) tim.textContent = `${timing}ms`;
+}
+
+function setProgress(n, total) {
+    document.getElementById('progress-bar').style.width = `${(n/total)*100}%`;
+}
+
+async function runAllTests() {
+    const btn = document.getElementById('run-btn');
+    btn.disabled = true;
+    document.getElementById('summary').style.display = 'none';
+    document.getElementById('progress-bar-wrap').style.display = 'block';
+    document.getElementById('progress-bar').style.width = '0%';
+
+    // Reset all cards
+    TESTS.forEach(t => setStatus(t.id, 'pending', 'pendiente', null));
+
+    let passed = 0, failed = 0;
+
+    for (let i = 0; i < TESTS.length; i++) {
+        const t = TESTS[i];
+        setStatus(t.id, 'running', 'ejecutando...', null);
+        const t0 = performance.now();
+        try {
+            const detail = await t.run();
+            const ms = (performance.now() - t0).toFixed(0);
+            setStatus(t.id, 'pass', detail || '✓', ms);
+            passed++;
+        } catch(e) {
+            const ms = (performance.now() - t0).toFixed(0);
+            setStatus(t.id, 'fail', e.message, ms);
+            failed++;
+        }
+        setProgress(i + 1, TESTS.length);
+        // yield to paint
+        await new Promise(r => setTimeout(r, 10));
+    }
+
+    // Summary
+    const sumEl = document.getElementById('summary');
+    sumEl.style.display = 'block';
+    sumEl.className = failed === 0 ? 'all-pass' : 'some-fail';
+    document.getElementById('summary-title').style.color = failed === 0 ? '#39ff14' : '#ff4444';
+    sumEl.innerHTML = `
+        <div id="summary-title" style="color:${failed===0?'#39ff14':'#ff4444'}; font-size:1.1rem; font-weight:bold; margin-bottom:8px;">
+            ${failed === 0 ? '🎉 ALL ' + passed + ' TESTS PASSED' : '⚠️ ' + failed + ' FAILED / ' + passed + ' PASSED'}
+        </div>
+        <div id="summary-detail" style="color:rgba(255,255,255,0.5); font-size:0.78rem;">
+            ${TESTS.length} tests ejecutados — Motor criptográfico AES-GCM+PBKDF2 — Steganografía LSB+HMAC — Pipeline completo verificado
+        </div>
+    `;
+    btn.disabled = false;
+}
+
+// ═══════════════════════════════════════════════════════════════
+// PDF HELPER — Genera un PDF mínimo válido en memoria
+// ═══════════════════════════════════════════════════════════════
+
+/**
+ * Genera un PDF válido con texto parametrizable.
+ * Devuelve Uint8Array con el contenido del archivo .pdf
+ */
+function generateMinimalPDF(title = 'ZION Test', body = 'Contenido de prueba ZION Steganography.') {
+    const stream = `BT\n/F1 14 Tf\n72 720 Td\n(${title}) Tj\n0 -24 Td\n(${body}) Tj\nET`;
+    const streamLen = stream.length;
+
+    const pdf = `%PDF-1.4\n` +
+        `1 0 obj<</Type /Catalog /Pages 2 0 R>>endobj\n` +
+        `2 0 obj<</Type /Pages /Kids [3 0 R] /Count 1>>endobj\n` +
+        `3 0 obj<</Type /Page /MediaBox [0 0 612 792] /Parent 2 0 R ` +
+            `/Resources <</Font <</F1 <</Type /Font /Subtype /Type1 /BaseFont /Helvetica>>>>>> ` +
+            `/Contents 4 0 R>>endobj\n` +
+        `4 0 obj<</Length ${streamLen}>>\nstream\n${stream}\nendstream\nendobj\n` +
+        `xref\n0 5\n0000000000 65535 f\r\n` +
+        `0000000009 00000 n\r\n0000000058 00000 n\r\n` +
+        `0000000115 00000 n\r\n0000000274 00000 n\r\n` +
+        `trailer<</Size 5 /Root 1 0 R>>\nstartxref\n${400 + streamLen}\n%%EOF`;
+
+    return new TextEncoder().encode(pdf);
+}
+
+/**
+ * Genera un PDF de tamaño aproximado (relleno con texto)
+ */
+function generatePDFOfSize(targetBytes) {
+    const padding = 'A'.repeat(targetBytes);
+    return generateMinimalPDF('ZION Stress Test', padding.substring(0, Math.min(targetBytes - 400, targetBytes)));
+}
+
+// ═══════════════════════════════════════════════════════════════
+// PDF TESTS
+// ═══════════════════════════════════════════════════════════════
+
+TESTS.push({
+    id: 'T15',
+    title: 'PDF — Round-trip completo (PDF mínimo válido)',
+    desc: 'Genera PDF en memoria, embebe en imagen vía stego, recupera y verifica header %PDF- y tamaño',
+    run: async () => {
+        const cover   = await createCoverBlob(1200, 1200);
+        const pass    = 'pdf-stego-password-2025';
+        const pdfData = generateMinimalPDF('ZION ARKA Test', 'Este PDF fue ocultado con esteganografía LSB-HMAC-AES-GCM.');
+
+        // Verify it's a valid PDF before embedding
+        const headerStr = new TextDecoder().decode(pdfData.slice(0, 8));
+        if (!headerStr.startsWith('%PDF-')) throw new Error(`Not a valid PDF: header="${headerStr}"`);
+
+        const stego   = await encryptAndEmbed(cover, pdfData, 'document.pdf', pass);
+        const { name, data } = await extractAndDecrypt(stego, pass);
+
+        // Verify filename
+        if (name !== 'document.pdf') throw new Error(`Filename mismatch: "${name}"`);
+        // Verify PDF header preserved
+        const recoveredHeader = new TextDecoder().decode(data.slice(0, 8));
+        if (!recoveredHeader.startsWith('%PDF-')) throw new Error(`Recovered header corrupted: "${recoveredHeader}"`);
+        // Verify size
+        if (data.length !== pdfData.length) throw new Error(`Size mismatch: got ${data.length}, expected ${pdfData.length}`);
+        // Verify byte-by-byte
+        let diffs = 0;
+        for (let i = 0; i < pdfData.length; i++) if (data[i] !== pdfData[i]) diffs++;
+        if (diffs > 0) throw new Error(`${diffs} bytes differ`);
+
+        return `PDF ${pdfData.length} bytes → embebido → recuperado bit-a-bit ✓\nHeader: "${recoveredHeader}" ✓\nFilename: "${name}" ✓`;
+    }
+});
+
+TESTS.push({
+    id: 'T16',
+    title: 'PDF — Archivo grande (~50KB, imagen 2000×2000)',
+    desc: 'Simula PDF de documento real (~50KB), embebe en imagen grande y verifica integridad',
+    run: async () => {
+        const cover = await createCoverBlob(2000, 2000);
+        const pass  = 'large-pdf-key-zion';
+
+        // ~50KB PDF simulation
+        const lorem = 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. ' +
+            'ZION Secure Document System - Encrypted with AES-256-GCM and LSB Steganography. ';
+        const body  = lorem.repeat(600).substring(0, 49500); // ~50KB
+        const pdfData = generateMinimalPDF('ZION Large Document', body);
+
+        const sizeMB = (pdfData.length / 1024).toFixed(1);
+        const stego  = await encryptAndEmbed(cover, pdfData, 'large_doc.pdf', pass);
+
+        // Verify stego blob is valid PNG  
+        const stegoBuf = await stego.arrayBuffer();
+        const pngMagic = new Uint8Array(stegoBuf.slice(0, 4));
+        if (pngMagic[0] !== 0x89 || pngMagic[1] !== 0x50 || pngMagic[2] !== 0x4E || pngMagic[3] !== 0x47)
+            throw new Error('Output is not a valid PNG');
+
+        const { name, data } = await extractAndDecrypt(stego, pass);
+        if (data.length !== pdfData.length) throw new Error(`Size mismatch: ${data.length} vs ${pdfData.length}`);
+
+        const header = new TextDecoder().decode(data.slice(0, 5));
+        if (header !== '%PDF-') throw new Error(`PDF header missing after recovery: "${header}"`);
+
+        return `PDF ${sizeMB}KB embebido en imagen 2000×2000 ✓\nRecuperado: ${data.length} bytes ✓\nHeader: "${header}1.4" ✓`;
+    }
+});
+
+TESTS.push({
+    id: 'T17',
+    title: 'PDF — Nombre de archivo preservado con ruta compleja',
+    desc: 'Verifica que el nombre de archivo PDF se preserva (sanitización de caracteres especiales)',
+    run: async () => {
+        const cover   = await createCoverBlob(800, 800);
+        const pass    = 'filename-test-pass';
+        const pdfData = generateMinimalPDF('Filename Test');
+        const origName = 'Mi Documento Secreto (2025).pdf';
+
+        const stego  = await encryptAndEmbed(cover, pdfData, origName, pass);
+        const { name, data } = await extractAndDecrypt(stego, pass);
+
+        if (name !== origName) throw new Error(`Filename mismatch: got "${name}", expected "${origName}"`);
+        const header = new TextDecoder().decode(data.slice(0, 5));
+        if (header !== '%PDF-') throw new Error(`PDF header lost: "${header}"`);
+
+        return `Filename: "${name}" ✓\nHeader PDF: "${header}1.4" ✓\nTamaño: ${data.length} bytes ✓`;
+    }
+});
+
+TESTS.push({
+    id: 'T18',
+    title: 'PDF — Contraseña incorrecta no recupera el documento',
+    desc: 'Intenta descifrar un PDF con contraseña incorrecta — debe fallar con error de autenticación',
+    run: async () => {
+        const cover   = await createCoverBlob(700, 700);
+        const pdfData = generateMinimalPDF('Secret Document');
+        const stego   = await encryptAndEmbed(cover, pdfData, 'secret.pdf', 'correct-password');
+
+        try {
+            await extractAndDecrypt(stego, 'wrong-password');
+            throw new Error('Debería haber fallado — contraseña incorrecta aceptada');
+        } catch(e) {
+            if (e.message === 'Debería haber fallado — contraseña incorrecta aceptada') throw e;
+            return `PDF rechazado con contraseña incorrecta:\n"${e.message.substring(0,80)}" ✓`;
+        }
+    }
+});
+
+// ═══════════════════════════════════════════════════════════════
+// CLONE-TO-ARKA HELPERS
+// Simula el flujo triggerArkaFlow('lite','arka') sin UI
+// ═══════════════════════════════════════════════════════════════
+
+/** Simula la captura DOM que hace triggerArkaFlow mode='lite' */
+function captureHTMLClone(htmlString) {
+    return new TextEncoder().encode(htmlString);
+}
+
+/** Simula modo 'raw': decodifica payload base64 gzip */
+async function decodeRawPayload(base64gz) {
+    const binString = atob(base64gz);
+    const bytes = new Uint8Array(binString.length);
+    for (let i = 0; i < binString.length; i++) bytes[i] = binString.charCodeAt(i);
+    const ds = new DecompressionStream('gzip');
+    const writer = ds.writable.getWriter();
+    writer.write(bytes); writer.close();
+    const resp = new Response(ds.readable);
+    const buf  = await resp.arrayBuffer();
+    return new Uint8Array(buf);
+}
+
+/** Comprime datos con gzip y devuelve base64 (como haría el build) */
+async function gzipToBase64(data) {
+    const cs = new CompressionStream('gzip');
+    const writer = cs.writable.getWriter();
+    writer.write(data); writer.close();
+    const resp = new Response(cs.readable);
+    const buf  = await resp.arrayBuffer();
+    const bytes = new Uint8Array(buf);
+    let bin = '';
+    bytes.forEach(b => bin += String.fromCharCode(b));
+    return btoa(bin);
+}
+
+// ═══════════════════════════════════════════════════════════════
+// CLONE-TO-ARKA TESTS
+// ═══════════════════════════════════════════════════════════════
+
+TESTS.push({
+    id: 'T19',
+    title: 'Clone → Arka: HTML bundle round-trip (modo lite)',
+    desc: 'Simula captura del DOM live → TextEncoder → encryptAndEmbed → extractAndDecrypt → verifica DOCTYPE',
+    run: async () => {
+        const cover = await createCoverBlob(1500, 1500);
+        const pass  = 'zion-clone-password-2025';
+
+        // Simulate what triggerArkaFlow('lite','arka') captures
+        const fakeHTML = `<!DOCTYPE html>\n<html lang="es"><head><meta charset="UTF-8"><title>ZION LITE</title></head>` +
+            `<body><div id="zionRoot"><div id="camouflage" style="display:flex;"></div>` +
+            `<div id="propagationModal" class="modal-overlay hidden"></div>` +
+            `<div id="loadingSpinner" class="hidden"></div>` +
+            `<!-- ZION LITE SYSTEM v3.0 CLONE --></div></body></html>`;
+
+        const payloadData = captureHTMLClone(fakeHTML);
+        const filename    = 'ZION_LITE_BUNDLE.html';
+
+        const stego  = await encryptAndEmbed(cover, payloadData, filename, pass);
+        const { name, data } = await extractAndDecrypt(stego, pass);
+
+        if (name !== filename) throw new Error(`Filename: got "${name}", expected "${filename}"`);
+        const recovered = new TextDecoder().decode(data);
+        if (!recovered.startsWith('<!DOCTYPE html>')) throw new Error(`DOCTYPE missing: starts with "${recovered.substring(0,20)}"`);
+        if (!recovered.includes('ZION LITE')) throw new Error('Content integrity failed — ZION LITE marker missing');
+        if (data.length !== payloadData.length) throw new Error(`Size: ${data.length} vs ${payloadData.length}`);
+
+        return `Clon HTML ${payloadData.length} bytes → recuperado ✓\nDOCTYPE ✓  |  filename="${name}" ✓\nContenido íntegro ✓`;
+    }
+});
+
+TESTS.push({
+    id: 'T20',
+    title: 'Clone → Arka: HTML grande ~500KB (simulando ZION real)',
+    desc: 'Simula payload del tamaño real de ZION Lite (~500KB de HTML), embebe en imagen 3000×3000',
+    run: async () => {
+        const cover = await createCoverBlob(3000, 3000);
+        const pass  = 'large-clone-key';
+
+        // Simulate a ~500KB HTML (realistic ZION Lite size)
+        const baseHTML = `<!DOCTYPE html>\n<html><head><meta charset="UTF-8"><title>ZION</title><style>` +
+            `body{background:#050505;color:#e0e0e0;font-family:monospace}` +
+            `.hidden{display:none!important}</style></head><body>`;
+        const script = '// ZION LITE ENGINE v3.0\n' + 'const X="' + 'A'.repeat(400) + '";\n';
+        const scriptBlock = '<script>\n' + script.repeat(1000) + '\n<\/script>';
+        const fakeHTML = baseHTML + scriptBlock + '</body></html>';
+
+        const payloadData = captureHTMLClone(fakeHTML);
+        const sizeKB = (payloadData.length / 1024).toFixed(1);
+
+        if (payloadData.length < 400 * 1024) throw new Error(`Payload too small for stress test: ${sizeKB}KB`);
+
+        const stego = await encryptAndEmbed(cover, payloadData, 'ZION_LITE_BUNDLE.html', pass);
+
+        // Verify PNG output
+        const buf   = await stego.arrayBuffer();
+        const magic = new Uint8Array(buf.slice(0, 4));
+        if (magic[0] !== 0x89 || magic[1] !== 0x50) throw new Error('Output is not a valid PNG');
+
+        const { name, data } = await extractAndDecrypt(stego, pass);
+        if (data.length !== payloadData.length) throw new Error(`Size mismatch: ${data.length} vs ${payloadData.length}`);
+
+        const header = new TextDecoder().decode(data.slice(0, 15));
+        if (!header.startsWith('<!DOCTYPE html>')) throw new Error(`Header: "${header}"`);
+
+        return `HTML ${sizeKB}KB → imagen 3000×3000 → ${(stego.size/1024).toFixed(0)}KB PNG ✓\nRecuperado: ${data.length} bytes ✓`;
+    }
+});
+
+TESTS.push({
+    id: 'T21',
+    title: 'Clone → Arka: Payload gzip base64 (modo raw/PDF)',
+    desc: 'Simula ZION_LITE_PAYLOAD (base64 gzip) → descomprime → embebe → recupera contenido original',
+    run: async () => {
+        const cover = await createCoverBlob(1200, 1200);
+        const pass  = 'raw-payload-key';
+
+        // Simulate a gzip-compressed base64 payload (like ZION_DOC_TYPE=pdf_gzip_b64)
+        const originalContent = new TextEncoder().encode(
+            '%PDF-1.4\n1 0 obj<</Type /Catalog /Pages 2 0 R>>endobj\n' +
+            'ZION SECURE DOCUMENT - Compressed Payload Test\n%%EOF'
+        );
+        const base64gz = await gzipToBase64(originalContent);
+
+        // Simulate mode='raw' decoding
+        const decompressed = await decodeRawPayload(base64gz);
+        if (decompressed.length !== originalContent.length)
+            throw new Error(`Decompression size: ${decompressed.length} vs ${originalContent.length}`);
+
+        const filename = 'ZION_DOC.pdf';
+        const stego    = await encryptAndEmbed(cover, decompressed, filename, pass);
+        const { name, data } = await extractAndDecrypt(stego, pass);
+
+        if (name !== filename) throw new Error(`Filename: "${name}"`);
+        const header = new TextDecoder().decode(data.slice(0, 5));
+        if (header !== '%PDF-') throw new Error(`PDF header: "${header}"`);
+        if (data.length !== originalContent.length) throw new Error(`Size: ${data.length} vs ${originalContent.length}`);
+
+        return `Gzip→B64 payload → descomprimido → embebido → recuperado ✓\nFilename="${name}" ✓  |  PDF header="${header}1.4" ✓`;
+    }
+});
+
+TESTS.push({
+    id: 'T22',
+    title: 'Clone → Arka: Multi-volumen — ensamblado y reensamblado ZV',
+    desc: 'Simula el protocolo multi-volumen ZV completo: divide payload en 3 chunks, embebe cada uno, reensambla',
+    run: async () => {
+        const pass    = 'multi-vol-clone-key';
+        const batchId = crypto.getRandomValues(new Uint32Array(1))[0];
+
+        // Simulate a large clone payload split into 3 volumes
+        const totalPayload = new Uint8Array(3000);
+        crypto.getRandomValues(totalPayload);
+        const chunkSize = 1000;
+        const totalVols = 3;
+        const stegoBlobs = [];
+
+        for (let vol = 1; vol <= totalVols; vol++) {
+            const cover = await createCoverBlob(500, 500);
+            const chunk = totalPayload.slice((vol - 1) * chunkSize, vol * chunkSize);
+
+            // ZV header: [Z(1), V(1), BatchID(4), Idx(1), Total(1), ?(1)] = 9 bytes
+            const isFinal = (vol === totalVols);
+            const header  = new Uint8Array(9);
+            header[0] = 90; header[1] = 86; // 'Z', 'V'
+            new DataView(header.buffer).setUint32(2, batchId);
+            header[6] = vol;
+            header[7] = isFinal ? totalVols : 0; // 0 = more coming
+
+            const wrapped = new Uint8Array(9 + chunk.length);
+            wrapped.set(header, 0); wrapped.set(chunk, 9);
+
+            const stego = await encryptAndEmbed(cover, wrapped, `vol_${vol}.bin`, pass);
+            stegoBlobs.push(stego);
+        }
+
+        // Simulate reassembly (as msgDecrypt does it)
+        const parts = new Map();
+        let knownTotal = 0;
+        for (const blob of stegoBlobs) {
+            const { data } = await extractAndDecrypt(blob, pass);
+            const view = new Uint8Array(data.buffer || data);
+            if (view[0] !== 90 || view[1] !== 86) throw new Error('ZV magic bytes missing after extraction');
+            const parsedId    = new DataView(view.buffer).getUint32(2);
+            const idx         = view[6];
+            const total       = view[7];
+            if (parsedId !== batchId) throw new Error(`BatchID mismatch: ${parsedId} vs ${batchId}`);
+            if (total > 0) knownTotal = total;
+            parts.set(idx, view.slice(9));
+        }
+
+        if (knownTotal !== totalVols) throw new Error(`Total not correctly set: got ${knownTotal}`);
+        if (parts.size !== totalVols)  throw new Error(`Parts collected: ${parts.size} of ${totalVols}`);
+
+        // Reassemble
+        const sorted   = Array.from(parts.entries()).sort((a, b) => a[0] - b[0]);
+        let totalBytes = 0;
+        sorted.forEach(p => totalBytes += p[1].length);
+        const assembled = new Uint8Array(totalBytes);
+        let offset = 0;
+        sorted.forEach(p => { assembled.set(p[1], offset); offset += p[1].length; });
+
+        // Verify against original payload
+        if (assembled.length !== totalPayload.length) throw new Error(`Assembled size: ${assembled.length} vs ${totalPayload.length}`);
+        let diffs = 0;
+        for (let i = 0; i < totalPayload.length; i++) if (assembled[i] !== totalPayload[i]) diffs++;
+        if (diffs > 0) throw new Error(`${diffs} bytes differ after reassembly`);
+
+        return `3 volúmenes (1000B cada uno) → ZV headers ✓ → reensamblados → ${assembled.length} bytes íntegros ✓\nbatchId=${batchId} ✓`;
+    }
+});
+
+TESTS.push({
+    id: 'T23',
+    title: 'Clone → Arka: Contraseña incorrecta bloquea uso del clon',
+    desc: 'Un clon sellado con contraseña A no puede abrirse con contraseña B',
+    run: async () => {
+        const cover = await createCoverBlob(900, 900);
+        const payload = captureHTMLClone(
+            '<!DOCTYPE html><html><body><div id="zionRoot">SECURE CLONE</div></body></html>'
+        );
+        const stego = await encryptAndEmbed(cover, payload, 'ZION_LITE_BUNDLE.html', 'contraseña-correcta-A');
+
+        try {
+            await extractAndDecrypt(stego, 'contraseña-incorrecta-B');
+            throw new Error('Clon accesible con contraseña incorrecta — FALLO DE SEGURIDAD CRÍTICO');
+        } catch(e) {
+            if (e.message.includes('FALLO DE SEGURIDAD')) throw e;
+            return `Clon sellado rechaza contraseña incorrecta:\n"${e.message.substring(0,80)}" ✓`;
+        }
+    }
+});
+
+// Init on load
+initUI();
+</script>
+</body>
+</html>

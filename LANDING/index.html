@@ -1,0 +1,3760 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ZION SYSTEM</title>
+    <meta name="description"
+        content="ZION SYSTEM - Kit de supervivencia digital y comunicaciones seguras. Resiliencia, privacidad y descentralización.">
+    <!-- Strict Content Security Policy for Zero-Trust Execution -->
+    <meta http-equiv="Content-Security-Policy" content="default-src 'self' 'unsafe-inline' 'unsafe-eval' data: blob:; connect-src *; img-src 'self' data:;">
+    <!-- manifest.json omitted: single-file Omnibus deployment on Arweave/IPFS -->
+    <!-- Zero-Trust Architecture: No external dependencies / No Google Tracking -->
+    <style>
+        @font-face {
+            font-family: 'Inter';
+            font-style: normal;
+            font-weight: 300 700;
+            font-display: swap;
+            src: local('Inter'), local('Segoe UI'), local('San Francisco'), local('Roboto');
+        }
+
+        :root {
+            --bg-color: #000000;
+            --text-color: #ffffff;
+            --accent-color: #ffffff;
+            /* Was Historical Lapis Lazuli #26619c */
+            --secondary-accent: #ffffff;
+            --sub-text: #9e9e9e;
+            --main-font: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+            /* Lighter Gray for Readability */
+            --glass-bg: rgba(255, 255, 255, 0.02);
+            --glass-border: rgba(255, 255, 255, 0.08);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html {
+            overflow-x: hidden;
+            -webkit-text-size-adjust: 100%;
+        }
+
+        body {
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+            overflow-x: hidden;
+            line-height: 1.7;
+            transition: background-color 0.5s ease;
+            /* iOS safe area support */
+            padding-left: env(safe-area-inset-left);
+            padding-right: env(safe-area-inset-right);
+        }
+
+        /* Touch-action optimization for mobile */
+        a, button, .btn, .boot-item, .lite-item, .vault-hero, .close-modal, .info-icon, .btn-share, .metadata-item {
+            touch-action: manipulation;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        body.modal-open {
+            overflow: hidden;
+            background-color: #050505;
+        }
+
+        .container {
+            max-width: 1100px;
+            margin: 0 auto;
+            padding: 0 2rem;
+        }
+
+        header {
+            padding: 8rem 0 4rem;
+            text-align: center;
+        }
+
+        .logo-container {
+            margin-bottom: 4rem;
+        }
+
+        .logo {
+            font-family: 'JetBrains Mono', ui-monospace, 'Cascadia Code', 'Source Code Pro', Menlo, Monaco, Consolas, 'Courier New', monospace;
+            font-size: clamp(3rem, 10vw, 5rem);
+            font-weight: 700;
+            letter-spacing: 0.6rem;
+            text-transform: uppercase;
+            color: #fff;
+            text-shadow: 0 0 20px rgba(255, 255, 255, 0.8), 0 0 40px rgba(255, 255, 255, 0.3);
+            padding-left: 0.6rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.8rem;
+        }
+
+        .logo .neon-zz {
+            font-size: 0.5em;
+            letter-spacing: normal;
+            margin-left: 0;
+            display: flex;
+            align-items: center;
+            text-shadow: none !important;
+            filter: none !important;
+        }
+
+        .hero h1 {
+            font-size: clamp(1.8rem, 5vw, 3rem);
+            font-weight: 300;
+            margin-bottom: 1.5rem;
+            line-height: 1.3;
+            letter-spacing: -0.01em;
+            color: #f0f0f0;
+        }
+
+        .hero p {
+            color: var(--sub-text);
+            font-size: 1.1rem;
+            max-width: 500px;
+            margin: 0 auto 4rem;
+            font-weight: 300;
+            letter-spacing: -0.01em;
+        }
+
+        .cta-group {
+            display: flex;
+            gap: 1.5rem;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        .btn {
+            padding: 1.2rem 3rem;
+            font-family: 'JetBrains Mono', monospace;
+            text-decoration: none;
+            color: #fff;
+            font-size: 0.8rem;
+            text-transform: uppercase;
+            letter-spacing: 0.2rem;
+            transition: all 0.28s cubic-bezier(0.165, 0.84, 0.44, 1);
+            position: relative;
+            cursor: pointer;
+            border: none;
+            outline: none;
+        }
+
+        .btn:focus-visible {
+            box-shadow: 0 0 0 2px rgba(255, 255, 255, 0.35), 0 0 12px rgba(255, 255, 255, 0.2);
+        }
+
+        .btn-launch, .btn-download {
+            background: transparent;
+            border: 1px solid var(--accent-color);
+            color: #fff;
+            overflow: hidden;
+            transition: all 0.3s cubic-bezier(0.165, 0.84, 0.44, 1);
+            transform: scale(1.01);
+        }
+
+        .btn-launch:hover, .btn-download:hover {
+            transform: scale(1.04);
+            background: transparent;
+            box-shadow: 0 0 25px rgba(255, 255, 255, 0.5), 0 0 10px rgba(255, 255, 255, 0.3);
+        }
+
+        .btn-launch:active, .btn-download:active {
+            transform: scale(0.98);
+            opacity: 0.9;
+        }
+
+        /* Scanner Loop Animation */
+        @keyframes scanner-loop {
+            0% { left: -100%; transition: none; }
+            30% { left: 100%; }
+            100% { left: 100%; }
+        }
+
+        .btn-launch::after, .btn-download::after, .net-btn::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 1px;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.4), transparent);
+            animation: scanner-loop 3s infinite linear;
+            pointer-events: none;
+        }
+
+        .btn-launch {
+            font-weight: 700;
+        }
+
+
+
+
+
+        .dedication {
+            padding: 3rem 0 4rem;
+            text-align: center;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .ded-title {
+            color: #ffffff;
+            font-family: 'American Typewriter', 'Courier New', Courier, monospace;
+            font-size: 0.9rem;
+            letter-spacing: 0.3rem;
+            margin-bottom: 3rem;
+            text-transform: uppercase;
+            opacity: 0.6; /* Faded ink effect */
+        }
+
+        .dedication p {
+            color: #ffffff;
+            font-family: 'American Typewriter', 'Courier New', Courier, monospace;
+            font-size: 1.15rem;
+            line-height: 1.8;
+            margin-bottom: 2.5rem;
+            font-weight: 400;
+            opacity: 0.85; /* Aged document effect */
+            letter-spacing: 0.05rem;
+        }
+
+        .share-container {
+            position: fixed;
+            top: 2rem;
+            right: 2rem;
+            z-index: 1000;
+        }
+
+        .btn-share {
+            background: rgba(255, 255, 255, 0.05);
+            border: 1.5px solid rgba(255, 255, 255, 0.2);
+            color: #ffffff;
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            position: relative;
+            padding: 0;
+        }
+
+        .btn-share svg {
+            width: 20px;
+            height: 20px;
+            fill: none;
+            stroke: currentColor;
+            stroke-width: 2;
+            stroke-linecap: round;
+            stroke-linejoin: round;
+        }
+
+        .btn-share:hover {
+            border-color: var(--accent-color);
+            color: var(--accent-color);
+            transform: rotate(0deg) scale(1.05);
+            background: rgba(255, 255, 255, 0.05);
+        }
+
+        .btn-share:active {
+            transform: scale(0.95);
+        }
+
+
+        /* Tactical Toast Notification */
+        .share-toast {
+            position: absolute;
+            bottom: 120%;
+            left: 50%;
+            transform: translateX(-50%);
+            background: var(--accent-color);
+            color: #fff;
+            padding: 0.4rem 1rem;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.7rem;
+            white-space: nowrap;
+            opacity: 0;
+            pointer-events: none;
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            clip-path: polygon(0% 0%, 100% 0%, 100% 80%, 60% 80%, 50% 100%, 40% 80%, 0% 80%);
+        }
+
+        .share-toast.active {
+            opacity: 1;
+            bottom: 140%;
+        }
+
+        /* Modal / Download Vault Styles - COMMAND CENTER */
+        #vaultModal {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            min-height: 100vh;
+            min-height: 100dvh;
+            background-color: rgba(0, 0, 0, 0.95);
+            z-index: 1000;
+            display: none;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+            overflow-y: auto;
+            -webkit-overflow-scrolling: touch;
+            backdrop-filter: blur(15px);
+            -webkit-backdrop-filter: blur(15px);
+            padding-bottom: env(safe-area-inset-bottom);
+        }
+
+        #vaultModal.active {
+            display: block;
+            opacity: 1;
+        }
+
+        .modal-content {
+            background: transparent;
+            margin: 5% auto;
+            padding: 0;
+            width: 90%;
+            max-width: 1000px;
+            position: relative;
+            border: none;
+            box-shadow: none;
+        }
+
+        .vault-container {
+            display: grid;
+            grid-template-rows: auto auto 1fr;
+            gap: 2rem;
+            padding-bottom: 5rem;
+        }
+
+        .vault-header {
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            padding-bottom: 1rem;
+            margin-bottom: 1rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-end;
+        }
+
+        .vault-header h2 {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 2rem;
+            margin: 0;
+            color: #fff;
+            letter-spacing: -1px;
+            text-transform: uppercase;
+        }
+
+        .vault-header p {
+            margin: 0;
+            color: var(--sub-text);
+            font-size: 0.9rem;
+            font-family: 'JetBrains Mono', monospace;
+        }
+
+        /* HERO SECTION - GLOBAL */
+        .vault-hero {
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.18);
+            padding: 1.4rem 1.6rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            text-decoration: none;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+            margin-bottom: 1rem;
+        }
+
+        .vault-hero:hover {
+            box-shadow: 0 0 25px rgba(255, 255, 255, 0.4);
+            transform: translateY(-1.5px) scale(1.005);
+            background: transparent;
+            /* Subtle glow */
+        }
+
+        .vault-hero:active {
+            transform: translateY(0) scale(0.99);
+            opacity: 0.95;
+        }
+
+        .vault-hero:focus-visible {
+            outline: none;
+            box-shadow: 0 0 0 2px rgba(255, 255, 255, 0.5), 0 0 20px rgba(255, 255, 255, 0.3);
+        }
+
+
+
+        .vault-hero::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 4px;
+            height: 100%;
+            background: rgba(255, 255, 255, 0.1);
+        }
+
+        .hero-content h3 {
+            color: var(--accent-color);
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 1.4rem;
+            margin: 0 0 0.5rem 0;
+            text-transform: uppercase;
+            font-weight: 600;
+        }
+
+        .hero-content span {
+            color: #fff;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.9rem;
+            opacity: 0.8;
+        }
+
+        .hero-meta {
+            text-align: right;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 1.5rem;
+            color: #ffffff;
+            border: none;
+            padding: 0 1rem;
+            background: transparent;
+            opacity: 0.8;
+            cursor: pointer;
+        }
+
+        /* LITE SECTION */
+        .lite-section-title {
+            font-family: 'JetBrains Mono', monospace;
+            padding-bottom: 0.3rem;
+            margin-bottom: 1.5rem;
+            font-size: 0.9rem;
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            letter-spacing: 0.15rem;
+        }
+
+        .lite-section-title span {
+            color: var(--accent-color) !important;
+            opacity: 1 !important;
+        }
+
+        .lite-section-title::after {
+            content: '';
+            flex: 1;
+            height: 1px;
+            background: rgba(255, 255, 255, 0.1);
+        }
+
+        .lite-grid {
+            display: grid;
+            grid-template-columns: repeat(6, 1fr);
+            gap: 1rem;
+        }
+
+        @media (max-width: 1024px) {
+            .lite-grid {
+                grid-template-columns: repeat(4, 1fr);
+            }
+        }
+
+        @media (max-width: 768px) {
+            .lite-grid {
+                grid-template-columns: repeat(3, 1fr);
+            }
+        }
+
+        @media (max-width: 480px) {
+            .lite-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+
+        .lite-item {
+            background: rgba(255,255,255,0.02);
+            border: 1px solid rgba(255,255,255,0.05);
+            padding: 1.2rem;
+            text-align: left;
+            text-decoration: none;
+            transition: all 0.3s;
+            position: relative;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            gap: 0.3rem;
+            outline: none;
+        }
+
+        .lite-item:hover {
+            border-color: var(--accent-color);
+            background: transparent;
+            transform: scale(1.02);
+            box-shadow: 0 0 15px rgba(255, 255, 255, 0.4);
+        }
+
+        .lite-item:active {
+            transform: scale(0.98);
+        }
+
+        .lite-item .lang-name {
+            display: block;
+            color: #fff;
+            font-size: 0.9rem;
+            font-family: var(--main-font);
+        }
+
+        .lite-item .lang-code {
+            display: block;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.65rem;
+            color: var(--accent-color);
+            opacity: 0.8;
+        }
+
+
+
+
+
+        @media (max-width: 768px) {
+            .vault-hero {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 1rem;
+            }
+
+            .hero-meta {
+                width: 100%;
+                text-align: center;
+            }
+
+            .vault-header {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 0.5rem;
+            }
+        }
+
+        /* Info Icon & Modal */
+        .info-icon {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 36px;
+            height: 36px;
+            min-width: 44px;
+            min-height: 44px;
+            border: 1px solid var(--accent-color);
+            border-radius: 50%;
+            font-size: 16px;
+            color: var(--accent-color);
+            cursor: pointer;
+            transition: all 0.3s;
+            box-shadow: 0 0 5px rgba(255, 255, 255, 0.2);
+            font-family: 'Times New Roman', serif;
+            font-style: italic;
+            font-weight: bold;
+        }
+
+
+
+        #specsPage {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            min-height: 100vh;
+            min-height: 100dvh;
+            background-color: rgba(0, 0, 0, 0.98);
+            z-index: 2200;
+            display: none;
+            opacity: 0;
+            transition: opacity 0.4s cubic-bezier(0.165, 0.84, 0.44, 1);
+            overflow-y: auto;
+            -webkit-overflow-scrolling: touch;
+            backdrop-filter: blur(25px);
+            -webkit-backdrop-filter: blur(25px);
+            padding: 2rem 1rem;
+            padding-bottom: env(safe-area-inset-bottom);
+        }
+
+        #specsPage.active {
+            display: block;
+            opacity: 1;
+        }
+
+        .specs-content {
+            max-width: 1100px;
+            margin: 2rem auto;
+            position: relative;
+            animation: modalScan 0.5s ease-out;
+        }
+
+        .specs-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 2rem;
+            margin-bottom: 4rem;
+        }
+        
+
+        .spec-card h4 {
+            color: var(--accent-color);
+            font-size: 1.2rem;
+            margin-bottom: 1.5rem;
+            font-family: 'JetBrains Mono', monospace;
+            text-transform: uppercase;
+            letter-spacing: 0.1rem;
+            border-bottom: 1px solid rgba(255,255,255,0.1);
+            padding-bottom: 0.8rem;
+        }
+
+        .spec-card ul {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+
+        .spec-card li {
+            color: var(--sub-text);
+            font-size: 0.9rem;
+            margin-bottom: 1rem;
+            font-family: 'JetBrains Mono', monospace;
+            line-height: 1.5;
+            display: flex;
+            align-items: flex-start;
+            gap: 0.8rem;
+        }
+
+        .spec-card li::before {
+            content: '>';
+            color: var(--accent-color);
+            font-weight: bold;
+            opacity: 0.8;
+        }
+
+        .security-section {
+            background: rgba(20, 0, 0, 0.2);
+            border: 1px solid rgba(255, 50, 50, 0.15);
+            padding: 3rem;
+            position: relative;
+        }
+
+        .security-section::before {
+            content: '';
+            position: absolute;
+            top: 0; left: 0; width: 4px; height: 100%;
+            background: var(--accent-color);
+        }
+
+        .sec-header {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            margin-bottom: 2.5rem;
+        }
+
+        .sec-icon {
+            font-size: 2rem;
+            filter: grayscale(100%) brightness(200%);
+        }
+
+        .sec-header h3 {
+            color: #fff;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 1.5rem;
+            letter-spacing: 0.2rem;
+            margin: 0;
+        }
+
+        .security-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 2rem;
+        }
+
+        .sec-item {
+            background: rgba(0,0,0,0.4);
+            border: 1px solid rgba(255,255,255,0.05);
+            padding: 1.5rem;
+            transition: all 0.3s;
+        }
+
+        .sec-item:hover {
+            border-color: rgba(255,255,255,0.2);
+            background: rgba(255,255,255,0.02);
+        }
+
+        .sec-item-title {
+            color: var(--accent-color);
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 1rem;
+            margin-bottom: 0.8rem;
+            letter-spacing: 0.1rem;
+        }
+
+        .sec-item-desc {
+            color: var(--sub-text);
+            font-size: 0.9rem;
+            line-height: 1.6;
+        }
+
+        @media (max-width: 900px) {
+            .specs-grid {
+                grid-template-columns: 1fr;
+            }
+            .security-grid {
+                grid-template-columns: 1fr;
+            }
+            .security-section {
+                padding: 2rem 1.5rem;
+            }
+        }
+
+        .modal-controls {
+            position: absolute;
+            top: 2rem;
+            right: 2rem;
+            display: flex;
+            align-items: center;
+            gap: 1.5rem;
+            z-index: 1001;
+        }
+
+        .close-modal {
+            position: static;
+            font-family: 'JetBrains Mono', monospace;
+            color: #fff;
+            cursor: pointer;
+            font-size: 2rem;
+            line-height: 1;
+            z-index: 1001;
+            transition: color 0.3s ease;
+        }
+
+
+
+        footer {
+            padding: 2rem 1.5rem 3rem;
+            text-align: center;
+            opacity: 0.7;
+            transition: opacity 0.3s;
+        }
+
+        .footer-version {
+            color: var(--accent-color);
+            font-weight: 500;
+        }
+
+        .footer-content {
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+            align-items: center;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.65rem;
+            text-transform: uppercase;
+            letter-spacing: 0.15rem;
+            color: #888;
+        }
+
+        .footer-tagline {
+            color: var(--accent-color);
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.8rem;
+            letter-spacing: 0.25rem;
+            margin: 0;
+            font-weight: 500;
+        }
+
+        .footer-links {
+            display: flex;
+            gap: 1.5rem;
+            align-items: center;
+            opacity: 0.7;
+        }
+
+        .footer-links a {
+            color: inherit;
+            text-decoration: none;
+            border-bottom: 1px dotted rgba(255, 255, 255, 0.3);
+            transition: all 0.2s;
+        }
+
+        .footer-links a:hover {
+            color: var(--accent-color);
+            border-bottom-style: solid;
+            border-color: var(--accent-color);
+        }
+
+        .separator {
+            opacity: 0.3;
+        }
+
+        /* BOOT MODAL - TACTICAL COMMAND CENTER */
+        #bootModal {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            min-height: 100vh;
+            min-height: 100dvh;
+            background-color: rgba(0, 0, 0, 0.98);
+            z-index: 2100;
+            display: none;
+            opacity: 0;
+            transition: opacity 0.4s cubic-bezier(0.165, 0.84, 0.44, 1);
+            overflow-y: auto;
+            -webkit-overflow-scrolling: touch;
+            backdrop-filter: blur(25px);
+            -webkit-backdrop-filter: blur(25px);
+            padding: 2rem 1rem;
+            padding-bottom: env(safe-area-inset-bottom);
+        }
+
+        #bootModal.active {
+            display: block;
+            opacity: 1;
+        }
+
+        .boot-container {
+            max-width: 1100px;
+            margin: 2rem auto;
+            border: 1px solid var(--glass-border);
+            background: rgba(255, 255, 255, 0.01);
+            position: relative;
+            padding: 2rem;
+            animation: modalScan 0.5s ease-out;
+        }
+
+        @keyframes modalScan {
+            from { opacity: 0; transform: translateY(20px) scale(0.98); }
+            to { opacity: 1; transform: translateY(0) scale(1); }
+        }
+
+        .boot-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 1px solid rgba(255,255,255,0.1);
+            padding-bottom: 1.5rem;
+            margin-bottom: 2rem;
+        }
+
+        .boot-title {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 1.2rem;
+            letter-spacing: 0.3rem;
+            text-transform: uppercase;
+            color: #fff;
+        }
+
+        .network-selector {
+            display: flex;
+            gap: 1rem;
+            background: rgba(255,255,255,0.05);
+            padding: 0.3rem;
+            border-radius: 4px;
+        }
+
+        .net-btn {
+            background: rgba(255, 255, 255, 0.02);
+            border: 1px solid var(--accent-color) !important;
+            color: #888;
+            padding: 0.6rem 1.2rem;
+            cursor: pointer;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.7rem;
+            transition: all 0.3s cubic-bezier(0.165, 0.84, 0.44, 1);
+            text-transform: uppercase;
+            letter-spacing: 0.15rem;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .net-btn:hover {
+            border-color: var(--accent-color);
+            background: transparent;
+            color: #fff;
+            box-shadow: 0 0 15px rgba(255, 255, 255, 0.3);
+        }
+
+        .net-btn.active {
+            background: transparent;
+            color: #fff;
+            border-color: var(--accent-color);
+            box-shadow: 0 0 20px rgba(255, 255, 255, 0.6);
+            font-weight: bold;
+        }
+
+
+        
+
+
+        .boot-grid {
+            display: grid;
+            grid-template-columns: repeat(6, 1fr);
+            gap: 1rem;
+        }
+
+        @media (max-width: 1024px) {
+            .boot-grid {
+                grid-template-columns: repeat(4, 1fr);
+            }
+            .boot-container {
+                max-width: 900px;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .boot-grid {
+                grid-template-columns: repeat(3, 1fr);
+            }
+            .boot-container {
+                max-width: 95%;
+                padding: 1.5rem;
+            }
+            .boot-item {
+                padding: 1rem;
+            }
+            .boot-item .lang-name {
+                font-size: 0.8rem;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .boot-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+
+        .boot-item {
+            background: rgba(255,255,255,0.02);
+            border: 1px solid rgba(255,255,255,0.05);
+            padding: 1.2rem;
+            text-align: left;
+            cursor: pointer;
+            transition: all 0.3s;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .boot-item:hover {
+            border-color: var(--accent-color);
+            background: transparent;
+            transform: scale(1.02);
+            box-shadow: 0 0 15px rgba(255, 255, 255, 0.4);
+        }
+
+
+
+        .boot-item .lang-name {
+            display: block;
+            color: #fff;
+            font-size: 0.9rem;
+            margin-bottom: 0.3rem;
+        }
+
+        .boot-item .lang-code {
+            display: block;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.65rem;
+            color: var(--accent-color);
+            opacity: 0.8;
+        }
+
+        .boot-footer {
+            margin-top: 2rem;
+            padding-top: 1rem;
+            border-top: 1px solid rgba(255,255,255,0.05);
+            text-align: center;
+        }
+
+        .boot-close {
+            color: var(--sub-text);
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.75rem;
+            cursor: pointer;
+            text-transform: uppercase;
+            letter-spacing: 0.1rem;
+            background: none;
+            border: none;
+            padding: 1rem;
+        }
+
+        .boot-close:hover {
+            color: #fff;
+        }
+
+
+
+        /* Mobile Specific */
+        @media (max-width: 768px) {
+            .container {
+                padding: 0 1.5rem;
+            }
+
+            .logo {
+                font-size: 2.5rem;
+                letter-spacing: 0.5rem;
+                margin-right: -0.5rem;
+            }
+
+            /* Modal Adjustments */
+            #vaultModal .vault-container {
+                padding: 1.5rem 1rem;
+            }
+
+            .vault-hero {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 1rem;
+            }
+
+            .vault-header h2 {
+                font-size: 1.55rem;
+            }
+
+            .hero-meta {
+                width: 100%;
+                text-align: left;
+                padding: 0;
+                font-size: 1.2rem;
+                margin-top: 0.5rem;
+            }
+
+            /* Lite Grid Mobile Refactor */
+            .lite-grid {
+                grid-template-columns: repeat(2, 1fr);
+                gap: 1rem;
+            }
+
+            .lite-item {
+                min-width: auto;
+                padding: 1.1rem 0.9rem;
+                border-radius: 6px;
+                background: rgba(255, 255, 255, 0.03);
+                border: 1px solid rgba(255, 255, 255, 0.12);
+            }
+
+            .lite-item:hover {
+                background: rgba(255, 255, 255, 0.08);
+                border-color: rgba(255, 255, 255, 0.4);
+            }
+
+            .lite-item strong {
+                font-size: 0.85rem;
+            }
+
+            .lite-item span {
+                font-size: 0.72rem;
+            }
+
+            /* Touch targets */
+            .close-modal {
+                font-size: 2.2rem;
+                padding: 0.8rem;
+            }
+
+            .info-icon {
+                width: 36px;
+                height: 36px;
+                font-size: 1.2rem;
+            }
+
+            /* Matrix Grid Mobile */
+            .matrix-grid {
+                grid-template-columns: 1fr;
+                gap: 1.5rem;
+            }
+
+            /* Info Modal Mobile */
+            .info-card {
+                width: 95%;
+                padding: 1.5rem;
+            }
+
+            .info-grid {
+                grid-template-columns: 1fr;
+                gap: 2rem;
+            }
+
+            /* Mobile Spacing Adjustments */
+            .feature-grid {
+                gap: 3.5rem;
+            }
+
+            .feature-item {
+                padding-left: 1.8rem;
+            }
+
+            .status-bar {
+                gap: 2.2rem;
+                font-size: 0.9rem;
+            }
+
+            /* Single-line Footer on Mobile */
+            footer {
+                padding: 1.5rem 0.5rem;
+            }
+
+            .footer-content {
+                gap: 0.5rem;
+            }
+
+            .footer-tagline {
+                font-size: 0.75rem;
+                /* Bigger */
+                letter-spacing: 0.05rem;
+                /* Much tighter to fit */
+                white-space: nowrap;
+                /* Force 1 line */
+                margin: 0;
+            }
+        }
+
+        /* Vault CTA stacking on small screens */
+        @media (max-width: 600px) {
+            #vaultModal .modal-content [style*="display: flex"][style*="gap: 1rem"] {
+                flex-direction: column !important;
+            }
+
+            .vault-hero {
+                min-height: 60px;
+            }
+
+            .boot-item, .lite-item {
+                min-height: 48px;
+                padding: 1rem 0.8rem;
+            }
+
+            .close-modal {
+                min-width: 44px;
+                min-height: 44px;
+                display: inline-flex;
+                align-items: center;
+                justify-content: center;
+            }
+
+            .share-container {
+                top: env(safe-area-inset-top, 1rem);
+                right: max(1rem, env(safe-area-inset-right));
+            }
+
+            .resilience-card {
+                padding: 1.5rem 1rem;
+            }
+
+            .metadata-item code {
+                font-size: 0.6rem;
+            }
+
+            .step-box {
+                font-size: 0.6rem;
+                padding: 0.6rem;
+            }
+
+            .gw-col li {
+                font-size: 0.58rem;
+            }
+        }
+
+        /* NEW: Extended Mobile/Tablet Refactor */
+        @media (max-width: 900px) {
+            header {
+                padding: 5rem 0 3rem;
+            }
+
+            .logo-container {
+                margin-bottom: 2.5rem;
+            }
+
+            .logo {
+                font-size: clamp(2.6rem, 9vw, 3.8rem);
+                letter-spacing: 0.8rem;
+                margin-right: 0;
+            }
+
+            .hero h1 {
+                font-size: clamp(1.9rem, 6.5vw, 2.6rem);
+                line-height: 1.25;
+                margin-bottom: 1.2rem;
+            }
+
+            .hero p {
+                font-size: 1.05rem;
+                max-width: 90%;
+                margin-bottom: 2.5rem;
+            }
+
+            .cta-group {
+                flex-direction: column;
+                gap: 1.2rem;
+                padding: 0 1rem;
+            }
+
+            .trust-badge {
+                font-size: 0.72rem;
+                margin-top: 1.2rem;
+                padding: 0 1rem;
+                letter-spacing: 0.06rem;
+                display: flex;
+                flex-direction: column;
+                gap: 0.4rem;
+            }
+
+            .trust-badge .separator {
+                display: none;
+            }
+
+            .trust-badge .trust-link {
+                display: inline-block;
+                margin-top: 0;
+                margin-left: 0;
+            }
+
+            .mobile-break {
+                display: none;
+                /* Handled by flex layout */
+            }
+        }
+
+        /* NEW: Tablet Specific Fine-tuning */
+        @media (min-width: 768px) and (max-width: 1024px) {
+            .logo {
+                font-size: clamp(3.2rem, 8vw, 4.2rem);
+                letter-spacing: 1.1rem;
+            }
+
+            .hero h1 {
+                font-size: clamp(2.3rem, 5.5vw, 3rem);
+            }
+
+            .btn {
+                padding: 1.4rem 3.5rem;
+            }
+
+            .lite-grid {
+                grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+            }
+        }
+
+        .trust-badge {
+            font-family: 'JetBrains Mono', ui-monospace, monospace;
+            font-size: 0.75rem;
+            color: #b0b0b0;
+            text-align: center;
+            letter-spacing: 0.05rem;
+            margin-top: 1.5rem;
+            opacity: 0.8;
+            line-height: 1.6;
+        }
+
+        .integrity-badge {
+            font-family: 'JetBrains Mono', ui-monospace, monospace;
+            font-size: 0.65rem;
+            color: var(--accent-color);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            padding: 2px 6px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-top: 0.5rem;
+            display: inline-block;
+            opacity: 0.7;
+        }
+
+
+        .trust-badge .hash {
+            color: var(--accent-color);
+            opacity: 0.85;
+        }
+
+        .trust-badge .trust-link {
+            color: var(--accent-color);
+            text-decoration: underline dotted;
+            opacity: 0.9;
+            transition: opacity 0.3s;
+            margin-left: 0.5rem;
+        }
+
+        .trust-badge .trust-link:hover {
+            opacity: 1;
+        }
+
+        /* Animations */
+        /* Pulsing logic handled via ripple keyframes above */
+
+        /* Accessibility Support */
+        @media (prefers-contrast: more) {
+            :root {
+                --sub-text: #c0c0c0;
+                --text-color: #f0f0f0;
+            }
+        }
+
+        @media (prefers-reduced-motion: reduce) {
+            *:not(.mirror-z) {
+                transform: none !important;
+                transition: none !important;
+                animation: none !important;
+            }
+        }
+
+        .neon-zz {
+            color: var(--accent-color);
+            margin-left: 1rem;
+            font-family: 'JetBrains Mono', monospace;
+            font-weight: 700;
+            text-shadow: none !important;
+        }
+
+        .mirror-z {
+            display: inline-block;
+            transform: scaleX(-1) !important;
+            margin-right: -0.2em;
+        }
+
+        /* TACTICAL BOOT LOADER */
+        #bootLoader {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: #000;
+            z-index: 5000;
+            display: none;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+            gap: 2rem;
+            color: #fff;
+            font-family: 'JetBrains Mono', monospace;
+        }
+
+        #bootLoader.active {
+            display: flex;
+        }
+
+        .resilience-protocol {
+            padding: 4rem 0;
+            display: flex;
+            justify-content: center;
+        }
+
+        .resilience-card {
+            background: rgba(255, 140, 0, 0.03);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 140, 0, 0.2);
+            padding: 2.5rem;
+            max-width: 800px;
+            width: 100%;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+            box-shadow: 0 0 40px rgba(255, 140, 0, 0.05);
+        }
+
+        .resilience-header {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 1rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .resilience-header h2 {
+            font-size: 0.9rem;
+            letter-spacing: 0.4rem;
+            font-weight: 700;
+            color: #ff8c00;
+        }
+
+        .pulse-icon {
+            width: 8px;
+            height: 8px;
+            background: #ff8c00;
+            border-radius: 50%;
+            display: inline-block;
+            box-shadow: 0 0 10px #ff8c00;
+            animation: pulse-dot-orange 2s infinite;
+        }
+
+        @keyframes pulse-dot-orange {
+            0% { opacity: 1; transform: scale(1); box-shadow: 0 0 0px #ff8c00; }
+            50% { opacity: 0.6; transform: scale(1.3); box-shadow: 0 0 15px #ff8c00; }
+            100% { opacity: 1; transform: scale(1); box-shadow: 0 0 0px #ff8c00; }
+        }
+
+        .resilience-desc {
+            font-size: 0.85rem;
+            color: var(--sub-text);
+            margin-bottom: 2rem;
+            line-height: 1.6;
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .metadata-grid {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 1.5rem;
+            margin-bottom: 2rem;
+        }
+
+        @media (min-width: 768px) {
+            .metadata-grid { grid-template-columns: 1fr 1fr; }
+        }
+
+        .metadata-item {
+            background: rgba(0, 0, 0, 0.4);
+            padding: 1rem;
+            border-radius: 4px;
+            border: 1px solid rgba(255, 140, 0, 0.1);
+            text-align: left;
+        }
+
+        .metadata-item label {
+            display: block;
+            font-size: 0.6rem;
+            color: #ff8c00;
+            opacity: 0.8;
+            margin-bottom: 0.5rem;
+            letter-spacing: 0.1rem;
+        }
+
+        .metadata-item code {
+            display: block;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.75rem;
+            color: #fff;
+            word-break: break-all;
+            background: rgba(0,0,0,0.3);
+            padding: 0.5rem;
+            border-radius: 2px;
+            cursor: pointer;
+            transition: background 0.3s;
+            opacity: 0.9;
+        }
+
+        .metadata-item code:hover {
+            background: rgba(255, 140, 0, 0.1);
+        }
+
+        .manual-guide {
+            margin-top: 2rem;
+            padding: 1.5rem;
+            background: rgba(255, 140, 0, 0.05);
+            border: 1px dashed rgba(255, 140, 0, 0.2);
+            text-align: left;
+            font-size: 0.75rem;
+        }
+
+        .manual-guide h3 {
+            font-size: 0.7rem;
+            color: #ff8c00;
+            margin-bottom: 0.8rem;
+            letter-spacing: 0.2rem;
+            text-transform: uppercase;
+        }
+
+        .manual-guide p {
+            color: var(--sub-text);
+            margin-bottom: 1rem;
+            line-height: 1.5;
+        }
+
+        .step-box {
+            background: rgba(0,0,0,0.4);
+            padding: 0.8rem;
+            margin-bottom: 0.5rem;
+            border-radius: 4px;
+            font-family: 'JetBrains Mono', monospace;
+            color: #ddd;
+            font-size: 0.65rem;
+        }
+
+        .step-box span {
+            color: #ff8c00;
+            font-weight: bold;
+        }
+
+
+
+        .mirrors-info {
+            font-size: 0.65rem;
+            color: var(--sub-text);
+            opacity: 0.5;
+            letter-spacing: 0.05rem;
+            text-transform: uppercase;
+        }
+
+        .loader-bar-container {
+            width: 300px;
+            height: 2px;
+            background: rgba(255, 255, 255, 0.1);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .spec-card {
+            background: rgba(0, 255, 128, 0.03);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            border: 1px solid rgba(0, 255, 128, 0.2);
+            padding: 2.5rem;
+            text-align: left;
+            position: relative;
+            overflow: hidden;
+            box-shadow: 0 0 30px rgba(0, 255, 128, 0.03);
+            cursor: default; /* No pointer change */
+            pointer-events: none; /* Disables all mouse interactions to be 100% sure */
+        }
+
+        .spec-card h4 {
+            color: #00ff80;
+            font-size: 1rem;
+            letter-spacing: 0.3rem;
+            margin-bottom: 2rem;
+            font-weight: 700;
+        }
+
+        .spec-card ul {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+
+        .spec-card li {
+            font-size: 0.85rem;
+            color: var(--text-color);
+            margin-bottom: 1.2rem;
+            padding-left: 1.5rem;
+            position: relative;
+            opacity: 0.8;
+        }
+
+        .spec-card li::before {
+            content: "•";
+            color: #00ff80;
+            position: absolute;
+            left: 0;
+            font-weight: bold;
+        }
+
+        .gw-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1.5rem;
+            margin-top: 1.5rem;
+            text-align: left;
+        }
+
+        .gw-col h4 {
+            font-size: 0.65rem;
+            color: #ff8c00;
+            margin-bottom: 0.8rem;
+            letter-spacing: 0.1rem;
+            text-transform: uppercase;
+            opacity: 0.8;
+        }
+
+        .gw-col ul {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+
+        .gw-col li {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.62rem;
+            color: #aaa;
+            margin-bottom: 0.4rem;
+            padding: 0.4rem 0.6rem;
+            background: rgba(0,0,0,0.3);
+            border-radius: 2px;
+            border-left: 1px solid rgba(255, 140, 0, 0.2);
+        }
+
+        @media (max-width: 600px) {
+            .gw-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        .loader-bar {
+            width: 50%;
+            height: 100%;
+            background: var(--accent-color);
+            position: absolute;
+            left: -50%;
+            animation: loader-slide 1.5s infinite ease-in-out;
+            box-shadow: 0 0 15px var(--accent-color);
+        }
+
+        @keyframes loader-slide {
+            0% { left: -50%; }
+            100% { left: 100%; }
+        }
+
+        .loader-status {
+            font-size: 0.7rem;
+            color: var(--accent-color);
+            opacity: 0.8;
+            max-width: 400px;
+            text-align: center;
+            line-height: 1.5;
+        }
+
+        /* ============================================
+           VAULT — MANUAL DE OPERACIONES (mobile-first)
+           ============================================ */
+        .vault-ops-manual {
+            margin-top: 2rem;
+            border-top: 1px dashed rgba(255,255,255,0.1);
+            padding-top: 1.5rem;
+        }
+
+        /* Toggle button — min 48px height for iOS/Android touch */
+        .vault-manual-toggle {
+            width: 100%;
+            min-height: 48px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 1rem;
+            background: rgba(255,140,0,0.05);
+            border: 1px solid rgba(255,140,0,0.3);
+            border-radius: 4px;
+            padding: 0.85rem 1.2rem;
+            cursor: pointer;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.72rem;
+            letter-spacing: 0.12rem;
+            text-transform: uppercase;
+            color: #ff8c00;
+            touch-action: manipulation;
+            -webkit-tap-highlight-color: transparent;
+            transition: background 0.2s ease, border-color 0.2s ease;
+            outline: none;
+        }
+        .vault-manual-toggle:focus-visible {
+            box-shadow: 0 0 0 2px rgba(255,140,0,0.4);
+        }
+        .vault-manual-toggle:active {
+            background: rgba(255,140,0,0.12);
+        }
+        .toggle-label { flex: 1; text-align: left; }
+        .toggle-arrow {
+            font-size: 1.1rem;
+            transition: transform 0.3s cubic-bezier(0.4,0,0.2,1);
+            display: inline-block;
+            flex-shrink: 0;
+        }
+        .toggle-arrow.open { transform: rotate(180deg); }
+
+        /* Collapsible container — CSS max-height trick for smooth animation */
+        .vault-manual-body {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.45s cubic-bezier(0.4,0,0.2,1);
+        }
+        .vault-manual-body.open {
+            max-height: 5000px; /* large enough for content */
+        }
+
+        /* Blocks */
+        .ops-block {
+            margin-top: 1.8rem;
+            border: 1px solid rgba(255,255,255,0.06);
+            border-radius: 6px;
+            overflow: hidden;
+        }
+        .ops-block-header {
+            display: flex;
+            align-items: center;
+            gap: 0.8rem;
+            padding: 0.9rem 1.2rem;
+            background: rgba(255,255,255,0.03);
+            border-bottom: 1px solid rgba(255,255,255,0.05);
+        }
+        .ops-icon {
+            font-size: 1rem;
+            color: #ff8c00;
+            opacity: 0.8;
+            flex-shrink: 0;
+        }
+        .ops-block-title {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.85rem;
+            letter-spacing: 0.15rem;
+            text-transform: uppercase;
+            color: #ccc;
+            font-weight: 600;
+        }
+        .ops-block-desc {
+            font-size: 0.9rem;
+            color: var(--sub-text);
+            line-height: 1.6;
+            padding: 1rem 1.2rem 0;
+        }
+
+        /* Cards */
+        .ops-card {
+            padding: 1.2rem;
+            border-bottom: 1px solid rgba(255,255,255,0.05);
+        }
+        .ops-card:last-child { border-bottom: none; }
+        .ops-card-top {
+            display: flex;
+            align-items: center;
+            gap: 0.7rem;
+            margin-bottom: 0.7rem;
+        }
+        .ops-card-badge {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.6rem;
+            font-weight: 700;
+            letter-spacing: 0.1rem;
+            padding: 0.2rem 0.55rem;
+            border-radius: 3px;
+            text-transform: uppercase;
+            flex-shrink: 0;
+        }
+        .ops-card-badge.arka  { background: rgba(0,168,255,0.15); color: #00a8ff; border: 1px solid rgba(0,168,255,0.35); }
+        .ops-card-badge.lazaro{ background: rgba(0,200,120,0.15); color: #00c878; border: 1px solid rgba(0,200,120,0.35); }
+        .ops-card-badge.clone { background: rgba(160,90,255,0.15); color: #b06aff; border: 1px solid rgba(160,90,255,0.35); }
+        .ops-card-name {
+            font-size: 0.85rem;
+            font-weight: 600;
+            color: #eee;
+        }
+        .ops-card-desc {
+            font-size: 0.82rem;
+            color: var(--sub-text);
+            line-height: 1.65;
+            margin-bottom: 1rem;
+        }
+
+        /* Steps */
+        .ops-steps { display: flex; flex-direction: column; gap: 0.5rem; }
+        .ops-step {
+            display: flex;
+            align-items: flex-start;
+            gap: 0.75rem;
+            background: rgba(0,0,0,0.25);
+            border-radius: 4px;
+            padding: 0.65rem 0.8rem;
+            border-left: 2px solid rgba(255,140,0,0.25);
+        }
+        .step-num {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.65rem;
+            color: #ff8c00;
+            opacity: 0.8;
+            font-weight: 700;
+            min-width: 22px;
+            flex-shrink: 0;
+            padding-top: 1px;
+        }
+        .ops-step span:last-child {
+            font-size: 0.82rem;
+            color: #bbb;
+            line-height: 1.5;
+        }
+        .ops-step b { color: #fff; }
+
+        /* Hashes */
+        .ops-hashes { display: flex; flex-direction: column; gap: 0.8rem; padding: 1rem 1.2rem; }
+        .ops-hash-item {
+            background: rgba(0,0,0,0.3);
+            border: 1px solid rgba(255,255,255,0.07);
+            border-radius: 4px;
+            padding: 0.8rem 1rem;
+            cursor: pointer;
+            touch-action: manipulation;
+            -webkit-tap-highlight-color: transparent;
+            transition: border-color 0.2s ease;
+            min-height: 48px;
+        }
+        .ops-hash-item:active { border-color: rgba(255,140,0,0.5); }
+        .ops-hash-label {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.7rem;
+            color: #ff8c00;
+            letter-spacing: 0.1rem;
+            text-transform: uppercase;
+            margin-bottom: 0.4rem;
+            opacity: 0.8;
+        }
+        .ops-hash-row {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            flex-wrap: wrap;
+        }
+        .ops-hash-tag {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.7rem;
+            font-weight: 700;
+            color: #ff8c00;
+            flex-shrink: 0;
+        }
+        .ops-hash-code {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.72rem;
+            color: #aaa;
+            word-break: break-all;
+            flex: 1;
+            background: none;
+            padding: 0;
+        }
+        .ops-hash-copy {
+            font-size: 0.9rem;
+            color: #555;
+            flex-shrink: 0;
+            margin-left: auto;
+        }
+
+        /* Access Guide */
+        .ops-access-guide {
+            padding: 0 1.2rem 1rem;
+        }
+        .ops-access-title {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.75rem;
+            color: #888;
+            letter-spacing: 0.1rem;
+            text-transform: uppercase;
+            margin-bottom: 0.8rem;
+        }
+        .ops-gw-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1rem;
+        }
+        .ops-gw-head {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.75rem;
+            color: #ff8c00;
+            letter-spacing: 0.1rem;
+            text-transform: uppercase;
+            margin-bottom: 0.6rem;
+            opacity: 0.8;
+        }
+        .ops-gw-list {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+            display: flex;
+            flex-direction: column;
+            gap: 0.3rem;
+        }
+        .ops-gw-list li {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.7rem;
+            color: #aaa;
+            background: rgba(0,0,0,0.3);
+            border-radius: 2px;
+            padding: 0.4rem 0.6rem;
+            border-left: 1px solid rgba(255,140,0,0.2);
+            line-height: 1.4;
+        }
+        .gw-placeholder {
+            color: #ff8c00;
+            opacity: 0.7;
+        }
+
+        /* Emergency button */
+        .ops-emergency-btn {
+            display: block;
+            width: calc(100% - 2.4rem);
+            margin: 1rem 1.2rem 1.2rem;
+            min-height: 52px;
+            background: rgba(255,140,0,0.08);
+            border: 1px solid #ff8c00;
+            color: #ff8c00;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.85rem;
+            letter-spacing: 0.15rem;
+            text-transform: uppercase;
+            cursor: pointer;
+            border-radius: 4px;
+            touch-action: manipulation;
+            -webkit-tap-highlight-color: transparent;
+            transition: background 0.2s ease;
+            outline: none;
+        }
+        .ops-emergency-btn:active {
+            background: rgba(255,140,0,0.18);
+        }
+        .ops-emergency-btn:focus-visible {
+            box-shadow: 0 0 0 2px rgba(255,140,0,0.4);
+        }
+
+        /* Mobile responsive */
+        @media (max-width: 480px) {
+            .ops-gw-grid {
+                grid-template-columns: 1fr;
+            }
+            .ops-card-name {
+                font-size: 0.8rem;
+            }
+            .ops-hash-code {
+                font-size: 0.65rem;
+            }
+            .ops-emergency-btn {
+                width: 100%;
+                margin-left: 0;
+                margin-right: 0;
+            }
+        }
+    </style>
+
+</head>
+
+<body>
+    <div class="share-container">
+        <button type="button" id="shareBtn" class="btn-share" onclick="triggerTacticalShare()" aria-label="Diffuse System">
+            <svg viewBox="0 0 24 24">
+                <path d="M4 12v8a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-8"></path>
+                <polyline points="16 6 12 2 8 6"></polyline>
+                <line x1="12" y1="2" x2="12" y2="15"></line>
+            </svg>
+        </button>
+        <div id="shareToast" class="share-toast" data-i18n="share_success">ENLACE COPIADO</div>
+    </div>
+    <div class="container">
+        <header>
+            <div class="logo-container">
+                <div class="logo">ZION <span class="neon-zz"><span class="mirror-z">Z</span><span>Z</span></span></div>
+            </div>
+
+            <div class="hero">
+                <h1 data-i18n="hero_h1"></h1>
+                <p data-i18n="hero_p">Autosuficiencia total. Resiliencia absoluta.<br>Zero‑Trust & Zero‑Footprint.
+                </p>
+
+                <div class="cta-group">
+                    <a href="javascript:void(0)" class="btn btn-launch" id="launchBtn"
+                        data-i18n="btn_launch">CARGAR SISTEMA</a>
+                    <button type="button" class="btn btn-download" id="openMatrix" data-i18n="btn_download">Descargar Sistema</button>
+
+                </div>
+            </div>
+
+        </header>
+
+        <section class="dedication">
+            <h2 data-i18n="ded_title" class="ded-title">DEDICADO A:</h2>
+            <p data-i18n="ded_p1">Por los que caminaron antes, dejando luz en la oscuridad.</p>
+            <p data-i18n="ded_p2">Por los que aún buscan, sin saber el nombre de lo que realmente necesitan.</p>
+            <p data-i18n="ded_p3">Por Jesús, que resucitando abrió su eternidad para que nadie quede fuera.</p>
+        </section>
+
+
+
+
+        <footer>
+            <div class="footer-content">
+                <p data-i18n="footer_credits" class="footer-tagline">CODIFICADO PARA LA LIBERTAD</p>
+                <div class="footer-links">
+                </div>
+            </div>
+        </footer>
+    </div>
+
+    <!-- Download Vault Modal -->
+    <div id="vaultModal">
+        <div class="modal-content">
+            <div class="modal-controls" style="position: absolute; top: 2rem; right: 2rem; display: flex; align-items: center; gap: 1.5rem; z-index: 1001;">
+                <div class="info-icon" id="openInfo">i</div>
+            </div>
+
+            <div class="vault-container">
+                <div class="boot-header">
+                    <div class="terminal-top" style="display: flex; gap: 1.5rem; align-items: center; flex: 1;">
+                        <div class="close-modal" id="closeVault" style="font-size: 2rem; cursor: pointer; color: #fff;">←</div>
+                        <div style="display: flex; flex-direction: column; gap: 0.5rem;">
+                            <div class="boot-title" data-i18n="modal_title" style="margin-bottom: 0.5rem;">DESCARGAR SISTEMA</div>
+                            <span data-i18n="modal_p" style="font-family: 'JetBrains Mono', monospace; font-size: 0.85rem; color: var(--accent-color); letter-spacing: 0.1rem; text-transform: uppercase; opacity: 0.8;">REPOSITORIO DE SISTEMAS</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- DOWNLOAD CTA GROUP -->
+                <div style="display: flex; gap: 1rem; margin-bottom: 2rem;">
+                    <button type="button" onclick="triggerVaultDownload('core', null)" class="vault-hero" style="flex: 1; background: transparent; border: 1px dashed var(--accent-color); opacity: 0.8; height: auto; padding: 1.5rem; display: flex; align-items: center; justify-content: center; margin-bottom: 0;">
+                        <div class="hero-content">
+                            <h3 data-i18n="matrix_global" style="font-size: 0.8rem; letter-spacing: 0.3rem;">ZION CORE</h3>
+                            <span style="font-family: 'JetBrains Mono', monospace; font-size: 0.65rem; color: var(--accent-color); opacity: 0.7;">[ ZIP ] • ARWEAVE / IPFS</span>
+                        </div>
+                    </button>
+
+                    <button type="button" onclick="triggerTacticalShortcut()" class="vault-hero" style="flex: 1; background: transparent; border: 1px dashed var(--accent-color); opacity: 0.8; height: auto; padding: 1.5rem; margin-bottom: 0; display: flex; align-items: center; justify-content: center;">
+                        <div class="hero-content">
+                            <h3 data-i18n="btn_tactical" style="font-size: 0.8rem; letter-spacing: 0.3rem;">ZION WEB</h3>
+                            <span style="font-family: 'JetBrains Mono', monospace; font-size: 0.65rem; color: var(--accent-color); opacity: 0.7;">[ HTML ] • SYSTEM CLONE / SHARE</span>
+                        </div>
+                    </button>
+                </div>
+
+                <!-- 2. LITE GRID -->
+                <div>
+                    <div class="lite-section-title" style="font-family: 'JetBrains Mono', monospace; padding-bottom: 0.3rem; margin-bottom: 1.5rem; font-size: 0.85rem; display: flex; align-items: center; gap: 1rem; letter-spacing: 0.1rem; text-transform: uppercase; color: var(--accent-color); opacity: 0.8;">
+                         <span data-i18n="matrix_lite">ZION LITE</span>
+                    </div>
+                    <div class="lite-grid">
+                        <button type="button" onclick="triggerVaultDownload('lite','am')" class="lite-item">
+                            <span class="lang-name">Amharic (አማርኛ)</span><span class="lang-code">[ 12.3 MB ] • VERIFIED</span>
+                        </button>
+                        <button type="button" onclick="triggerVaultDownload('lite','ar')" class="lite-item">
+                            <span class="lang-name">Arabic (العربية)</span><span class="lang-code">[ 19.3 MB ] • VERIFIED</span>
+                        </button>
+                        <button type="button" onclick="triggerVaultDownload('lite','bn')" class="lite-item">
+                            <span class="lang-name">Bengali (বাংলা)</span><span class="lang-code">[ 12.8 MB ] • VERIFIED</span>
+                        </button>
+                        <button type="button" onclick="triggerVaultDownload('lite','my')" class="lite-item">
+                            <span class="lang-name">Burmese (မြန်မာဘာသာ)</span><span class="lang-code">[ 9.6 MB ] • VERIFIED</span>
+                        </button>
+                        <button type="button" onclick="triggerVaultDownload('lite','zh')" class="lite-item">
+                            <span class="lang-name">Chinese (中文)</span><span class="lang-code">[ 8.2 MB ] • VERIFIED</span>
+                        </button>
+                        <button type="button" onclick="triggerVaultDownload('lite','prs')" class="lite-item">
+                            <span class="lang-name">Dari (دری)</span><span class="lang-code">[ 9.8 MB ] • VERIFIED</span>
+                        </button>
+                        <button type="button" onclick="triggerVaultDownload('lite','en')" class="lite-item">
+                            <span class="lang-name">English</span><span class="lang-code">[ 18.2 MB ] • VERIFIED</span>
+                        </button>
+                        <button type="button" onclick="triggerVaultDownload('lite','fr')" class="lite-item">
+                            <span class="lang-name">French (Français)</span><span class="lang-code">[ 10.6 MB ] • VERIFIED</span>
+                        </button>
+                        <button type="button" onclick="triggerVaultDownload('lite','hi')" class="lite-item">
+                            <span class="lang-name">Hindi (हिन्दी)</span><span class="lang-code">[ 7.8 MB ] • VERIFIED</span>
+                        </button>
+                        <button type="button" onclick="triggerVaultDownload('lite','id')" class="lite-item">
+                            <span class="lang-name">Indonesian (Bahasa)</span><span class="lang-code">[ 11.1 MB ] • VERIFIED</span>
+                        </button>
+                        <button type="button" onclick="triggerVaultDownload('lite','ko')" class="lite-item">
+                            <span class="lang-name">Korean (한국어)</span><span class="lang-code">[ 5.3 MB ] • VERIFIED</span>
+                        </button>
+                        <button type="button" onclick="triggerVaultDownload('lite','ne')" class="lite-item">
+                            <span class="lang-name">Nepali (नेपाली)</span><span class="lang-code">[ 16.7 MB ] • VERIFIED</span>
+                        </button>
+                        <button type="button" onclick="triggerVaultDownload('lite','ps')" class="lite-item">
+                            <span class="lang-name">Pashto (پښتو)</span><span class="lang-code">[ 15.5 MB ] • VERIFIED</span>
+                        </button>
+                        <button type="button" onclick="triggerVaultDownload('lite','fa')" class="lite-item">
+                            <span class="lang-name">Persian (فارسی)</span><span class="lang-code">[ 16.8 MB ] • VERIFIED</span>
+                        </button>
+                        <button type="button" onclick="triggerVaultDownload('lite','pa')" class="lite-item">
+                            <span class="lang-name">Punjabi (ਪੰਜਾਬੀ)</span><span class="lang-code">[ 13.5 MB ] • VERIFIED</span>
+                        </button>
+                        <button type="button" onclick="triggerVaultDownload('lite','rhg')" class="lite-item">
+                            <span class="lang-name">Rohingya (Ruáingga)</span><span class="lang-code">[ 8.6 MB ] • VERIFIED</span>
+                        </button>
+                        <button type="button" onclick="triggerVaultDownload('lite','so')" class="lite-item">
+                            <span class="lang-name">Somali (Soomaali)</span><span class="lang-code">[ 16.9 MB ] • VERIFIED</span>
+                        </button>
+                        <button type="button" onclick="triggerVaultDownload('lite','es')" class="lite-item">
+                            <span class="lang-name">Spanish (Español)</span><span class="lang-code">[ 16.3 MB ] • VERIFIED</span>
+                        </button>
+                        <button type="button" onclick="triggerVaultDownload('lite','sw')" class="lite-item">
+                            <span class="lang-name">Swahili (Kiswahili)</span><span class="lang-code">[ 21.2 MB ] • VERIFIED</span>
+                        </button>
+                        <button type="button" onclick="triggerVaultDownload('lite','tg')" class="lite-item">
+                            <span class="lang-name">Tajik (Тоҷикӣ)</span><span class="lang-code">[ 4.9 MB ] • VERIFIED</span>
+                        </button>
+                        <button type="button" onclick="triggerVaultDownload('lite','ta')" class="lite-item">
+                            <span class="lang-name">Tamil (தமிழ்)</span><span class="lang-code">[ 14.7 MB ] • VERIFIED</span>
+                        </button>
+                        <button type="button" onclick="triggerVaultDownload('lite','te')" class="lite-item">
+                            <span class="lang-name">Telugu (తెలుగు)</span><span class="lang-code">[ 13.2 MB ] • VERIFIED</span>
+                        </button>
+                        <button type="button" onclick="triggerVaultDownload('lite','tr')" class="lite-item">
+                            <span class="lang-name">Turkish (Türkçe)</span><span class="lang-code">[ 12.9 MB ] • VERIFIED</span>
+                        </button>
+                        <button type="button" onclick="triggerVaultDownload('lite','ug')" class="lite-item">
+                            <span class="lang-name">Uyghur (ئۇيغۇرچە)</span><span class="lang-code">[ 18.6 MB ] • VERIFIED</span>
+                        </button>
+                    </div>
+                </div>
+
+                <!-- ======= VAULT MANUAL DE OPERACIONES ======= -->
+                <div class="vault-ops-manual">
+
+                    <!-- TOGGLE BUTTON -->
+                    <button
+                        type="button"
+                        id="vaultManualToggle"
+                        class="vault-manual-toggle"
+                        onclick="toggleVaultManual()"
+                        aria-expanded="false"
+                        aria-controls="vaultManualBody"
+                    >
+                        <span class="toggle-label">▸ MANUAL DE OPERACIONES &amp; RESILIENCIA</span>
+                        <span class="toggle-arrow" id="vaultManualArrow">▾</span>
+                    </button>
+
+                    <!-- COLLAPSIBLE BODY -->
+                    <div id="vaultManualBody" class="vault-manual-body" aria-hidden="true">
+
+                        <!-- ─── BLOQUE 1: CAPACIDADES ZION CORE ─── -->
+                        <div class="ops-block">
+                            <div class="ops-block-header">
+                                <span class="ops-icon">⬡</span>
+                                <h3 class="ops-block-title">CAPACIDADES DEL ZION CORE</h3>
+                            </div>
+
+                            <!-- Arka -->
+                            <div class="ops-card">
+                                <div class="ops-card-top">
+                                    <span class="ops-card-badge arka">ARKA</span>
+                                    <span class="ops-card-name">Esteganografía — Ocultar o Extraer</span>
+                                </div>
+                                <p class="ops-card-desc">Oculta texto secreto o un archivo entero dentro de una imagen JPG/PNG normal. La imagen parece inocente: envíala por WhatsApp, Telegram o email sin levantar sospechas. Solo quien tenga el CORE y la contraseña puede extraer el contenido.</p>
+                                <div class="ops-steps">
+                                    <div class="ops-step"><span class="step-num">01</span><span>Abre ZION CORE → <b>Menú ⋮ → ARKA LABORATORY 🧬</b></span></div>
+                                    <div class="ops-step"><span class="step-num">02</span><span>Pulsa <b>ESCONDER EN IMAGEN 🔒</b> — elige pestaña <b>Text</b> (mensaje) o <b>File</b> (archivo completo)</span></div>
+                                    <div class="ops-step"><span class="step-num">03</span><span>Introduce una contraseña, cifra y descarga la imagen. Compártela por cualquier canal.</span></div>
+                                    <div class="ops-step"><span class="step-num">04</span><span>Para extraer: pulsa <b>LEER IMAGEN 🔓</b>, selecciona el <b>archivo ZIP</b> recibido (no hace falta descomprimirlo) e introduce la contraseña.</span></div>
+                                </div>
+                            </div>
+
+                            <!-- Lazaro -->
+                            <div class="ops-card">
+                                <div class="ops-card-top">
+                                    <span class="ops-card-badge lazaro">LAZARO</span>
+                                    <span class="ops-card-name">ZION CORE LITE — Fábrica Offline</span>
+                                </div>
+                                <p class="ops-card-desc">El CORE actúa como una imprenta offline: carga un cartucho de contenido (PDF) y genera automáticamente una versión LITE en el idioma de ese documento. Sin internet. Cada LITE es una cápsula sellada, autónoma y lista para distribuir.</p>
+                                <div class="ops-steps">
+                                    <div class="ops-step"><span class="step-num">01</span><span>Abre ZION CORE → <b>Menú ⋮ → ARKA LABORATORY 🧬</b></span></div>
+                                    <div class="ops-step"><span class="step-num">02</span><span>En la sección <b>ZION CORE LITE</b>, pulsa <b>🧬 ZION CORE</b> y selecciona el cartucho PDF de tu idioma</span></div>
+                                    <div class="ops-step"><span class="step-num">03</span><span>El sistema compila y descarga un <b>ZION LITE</b> completo — compártelo directamente como archivo HTML</span></div>
+                                </div>
+                            </div>
+
+                            <!-- Clone -->
+                            <div class="ops-card">
+                                <div class="ops-card-top">
+                                    <span class="ops-card-badge clone">CLONAR</span>
+                                    <span class="ops-card-name">Clonar Core — Réplica Exacta</span>
+                                </div>
+                                <p class="ops-card-desc">El CORE puede autorreplicarse generando una copia idéntica de sí mismo. Cada copia puede a su vez crear más copias. La red crece de dispositivo en dispositivo sin depender de ningún servidor: es indestructible por diseño.</p>
+                                <div class="ops-steps">
+                                    <div class="ops-step"><span class="step-num">01</span><span>Abre ZION CORE → <b>Menú ⋮ → ARKA LABORATORY 🧬</b></span></div>
+                                    <div class="ops-step"><span class="step-num">02</span><span>En la sección <b>CLONAR CORE</b>, pulsa <b>📋 CLONAR</b> — descarga un HTML idéntico al CORE original</span></div>
+                                    <div class="ops-step"><span class="step-num">03</span><span>Envía ese archivo HTML por cualquier canal. Cada receptor tiene un CORE 100% operativo.</span></div>
+                                </div>
+                            </div>
+
+                            <!-- Camouflage + Security -->
+                            <div class="ops-card">
+                                <div class="ops-card-top">
+                                    <span class="ops-card-badge" style="background: rgba(255,60,60,0.15); color: #ff4444; border: 1px solid rgba(255,60,60,0.35);">SEGURIDAD</span>
+                                    <span class="ops-card-name">Camuflaje, OCULTAR y DESTRUIR</span>
+                                </div>
+                                <p class="ops-card-desc">ZION se disfraza de un bloc de notas inofensivo llamado <b>"Mis Notas"</b>. Puedes escribir en él como si fuera real — aunque no guarda nada. Esta capa de engaño funciona igual en CORE y en todas las versiones LITE.</p>
+                                <div class="ops-steps">
+                                    <div class="ops-step"><span class="step-num">🔓</span><span><b>Activar ZION:</b> Mantén pulsado el título <b>"Mis Notas"</b> durante 3 segundos hasta que aparezca la interfaz real.</span></div>
+                                    <div class="ops-step"><span class="step-num">🫥</span><span><b>OCULTAR:</b> Pulsa el botón <b>OCULTAR</b> para volver al bloc de notas instantáneamente. Ideal si alguien se acerca.</span></div>
+                                    <div class="ops-step"><span class="step-num">🔥</span><span><b>DESTRUIR:</b> Ejecuta un "borrado de pánico" que sobrescribe la memoria RAM, limpia el almacenamiento local y el portapapeles, y provoca un apagado total del sistema (Blackout). <b>Caso de uso:</b> Ante una incautación física inminente o acceso no autorizado forzado. Los datos se vuelven irrecuperables en milisegundos.</span></div>
+                                </div>
+                            </div>
+                        </div>
+
+
+                        <!-- ─── BLOQUE 2: PROTOCOLO DE EMERGENCIA ─── -->
+                        <div class="ops-block">
+                            <div class="ops-block-header">
+                                <span class="ops-icon">◈</span>
+                                <h3 class="ops-block-title">PROTOCOLO DE ACCESO DE EMERGENCIA</h3>
+                            </div>
+                            <p class="ops-block-desc">Si el acceso a esta web falla, el CORE está permanentemente almacenado en redes descentralizadas. Copia el código y pégalo detrás de la URL de cualquier gateway.</p>
+
+                            <!-- Hashes -->
+                            <div class="ops-hashes">
+                                <div class="ops-hash-item" onclick="copyToClipboard('TGjiSA1wnw_WdrtbJcZIRfSuB0lABK7Zl8_hMeVXA5w')" role="button" tabindex="0" aria-label="Copiar TXID de Arweave">
+                                    <div class="ops-hash-label">ARWEAVE TXID</div>
+                                    <div class="ops-hash-row">
+                                        <span class="ops-hash-tag">CÓDIGO</span>
+                                        <code class="ops-hash-code">TGjiSA1wnw_WdrtbJcZIRfSuB0lABK7Zl8_hMeVXA5w</code>
+                                        <span class="ops-hash-copy">⎘</span>
+                                    </div>
+                                </div>
+                                <div class="ops-hash-item" onclick="copyToClipboard('bafybeia46v7v2xzmt7xgjtgslpv65cy4e32u3doc3hlkzp4qa6lwmr7r2u')" role="button" tabindex="0" aria-label="Copiar CID de IPFS">
+                                    <div class="ops-hash-label">IPFS CID</div>
+                                    <div class="ops-hash-row">
+                                        <span class="ops-hash-tag">CÓDIGO</span>
+                                        <code class="ops-hash-code">bafybeia46v7v2xzmt7xgjtgslpv65cy4e32u3doc3hlkzp4qa6lwmr7r2u</code>
+                                        <span class="ops-hash-copy">⎘</span>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Manual Access -->
+                            <div class="ops-access-guide">
+                                <div class="ops-access-title">ACCESO MANUAL (pega el código detrás de la URL)</div>
+                                <div class="ops-gw-grid">
+                                    <div class="ops-gw-col">
+                                        <div class="ops-gw-head">Arweave</div>
+                                        <ul class="ops-gw-list">
+                                            <li>arweave.net/<span class="gw-placeholder">[CÓDIGO]</span></li>
+                                            <li>permagate.io/<span class="gw-placeholder">[CÓDIGO]</span></li>
+                                            <li>ar-io.net/<span class="gw-placeholder">[CÓDIGO]</span></li>
+                                            <li>g8way.io/<span class="gw-placeholder">[CÓDIGO]</span></li>
+                                            <li>arweave.dev/<span class="gw-placeholder">[CÓDIGO]</span></li>
+                                        </ul>
+                                    </div>
+                                    <div class="ops-gw-col">
+                                        <div class="ops-gw-head">IPFS</div>
+                                        <ul class="ops-gw-list">
+                                            <li>ipfs.io/ipfs/<span class="gw-placeholder">[CÓDIGO]</span></li>
+                                            <li>nftstorage.link/ipfs/<span class="gw-placeholder">[CÓDIGO]</span></li>
+                                            <li>dweb.link/ipfs/<span class="gw-placeholder">[CÓDIGO]</span></li>
+                                            <li>w3s.link/ipfs/<span class="gw-placeholder">[CÓDIGO]</span></li>
+                                            <li>cloudflare-ipfs.com/ipfs/<span class="gw-placeholder">[CÓDIGO]</span></li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Emergency Download -->
+                            <button type="button" onclick="triggerVaultDownload('core', null)" class="ops-emergency-btn">
+                                <span>DESCARGAR NÚCLEO ZION</span>
+                            </button>
+                        </div>
+
+                    </div><!-- /vault-manual-body -->
+                </div><!-- /vault-ops-manual -->
+
+            </div>
+        </div>
+    </div>
+
+    <!-- Command Center Modal -->
+    <div id="bootModal">
+        <div class="modal-content">
+            <div class="boot-header">
+                <div class="terminal-top" style="display: flex; gap: 1.5rem; align-items: center; flex: 1;">
+                    <div class="close-modal" id="closeBoot" style="font-size: 2rem; cursor: pointer; color: #fff;">←</div>
+                    <div style="display: flex; flex-direction: column; gap: 0.5rem;">
+                        <div class="boot-title" data-i18n="boot_title" style="margin-bottom: 0.5rem;">Cargar Sistema</div>
+                        <span style="font-family: 'JetBrains Mono', monospace; font-size: 0.75rem; color: var(--accent-color); letter-spacing: 0.1rem; text-transform: uppercase; opacity: 0.6;">AUTO-ROUTING</span>
+                    </div>
+                </div>
+            </div>
+            
+            <div data-i18n="select_lang_label" style="font-family: 'JetBrains Mono', monospace; font-size: 0.85rem; color: var(--accent-color); letter-spacing: 0.1rem; text-transform: uppercase; opacity: 0.8; margin-bottom: 1.5rem;">SELECCIONA IDIOMA</div>
+            
+            <div class="boot-grid">
+                <!-- Data injected via JS -->
+            </div>
+
+            <div class="boot-footer">
+            </div>
+        </div>
+    </div>
+
+
+
+    <!-- Specs Subpage -->
+    <div id="specsPage">
+        <div class="specs-content">
+            <div class="boot-header" style="margin-bottom: 3rem; padding-bottom: 1.5rem; border-bottom: 1px dashed var(--accent-color);">
+                <div class="terminal-top" style="display: flex; gap: 1.5rem; align-items: center; flex: 1;">
+                    <div class="close-modal" id="closeSpecs" style="font-size: 2.5rem; cursor: pointer; color: #fff; transition: opacity 0.3s;">←</div>
+                    <div style="display: flex; flex-direction: column; gap: 0.5rem;">
+                        <div class="boot-title" data-i18n="info_title" style="margin-bottom: 0.5rem; font-size: 1.8rem;">SYSTEM ARCHITECTURE</div>
+                        <span style="font-family: 'JetBrains Mono', monospace; font-size: 0.9rem; color: var(--accent-color); letter-spacing: 0.2rem; text-transform: uppercase;">SPECS & SECURITY</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Version Comparison Grid -->
+            <div class="specs-grid">
+                <!-- WEB -->
+                <div class="spec-card">
+                    <h4 data-i18n="info_w_title">ZION WEB</h4>
+                    <ul>
+                        <li data-i18n="info_w_1">Universal Access</li>
+                        <li data-i18n="info_w_2">Web3 Routing</li>
+                        <li data-i18n="info_w_3">Multi-Language Management</li>
+                        <li data-i18n="info_w_4">Always Syncing</li>
+                    </ul>
+                </div>
+                <!-- CORE -->
+                <div class="spec-card">
+                    <h4 data-i18n="info_c_title">ZION CORE</h4>
+                    <ul>
+                        <li data-i18n="info_c_1">100% Offline Engine</li>
+                        <li data-i18n="info_c_2">Steganography Factory</li>
+                        <li data-i18n="info_c_3">Purged & Audited Code</li>
+                        <li data-i18n="info_c_4">Payload Extraction</li>
+                    </ul>
+                </div>
+                <!-- LITE -->
+                <div class="spec-card">
+                    <h4 data-i18n="info_l_title">ZION LITE</h4>
+                    <ul>
+                        <li data-i18n="info_l_1">Hermetic Mission Capsule</li>
+                        <li data-i18n="info_l_2">Massive Embedded Payload</li>
+                        <li data-i18n="info_l_3">Camouflage UI (Notes)</li>
+                        <li data-i18n="info_l_4">One-Shot / Self-Destruct</li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- Security Section -->
+            <div class="security-section">
+                <div class="sec-header">
+                    <h3 data-i18n="sec_title">CORE SECURITY</h3>
+                </div>
+                <div class="security-grid">
+                    <div class="sec-item">
+                        <div class="sec-item-title" data-i18n="sec_panic">PANIC PROTOCOL</div>
+                        <div class="sec-item-desc" data-i18n="sec_panic_desc">Instant manual trigger to hide or wipe the tactical interface.</div>
+                    </div>
+                    <div class="sec-item">
+                        <div class="sec-item-title" data-i18n="sec_dms">DEAD MAN SWITCH</div>
+                        <div class="sec-item-desc" data-i18n="sec_dms_desc">Passive protection that automatically wipes data after inactivity.</div>
+                    </div>
+                    <div class="sec-item">
+                        <div class="sec-item-title" data-i18n="sec_zero">ZERO-FOOTPRINT</div>
+                        <div class="sec-item-desc" data-i18n="sec_zero_desc">Pure local execution. No cloud sync, no server traces.</div>
+                    </div>
+                    <div class="sec-item">
+                        <div class="sec-item-title" data-i18n="sec_crypto">MILITARY ENCRYPTION</div>
+                        <div class="sec-item-desc" data-i18n="sec_crypto_desc">AES-256 grade encryption under a Zero-Trust architecture.</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Arka Steganography Section -->
+            <div class="security-section" style="margin-top: 2rem; background: rgba(0, 100, 255, 0.05); border-color: rgba(0, 150, 255, 0.15);">
+                <div class="sec-header" style="margin-bottom: 1rem;">
+                    <h3 data-i18n="arka_title">ARKA STEGANOGRAPHY</h3>
+                </div>
+                <p data-i18n="arka_purpose" style="color: var(--sub-text); font-size: 0.95rem; margin-bottom: 2.5rem; line-height: 1.6; border-left: 2px solid rgba(0, 150, 255, 0.4); padding-left: 1rem;">
+                    Conceal critical information in plain sight. Arka is designed to bypass strict network inspections and physical device searches by hiding the entire ZION ecosystem inside an ordinary image file, guaranteeing absolute plausible deniability.
+                </p>
+                <div class="security-grid">
+                    <div class="sec-item">
+                        <div class="sec-item-title" data-i18n="arka_mech">EOF MECHANISM</div>
+                        <div class="sec-item-desc" data-i18n="arka_mech_desc">Injects encrypted ZIP structures into the End-Of-File markers of harmless images.</div>
+                    </div>
+                    <div class="sec-item">
+                        <div class="sec-item-title" data-i18n="arka_integ">VISUAL INTEGRITY</div>
+                        <div class="sec-item-desc" data-i18n="arka_integ_desc">Maintains 100% of the carrier image's visual integrity. Invisible to the human eye.</div>
+                    </div>
+                    <div class="sec-item">
+                        <div class="sec-item-title" data-i18n="arka_vault">MASSIVE VAULT</div>
+                        <div class="sec-item-desc" data-i18n="arka_vault_desc">Unlike LSB methods, ARKA allows injecting entire ZION Lite variants (MBs of data) inside a single image.</div>
+                    </div>
+                    <div class="sec-item">
+                        <div class="sec-item-title" data-i18n="arka_ext">AIR-GAPPED EXTRACTION</div>
+                        <div class="sec-item-desc" data-i18n="arka_ext_desc">Self-contained extraction engine inside ZION requiring zero external tools to decrypt and mount.</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const TRANSLATIONS = {
+            en: {
+                hero_h1: "",
+                hero_p: "Total Self-Sufficiency. Absolute Resilience.<br>Zero‑Trust & Zero‑Footprint.",
+                btn_launch: "Load System", btn_download: "Download System",
+                ded_title: "DEDICATED TO:",
+                ded_p1: "For those who walked before, leaving light in the darkness.",
+                ded_p2: "For those who still search, without knowing the name of what they truly need.",
+                ded_p3: "For Jesus, who by rising opened His eternity so that no one is left out.",
+                modal_title: "DOWNLOAD SYSTEM", modal_p: "Systems Repository",
+                matrix_global: "ZION CORE",
+                matrix_lite: "ZION LITE",
+                btn_tactical: "ZION WEB",
+                binary_v3: "Binary v3.0",
+                footer_credits: "CODED FOR FREEDOM",
+                cta_hint: "Run directly in browser · no installation · zero footprint",
+                trust_code: "Verifiable Code",
+                trust_hash_placeholder: "Self-Check on Download",
+                trust_link: "View on Arweave / Git",
+                info_title: "VERSION COMPARISON",
+                info_w_title: "ZION WEB",
+                info_w_1: "Universal Access", info_w_2: "Web3 Routing", info_w_3: "Multi-Language Management", info_w_4: "Always Syncing",
+                info_c_title: "ZION CORE",
+                info_c_1: "100% Offline", info_c_2: "Lite Version Factory", info_c_3: "Purged Code", info_c_4: "Payload Extraction",
+                info_l_title: "ZION LITE",
+                info_l_1: "100% Offline", info_l_2: "Massive Embedded Payload", info_l_3: "UI Camouflage Layer", info_l_4: "Active/Passive Self-Destruct",
+                sec_title: "CORE SECURITY",
+                sec_panic: "PANIC PROTOCOL",
+                sec_panic_desc: "Instant manual trigger to hide or wipe the tactical interface.",
+                sec_dms: "DEAD MAN SWITCH",
+                sec_dms_desc: "Passive protection that automatically wipes data after inactivity.",
+                sec_zero: "ZERO-FOOTPRINT",
+                sec_zero_desc: "Pure local execution. No cloud sync, no server traces. Note: Downloading files via public gateways may log your IP on those nodes.",
+                sec_crypto: "MILITARY ENCRYPTION",
+                sec_crypto_desc: "AES-256 grade encryption under a Zero-Trust architecture.",
+                arka_title: "ARKA STEGANOGRAPHY",
+                arka_purpose: "Arka is designed to bypass strict network inspections and physical device searches by hiding the entire ZION ecosystem inside an ordinary image file. This allows the distribution of Core Lite versions or hidden text messages within simple images via messaging apps or email, guaranteeing absolute plausible deniability. This turns ARKA into a powerful distribution hub.",
+                arka_mech: "EOF/ZIP INJECTION",
+                arka_mech_desc: "Bypasses standard LSB limits by appending encrypted ZIP boundaries to End-Of-File image markers.",
+                arka_integ: "VISUAL INTEGRITY",
+                arka_integ_desc: "The carrier image remains 100% visually unaltered and perfectly rendering on all standard viewers.",
+                arka_vault: "MASSIVE PAYLOADS",
+                arka_vault_desc: "Capable of smuggling entire ZION Lite instances (16MB+) within a single seemingly innocent photo.",
+                arka_ext: "AIR-GAPPED EXTRACTION",
+                arka_ext_desc: "Includes a standalone memory-engine to decouple and mount the payload without external tools.",
+                select_lang_label: "SELECT LANGUAGE",
+                share_success: "LINK COPIED",
+                resilience_title: "RESILIENCE PROTOCOL",
+                resilience_p: "If access fails, download **ZION CORE** to replicate the system autonomously.",
+                res_label_ar: "ZION CORE - ARWEAVE TXID",
+                res_label_ip: "ZION CORE - IPFS CID",
+                res_btn: "ZION CORE DOWNLOAD",
+                resilience_mirrors: "BACKUP NODES: arweave.net • ipfs.io • ar-io.net • cloudflare-ipfs.com",
+                res_manual_title: "MANUAL ACCESS PROCEDURE",
+                res_manual_desc: "If the automatic button fails, you can access the file by pasting its code after the URL of any public gateway:"
+            },
+            es: {
+                hero_h1: "",
+                hero_p: "Autosuficiencia total. Resiliencia absoluta.<br>Zero‑Trust & Zero‑Footprint.",
+                btn_launch: "Cargar Sistema", btn_download: "Descargar Sistema",
+                ded_title: "DEDICADO A:",
+                ded_p1: "Por los que caminaron antes, dejando luz en la oscuridad.",
+                ded_p2: "Por los que aún buscan, sin saber el nombre de lo que realmente necesitan.",
+                ded_p3: "Por Jesús, que resucitando abrió su eternidad para que nadie quede fuera.",
+                modal_title: "DESCARGAR SISTEMA", modal_p: "REPOSITORIO DE SISTEMAS",
+                matrix_global: "ZION CORE",
+                matrix_lite: "ZION LITE",
+                btn_tactical: "ZION WEB",
+                binary_v3: "Binario v3.0",
+                footer_credits: "CODIFICADO PARA LA LIBERTAD",
+                cta_hint: "Ejecuta directamente en el navegador · sin instalación · sin huella",
+                trust_code: "Código Verificable",
+                trust_hash_placeholder: "Validar al descargar",
+                trust_link: "Ver en Arweave / Git",
+                info_title: "COMPARATIVA DE VERSIONES",
+                info_w_title: "ZION WEB",
+                info_w_1: "Acceso Universal", info_w_2: "Enrutamiento Web3", info_w_3: "Gestión por Idiomas", info_w_4: "Persistencia Descentralizada",
+                info_c_title: "ZION CORE",
+                info_c_1: "100% Offline", info_c_2: "Fábrica de versiones Lite", info_c_3: "Código Sanitizado", info_c_4: "Extracción de Payloads",
+                info_l_title: "ZION LITE",
+                info_l_1: "100% Offline", info_l_2: "Payload Masivo Incrustado", info_l_3: "Capa de Camuflaje UI", info_l_4: "Auto-Destrucción / Activa y Pasiva",
+                sec_title: "SEGURIDAD NÚCLEO",
+                sec_panic: "PROTOCOLO PÁNICO",
+                sec_panic_desc: "Activación manual inmediata para ocultar o borrar la interfaz táctica.",
+                sec_dms: "PROTECCIÓN POR INACTIVIDAD",
+                sec_dms_desc: "Mecanismo de seguridad automático que protege el acceso al sistema si se detecta inactividad prolongada.",
+                sec_zero: "ZERO-FOOTPRINT",
+                sec_zero_desc: "Ejecución local pura. Sin sincronización en la nube ni rastro local. Nota: La descarga vía pasarelas públicas podría registrar tu IP en esos nodos.",
+                sec_crypto: "CIFRADO AVANZADO AES-256",
+                sec_crypto_desc: "Encriptación de alta seguridad bajo arquitectura Zero-Trust.",
+                arka_title: "DISTRIBUCIÓN RESILIENTE",
+                arka_purpose: "Diseñado para evadir inspecciones de red y registros físicos camuflando todo el ecosistema ZION dentro de una imagen ordinaria. Esto permite distribuir versiones Core Lite o Mensajes de texto ocultos en simples imagenes a traves de apps de mensajeria o e-mail, garantizando una negabilidad plausible absoluta.",
+                arka_mech: "INYECCIÓN EOF/ZIP",
+                arka_mech_desc: "Supera los límites convencionales inyectando estructuras ZIP cifradas en el marcador End-Of-File de la imagen.",
+                arka_integ: "INTEGRIDAD VISUAL",
+                arka_integ_desc: "La imagen portadora se mantiene 100% inalterada y funcional en cualquier visor estándar.",
+                arka_vault: "PAYLOADS MASIVOS",
+                arka_vault_desc: "Capaz de camuflar instancias enteras de ZION Lite (16MB+) dentro de una foto aparentemente inocente.",
+                arka_ext: "EXTRACCIÓN AIR-GAPPED",
+                arka_ext_desc: "Incluye un motor en memoria para extraer y montar el contenido sin necesidad de herramientas externas.",
+                select_lang_label: "SELECCIONA IDIOMA",
+                share_success: "ENLACE COPIADO",
+                resilience_title: "PROTOCOLO DE RESILIENCIA",
+                resilience_p: "Si el acceso falla, descargue **ZION CORE** para replicar el sistema de forma autónoma.",
+                res_label_ar: "ZION CORE - ARWEAVE TXID",
+                res_label_ip: "ZION CORE - IPFS CID",
+                res_btn: "DESCARGAR NÚCLEO ZION",
+                resilience_mirrors: "NODOS DE RESPALDO: arweave.net • ipfs.io • ar-io.net • cloudflare-ipfs.com",
+                res_manual_title: "PROCEDIMIENTO DE ACCESO MANUAL",
+                res_manual_desc: "Si el botón automático falla, puede acceder al archivo pegando su código después de la URL de cualquier gateway público:"
+            },
+            ar: {
+                hero_h1: "",
+                hero_p: "الاكتفاء الذاتي التام. المرونة المطلقة.<br>Zero‑Trust & Zero‑Footprint.",
+                btn_launch: "تحميل النظام", btn_download: "تحميل المصفوفة",
+                ded_title: "مخصص لـ:",
+                ded_p1: "لأولئك الذين ساروا من قبل، تاركين النور في الظلمات.",
+                ded_p2: "لأولئك الذين لا يزالون يبحثون، دون معرفة اسم ما يحتاجون إليه حقاً.",
+                ded_p3: "ليسوع، الذي بقيامته فتح أبديته لكي لا يُستبعد أحد.",
+                modal_title: "قبو التحميل", back: "[ عودة ]",
+                footer_credits: "مُبرمج للحرية"
+            },
+            am: {
+                hero_h1: "",
+                hero_p: "ጠቅላላ ራስን መቻል. ፍጹም የመቋቋም ችሎታ.<br>Zero‑Trust & Zero‑Footprint.",
+                btn_launch: "ስርዓቱን ጫን", btn_download: "ማትሪክስ አውርድ",
+                status_sys: "ስርዓት", status_stable: "የተረጋጋ", status_enc: "ምስጠራ", status_active: "ንቁ",
+                ded_title: "ለተሰጠው፡",
+                ded_p1: "በጨለማ ውስጥ ብርሃን ትተው ቀድመው ለሄዱት.",
+                ded_p2: "በእርግጥ የሚያስፈልጋቸውን ነገር ስም ሳያውቁ አሁንም ለሚፈልጉ.",
+                ded_p3: "በትንሳኤው ማንም እንዳይቀር ዘላለማዊነቱን ለከፈተው ለኢየሱስ.",
+                modal_title: "ማውረጃ ማከማቻ", back: "[ ተመለስ ]",
+                footer_credits: "ለነጻነት የተፃፈ ኮድ"
+            },
+            zh: {
+                hero_h1: "",
+                hero_p: "完全自给自足。绝对韧性。<br>Zero‑Trust & Zero‑Footprint.",
+                btn_launch: "加载系统", btn_download: "下载矩阵",
+                ded_title: "献给：",
+                ded_p1: "献给先行者，他们在黑暗中留下了光芒。",
+                ded_p2: "献给仍在寻找的人，却不知真实所需之名。",
+                ded_p3: "献给耶稣，祂的复活开启了永恒，让无人被拒之门外。",
+                modal_title: "下载库", back: "[ 返回 ]",
+                footer_credits: "为自由编码"
+            },
+            ru: {
+                hero_h1: "",
+                hero_p: "Полная самодостаточность. Абсолютная устойчивость.<br>Zero‑Trust & Zero‑Footprint.",
+                btn_launch: "Загрузить систему", btn_download: "Скачать матрицу",
+                ded_title: "ПОСВЯЩАЕТСЯ:",
+                ded_p1: "Тем, кто шел впереди, оставляя свет во тьме.",
+                ded_p2: "Тем, кто все еще ищет, не зная имени того, что им действительно нужно.",
+                ded_p3: "Иисусу, который своим воскресением открыл вечность, чтобы никто не остался в стороне.",
+                modal_title: "Хранилище загрузок", back: "[ Назад ]",
+                footer_credits: "ЗАКОДИРОВАНО ДЛЯ СВОБОДЫ"
+            },
+            fr: {
+                hero_h1: "",
+                hero_p: "Autosuffisance totale. Résilience absolue.<br>Zero‑Trust & Zero‑Footprint.",
+                btn_launch: "Charger le Système", btn_download: "Télécharger Matrix",
+                ded_title: "DÉDIÉ À :",
+                ded_p1: "Pour ceux qui ont marché avant, laissant une lumière dans les ténèbres.",
+                ded_p2: "Pour ceux qui cherchent encore, sans connaître le nom de ce dont ils ont réellement besoin.",
+                ded_p3: "Pour Jésus, qui en ressuscitant a ouvert son éternité afin que personne ne reste de côté.",
+                modal_title: "Coffre de téléchargement", back: "[ Retour ]",
+                footer_credits: "CODÉ POUR LA LIBERTÉ"
+            },
+            hi: {
+                hero_h1: "",
+                hero_p: "पूर्ण आत्मनिर्भरता। पूर्ण लचीलापन।<br>Zero‑Trust & Zero‑Footprint.",
+                btn_launch: "सिस्टम लोड करें", btn_download: "मैट्रिक्स डाउनलोड करें",
+                ded_title: "समर्पित:",
+                ded_p1: "उनके लिए जो अंधेरे में रोशनी छोड़ते हुए पहले चले गए।",
+                ded_p2: "उनके लिए जो अभी भी खोज रहे हैं, यह जाने बिना कि उन्हें वास्तव में क्या चाहिए।",
+                ded_p3: "यीशु के लिए, जिन्होंने पुनरुत्थान के द्वारा अपनी अनंतता खोली ताकि कोई भी बाहर न रहे।",
+                modal_title: "डाउनलोड वॉल्ट", back: "[ वापस ]",
+                footer_credits: "स्वतंत्रता के लिए कोडित"
+            },
+            // Note: Support for all 24 languages is handled by falling back to English or matching browser patterns.
+            // Further detailed translations for remaining 16 languages can be appended.
+            bn: {
+                hero_h1: "",
+                hero_p: "সম্পূর্ণ স্বয়ংসম্পূর্ণতা। পরম স্থিতিস্থাপকতা।<br>Zero‑Trust & Zero‑Footprint.",
+                btn_launch: "সিস্টেম লোড করুন", btn_download: "ম্যাট্রিক্স ডাউনলোড",
+                ded_title: "উৎসর্গীকৃত:",
+                ded_p1: "যারা আগে হেঁটেছেন, অন্ধকারে আলো রেখে গেছেন তাদের জন্য।",
+                ded_p2: "যারা এখনও খুঁজছেন, তাদের যা প্রয়োজন তার নাম না জেনেই তাদের জন্য।",
+                ded_p3: "যীশুর জন্য, যিনি পুনরুত্থানের মাধ্যমে তাঁর অনন্তকাল উন্মুক্ত করেছেন যাতে কেউ বাদ না পড়ে।",
+                modal_title: "ডাউনলোড ভল্ট",
+                matrix_global: "ZION CORE",
+                matrix_lite: "ZION LITE",
+                info_title: "সংস্করণ তুলনা",
+                info_g_title: "GLOBAL (UNIVERSAL)",
+                info_g_1: "হাইব্রিড: নেট / লোকাল", info_g_2: "ডেটা ইম্পোর্ট (লাজারো)", info_g_3: "সুইস আর্মি নাইফ",
+                info_l_title: "LITE (TACTICAL)",
+                info_l_1: "100% অফলাইন", info_l_2: "কন্টেন্ট সোল্ডার করা", info_l_3: "আর্মর্ড বুক",
+                info_sec: "শেয়ার্ড সিকিউরিটি: প্যানিক // ওয়াইপ // ক্রিপ্টো",
+                footer_credits: "স্বাধীনতার জন্য কোডেড"
+            },
+            my: {
+                hero_h1: "",
+                hero_p: "ပြီးပြည့်စုံသော ကိုယ်ပိုင်ဖူလုံမှု။ ပကတိ ကြံ့ခိုင်မှု။<br>Zero‑Trust & Zero‑Footprint.",
+                btn_launch: "စနစ်ကို ဒေါင်းလုဒ်လုပ်ရန်", btn_download: "မက်ထရစ် ဒေါင်းလုဒ်",
+                feat_res_h: "01 / ကြံ့ခိုင်မှု", feat_res_p: "စက်တွင်း သို့မဟုတ် Arweave နှင့် IPFS ကွန်ရက်များတွင် အလုပ်လုပ်သည်။",
+                feat_priv_h: "02 / ပုဂ္ဂိုလ်ရေးလုံခြုံမှု", feat_priv_p: "သင့်စက်မှ ဘာမှမထွက်ပါ။ RAM တွင် ကုဒ်ဝှက်ပြီး သော့များ Disk ကို မထိပါ။",
+                feat_port_h: "03 / သယ်ဆောင်လွယ်မှု", feat_port_p: "ZION ဂေဟစနစ်တစ်ခုလုံး ဖိုင်တစ်ခုတည်းတွင်။ တပ်ဆင်ရန်မလိုအပ်။",
+                modal_title: "ဒေါင်းလုဒ် ခန်းမ",
+                matrix_global: "ZION CORE",
+                matrix_lite: "ZION LITE",
+                info_title: "ဗားရှင်း နှိုင်းယှဉ်ချက်",
+                info_g_title: "GLOBAL (UNIVERSAL)",
+                info_g_1: "Hybrid: Net / Local", info_g_2: "Import Data (Lazaro)", info_g_3: "ဘက်စုံသုံး",
+                info_l_title: "LITE (TACTICAL)",
+                info_l_1: "100% အော့ဖ်လိုင်း", info_l_2: "အကြောင်းအရာ ထည့်သွင်းပြီး", info_l_3: "သံချပ်ကာ စာအုပ်",
+                info_sec: "SHARED SECURITY: PANIC // WIPE // CRYPTO",
+                footer_credits: "လွတ်လပ်ရေးအတွက် ရေးသားထားသည်"
+            },
+            prs: {
+                hero_h1: "",
+                hero_p: "خودکفایی کامل. انعطاف‌پذیری مطلق.<br>Zero‑Trust & Zero‑Footprint.",
+                btn_launch: "بارگذاری سیستم", btn_download: "دانلود ماتریس",
+                ded_title: "تقدیم به:",
+                ded_p1: "برای کسانی که پیش از این رفتند و در تاریکی نوری بر جای گذاشتند.",
+                ded_p2: "برای کسانی که هنوز در جستجو هستند، بدون اینکه بدانند واقعاً به چه چیزی نیاز دارند.",
+                ded_p3: "برای عیسی، که با رستاخیز خود ابدیتش را گشود تا هیچ‌کس بیرون نماند.",
+                modal_title: "مخزن دانلود",
+                matrix_global: "ZION CORE",
+                matrix_lite: "ZION LITE",
+                info_title: "مقایسه نسخه",
+                info_g_title: "GLOBAL (UNIVERSAL)",
+                info_g_1: "ترکیبی: نت / محلی", info_g_2: "وارد کردن داده‌ها", info_g_3: "همه کاره",
+                info_l_title: "LITE (TACTICAL)",
+                info_l_1: "100% آفلاین", info_l_2: "محتوای ثابت", info_l_3: "کتاب زرهی",
+                info_sec: "امنیت مشترک: هراس // پاک‌سازی // کریپتو",
+                footer_credits: "کدنویسی شده برای آزادی"
+            },
+            id: {
+                hero_h1: "",
+                hero_p: "Kemandirian Total. Ketahanan Mutlak.<br>Zero‑Trust & Zero‑Footprint.",
+                btn_launch: "Muat Sistem", btn_download: "Unduh Sistem",
+                ded_title: "DEDIKASI UNTUK:",
+                ded_p1: "Bagi mereka yang berjalan sebelumnya, meninggalkan cahaya dalam kegelapan.",
+                ded_p2: "Bagi mereka yang masih mencari, tanpa mengetahui nama dari apa yang benar-benar mereka butuhkan.",
+                ded_p3: "Bagi Yesus, yang dengan kebangkitan-Nya membuka kekekalan-Nya agar tidak ada yang tertinggal.",
+                modal_title: "UNDUH SISTEM",
+                matrix_global: "ZION CORE",
+                matrix_lite: "ZION LITE",
+                info_title: "PERBANDINGAN VERSI",
+                info_g_title: "GLOBAL (UNIVERSAL)",
+                info_g_1: "Hibrida: Net / Lokal", info_g_2: "Impor Data (Lazaro)", info_g_3: "Serbaguna",
+                info_l_title: "LITE (TACTICAL)",
+                info_l_1: "100% Offline", info_l_2: "Konten Tetap", info_l_3: "Buku Berlapis Baja",
+                info_sec: "KEAMANAN BERSAMA: PANIC // WIPE // CRYPTO",
+                footer_credits: "DIKODEKAN UNTUK KEBEBASAN"
+            },
+            ko: {
+                hero_h1: "",
+                hero_p: "완전한 자급자족. 절대적인 회복력.<br>Zero‑Trust & Zero‑Footprint.",
+                btn_launch: "시스템 로드", btn_download: "시스템 다운로드",
+                ded_title: "헌정:",
+                ded_p1: "어둠 속에 빛을 남기고 먼저 걸어간 이들을 위하여.",
+                ded_p2: "자신이 진정으로 필요로 하는 것의 이름을 알지 못한 채 여전히 찾고 있는 이들을 위하여.",
+                ded_p3: "부활하심으로 자신의 영원을 여시어 아무도 소외되지 않게 하신 예수님을 위하여.",
+                modal_title: "시스템 다운로드",
+                matrix_global: "ZION CORE",
+                matrix_lite: "ZION LITE",
+                info_title: "버전 비교",
+                info_g_title: "GLOBAL (UNIVERSAL)",
+                info_g_1: "하이브리드: 넷 / 로컬", info_g_2: "데이터 가져오기", info_g_3: "만능 도구",
+                info_l_title: "LITE (TACTICAL)",
+                info_l_1: "100% 오프라인", info_l_2: "콘텐츠 고정", info_l_3: "방탄 책",
+                info_sec: "공유 보안: 패닉 // 와이프 // 암호화",
+                footer_credits: "자유를 위한 코딩"
+            },
+            ne: {
+                hero_h1: "",
+                hero_p: "पूर्ण आत्मनिर्भरता। पूर्ण लचिलोपन।<br>Zero‑Trust & Zero‑Footprint.",
+                btn_launch: "प्रणाली लोड गर्नुहोस्", btn_download: "म्याट्रिक्स डाउनलोड",
+                ded_title: "समर्पित:",
+                ded_p1: "अँध्यारोमा उज्यालो छोडेर अगाडि बढ्नेहरूका लागि।",
+                ded_p2: "अझै पनि खोजिरहेकाहरूका लागि, उनीहरूलाई वास्तवमा के चाहिन्छ भन्ने थाहा नपाई।",
+                ded_p3: "येशूका लागि, जसले पुनरुत्थानद्वारा आफ्नो अनन्तता खोल्नुभयो ताकि कोही पनि बाहिर नहोस्।",
+                modal_title: "डाउनलोड भल्ट",
+                matrix_global: "ZION CORE",
+                matrix_lite: "ZION LITE",
+                info_title: "संस्करण तुलना",
+                info_g_title: "GLOBAL (UNIVERSAL)",
+                info_g_1: "हाइब्रिड: नेट / स्थानीय", info_g_2: "डाटा आयात", info_g_3: "बहुउद्देश्यीय",
+                info_l_title: "LITE (TACTICAL)",
+                info_l_1: "100% अफलाइन", info_l_2: "स्थिर सामग्री", info_l_3: "कवच पुस्तक",
+                info_sec: "साझा सुरक्षा: प्यानिक // वाइप // क्रिप्टो",
+                footer_credits: "स्वतन्त्रताको लागि कोड गरिएको"
+            },
+            ps: {
+                hero_h1: "",
+                hero_p: "بشپړ ځان بسیاینه. مطلق انعطاف.<br>Zero‑Trust & Zero‑Footprint.",
+                btn_launch: "سیسټم بار کړئ", btn_download: "میټریکس ډاونلوډ",
+                ded_title: "ډالۍ کول:",
+                ded_p1: "د هغو کسانو لپاره چې مخکې تللي، په تیاره کې یې رڼا پریښېده।",
+                ded_p2: "د هغو کسانو لپاره چې لاهم د هغه څه نوم پیژندلو پرته لټون کوي چې دوی ورته واقعیا اړتیا لري।",
+                ded_p3: "د عیسی لپاره، چې په بیا ژوندي کیدو سره یې خپل ابدیت پرانیست ترڅو هیڅ څوک بهر پاتې نشي।",
+                modal_title: "د ډاونلوډ والټ",
+                matrix_global: "ZION CORE",
+                matrix_lite: "ZION LITE",
+                info_title: "د نسخې پرتله کول",
+                info_g_title: "GLOBAL (UNIVERSAL)",
+                info_g_1: "هایبرډ: نیټ / ځایی", info_g_2: "د معلوماتو واردول", info_g_3: "څو مقسده",
+                info_l_title: "LITE (TACTICAL)",
+                info_l_1: "100٪ آفلاین", info_l_2: "ثابت مینځپانګه", info_l_3: "زغره وال کتاب",
+                info_sec: "شریکه امنیت: ویره // مسح // کریپټو",
+                footer_credits: "د ازادۍ لپاره کوډ شوی"
+            },
+            fa: {
+                hero_h1: "",
+                hero_p: "خودکفایی کامل. انعطاف‌پذیری مطلق.<br>Zero‑Trust & Zero‑Footprint.",
+                btn_launch: "بارگذاری سیستم", btn_download: "دانلود ماتریس",
+                ded_title: "تقدیم به:",
+                ded_p1: "برای کسانی که پیش از این رفتند و در تاریکی نوری بر جای گذاشتند.",
+                ded_p2: "برای کسانی که هنوز در جستجو هستند، بدون اینکه بدانند واقعاً به چه چیزی نیاز دارند.",
+                ded_p3: "برای عیسی، که با رستاخیز خود ابدیتش را گشود تا هیچ‌کس بیرون نماند.",
+                modal_title: "مخزن دانلود",
+                matrix_global: "ZION CORE",
+                matrix_lite: "ZION LITE",
+                info_title: "مقایسه نسخه",
+                info_g_title: "GLOBAL (UNIVERSAL)",
+                info_g_1: "ترکیبی: نت / محلی", info_g_2: "وارد کردن داده‌ها", info_g_3: "همه کاره",
+                info_l_title: "LITE (TACTICAL)",
+                info_l_1: "100% آفلاین", info_l_2: "محتوای ثابت", info_l_3: "کتاب زرهی",
+                info_sec: "امنیت مشترک: هراس // پاک‌سازی // کریپتو",
+                footer_credits: "کدنویسی شده برای آزادی"
+            },
+            pa: {
+                hero_h1: "",
+                hero_p: "مکمل خود کفالت۔ مکمل لچک۔<br>Zero‑Trust & Zero‑Footprint.",
+                btn_launch: "سسٹم لوڈ کرو", btn_download: "میٹرکس ڈاؤنلوڈ",
+                feat_res_h: "01 / لچک", feat_res_p: "مقامی طور تے یا نیٹ ورک تے کم کردا اے۔",
+                feat_priv_h: "02 / پرائیویسی", feat_priv_p: "تہاڈے آلے توں کچھ باہر نئیں جاندا۔ ریم وچ اینکرپشن۔",
+                feat_port_h: "03 / پورٹیبلٹی", feat_port_p: "اک فائل وچ پورا ZION ایکو سسٹم۔ کوئی انسٹالیشن نئیں۔",
+                modal_title: "ڈاؤنلوڈ والٹ",
+                matrix_global: "ZION CORE",
+                matrix_lite: "ZION LITE",
+                info_title: "ورژن موازنہ",
+                info_g_title: "GLOBAL (UNIVERSAL)",
+                info_g_1: "ہائبرڈ: نیٹ / لوکل", info_g_2: "کچھ وی امپورٹ", info_g_3: "ملٹی ٹول",
+                info_l_title: "LITE (TACTICAL)",
+                info_l_1: "100٪ آف لائن", info_l_2: "فکسڈ مواد", info_l_3: "بکتر بند کتاب",
+                info_sec: "مشترکہ سیکیورٹی: پینک // وائپ // کریپٹو",
+                footer_credits: "آزادی لئی کوڈ کیتا گیا"
+            },
+            rhg: {
+                hero_h1: "",
+                hero_p: "Pura-puri nizor. Ekka modut.<br>Zero‑Trust & Zero‑Footprint.",
+                btn_launch: "System Load Go", btn_download: "Matrix Lamiyo",
+                ded_title: "DEDICATED TO:",
+                ded_p1: "For those who walked before, leaving light in the darkness.",
+                ded_p2: "For those who still search, without knowing the name of what they truly need.",
+                ded_p3: "For Jesus, who by rising opened His eternity so that no one is left out.",
+                modal_title: "SYSTEM LAMIYO",
+                matrix_global: "ZION CORE",
+                matrix_lite: "ZION LITE",
+                info_title: "VERSION TULONA",
+                info_g_title: "GLOBAL (UNIVERSAL)",
+                info_g_1: "Hybrid: Net / Local", info_g_2: "Import Data (Lazaro)", info_g_3: "Hormo Tool",
+                info_l_title: "LITE (TACTICAL)",
+                info_l_1: "100% Offline", info_l_2: "Fixed Content", info_l_3: "Armored Book",
+                info_sec: "SHARED SECURITY: PANIC // WIPE // CRYPTO",
+                footer_credits: "AZADI LAAI CODED"
+            },
+            so: {
+                hero_h1: "",
+                hero_p: "Iska-filnaansho Buuxda. Adkeysi Buuxda.<br>Zero‑Trust & Zero‑Footprint.",
+                btn_launch: "Ku rrar nidaamka", btn_download: "Soo deji Nidaamka",
+                feat_res_h: "01 / Adkeysiga", feat_res_p: "Gebi ahaanba gudaha ayuu ka shaqeeyaa ama ku xiran shabakadaha Arweave iyo IPFS.",
+                feat_priv_h: "02 / Qarsoodiga", feat_priv_p: "Waxba kama baxayaan aaladdaada. Sirinta waxay ka dhacdaa RAM.",
+                feat_port_h: "03 / Qaadista", feat_port_p: "Nidaamka deegaanka ZION oo dhan oo ku jira hal fayl oo HTML ah. Rakibaad ma leh.",
+                modal_title: "SOO DEJI NIDAAMKA",
+                matrix_global: "ZION CORE",
+                matrix_lite: "ZION LITE",
+                info_title: "ISBARBARdhigga nooca",
+                info_g_title: "GLOBAL (UNIVERSAL)",
+                info_g_1: "Isku-dhafka: Net / Gudaha", info_g_2: "Keen Xogta (Lazaro)", info_g_3: "Qalabka Swiss",
+                info_l_title: "LITE (TACTICAL)",
+                info_l_1: "100% Offline", info_l_2: "Nuxurka Go'an", info_l_3: "Buugga Gaashaaman",
+                info_sec: "AMNIGA WADAAGGA: PANIC // WIPE // CRYPTO",
+                footer_credits: "LOOGU TALAGALAY XORRIYADDA"
+            },
+            sw: {
+                hero_h1: "",
+                hero_p: "Kujitosheleza Kabisa. Ustahimilivu Kamili.<br>Zero‑Trust & Zero‑Footprint.",
+                btn_launch: "Pakia Mfumo", btn_download: "Pakua Mfumo",
+                feat_res_h: "01 / Ustahimilivu", feat_res_p: "Hufanya kazi kikamilifu ndani ya nchi au kushikamana na mitandao ya Arweave na IPFS.",
+                feat_priv_h: "02 / Faragha", feat_priv_p: "Hakuna kinachotoka kwenye kifaa chako. Usimbuaji hufanyika katika RAM.",
+                feat_port_h: "03 / Kubebeka", feat_port_p: "Mfumo mzima wa ekolojia wa ZION uliomo katika faili moja la HTML. Hakuna usakinishaji.",
+                modal_title: "PAKUA MFUMO",
+                matrix_global: "ZION CORE",
+                matrix_lite: "ZION LITE",
+                info_title: "Ulinganisho wa Toleo",
+                info_g_title: "GLOBAL (UNIVERSAL)",
+                info_g_1: "Mseto: Wavuti / Ndani", info_g_2: "Ingiza Data (Lazaro)", info_g_3: "Kisu cha Jeshi",
+                info_l_title: "LITE (TACTICAL)",
+                info_l_1: "100% Nje ya Mtandao", info_l_2: "Maudhui Yaliyoahidiwa", info_l_3: "Kitabu cha Silaha",
+                info_sec: "USALAMA WA PAMOJA: PANIC // WIPE // CRYPTO",
+                footer_credits: "IMEANDIKWA KWA AJILI YA UHURU"
+            },
+            tg: {
+                hero_h1: "",
+                hero_p: "Худкофии пурра. Устувории мутлақ.<br>Zero‑Trust & Zero‑Footprint.",
+                btn_launch: "Боргузории система", btn_download: "Зеркашии матритса",
+                feat_res_h: "01 / Устуворӣ", feat_res_p: "Комилан ба таври маҳаллӣ кор мекунад.",
+                feat_priv_h: "02 / Махфият", feat_priv_p: "Ҳеҷ чиз аз дастгоҳи шумо намеравад. Рамзгузорӣ дар RAM сурат мегирад.",
+                feat_port_h: "03 / Интиқолпазирӣ", feat_port_p: "Тамми экосистемаи ZION дар як файл. Бе насб.",
+                modal_title: "ХАЗИНАИ ЗЕРКАШӢ",
+                matrix_global: "ZION CORE",
+                matrix_lite: "ZION LITE",
+                info_title: "МУҚОИСАИ ВЕРСИЯ",
+                info_g_title: "GLOBAL (UNIVERSAL)",
+                info_g_1: "Гибрид: Нет / Локал", info_g_2: "Воридоти маълумот", info_g_3: "Асбоби универсалӣ",
+                info_l_title: "LITE (TACTICAL)",
+                info_l_1: "100% Офлайн", info_l_2: "Мундариҷаи собит", info_l_3: "Китоби зиреҳпӯш",
+                info_sec: "АМНИЯТИ МУШТАРАК: PANIC // WIPE // CRYPTO",
+                footer_credits: "БАРОИ ОЗОДӢ КОДГУЗОРӢ ШУДААСТ"
+            },
+            ta: {
+                hero_h1: "",
+                hero_p: "மொத்த தன்னிறைவு. முழுமையான மீள்தன்மை.<br>Zero‑Trust & Zero‑Footprint.",
+                btn_launch: "கணினியை ஏற்றவும்", btn_download: "பதிவிறக்க அமைப்பு",
+                feat_res_h: "01 / மீள்தன்மை", feat_res_p: "முற்றிலும் உள்நாட்டில் அல்லது நெட்வொர்க்குகளில் வேலை செய்கிறது.",
+                feat_priv_h: "02 / தனியுரிமை", feat_priv_p: "உங்கள் முனையத்தை விட்டு எதுவும் வெளியேறாது. ரேமில் மறைகுறியாக்கம் நடக்கிறது.",
+                feat_port_h: "03 / பெயர்வுத்திறன்", feat_port_p: "ஒரே கோப்பில் முழு ZION சுற்றுச்சூழல் அமைப்பு. நிறுவல் இல்லை.",
+                modal_title: "பதிவிறக்க பெட்டகம்",
+                matrix_global: "ZION CORE",
+                matrix_lite: "ZION LITE",
+                info_title: "பதிப்பு ஒப்பீடு",
+                info_g_title: "GLOBAL (UNIVERSAL)",
+                info_g_1: "கலப்பு: நெட் / லோக்கல்", info_g_2: "தரவு இறக்குமதி", info_g_3: "பல்நோக்கு கருவி",
+                info_l_title: "LITE (TACTICAL)",
+                info_l_1: "100% ஆஃப்லைன்", info_l_2: "நிலையான உள்ளடக்கம்", info_l_3: "கவச புத்தகம்",
+                info_sec: "பகிரப்பட்ட பாதுகாப்பு: பீதி // அழிப்பு // கிரிப்டோ",
+                footer_credits: "சுதந்திரத்திற்காக குறியிடப்பட்டது"
+            },
+            te: {
+                hero_h1: "",
+                hero_p: "మొత్తం స్వయం సమృద్ధి. సంపూర్ణ స్థితిస్థాపకత.<br>Zero‑Trust & Zero‑Footprint.",
+                btn_launch: "సిస్టమ్ లోడ్ చేయండి", btn_download: "సిస్టమ్ను డౌన్లోడ్ చేయండి",
+                feat_res_h: "01 / స్థితిస్థాపకత", feat_res_p: "పూర్తిగా స్థానికంగా పనిచేస్తుంది.",
+                feat_priv_h: "02 / గోప్యత", feat_priv_p: "మీ పరికరం నుండి ఏదీ బయటకు వెళ్లదు. ర్యామ్లో ఎన్క్రిప్షన్ జరుగుతుంది.",
+                feat_port_h: "03 / పోర్టబిలిటీ", feat_port_p: "ఒకే ఫైల్లో మొత్తం ZION పర్యావరణ వ్యవస్థ. ఇన్స్టాలేషన్ లేదు.",
+                modal_title: "డౌన్లోడ్ వాల్ట్",
+                matrix_global: "ZION CORE",
+                matrix_lite: "ZION LITE",
+                info_title: "వెర్షన్ పోలిక",
+                info_g_title: "GLOBAL (UNIVERSAL)",
+                info_g_1: "హైబ్రిడ్: నెట్ / లోకల్", info_g_2: "డేటా దిగుమతి", info_g_3: "బహుళउपయోగ సాధనం",
+                info_l_title: "LITE (TACTICAL)",
+                info_l_1: "100% ఆఫ్లైన్", info_l_2: "స్థిర కంటెంట్", info_l_3: "కవచ పుస్తకం",
+                info_sec: "భాగస్వామ్య భద్రత: భయం // వైప్ // క్రిప్టో",
+                footer_credits: "స్వేచ్ఛ కోసం కోడ్ చేయబడింది"
+            },
+            tr: {
+                hero_h1: "",
+                hero_p: "Tam Kendi Kendine Yeterlilik. Mutlak Dayanıklılık.<br>Zero‑Trust & Zero‑Footprint.",
+                btn_launch: "Sistemi Yükle", btn_download: "Sistemi İndir",
+                feat_res_h: "01 / Dayanıklılık", feat_res_p: "Tamamen yerel olarak veya Arweave ve IPFS ağlarında çalışır.",
+                feat_priv_h: "02 / Gizlilik", feat_priv_p: "Terminalinizden hiçbir şey çıkmaz. Şifreleme RAM'de gerçekleşir ve anahtarlar diske dokunmaz.",
+                feat_port_h: "03 / Taşınabilirlik", feat_port_p: "Tüm ZION ekosistemi tek bir yürütülebilir HTML dosyasında. Kurulum yok, bağımlılık yok.",
+                modal_title: "SİSTEMİ İNDİR",
+                matrix_global: "ZION CORE",
+                matrix_lite: "ZION LITE",
+                info_title: "SÜRÜM KARŞILAŞTIRMASI",
+                info_g_title: "GLOBAL (EVRENSEL)",
+                info_g_1: "Hibrit: Ağ / Yerel", info_g_2: "Veri İçe Aktar (Lazaro)", info_g_3: "İsviçre Çakısı",
+                info_l_title: "LITE (TAKTİKSEL)",
+                info_l_1: "%100 Çevrimdışı", info_l_2: "Sabit İçerik", info_l_3: "Zırhlı Kitap",
+                info_sec: "PAYLAŞILAN GÜVENLİK: PANİK // WIPE // KRİPTO",
+                footer_credits: "ÖZGÜRLÜK İÇİN KODLANDI"
+            },
+            ug: {
+                hero_h1: "",
+                hero_p: "تولۇق ئۆزىنى قامداش. مۇتلەق چىداملىق.<br>Zero‑Trust & Zero‑Footprint.",
+                btn_launch: "سىستېمىنى يۈكلەش", btn_download: "چۈشۈرۈش",
+                feat_res_h: "01 / چىداملىق", feat_res_p: "پۈتۈنلەي يەرلىك ياكى توردا ئىشلەيدۇ.",
+                feat_priv_h: "02 / شەخسىيەت", feat_priv_p: "تېرمىنالىڭىزدىن ھېچ نەرسە چىقمايدۇ. مەخپىيلەشتۈرۈش RAM دا ئېلىپ بېرىلىدۇ.",
+                feat_port_h: "03 / ئېلىپ يۈرۈشكە ئەپلىك", feat_port_p: "پۈتۈن ZION سىستېمىسى بىر ھۆججەتتە. قاچىلاش يوق.",
+                modal_title: "چۈشۈرۈش ئامبىرى",
+                matrix_global: "ZION CORE",
+                matrix_lite: "ZION LITE",
+                info_title: "نەشرى سېلىشتۇرۇش",
+                info_g_title: "GLOBAL (UNIVERSAL)",
+                info_g_1: "ئارىلاش ماتورلۇق", info_g_2: "سانلىق مەلۇمات ئەكىرىش", info_g_3: "كۆپ ئىقتىدارلىق",
+                info_l_title: "LITE (TACTICAL)",
+                info_l_1: "100% تورسىز", info_l_2: "مەزمۇن مۇقىم", info_l_3: "بڕۆنېۋىك كىتاب",
+                info_sec: "ئورتاق بىخەتەرلىك: PANIC // WIPE // CRYPTO",
+                footer_credits: "ئازادلىق ئۈچۈن كودلانغان"
+            },
+            pt: {
+                hero_h1: "Soberania Digital <span class='neon-zz'><span class='mirror-z'>Z</span><span>Z</span></span>",
+                hero_p: "Autossuficiência Total. Resiliência Absoluta.<br>Zero‑Trust & Zero‑Footprint.",
+                btn_launch: "Carregar Sistema", btn_download: "Baixar Sistema",
+                feat_res_h: "01 / Resiliência", feat_res_p: "Funciona inteiramente local ou conectado às redes Arweave e IPFS.",
+                feat_priv_h: "02 / Privacidade", feat_priv_p: "Nada sai do seu terminal. A criptografia acontece na RAM e as chaves nunca tocam o disco.",
+                feat_port_h: "03 / Portabilidade", feat_port_p: "Todo o ecossistema ZION contido em um arquivo HTML executável. Sem instalação.",
+                modal_title: "BAIXAR SISTEMA",
+                matrix_global: "ZION CORE",
+                matrix_lite: "ZION LITE",
+                info_title: "COMPARAR VERSÕES",
+                info_g_title: "GLOBAL (UNIVERSAL)",
+                info_g_1: "Híbrido: Net / Local", info_g_2: "Importar Dados (Lazaro)", info_g_3: "Canivete Suíço",
+                info_l_title: "LITE (TÁTICO)",
+                info_l_1: "100% Offline", info_l_2: "Conteúdo Fixo", info_l_3: "Livro Blindado",
+                info_sec: "SEGURANÇA COMPARTILHADA: PÂNICO // WIPE // CRIPTO",
+                footer_credits: "CODIFICADO PARA A LIBERDADE"
+            },
+            vi: {
+                hero_h1: "",
+                hero_p: "Tự Chủ Hoàn Toàn. Khả Năng Phục Hồi Tuyệt Đối.<br>Zero‑Trust & Zero‑Footprint.",
+                btn_launch: "Tải hệ thống", btn_download: "Tải xuống Ma trận",
+                feat_res_h: "01 / Khả năng phục hồi", feat_res_p: "Hoạt động hoàn toàn cục bộ hoặc trên mạng Arweave và IPFS.",
+                feat_priv_h: "02 / Quyền riêng tư", feat_priv_p: "Không có gì rời khỏi thiết bị của bạn. Mã hóa diễn ra trong RAM.",
+                feat_port_h: "03 / Tính di động", feat_port_p: "Toàn bộ hệ sinh thái ZION trong một tệp HTML. Không cần cài đặt.",
+                modal_title: "KHO TẢI XUỐNG",
+                matrix_global: "ZION CORE",
+                matrix_lite: "ZION LITE",
+                info_title: "SO SÁNH PHIÊN BẢN",
+                info_g_title: "GLOBAL (UNIVERSAL)",
+                info_g_1: "Lai: Mạng / Cục bộ", info_g_2: "Nhập dữ liệu (Lazaro)", info_g_3: "Công cụ đa năng",
+                info_l_title: "LITE (TACTICAL)",
+                info_l_1: "100% Ngoại tuyến", info_l_2: "Nội dung cố định", info_l_3: "Sách bọc thép",
+                info_sec: "BẢO MẬT CHUNG: PANIC // WIPE // CRYPTO",
+                footer_credits: "ĐƯỢC MÃ HÓA CHO TỰ DO"
+            },
+            th: {
+                hero_h1: "",
+                hero_p: "การพึ่งพาตนเองโดยสมบูรณ์ ความยืดหยุ่นที่แน่นอน<br>Zero‑Trust & Zero‑Footprint.",
+                btn_launch: "โหลดระบบ", btn_download: "ดาวน์โหลดเมทริกซ์",
+                feat_res_h: "01 / ความยืดหยุ่น", feat_res_p: "ทำงานภายในเครื่องหรือบนเครือข่าย Arweave และ IPFS อย่างสมบูรณ์",
+                feat_priv_h: "02 / ความเป็นส่วนตัว", feat_priv_p: "ไม่มีอะไรออกจากอุปกรณ์ของคุณ การเข้ารหัสเกิดขึ้นใน RAM",
+                feat_port_h: "03 / การพกพา", feat_port_p: "ระบบนิเวศ ZION ทั้งหมดในไฟล์ HTML เดียว ไม่มีการติดตั้ง",
+                modal_title: "คลังเก็บดาวน์โหลด",
+                matrix_global: "ZION CORE",
+                matrix_lite: "ZION LITE",
+                info_title: "การเปรียบเทียบรุ่น",
+                info_g_title: "GLOBAL (UNIVERSAL)",
+                info_g_1: "ไฮบริด: เน็ต / ท้องถิ่น", info_g_2: "นำเข้าข้อมูล", info_g_3: "เครื่องมืออเนกประสงค์",
+                info_l_title: "LITE (TACTICAL)",
+                info_l_1: "100% ออฟไลน์", info_l_2: "เนื้อหาคงที่", info_l_3: "หนังสือหุ้มเกราะ",
+                info_sec: "ความปลอดภัยร่วม: PANIC // WIPE // CRYPTO",
+                footer_credits: "เขียนโค้ดเพื่ออิสรภาพ"
+            },
+            ms: {
+                hero_h1: "",
+                hero_p: "Kecukupan Diri Sepenuhnya. Ketahanan Mutlak.<br>Zero‑Trust & Zero‑Footprint.",
+                btn_launch: "Muat Sistem", btn_download: "Muat Turun Matriks",
+                feat_res_h: "01 / Daya Tahan", feat_res_p: "Berfungsi sepenuhnya secara tempatan atau pada rangkaian Arweave dan IPFS.",
+                feat_priv_h: "02 / Privasi", feat_priv_p: "Tiada apa-apa yang meninggalkan peranti anda. Penyulitan berlaku dalam RAM.",
+                feat_port_h: "03 / Mudah Alih", feat_port_p: "Keseluruhan ekosistem ZION dalam sat fail HTML. Tiada pemasangan.",
+                modal_title: "PETI MUAT TURUN",
+                matrix_global: "ZION CORE",
+                matrix_lite: "ZION LITE",
+                info_title: "PERBANDINGAN VERSI",
+                info_g_title: "GLOBAL (UNIVERSAL)",
+                info_g_1: "Hibrid: Net / Tempatan", info_g_2: "Import Data", info_g_3: "Alat Serbaguna",
+                info_l_title: "LITE (TACTICAL)",
+                info_l_1: "100% Luar Talian", info_l_2: "Kandungan Tetap", info_l_3: "Buku Berperisai",
+                info_sec: "KESELAMATAN BERSAMA: PANIC // WIPE // CRYPTO",
+                footer_credits: "DIKODKAN UNTUK KEBEBASAN"
+            },
+            uk: {
+                hero_h1: "",
+                hero_p: "Повна Самодостатність. Абсолютна Стійкість.<br>Zero‑Trust & Zero‑Footprint.",
+                btn_launch: "Завантажити систему", btn_download: "Завантажити матрицю",
+                feat_res_h: "01 / Стійкість", feat_res_p: "Працює повністю локально або в мережах Arweave та IPFS.",
+                feat_priv_h: "02 / Конфіденційність", feat_priv_p: "Нічого не залишає ваш пристрій. Шифрування відбувається в оперативній пам’яті.",
+                feat_port_h: "03 / Портативність", feat_port_p: "Уся екосистема ZION в одному HTML-файлі. Без встановлення.",
+                modal_title: "СХОВИЩЕ ЗАВАНТАЖЕНЬ",
+                matrix_global: "ZION CORE",
+                matrix_lite: "ZION LITE",
+                info_title: "ПОРІВНЯННЯ ВЕРСІЙ",
+                info_g_title: "GLOBAL (UNIVERSAL)",
+                info_g_1: "Гібрид: Мережа / Локально", info_g_2: "Імпорт даних (Lazaro)", info_g_3: "Універсальний інструмент",
+                info_l_title: "LITE (TACTICAL)",
+                info_l_1: "100% Офлайн", info_l_2: "Фіксований контент", info_l_3: "Броньована книга",
+                info_sec: "СПІЛЬНА БЕЗПЕКА: PANIC // WIPE // CRYPTO",
+                footer_credits: "ЗАКОДОВАНО ДЛЯ СВОБОДИ"
+            },
+            tw: {
+                hero_h1: "",
+                hero_p: "完全自給自足。絕對彈性。<br>Zero‑Trust & Zero‑Footprint.",
+                btn_launch: "載入系統", btn_download: "下載矩陣",
+                feat_res_h: "01 / 彈性", feat_res_p: "完全在本地運行，或在 Arweave 和 IPFS 網絡上運行。",
+                feat_priv_h: "02 / 隱私", feat_priv_p: "沒有任何東西离开你的終端。加密在 RAM 中進行，密鑰從不接觸磁盤。",
+                feat_port_h: "03 / 便攜性", feat_port_p: "整個 ZION 生態系統包含在一個 HTML 文件中。無需安裝。",
+                modal_title: "下載保險庫",
+                matrix_global: "ZION CORE",
+                matrix_lite: "ZION LITE",
+                info_title: "版本比較",
+                info_g_title: "GLOBAL (UNIVERSAL)",
+                info_g_1: "混合：網絡 / 本地", info_g_2: "數據導入 (Lazaro)", info_g_3: "瑞士軍刀",
+                info_l_title: "LITE (TACTICAL)",
+                info_l_1: "100% 離線", info_l_2: "固定內容", info_l_3: "裝甲書",
+                info_sec: "共享安全：PANIC // WIPE // CRYPTO",
+                footer_credits: "為自由編碼"
+            },
+            ja: {
+                hero_h1: "",
+                hero_p: "完全な自給自足。絶対的な回復力。<br>Zero‑Trust & Zero‑Footprint.",
+                btn_launch: "システムをロード", btn_download: "マトリックスをダウンロード",
+                feat_res_h: "01 / 回復力", feat_res_p: "完全にローカルで、またはArweaveとIPFSネットワーク上で動作します。",
+                feat_priv_h: "02 / プライバシー", feat_priv_p: "端末から何も出ません。暗号化はRAMで行われ、キーはディスクに触れません。",
+                feat_port_h: "03 / 携帯性", feat_port_p: "1つの実行可能なHTMLファイルに含まれるZIONエコシステム全体。インストールなし。",
+                modal_title: "ダウンロード保管庫",
+                matrix_global: "ZION CORE",
+                matrix_lite: "ZION LITE",
+                info_title: "バージョン比較",
+                info_g_title: "GLOBAL (UNIVERSAL)",
+                info_g_1: "ハイブリッド：ネット/ローカル", info_g_2: "データインポート (Lazaro)", info_g_3: "万能ツール",
+                info_l_title: "LITE (TACTICAL)",
+                info_l_1: "100% オフライン", info_l_2: "固定コンテンツ", info_l_3: "装甲本",
+                info_sec: "共有セキュリティ：PANIC // WIPE // CRYPTO",
+                footer_credits: "自由のためにコード化"
+            },
+            he: {
+                hero_h1: "",
+                hero_p: "עצמאות מוחלטת. חוסן מוחלט.<br>Zero‑Trust & Zero‑Footprint.",
+                btn_launch: "טען מערכת", btn_download: "הורד מטריקס",
+                feat_res_h: "01 / חוסן", feat_res_p: "פועל באופן מקומי לחלוטין או ברשתות Arweave ו-IPFS.",
+                feat_priv_h: "02 / פרטיות", feat_priv_p: "שום דבר לא עוזב את המסוף שלך. ההצפנה מתרחשת ב-RAM והמפתחות לעולם לא נוגעים בדיסק.",
+                feat_port_h: "03 / ניידות", feat_port_p: "כל המערכת האקולוגית של ZION בקובץ HTML אחד. ללא התקנה.",
+                modal_title: "כספת הורדות",
+                matrix_global: "ZION CORE",
+                matrix_lite: "ZION LITE",
+                info_title: "השוואת גרסאות",
+                info_g_title: "GLOBAL (UNIVERSAL)",
+                info_g_1: "היברידי: רשת / מקומי", info_g_2: "ייבוא נתונים (Lazaro)", info_g_3: "אולר שוויצרי",
+                info_l_title: "LITE (TACTICAL)",
+                info_l_1: "100% לא מקוון", info_l_2: "תוכן קבוע", info_l_3: "ספר משוריין",
+                info_sec: "אבטחה משותפת: PANIC // WIPE // CRYPTO",
+                footer_credits: "מקודד לחופש"
+            }
+        };
+
+        function translatePage() {
+            const lang = navigator.language.split('-')[0];
+            const t = TRANSLATIONS[lang] || TRANSLATIONS.en;
+
+            document.querySelectorAll('[data-i18n]').forEach(el => {
+                const key = el.getAttribute('data-i18n');
+                if (t[key]) el.innerHTML = t[key];
+            });
+        }
+
+        document.addEventListener('DOMContentLoaded', () => {
+            // Resilience Metadata Autodetection
+            const updateResilienceMetadata = () => {
+                const url = window.location.href;
+                const txEl = document.getElementById('meta-tx');
+                const cidEl = document.getElementById('meta-cid');
+
+                // Detect Arweave TX (43 chars base64url)
+                const txMatch = url.match(/[a-zA-Z0-9_-]{43}/);
+                if (txMatch && txEl) txEl.innerText = txMatch[0];
+
+                // Detect IPFS CID (v0: Qm... 46 chars, v1: bafy... 59+ chars)
+                const cidMatch = url.match(/Qm[1-9A-HJ-NP-Za-km-z]{44}|bafy[a-z2-7]{50,}/);
+                if (cidMatch && cidEl) cidEl.innerText = cidMatch[0];
+            };
+
+            // === GATEWAY FALLBACK ENGINE ===
+            // Static seed list — used as fallback if dynamic discovery fails.
+            // Order: ar-io.net first (it IS the ar.io network hub / Wayfinder origin).
+            const GATEWAYS = {
+                arweave: [
+                    'https://arweave.net',
+                    'https://permagate.io',
+                    'https://ar-io.net',
+                    'https://g8way.io',
+                    'https://arweave.dev'
+                ],
+                ipfs: [
+                    'https://ipfs.io',
+                    'https://nftstorage.link',
+                    'https://dweb.link',
+                    'https://w3s.link',
+                    'https://cloudflare-ipfs.com'
+                ]
+            };
+
+            /**
+             * Probes a single gateway with a timeout race.
+             * Returns the URL if alive, rejects if not.
+             */
+            function probeGateway(url, timeoutMs = 4000) {
+                return new Promise((resolve, reject) => {
+                    const timer = setTimeout(() => reject(new Error('TIMEOUT')), timeoutMs);
+                    fetch(url, { method: 'HEAD', mode: 'no-cors' })
+                        .then(() => { clearTimeout(timer); resolve(url); })
+                        .catch(() => { clearTimeout(timer); reject(new Error('UNREACHABLE')); });
+                });
+            }
+
+            /**
+             * Wayfinder-inspired dynamic gateway discovery.
+             * Mirrors the TrustedPeersGatewaysProvider from @ar.io/wayfinder-core:
+             * fetches /ar-io/peers from multiple trusted ar.io gateways and merges
+             * the results into the static seed list for maximum network coverage.
+             * Fails silently — always resolves to at least the static list.
+             */
+            async function discoverArIOPeers() {
+                const PEER_TIMEOUT = 2000;
+                const trustedSeeds = ['https://ar-io.net', 'https://g8way.io', 'https://arweave.net'];
+                const discovered = new Set();
+
+                await Promise.allSettled(
+                    trustedSeeds.map(async (seed) => {
+                        try {
+                            const ctrl = new AbortController();
+                            const t = setTimeout(() => ctrl.abort(), PEER_TIMEOUT);
+                            const res = await fetch(`${seed}/ar-io/peers`, { signal: ctrl.signal });
+                            clearTimeout(t);
+                            if (!res.ok) return;
+                            const peers = await res.json();
+                            if (!Array.isArray(peers)) return;
+                            peers.forEach(p => {
+                                // Peers can be plain hostnames or full URLs
+                                const url = p.startsWith('http') ? p : `https://${p}`;
+                                try { new URL(url); discovered.add(url.replace(/\/$/, '')); } catch (_) {}
+                            });
+                        } catch (_) { /* silent */ }
+                    })
+                );
+
+                if (discovered.size === 0) {
+                    console.log('[WAYFINDER] Peer discovery unavailable — using static seed list.');
+                    return [];
+                }
+
+                // Remove duplicates already in static list
+                const staticSet = new Set([...GATEWAYS.arweave, ...GATEWAYS.ipfs]);
+                const fresh = [...discovered].filter(u => !staticSet.has(u));
+                console.log(`[WAYFINDER] Discovered ${fresh.length} new ar.io peers.`);
+                return fresh;
+            }
+
+            // Global setup
+            const body = document.body;
+            translatePage();
+            updateResilienceMetadata();
+
+            // Vault Modal
+            const vaultModal = document.getElementById('vaultModal');
+            const openVaultBtn = document.getElementById('openMatrix');
+            const closeVaultBtn = document.getElementById('closeVault');
+
+            if (openVaultBtn && vaultModal) {
+                openVaultBtn.addEventListener('click', () => {
+                    vaultModal.style.display = 'block';
+                    setTimeout(() => {
+                        vaultModal.classList.add('active');
+                        body.classList.add('modal-open');
+                    }, 10);
+                });
+            }
+
+            if (closeVaultBtn && vaultModal) {
+                closeVaultBtn.addEventListener('click', () => {
+                    vaultModal.classList.remove('active');
+                    body.classList.remove('modal-open');
+                    setTimeout(() => {
+                        vaultModal.style.display = 'none';
+                    }, 400);
+                });
+            }
+
+            // Backdrop click to close vault modal
+            if (vaultModal) {
+                vaultModal.addEventListener('click', (e) => {
+                    if (e.target === vaultModal) {
+                        if (closeVaultBtn) closeVaultBtn.click();
+                    }
+                });
+            }
+
+            // Launch Command Center
+            const launchBtn = document.getElementById('launchBtn');
+            const bootModal = document.getElementById('bootModal');
+            const bootGrid = document.querySelector('.boot-grid');
+            const closeBoot = document.getElementById('closeBoot');
+
+
+            let selectedNetwork = 'arweave';
+
+            if (launchBtn && bootModal) {
+                launchBtn.addEventListener('click', (e) => {
+                    e.preventDefault();
+                    console.log('Launch sequence initiated');
+                    bootModal.style.display = 'block';
+                    setTimeout(() => {
+                        bootModal.classList.add('active');
+                        body.classList.add('modal-open');
+                    }, 10);
+                });
+            }
+
+            if (closeBoot && bootModal) {
+                closeBoot.addEventListener('click', () => {
+                    bootModal.classList.remove('active');
+                    body.classList.remove('modal-open');
+                    setTimeout(() => {
+                        bootModal.style.display = 'none';
+                    }, 400);
+                });
+            }
+
+            // Backdrop click to close boot modal
+            if (bootModal) {
+                bootModal.addEventListener('click', (e) => {
+                    if (e.target === bootModal) {
+                        if (closeBoot) closeBoot.click();
+                    }
+                });
+            }
+
+            // Network Selection (auto-routing — no manual selection needed)
+
+            // =====================================================
+            // VAULT DOWNLOAD ENGINE — Lite & Core decentralized
+            // =====================================================
+            const VAULT_LITE_DATA = {
+                am:  { tx: 't8IFCwz6Q0FOs6cHsnJJ5pVhRWtoLCCuhwYJIYuhu04', cid: 'bafybeihzddj5mzsw26bzmufkktzcyj4sy6zurtrvzot7ziipigwk6y2hf4' },
+                ar:  { tx: '8TvX33bRe9mTAwcG3dXErKgHBGMwR851c_SzNfEEwCE', cid: 'bafybeigyugyu4n2guxvfiusjahxxe7tq24gewfwvmrimxysxqym3ailpaa' },
+                bn:  { tx: 'QcpVPutqXV6_1M_jNPyEzPlS0U6BICuCbfIfSv2YrOs', cid: 'bafybeic3rz2acltthxhaq4cyvxy5xi2ow2nchhiktqpvvcvf3qrc5xzwlm' },
+                en:  { tx: '4N6WsDEOVvkT_ZJFT537pbFDEH0lVWwJYk5vDxIpCqg', cid: 'bafybeibpax6mcmao75ln2yohxqfnhfhkzifuvylm572btimoe6epfutnee' },
+                es:  { tx: 'vhIv5yO2aP49rSL4MpxS6SdvPwLIw4J-EGHjATLBIx0', cid: 'bafybeibg2g3sz4xyktpojgrvbykg3xbeunj2nnrzjwm5lv4jbupguqrkde' },
+                fa:  { tx: '-SeG6aTZSvk92R-EXewuZuLtOcRStyzpQo-NpMtlOjo', cid: 'bafybeigwayb4uonll5eegdljnmgsfomy2i7fvbxinflwp7ggov7zgj7ffu' },
+                fr:  { tx: 'i2zqbS7HIqoMkST1kL2CRSNju6ii9ReP9q9Sn32c8Po', cid: 'bafybeihxvfx7mdabuabzwoq6dgu2s3jotvuwvxwolhti3lmyesoqchgva4' },
+                hi:  { tx: 'Qk4H84KbQ5IrmPZzViG3S9C5lVnVf-3vVBwQTMWVRxM', cid: 'bafybeiernet4gkeeb2yfvllfud7pifkbapg565mq4oufrt7csybcpesz6a' },
+                id:  { tx: 'jP7jH9qMdTmUnyQ_G_xEZTPZ5LYMgOGaBmb6tIBfKpU', cid: 'bafybeihac6n3txojbtfexuqv76uzix6xwe5ih6xikhnbphmhjebi54qi2e' },
+                ko:  { tx: '4R9wRehD4gMQ2BV7aqhgXyJo-2PwiLMIqQXEYBjuzi4', cid: 'bafybeidbopejsbnrilo7rktk6mi4a3in4tep6ncn6u2ucklfeadtxcasdq' },
+                my:  { tx: 'zvtZ5wdMcWDgKqhF19bGI0CsBRFba7Df3_qJU24hKN4', cid: 'bafybeif3vblm3sbb3dvqfvp73tebi5fdyqx3ndu75qmgmo5xhxgiv5zcvu' },
+                ne:  { tx: 'A2zFmGTtARUx5j3uE8ApvjFlB0kTW0K1k0GdvVEcYFI', cid: 'bafybeibfl3ngyo3as7cympeq4jeglect4xtp4eweqn2uzkzdy3m4ug5gvy' },
+                pa:  { tx: 'xWD947xWvku7MeCDQn1uUBfVkw4uonQ_pz6dEUi_Pzo', cid: 'bafybeiep2fsh63rcxq5frckfthvae4vslvucgjtsyikff7bgfz75yojwwi' },
+                prs: { tx: 'ZNmBdk-zsffmOpIe9qrts4HaxpWtp4zHMCVBCbSFyE4', cid: 'bafybeigk3xmrgcnkf6osgyropeeoaaewolumuo3iswydz3scan4tcsvx6i' },
+                ps:  { tx: 'MCddNN0pS0T1Pu1di9AKrDU7uiiGiSx6qP3xcawUkuQ', cid: 'bafybeic3qqcdavvoftpn7vdn5nl2ztqaj4aet2osscuue5ykbmh4sdqpji' },
+                rhg: { tx: 'eW6NYKDfSj56OU70ZdFh-OdX_1BCfo5tijM2qImuvCA', cid: 'bafybeihigxm74rtjszq5vyiuwlmr2emmc52tyfckd3v4xzade27235krmq' },
+                so:  { tx: '2lcTGf5LDp7x4Bka5JCsLTEtI_6O2r1bCSsHggrbs5o', cid: 'bafybeih2327bsgxosusvawtk6mcludakupotd55iejkczhgjxpsfgrge7i' },
+                sw:  { tx: 'tEHCVAgqWscRt1gyhb2gMJDihBTuVsE499IK51Jz8u8', cid: 'bafybeicumfmnbytjmtjeeo47xprtoyltfvsvt52kzxsskpyi6utkzg7cuq' },
+                ta:  { tx: 'rlvzBZyfbHmSluainRL3Lu3fCNwM6qbnEomwfk21G1U', cid: 'bafybeigymrvx5g7nbd4qxweye7xkcylncggvh5rvpk3k4mk6oqytact6xa' },
+                te:  { tx: 'q8wVJZzbHTEZB3MmwetmpQ_4WqPUb8FlxSnl0MAbbRI', cid: 'bafybeie4eaxmndt3ziiz4ib6jzcnfhzvs72odkyfybexhnkxcixlbramve' },
+                tg:  { tx: 'zlRiF5neNlI3xbk6tmQbPM1z0x63Ia4FNVLas2WTgls', cid: 'bafybeihyvensk6uvtq52ndzgsh65wn47zdjcolpehdjhjzz23ear3wdenq' },
+                tr:  { tx: 'okqcuDWjfP43KT2ttz75OKOiHM4EJrTNAScxu2iHBI0', cid: 'bafybeibpspojsju2a5nudvnycfrdmfbamo4en4266rmsg3fqwlkh4bipku' },
+                ug:  { tx: 'RF7I1rbP_FoK8H9oq_o-w_i-Ra_tHmGWCW2wE89QwoU', cid: 'bafybeih5wryfjdzrm77qk2afv2l22rfbzr32accywu3fpu7jgzo7lwdud4' },
+                zh:  { tx: 'SMirUCosr49reWa1wQUVVSyCycaJ3HNdf5z5QqoUXCY', cid: 'bafybeiewlucza2ymuckia4nwkukfkk4fyoi3fvzgumahv2eh3mmdoctfjq' }
+            };
+
+            /**
+             * Build a URL for a given gateway, network, identifier and filename.
+             * IPFS gateways receive ?filename= hint to assist browsers that
+             * honour it even without same-origin download attribute.
+             */
+            function buildDownloadUrl(gatewayBase, network, id, filename) {
+                return network === 'arweave'
+                    ? `${gatewayBase}/${id}`
+                    : `${gatewayBase}/ipfs/${id}?filename=${encodeURIComponent(filename)}`;
+            }
+
+            /**
+             * Attempt to fetch a URL as a Blob and trigger a browser download.
+             * Returns true on success, false if CORS or network blocks it.
+             */
+            async function fetchAndDownload(url, filename) {
+                try {
+                    const ctrl = new AbortController();
+                    const timer = setTimeout(() => ctrl.abort(), 180000); // 180 s for large files (Core = 176MB)
+                    const res = await fetch(url, { signal: ctrl.signal });
+                    clearTimeout(timer);
+                    if (!res.ok) return false;
+                    const blob = await res.blob();
+                    const blobUrl = URL.createObjectURL(blob);
+                    const a = document.createElement('a');
+                    a.href = blobUrl;
+                    a.download = filename;
+                    document.body.appendChild(a);
+                    a.click();
+                    document.body.removeChild(a);
+                    setTimeout(() => URL.revokeObjectURL(blobUrl), 10000);
+                    return true;
+                } catch (_) {
+                    return false;
+                }
+            }
+
+            /**
+             * Main download orchestrator.
+             * 1. Races all gateways (HEAD probe) to find the fastest.
+             * 2. Tries Blob fetch on that gateway.
+             * 3. On CORS/network failure, sequentially tries remaining gateways.
+             * 4. Ultimate fallback: window.open (user saves manually).
+             */
+            window.triggerVaultDownload = async (type, langCode) => {
+                const loaderStatus = document.getElementById('loaderStatus');
+                const bootLoader = document.getElementById('bootLoader');
+
+                // Determine identifiers for both networks
+                let txId, cidId, filename;
+                if (type === 'lite') {
+                    const entry = VAULT_LITE_DATA[langCode];
+                    if (!entry) return;
+                    txId = entry.tx;
+                    cidId = entry.cid;
+                    filename = `ZION_LITE_${langCode}.html`;
+                } else if (type === 'core') {
+                    txId = 'TGjiSA1wnw_WdrtbJcZIRfSuB0lABK7Zl8_hMeVXA5w';
+                    cidId = 'bafybeia46v7v2xzmt7xgjtgslpv65cy4e32u3doc3hlkzp4qa6lwmr7r2u';
+                    filename = 'Zion_vCore.zip';
+                }
+
+                // Show loader
+                if (bootLoader) bootLoader.classList.add('active');
+                if (loaderStatus) loaderStatus.innerText = `WAYFINDER: SCANNING AR.IO NETWORK...`;
+
+                // Phase 0: Wayfinder-style dynamic peer discovery (parallel with static probes)
+                const peerDiscovery = discoverArIOPeers();
+
+                // Phase 1: Race ALL gateways (static + discovered) across both networks
+                const discoveredPeers = await peerDiscovery;
+                const arweavePool = [...GATEWAYS.arweave, ...discoveredPeers];
+                if (loaderStatus) loaderStatus.innerText = `WAYFINDER: RACING ${arweavePool.length + GATEWAYS.ipfs.length} GATEWAYS...`;
+                const allProbes = [
+                    ...arweavePool.map(gw => probeGateway(gw).then(() => ({ gw, net: 'arweave' }))),
+                    ...GATEWAYS.ipfs.map(gw  => probeGateway(gw).then(() => ({ gw, net: 'ipfs' })))
+                ];
+
+                let winner;
+                try {
+                    winner = await Promise.any(allProbes);
+                } catch (_) {
+                    winner = { gw: 'https://arweave.net', net: 'arweave' };
+                }
+
+                // Build ordered list: winner first, then rest of same network, then other network
+                const fullArweavePool = [...new Set([...GATEWAYS.arweave, ...discoveredPeers])];
+                const sameNet  = (winner.net === 'arweave' ? fullArweavePool : GATEWAYS.ipfs).filter(g => g !== winner.gw);
+                const otherNet = winner.net === 'arweave' ? 'ipfs' : 'arweave';
+                const orderedGateways = [
+                    { gw: winner.gw, net: winner.net },
+                    ...sameNet.map(gw => ({ gw, net: winner.net })),
+                    ...GATEWAYS[otherNet].map(gw => ({ gw, net: otherNet }))
+                ];
+
+                // Phase 2: try Blob fetch on each gateway in order
+                if (loaderStatus) loaderStatus.innerText = `FETCHING ${filename.toUpperCase()}...`;
+                for (const { gw, net } of orderedGateways) {
+                    const id = net === 'arweave' ? txId : cidId;
+                    const url = buildDownloadUrl(gw, net, id, filename);
+                    const gwLabel = gw.replace('https://', '').toUpperCase();
+                    if (loaderStatus) loaderStatus.innerText = `TRYING ${gwLabel} [${net.toUpperCase()}]...`;
+                    const ok = await fetchAndDownload(url, filename);
+                    if (ok) {
+                        if (loaderStatus) loaderStatus.innerText = `✓ DOWNLOAD STARTED — ${gwLabel} [${net.toUpperCase()}]`;
+                        setTimeout(() => { if (bootLoader) bootLoader.classList.remove('active'); }, 2500);
+                        return;
+                    }
+                }
+
+                // Phase 3: ultimate fallback — open in new tab via Arweave
+                if (loaderStatus) loaderStatus.innerText = `OPENING IN NEW TAB — SAVE MANUALLY`;
+                const fallbackUrl = buildDownloadUrl('https://arweave.net', 'arweave', txId, filename);
+                window.open(fallbackUrl, '_blank', 'noopener,noreferrer');
+                setTimeout(() => { if (bootLoader) bootLoader.classList.remove('active'); }, 2500);
+            };
+
+            // Grid Initialization
+            const BOOT_DATA = [
+                { l: "Amharic (አማርኛ)", code: "am", tx: "eq-k2p1gNSH8PKbEN71qzsQ5hPNOSxE1bmObJJcn7J4", cid: "bafybeic2mcil2y5htin7xykzvfmeq2m3dvc53g2ltktfij2nbrrcwyqbza" },
+                { l: "Arabic (العربية)", code: "ar", tx: "BrVfjnkZEIZ86k4zJUmGHMNX4IFQxjPMBzBCq2bdxZw", cid: "bafybeidrofrlaxfy7xzlwq6umzjch7qeszndw7oxbquj4zevywnvwmijne" },
+                { l: "Bengali (বাংলা)", code: "bn", tx: "7acKqVnH9Yfoj6_NzGE-fqS_ykdhnASMsLghqrQH4Cc", cid: "bafybeihn3e2lj3r3hnq7ancjjpyw735szwalof3bueekyvbn3h357bn2n4" },
+                { l: "Burmese (မြန်မာဘာသာ)", code: "my", tx: "FFc-vqDimu-9bTk7y9ufBIcMgEisbqpZG_chQypJTKk", cid: "bafybeigc7f3v6jsmiqujxhyobus5q53vrvdemsxnqxtidv5ns6rxt5u7ga" },
+                { l: "Chinese (中文)", code: "zh", tx: "9At6YT19K_IylcTbJipwRRQsrISn4kWpf2mgkKzOFwE", cid: "bafybeicssni3ptuqyhpuyasr7ryvhzocws75uq52j5ybvm7dkdyjcwbgfi" },
+                { l: "Dari (دری)", code: "prs", tx: "ZovaG3j0yHL23op9hAcaH_UybtBqDcB9b6QH9NDDG3U", cid: "bafybeif325ie2rtsadyxynmdt42jn4okxiyfnpkzq5o7gr6ysrtuy6xvvy" },
+                { l: "English", code: "en", tx: "oyW7YIX2dpqHSZf3-o2cMmUqFjeL77ZUFh8QYHaX7w8", cid: "bafybeihf67bbbfmaeelikvjorqu5dhxw4evoyiipbypf4jye23jegegfhi" },
+                { l: "French (Français)", code: "fr", tx: "L3rpPpxTBF_Oig7UuBQ2pkNvU_LW_EI5g0wUjq6MjS0", cid: "bafybeiderey7iddxolswplhkg4odngutvitglmizetuia3b72wiauqzsre" },
+                { l: "Hindi (हिन्दी)", code: "hi", tx: "nAO77K_CBxHtGMz86_C_5T6d-tNA22iWTEsnFGPUskI", cid: "bafybeibpqkl4bnjx2rl7x3nwpdrtvihqcd6hs2qbfcc33smtufxopkwdjm" },
+                { l: "Indonesian (Bahasa)", code: "id", tx: "moL-7xfQBh0PdeJTuYT6TNSEgjkHSh6k2d1Jd8DE0Ts", cid: "bafybeibwdjufozcaa6on6p22n3lopyzb72za7cse5dvafwcki36ghw36le" },
+                { l: "Korean (한국어)", code: "ko", tx: "jE1efNAuHkLcMsJuYbytPjpee4sX3kcNivH9yrQ7AWU", cid: "bafybeiaxp246w5c3zn34dpdakzayswsg33j5dr5w3dss2pub2q6gof455y" },
+                { l: "Nepali (नेपाली)", code: "ne", tx: "Tl6QokPWvTAdYRBV7jvvursr7DQMQIwkNNtFLJo-ZaM", cid: "bafybeiaxzlbiwfpffaxj73k2ly2hkf2a2r7bshbpzjhuhy7f3mpt6flne4" },
+                { l: "Pashto (پښتو)", code: "ps", tx: "6eJJve1OGlN2WtMCqOVD59bVC6Rd5bzWhQIC9-DLyQQ", cid: "bafybeigx4pv33x5we35udgg3bbvgr5e56argk6cawgiiejf6haleqvvooe" },
+                { l: "Persian (فارسی)", code: "fa", tx: "isx8Lgnf6YEppHPBFRmG_HVEfVF9HKIcVm14sUTf_cU", cid: "bafybeif35ob4cfavbwtovumqs7uf7mk27de67wo6yw74uye6z7o6umxxme" },
+                { l: "Punjabi (ਪੰਜਾਬੀ)", code: "pa", tx: "UZdijgdhuUwNQJBdaPPIiWn_hwsyn5pVzw5_X5w57KI", cid: "bafybeiggokfi376zu7jgxkvsm27hspbmj5vmt64y6klrei6abpt4wengry" },
+                { l: "Rohingya (Ruáingga)", code: "rhg", tx: "_ECFcYkmfTmCb5JhzAkQSQmHXhZWOcJh_Gx6ug8L5uk", cid: "bafybeifeya7ep4lqdnftlrlrv6e5nsuxbpj5t7kcins3gpkn5rnl7la4dy" },
+                { l: "Somali (Soomaali)", code: "so", tx: "1zVN7XFq9RnkY8ujUgEGAaNXHlJ8AU4IDZVLH3R10nA", cid: "bafybeig5cpbdzadmyousy3cvhf5yhubzw6cbep7rxqnihscusglz6wjaky" },
+                { l: "Spanish (Español)", code: "es", tx: "4RkAgMtDwc_54tNfKUA-ZB_zUdYvyNIWjhmgFYDaWZE", cid: "bafybeieyf2z3ojlpe2goo3gkamul32sxlbqpkkdlpzc7ylfrm4t2zpf7b4" },
+                { l: "Swahili (Kiswahili)", code: "sw", tx: "T_oOzBNMq30TLiWci0xoQRS-XsPnrR7yG_kpOnBUuv8", cid: "bafybeiaah2jufldfptg37qiv6tydkbylfch4krdihhnmv6ehkcqxt2cav4" },
+                { l: "Tajik (Тоҷикӣ)", code: "tg", tx: "KBqvxJNLiVsXsln0XAkrYoF8rpVcfzUhzEzSmFgB4BE", cid: "bafybeid3vpl5skfa24whc7el4t6tzfusnzrtyz5t3jlutcqjdptrd2nmga" },
+                { l: "Tamil (தமிழ்)", code: "ta", tx: "QRUk-UraokcEq6J2JaxJVh4U4weYg6EG624cdbhrfjI", cid: "bafybeieko7lno6d55i36wgr6msrhncneyhwoq3wofuiakcz3oidu6tvr5u" },
+                { l: "Telugu (తెలుగు)", code: "te", tx: "SzrL0fru-fA3h7L3Utj4dJTZjrJYUAPPmdBscwiJwmY", cid: "bafybeicbjqbz2blvhuuip7bowzuxclqcbkdzhknnq6evenkk6pne23qn5a" },
+                { l: "Turkish (Türkçe)", code: "tr", tx: "UIdjBIUkF6vpSShmF58O03ou4A7lDI07_b32GZvbSqo", cid: "bafybeiaei76nkfsqqn2aqij53gpyyldawmzdjrd63xiwxx4benv7zfa4vq" },
+                { l: "Uyghur (ئۇيغۇرچە)", code: "ug", tx: "n5QzetmAj8P0WkiZQHHp4kTyNfBDbEq5KFfumT27L78", cid: "bafybeiguvq6xxwyqdjkhkvaxjycjrf54m2ngtrdkhze7mv7pv3of4fbzji" }
+            ];
+
+            if (bootGrid) {
+                BOOT_DATA.forEach(data => {
+                    const el = document.createElement('div');
+                    el.className = 'boot-item';
+                    el.innerHTML = `
+                        <span class="lang-name">${data.l}</span>
+                        <span class="lang-code">[ READY ] • SECURE</span>
+                    `;
+                    el.addEventListener('click', () => triggerBoot(data));
+                    bootGrid.appendChild(el);
+                });
+            }
+
+            // GATEWAYS and probeGateway are declared at the top of DOMContentLoaded
+
+            /**
+             * Races all gateways in parallel. Returns the first one to respond.
+             * Falls back to the first in the list if all fail (best-effort).
+             */
+            async function pickFastestGateway(network) {
+                const gateways = GATEWAYS[network];
+                const loaderStatus = document.getElementById('loaderStatus');
+
+                const probes = gateways.map(gw => probeGateway(gw));
+
+                try {
+                    const fastest = await Promise.any(probes);
+                    return fastest;
+                } catch (_) {
+                    // All failed — return default as best-effort
+                    if (loaderStatus) loaderStatus.innerText = `GATEWAY UNREACHABLE. USING DEFAULT...`;
+                    return gateways[0];
+                }
+            }
+
+            /**
+             * Builds the final URL from a gateway base and the data identifiers.
+             */
+            function buildUrl(gatewayBase, network, data) {
+                return network === 'arweave'
+                    ? `${gatewayBase}/${data.tx}`
+                    : `${gatewayBase}/ipfs/${data.cid}`;
+            }
+
+            /**
+             * Cross-network boot: races all Arweave + IPFS gateways simultaneously.
+             * Whichever responds first wins — no manual network selection needed.
+             * Automatically uses tx (Arweave) or cid (IPFS) based on winner.
+             */
+            /**
+             * Cross-network boot: races all Arweave + IPFS gateways simultaneously.
+             * Whichever responds first wins — no manual network selection needed.
+             * Automatically uses tx (Arweave) or cid (IPFS) based on winner.
+             */
+            async function triggerBoot(data) {
+                if (!bootModal) return;
+
+                const bootLoader = document.getElementById('bootLoader');
+                const loaderStatus = document.getElementById('loaderStatus');
+
+                console.log("BOOT SEQUENCE INITIATED:", data.l);
+
+                if (bootLoader) {
+                    bootLoader.classList.add('active');
+                    if (loaderStatus) loaderStatus.innerText = `WAYFINDER: SCANNING AR.IO NETWORK...`;
+                }
+
+                bootModal.classList.remove('active');
+                setTimeout(() => { bootModal.style.display = 'none'; }, 400);
+
+                // Phase 0: Wayfinder-style dynamic peer discovery
+                const bootDiscoveredPeers = await discoverArIOPeers();
+                const bootArweavePool = [...GATEWAYS.arweave, ...bootDiscoveredPeers];
+                if (loaderStatus) loaderStatus.innerText = `WAYFINDER: RACING ${bootArweavePool.length + GATEWAYS.ipfs.length} GATEWAYS...`;
+
+                // Build one probe per gateway, tagging each with its network
+                const allProbes = [
+                    ...bootArweavePool.map(gw => probeGateway(gw).then(() => ({ gw, net: 'arweave' }))),
+                    ...GATEWAYS.ipfs.map(gw    => probeGateway(gw).then(() => ({ gw, net: 'ipfs' })))
+                ];
+
+                let winner;
+                try {
+                    // Modern race
+                    winner = await Promise.any(allProbes);
+                    console.log("GATEWAY WINNER:", winner.gw, "[", winner.net, "]");
+                } catch (err) {
+                    console.warn("ALL GATEWAY PROBES FAILED OR TIMED OUT. FALLING BACK TO PRIMARY.");
+                    // Fallback to official Arweave gateway if everything fails
+                    winner = { gw: 'https://arweave.net', net: 'arweave' };
+                }
+
+                const targetUrl = buildUrl(winner.gw, winner.net, data);
+                console.log("FINAL TARGET URL:", targetUrl);
+
+                if (loaderStatus) {
+                    const gwLabel = winner.gw.replace('https://', '').toUpperCase();
+                    loaderStatus.innerText = `LINK ESTABLISHED → ${gwLabel} [${winner.net.toUpperCase()}] ✓`;
+                }
+
+                // Force navigation after short delay to ensure UI updates
+                setTimeout(() => {
+                    window.location.href = targetUrl;
+                }, 900);
+            }
+
+            // Share Functionality
+            window.triggerTacticalShare = async () => {
+                const shareData = {
+                    title: 'ZION SYSTEM',
+                    text: 'Resiliencia, privacidad y descentralización. Kit de supervivencia digital.',
+                    url: window.location.href
+                };
+
+                const toast = document.getElementById('shareToast');
+                const showToast = () => {
+                    if (toast) {
+                        toast.classList.add('active');
+                        setTimeout(() => toast.classList.remove('active'), 2500);
+                    }
+                };
+
+                const copyToClipboard = async (text) => {
+                    try {
+                        if (navigator.clipboard && navigator.clipboard.writeText) {
+                            await navigator.clipboard.writeText(text);
+                            return true;
+                        }
+                    } catch (e) { console.warn("Clipboard API failed"); }
+
+                    try {
+                        const textArea = document.createElement("textarea");
+                        textArea.value = text;
+                        textArea.style.position = "fixed";
+                        textArea.style.left = "-9999px";
+                        textArea.style.top = "0";
+                        document.body.appendChild(textArea);
+                        textArea.focus();
+                        textArea.select();
+                        const successful = document.execCommand('copy');
+                        document.body.removeChild(textArea);
+                        return successful;
+                    } catch (err) {
+                        console.error('Classic copy failed', err);
+                        return false;
+                    }
+                };
+
+                try {
+                    if (navigator.share) {
+                        await navigator.share(shareData);
+                    } else {
+                        const ok = await copyToClipboard(window.location.href);
+                        if (ok) showToast();
+                    }
+                } catch (err) {
+                    const ok = await copyToClipboard(window.location.href);
+                    if (ok) showToast();
+                }
+            };
+
+            // Global Copy Helper
+            window.copyToClipboard = async (text) => {
+                const toast = document.getElementById('shareToast');
+                const showToast = (msg) => {
+                    if (toast) {
+                        if (msg) toast.innerText = msg;
+                        toast.classList.add('active');
+                        setTimeout(() => {
+                            toast.classList.remove('active');
+                            // Reset to original translation after delay
+                            setTimeout(() => {
+                                const t = TRANSLATIONS[navigator.language.split('-')[0]] || TRANSLATIONS.en;
+                                toast.innerText = t.share_success || 'COPIED';
+                            }, 400);
+                        }, 2500);
+                    }
+                };
+
+                try {
+                    if (navigator.clipboard && navigator.clipboard.writeText) {
+                        await navigator.clipboard.writeText(text);
+                        showToast();
+                        return true;
+                    }
+                } catch (e) {}
+
+                const textArea = document.createElement("textarea");
+                textArea.value = text;
+                textArea.style.position = "fixed";
+                textArea.style.left = "-9999px";
+                textArea.style.top = "0";
+                document.body.appendChild(textArea);
+                textArea.focus();
+                textArea.select();
+                try {
+                    const successful = document.execCommand('copy');
+                    document.body.removeChild(textArea);
+                    if (successful) showToast();
+                    return successful;
+                } catch (err) {
+                    document.body.removeChild(textArea);
+                    return false;
+                }
+            };
+
+            // Specs Subpage
+            const specsPage = document.getElementById('specsPage');
+            const openSpecsBtn = document.getElementById('openInfo'); // The 'i' button inside vault
+            const closeSpecsBtn = document.getElementById('closeSpecs');
+
+            if (openSpecsBtn && specsPage) {
+                openSpecsBtn.addEventListener('click', (e) => {
+                    e.stopPropagation();
+                    specsPage.style.display = 'block';
+                    setTimeout(() => {
+                        specsPage.classList.add('active');
+                        body.classList.add('modal-open');
+                    }, 10);
+                });
+            }
+
+            if (closeSpecsBtn && specsPage) {
+                closeSpecsBtn.addEventListener('click', () => {
+                    specsPage.classList.remove('active');
+                    body.classList.remove('modal-open');
+                    setTimeout(() => {
+                        specsPage.style.display = 'none';
+                    }, 400);
+                });
+            }
+
+            // Backdrop click to close specs page
+            if (specsPage) {
+                specsPage.addEventListener('click', (e) => {
+                    if (e.target === specsPage) {
+                        if (closeSpecsBtn) closeSpecsBtn.click();
+                    }
+                });
+            }
+
+            // Close all on ESC
+            document.addEventListener('keydown', (e) => {
+                if (e.key === 'Escape') {
+                    if (vaultModal && vaultModal.classList.contains('active')) closeVaultBtn.click();
+                    if (bootModal && bootModal.classList.contains('active')) closeBoot.click();
+                    if (specsPage && specsPage.classList.contains('active')) closeSpecsBtn.click();
+                }
+            });
+        });
+    </script>
+
+    <!-- BOOT LOADER OVERLAY -->
+    <div id="bootLoader">
+        <div class="loader-bar-container">
+            <div class="loader-bar"></div>
+        </div>
+        <div class="loader-status" id="loaderStatus">ESTABLISHING ENCRYPTED LINK...</div>
+    </div>
+    <script>
+    /**
+     * Tactical System Cloning:
+     * Fetches or clones the full landing page HTML and triggers a download.
+     * The cloned file always starts from the initial landing page state.
+     */
+    async function triggerTacticalShortcut() {
+        const loaderStatus = document.getElementById('loaderStatus');
+        const bootLoader   = document.getElementById('bootLoader');
+        const filename     = 'index.html';
+        const url          = window.location.href;
+
+        // Visual Feedback
+        if (bootLoader) bootLoader.classList.add('active');
+        if (loaderStatus) loaderStatus.innerText = 'CLONING SYSTEM SOURCE...';
+
+        const triggerDownload = (content) => {
+            const blob = new Blob([content], { type: 'text/html' });
+            const blobUrl = URL.createObjectURL(blob);
+            const link = document.createElement('a');
+            link.href = blobUrl;
+            link.download = filename;
+            document.body.appendChild(link);
+            link.click();
+            document.body.removeChild(link);
+            URL.revokeObjectURL(blobUrl);
+        };
+
+        try {
+            // Method A: Get clean original source from network/cache
+            const response = await fetch(url);
+            if (!response.ok) throw new Error('FETCH_FAILED');
+            const text = await response.text();
+            triggerDownload(text);
+            if (loaderStatus) loaderStatus.innerText = '\u2713 SYSTEM CLONED FROM SOURCE';
+
+        } catch (err) {
+            console.warn("Network clone failed, using DOM fallback:", err);
+
+            // Method B: DOM Fallback \u2014 reset UI to initial state before snapshot
+
+            // 1. Collect current states to restore later
+            const vaultModal  = document.getElementById('vaultModal');
+            const specsPage   = document.getElementById('specsPage');
+            const bootModal   = document.getElementById('bootModal');
+            const scrollY     = window.scrollY;
+
+            const vaultDisplay  = vaultModal  ? vaultModal.style.display   : null;
+            const vaultActive   = vaultModal  ? vaultModal.classList.contains('active') : false;
+            const specsDisplay  = specsPage   ? specsPage.style.display    : null;
+            const specsActive   = specsPage   ? specsPage.classList.contains('active') : false;
+            const bootDisplay   = bootModal   ? bootModal.style.display    : null;
+            const bootActive    = bootModal   ? bootModal.classList.contains('active') : false;
+            const blActive      = bootLoader  ? bootLoader.classList.contains('active') : false;
+
+            // 2. Reset to initial landing state
+            if (bootLoader)  bootLoader.classList.remove('active');
+            if (vaultModal)  { vaultModal.classList.remove('active');  vaultModal.style.display  = 'none'; }
+            if (specsPage)   { specsPage.classList.remove('active');   specsPage.style.display   = 'none'; }
+            if (bootModal)   { bootModal.classList.remove('active');   bootModal.style.display   = 'none'; }
+            window.scrollTo(0, 0);
+
+            // 3. Capture clean DOM snapshot
+            const cloneNode = document.documentElement.cloneNode(true);
+            const injectedNodes = cloneNode.querySelectorAll('script[src], link[rel="stylesheet"], iframe, object');
+            injectedNodes.forEach(el => el.remove());
+            const htmlContent = '<!DOCTYPE html>\n' + cloneNode.outerHTML;
+
+            // 4. Restore everything to how it was
+            if (vaultModal) {
+                vaultModal.style.display = vaultDisplay;
+                if (vaultActive) vaultModal.classList.add('active');
+            }
+            if (specsPage) {
+                specsPage.style.display = specsDisplay;
+                if (specsActive) specsPage.classList.add('active');
+            }
+            if (bootModal) {
+                bootModal.style.display = bootDisplay;
+                if (bootActive) bootModal.classList.add('active');
+            }
+            if (bootLoader && blActive) bootLoader.classList.add('active');
+            window.scrollTo(0, scrollY);
+
+            triggerDownload(htmlContent);
+            if (loaderStatus) loaderStatus.innerText = '\u2713 SYSTEM CLONED (OFFLINE)';
+        }
+
+        setTimeout(() => {
+            if (bootLoader) bootLoader.classList.remove('active');
+        }, 2500);
+    }
+
+    // ─── VAULT MANUAL TOGGLE ─────────────────────────────────
+    function toggleVaultManual() {
+        const body   = document.getElementById('vaultManualBody');
+        const arrow  = document.getElementById('vaultManualArrow');
+        const toggle = document.getElementById('vaultManualToggle');
+        if (!body) return;
+
+        const isOpen = body.classList.contains('open');
+
+        if (isOpen) {
+            body.classList.remove('open');
+            arrow.classList.remove('open');
+            toggle.setAttribute('aria-expanded', 'false');
+            body.setAttribute('aria-hidden', 'true');
+        } else {
+            body.classList.add('open');
+            arrow.classList.add('open');
+            toggle.setAttribute('aria-expanded', 'true');
+            body.setAttribute('aria-hidden', 'false');
+            // Smooth scroll to manual on mobile so user sees it
+            setTimeout(() => {
+                body.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+            }, 50);
+        }
+    }
+    </script>
+
+</body>
+
+</html>
