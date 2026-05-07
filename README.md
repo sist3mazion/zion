@@ -21,7 +21,7 @@
 
 ### 🚀 Getting Started
 ```bash
-git clone https://github.com/sist3ma/zion.git
+git clone https://github.com/sist3mazion/zion.git
 cd WEB_APP
 npm install
 node build_zion_core.js     # Generate ZION Core
@@ -47,7 +47,7 @@ node build_zion_optimized.js # Generate ZION Lite files
 
 ### 🚀 Guía de Inicio
 ```bash
-git clone https://github.com/sist3ma/zion.git
+git clone https://github.com/sist3mazion/zion.git
 cd WEB_APP
 npm install
 node build_zion_core.js     # Generar ZION Core
