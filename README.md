@@ -61,4 +61,4 @@ This project is licensed under the **GNU General Public License v3.0**.
 Este proyecto está bajo la licencia **GNU General Public License v3.0**.
 
 ---
-*Built for resilience. Designed for sovereignty.* / *Construido para la resiliencia, diseñado para la soberanía.*
+*Built for resilience. Designed for sovereignty.* / *Construido para la resiliencia, diseñado para la soberanía.* CodeRabbit
