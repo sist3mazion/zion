@@ -69,7 +69,14 @@ function faltantes(libros, vrs, nombres) {
     for (const [c, n] of esp[id]) {
       const cap = l && l.caps.find(x => x[0] === c);
       const hay = new Set();
-      if (cap) for (const b of cap.slice(1)) { const [a, z] = b[1].split('-').map(Number); for (let v = a; v <= (z || a); v++) hay.add(v); }
+      if (cap) for (const b of cap.slice(1)) {
+        if (/^[sSrdab]$/.test(b[0])) continue;                          // títulos y líneas en blanco
+        for (let i = 1; i + 1 < b.length; i += 2) {                       // etiqueta, texto, etiqueta, texto…
+          if (!b[i] || !b[i + 1]) continue;
+          const [a, z] = String(b[i]).replace(/[^\d-]/g, '').split('-').map(Number);
+          for (let v = a; v <= (z || a); v++) hay.add(v);
+        }
+      }
       let ini = 0;
       for (let v = 1; v <= n + 1; v++) {
         if (v <= n && !hay.has(v)) { if (!ini) ini = v; }

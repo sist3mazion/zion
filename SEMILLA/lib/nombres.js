@@ -2,6 +2,7 @@
 /**
  * Nombres de los 66 libros (orden protestante) para las traducciones que vienen sin ellos
  * (formato un-versículo-por-línea). Escritos a mano; NINGUNO está revisado todavía por un hablante nativo.
+ * Solo se usan hoy para ru, vi y my (CSV); el resto de traducciones trae los nombres en su propio USFM.
  * Confianza: alta en en, ru, ar, fa, hi, id, vi; media en bn, ha; baja en my, ckb, ug (revisar antes de repartir).
  */
 const s = t => t.split('|');

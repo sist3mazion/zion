@@ -12,6 +12,7 @@ const { leerLineas, faltantes } = require('./lib/lineas');
 const { leerCsv } = require('./lib/csv');
 const NOMBRES = require('./lib/nombres');
 const { construir } = require('./lib/paquete');
+const { leerZip } = require('./lib/zip');
 const LISTA = require('./traducciones');
 
 async function main() {
@@ -35,6 +36,12 @@ async function main() {
           '. Algunos (Mt 17:21, Mr 9:44…) los omiten a propósito las traducciones modernas. Para una copia completa hace falta el USFM de eBible.org.';
         aviso = ' (faltan ' + falta.length + ' pasajes)';
       }
+    } else if (t.formato === 'zip') {
+      const arch = leerZip(fs.readFileSync(f)).filter(e => /\.(usfm|sfm)$/i.test(e.nombre)).map(e => ({ nombre: path.basename(e.nombre), texto: e.datos.toString('utf8') }));
+      libros = leerArchivos(arch);
+      if (libros.length !== 66) throw new Error(t.id + ': el zip trae ' + libros.length + ' libros, no 66');
+      const falta = faltantes(libros, fs.readFileSync(path.join(dir, 'eng.vrs'), 'utf8'), NOMBRES.en);
+      if (falta.length) aviso = ' (' + falta.length + ' tramos sin texto: ' + falta.slice(0, 4).join('; ') + (falta.length > 4 ? '…' : '') + ')';
     } else if (t.formato === 'csv') {
       libros = leerCsv(fs.readFileSync(f, 'utf8'), NOMBRES[t.nombres], NOMBRES.en);
     } else {
