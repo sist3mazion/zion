@@ -83,6 +83,34 @@ La prueba de navegador necesita Playwright (`npm i -D playwright`); si no está,
 
 Medidas con la Biblia completa en español, en Chrome de escritorio frenado 6× para imitar un móvil modesto: abrir 0,6 s, abrir un libro 0,2 s, primera búsqueda en toda la Biblia 3,7 s, las siguientes 0,7 s, unos 25–30 MB de memoria. La derivación de la clave no se frena con ese método, así que en un teléfono real abrir tardará más (estimación: 1–3 s).
 
+## Traducciones incluidas (14 idiomas)
+
+`node generar-todos.js <carpeta de fuentes> --clave "<clave>"` genera un archivo por cada fila de [traducciones.js](traducciones.js).
+Solo entran obras de dominio público o con licencia que permite repartirlas (CC BY-SA, CC BY-NC); cada archivo lleva su licencia dentro («Acerca de»).
+
+| Idioma | Traducción | Licencia | Estado del texto |
+|---|---|---|---|
+| es | Versión Biblia Libre | CC BY-SA 4.0 | completo |
+| en | Free Bible Version | CC BY-SA 4.0 | faltan 57 pasajes* |
+| zh | 和合本 simplificado | dominio público | completo |
+| ar | Árabe estándar (NAV) | CC BY-SA 4.0 | faltan 41 pasajes* |
+| fa | Persa, versión antigua | dominio público | faltan 60 pasajes* |
+| ru | Sinodal | dominio público | completo |
+| hi | Hindi estándar 2017 | CC BY-SA 4.0 | faltan 40 pasajes* |
+| bn | Bengalí IRV | CC BY-SA 4.0 | faltan 40 pasajes* |
+| id | Alkitab Yang Terbuka | CC BY-NC 4.0 | faltan 42 pasajes* |
+| vi | Kinh Thánh 1934 | dominio público | completo |
+| my | Birmano, Judson | dominio público | completo (14 versículos menos que el estándar) |
+| ha | Hausa (Biblica) | CC BY-SA 4.0 | faltan 57 pasajes* |
+| ckb | Kurdo sorani | CC BY-SA 4.0 | faltan 41 pasajes* |
+| ug | Uigur (escritura árabe) | CC BY-SA 4.0 | faltan 48 pasajes* |
+
+\* **Esas copias no están completas.** El formato de un versículo por línea (BibleNLP/ebible-corpus) descarta los versículos que el hebreo numera distinto del inglés (Joel 2:28-32 y 3:6-21, Malaquías 4, Números 16:36-50, Job 41:27-34…), unos 150 en total (0,5 %). Algunos de la lista (Mt 17:21, Mr 9:44…) los omiten a propósito las traducciones modernas. El archivo lo avisa dentro, con la lista. Se arregla con el USFM de eBible.org (`node generar.js <zip>`), que desde este entorno no se podía descargar.
+
+**Fuera por licencia** (CC BY-ND / BY-NC-ND prohíben obras derivadas): turco, urdu en escritura árabe, somalí, tibetano, tayiko. **No encontrados en ninguna fuente abierta:** uzbeko, amhárico, tigriña, pastún.
+
+**Sin revisar por nativos:** los nombres de los libros (`lib/nombres.js`) están escritos a mano; confianza baja en birmano, kurdo y uigur. La portada solo existe en 12 idiomas (es, en, fr, pt, ru, ar, fa, zh, id, tr, hi, ko): bengalí, vietnamita, birmano, hausa, kurdo y uigur muestran la portada en inglés. El texto de licencia dentro del archivo está en español.
+
 ## Qué falta antes de dárselo a alguien en riesgo
 
 1. **Probarlo en teléfonos reales**, sobre todo Android antiguos: abrir el archivo desde el gestor de archivos, desde WhatsApp y desde Telegram; que la clave abra; que «Enviar» funcione por Bluetooth. No sé todavía si todos los navegadores móviles permiten descifrar en un archivo abierto de esa forma.
@@ -101,6 +129,11 @@ SEMILLA/
   src/app.css       estilos
   src/ui.js         textos de la interfaz por idioma
   lib/texto.js      lee USFM y USFX
+  lib/lineas.js     lee «un versículo por línea» (ebible-corpus) y detecta lo que falta
+  lib/csv.js        lee CSV de scrollmapper
+  lib/nombres.js    nombres de los 66 libros en 12 idiomas
+  traducciones.js   las 14 traducciones elegidas y su licencia
+  generar-todos.js  genera un archivo por traducción
   lib/paquete.js    empaqueta, cifra y ensambla
   lib/nucleo.js     carga en Node el mismo código de cifrado que usa la app
   lib/zip.js        lee los .zip de eBible
