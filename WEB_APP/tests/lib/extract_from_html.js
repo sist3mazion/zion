@@ -27,6 +27,9 @@ function getDefinition(src, name) {
     const marker = new RegExp(`// <${name}>([\\s\\S]*?)// </${name}>`);
     const mk = marker.exec(src);
     if (mk) return mk[1];
+    const clsRe = new RegExp(`class\\s+${name}\\s*\\{`);
+    const cm = clsRe.exec(src);
+    if (cm) return extractBlock(src, cm.index);
     const fnRe = new RegExp(`(async\\s+)?function\\s+${name}\\s*\\(`);
     const m = fnRe.exec(src);
     if (m) return extractBlock(src, m.index);

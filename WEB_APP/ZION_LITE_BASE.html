@@ -5929,8 +5929,26 @@
             return data.buffer;
         }
 
+        /** Si el archivo es un ZIP (como los que genera ARKA), devuelve el PNG que contiene. */
+        function unwrapArkaZip(bytes) {
+            if (!(bytes.length >= 30 && bytes[0] === 0x50 && bytes[1] === 0x4B && bytes[2] === 0x03 && bytes[3] === 0x04)) return bytes;
+            const dv = new DataView(bytes.buffer, bytes.byteOffset, bytes.byteLength);
+            const method = dv.getUint16(8, true);
+            const size = dv.getUint32(18, true);
+            const start = 30 + dv.getUint16(26, true) + dv.getUint16(28, true);
+            if (method === 0 && start + size <= bytes.length && bytes[start] === 0x89 && bytes[start + 1] === 0x50) {
+                return bytes.subarray(start, start + size);
+            }
+            // ZIP no estándar: buscar la firma PNG dentro
+            for (let i = 30; i + 8 < bytes.length; i++) {
+                if (bytes[i] === 0x89 && bytes[i + 1] === 0x50 && bytes[i + 2] === 0x4E && bytes[i + 3] === 0x47 &&
+                    bytes[i + 4] === 0x0D && bytes[i + 5] === 0x0A && bytes[i + 6] === 0x1A && bytes[i + 7] === 0x0A) return bytes.subarray(i);
+            }
+            throw new Error('Could not extract PNG from ZIP file');
+        }
+
         async function extractLSBSecure(pngBlob, pass) {
-            const bytes = new Uint8Array(await pngBlob.arrayBuffer());
+            const bytes = unwrapArkaZip(new Uint8Array(await pngBlob.arrayBuffer()));
             if (bytes.length >= 3 && bytes[0] === 0xFF && bytes[1] === 0xD8 && bytes[2] === 0xFF) {
                 throw new Error('Image format is JPEG. If you used WhatsApp/Telegram, the hidden data was destroyed by compression. You must send the file as a Document.');
             }

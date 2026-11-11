@@ -12,7 +12,7 @@ const NAMES = [
     'deriveKey', 'encryptData', 'decryptData',
     'embedLSB', 'extractLSB', 'deriveHMACKey',
     'deriveArkaV2Keys', 'pngEndOffset', 'ARKA2_ZERO_COUNTER',
-    'embedLSBSecure', 'extractArkaV2', 'extractArkaV1', 'extractLSBSecure',
+    'embedLSBSecure', 'extractArkaV2', 'extractArkaV1', 'unwrapArkaZip', 'extractLSBSecure', 'MiniZip',
 ];
 
 function makePng(w = 320, h = 240) {
@@ -73,6 +73,33 @@ async function run(htmlFile) {
     const stegoZV = await bytesOf(await Z.embedLSBSecure(cover, zv, pass));
     assert.ok(!contains(stegoZV.subarray(end), [90, 86, 0, 0, 0, 0]), 'cabecera ZV en claro');
     console.log('✅ cabecera multi-volumen "ZV" no visible');
+
+    // 2c. Flujo real de la app: el PNG se descarga dentro de un ZIP (MiniZip) y el usuario abre el ZIP
+    const zipBlob = new Z.MiniZip('Arka_123.png', sb).generate();
+    const zb = await bytesOf(zipBlob);
+    assert.ok(zb[0] === 0x50 && zb[1] === 0x4B, 'debe ser un ZIP');
+    assert.deepStrictEqual(new Uint8Array(await Z.extractLSBSecure(zipBlob, pass)), pkt);
+    console.log('✅ leer directamente el ZIP que descarga la app');
+
+    // 2d. Multi-volumen de extremo a extremo: trocear, ocultar en ZIPs, extraer y reensamblar como la app
+    const big = crypto.getRandomValues(new Uint8Array(5000));
+    const parts = [big.slice(0, 2000), big.slice(2000, 4000), big.slice(4000)];
+    const batch = 0xA1B2C3D4, zips = [];
+    for (let i = 0; i < parts.length; i++) {
+        const h = new Uint8Array(9); h[0] = 90; h[1] = 86;
+        new DataView(h.buffer).setUint32(2, batch); h[6] = i + 1; h[7] = (i === parts.length - 1) ? i + 1 : 0;
+        const w = new Uint8Array(9 + parts[i].length); w.set(h, 0); w.set(parts[i], 9);
+        const png = await bytesOf(await Z.embedLSBSecure(cover, w, pass));
+        zips.push(new Z.MiniZip(`Arka_Vol${i + 1}.png`, png).generate());
+    }
+    const got2 = [];
+    for (const z of zips.reverse()) {               // orden desordenado a propósito
+        const v = new Uint8Array(await Z.extractLSBSecure(z, pass));
+        got2.push([v[6], v.slice(9)]);               // misma lectura que la app (cabecera de 9 bytes)
+    }
+    const joined = Uint8Array.from(got2.sort((a, b) => a[0] - b[0]).flatMap(p => Array.from(p[1])));
+    assert.deepStrictEqual(joined, big, 'el reensamblado multi-volumen no coincide');
+    console.log('✅ multi-volumen: 3 ZIPs desordenados se reensamblan sin corrupción');
 
     // 3. Contraseña incorrecta
     await assert.rejects(Z.extractLSBSecure(stego, 'otra'), /wrong password/);
