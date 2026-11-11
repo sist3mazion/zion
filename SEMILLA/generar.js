@@ -12,6 +12,8 @@ const fs = require('fs');
 const path = require('path');
 const { leerZip } = require('./lib/zip');
 const { leerArchivos, filtrar } = require('./lib/texto');
+const { leerLineas } = require('./lib/lineas');
+const NOMBRES = require('./lib/nombres');
 const { construir, CLAVE_MIN } = require('./lib/paquete');
 const UI = require('./src/ui');
 
@@ -19,6 +21,9 @@ const AYUDA = `
 Uso:  node generar.js <fuente> [opciones]
 
   <fuente>            carpeta con .usfm, zip de eBible.org, o archivo .usfx.xml / .usfm
+                      o un .txt de "un versículo por línea" (BibleNLP/ebible-corpus) con --vref
+  --vref <archivo>    vref.txt que acompaña al .txt de un versículo por línea
+  --nombres <código>  nombres de los libros para ese formato (${Object.keys(NOMBRES).join(', ')})
 
   --idioma <código>   idioma del texto (es, en, ar, fa, zh…). Por defecto: en
   --nombre "<texto>"  nombre de la traducción (se ve dentro, nunca en claro)
@@ -93,8 +98,14 @@ async function main() {
   const o = argumentos(process.argv.slice(2));
   if (o.ayuda || o.h || o.help || !o._.length) { process.stdout.write(AYUDA); process.exit(o._.length ? 0 : 1); }
 
-  const { archivos, copr } = cargarFuente(o._[0]);
-  let libros = filtrar(leerArchivos(archivos), o.solo);
+  let archivos = [], copr = '', libros;
+  if (/\.txt$/i.test(o._[0])) {
+    if (!o.vref || !NOMBRES[o.nombres]) throw new Error('Un .txt de un versículo por línea necesita --vref y --nombres (' + Object.keys(NOMBRES).join(', ') + ')');
+    libros = filtrar(leerLineas(fs.readFileSync(o._[0], 'utf8'), fs.readFileSync(o.vref, 'utf8'), NOMBRES[o.nombres]), o.solo);
+  } else {
+    ({ archivos, copr } = cargarFuente(o._[0]));
+    libros = filtrar(leerArchivos(archivos), o.solo);
+  }
   if (!libros.length) throw new Error('La fuente no contiene libros (¿--solo demasiado estricto?)');
 
   let acerca = o.acerca || '';
