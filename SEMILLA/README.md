@@ -87,29 +87,32 @@ Medidas con la Biblia completa en español, en Chrome de escritorio frenado 6× 
 
 `node generar-todos.js <carpeta de fuentes> --clave "<clave>"` genera un archivo por cada fila de [traducciones.js](traducciones.js).
 Solo entran obras de dominio público o con licencia que permite repartirlas (CC BY-SA, CC BY-NC); cada archivo lleva su licencia dentro («Acerca de»).
+La carpeta de fuentes lleva los zips USFM de eBible.org (`engfbv_usfm.zip`, `arbnav_usfm.zip`, …), los dos USFX de open-bibles (`spa-vbl.usfx.xml`, `chi-cuv-simp.usfx.xml`), los CSV de scrollmapper (`sm-RusSynodal.csv`, `sm-Viet.csv`, `sm-BurJudson.csv`) y `eng.vrs`.
 
-| Idioma | Traducción | Licencia | Estado del texto |
+| Idioma | Traducción | Licencia | Fuente |
 |---|---|---|---|
-| es | Versión Biblia Libre | CC BY-SA 4.0 | completo |
-| en | Free Bible Version | CC BY-SA 4.0 | faltan 57 pasajes* |
-| zh | 和合本 simplificado | dominio público | completo |
-| ar | Árabe estándar (NAV) | CC BY-SA 4.0 | faltan 41 pasajes* |
-| fa | Persa, versión antigua | dominio público | faltan 60 pasajes* |
-| ru | Sinodal | dominio público | completo |
-| hi | Hindi estándar 2017 | CC BY-SA 4.0 | faltan 40 pasajes* |
-| bn | Bengalí IRV | CC BY-SA 4.0 | faltan 40 pasajes* |
-| id | Alkitab Yang Terbuka | CC BY-NC 4.0 | faltan 42 pasajes* |
-| vi | Kinh Thánh 1934 | dominio público | completo |
-| my | Birmano, Judson | dominio público | completo (14 versículos menos que el estándar) |
-| ha | Hausa (Biblica) | CC BY-SA 4.0 | faltan 57 pasajes* |
-| ckb | Kurdo sorani | CC BY-SA 4.0 | faltan 41 pasajes* |
-| ug | Uigur (escritura árabe) | CC BY-SA 4.0 | faltan 48 pasajes* |
+| es | Versión Biblia Libre | CC BY-SA 4.0 | USFX open-bibles |
+| en | Free Bible Version | CC BY-SA 4.0 | USFM eBible.org |
+| zh | 和合本 simplificado | dominio público | USFX open-bibles |
+| ar | Árabe estándar (NAV) | CC BY-SA 4.0 | USFM eBible.org |
+| fa | Persa, versión antigua | dominio público | USFM eBible.org |
+| ru | Sinodal | dominio público | CSV scrollmapper |
+| hi | Hindi estándar 2017 | CC BY-SA 4.0 | USFM eBible.org |
+| bn | Bengalí IRV | CC BY-SA 4.0 | USFM eBible.org |
+| id | Alkitab Yang Terbuka | **ambigua** (no comercial; el texto dice a la vez «compartible» y «sin obras derivadas»: confirmar con YLSA antes de repartir) | USFM eBible.org |
+| vi | Kinh Thánh 1934 | dominio público | CSV scrollmapper |
+| my | Birmano, Judson | dominio público | CSV scrollmapper (14 versículos menos que el estándar) |
+| ha | Hausa (Biblica) | CC BY-SA 4.0 | USFM eBible.org |
+| ckb | Kurdo sorani | CC BY-SA 4.0 | USFM eBible.org |
+| ug | Uigur (escritura árabe) | CC BY-SA 4.0 | USFM eBible.org |
 
-\* **Esas copias no están completas.** El formato de un versículo por línea (BibleNLP/ebible-corpus) descarta los versículos que el hebreo numera distinto del inglés (Joel 2:28-32 y 3:6-21, Malaquías 4, Números 16:36-50, Job 41:27-34…), unos 150 en total (0,5 %). Algunos de la lista (Mt 17:21, Mr 9:44…) los omiten a propósito las traducciones modernas. El archivo lo avisa dentro, con la lista. Se arregla con el USFM de eBible.org (`node generar.js <zip>`), que desde este entorno no se podía descargar.
+**Versículos sin texto.** Algunas traducciones no traen ciertos versículos y no es un fallo del generador: las modernas omiten a propósito Mt 17:21, 18:11, 23:14, Mr 7:16, 9:44-46, 11:26, 15:28, Lc 17:36, 23:17, Jn 5:4, Hch 8:37… (inglés y hausa: 17 pasajes); el persa antiguo omite otros 21 (Gn 15:21, 21:34, 1 S 8:22…); en árabe, indonesio, kurdo y uigur son 1–9 casos de numeración distinta. `faltantes()` los detecta al generar.
+
+**Qué hay que NO usar.** `lib/lineas.js` lee el formato «un versículo por línea» de BibleNLP/ebible-corpus, pero ese formato **pierde ~150 versículos** (Joel 2:28-32 y 3:6-21, Malaquías 4, Números 16:36-50…) porque su numeración es la hebrea. Se conserva solo por si no hay otra fuente; si se usa, el archivo debe avisarlo dentro.
 
 **Fuera por licencia** (CC BY-ND / BY-NC-ND prohíben obras derivadas): turco, urdu en escritura árabe, somalí, tibetano, tayiko. **No encontrados en ninguna fuente abierta:** uzbeko, amhárico, tigriña, pastún.
 
-**Sin revisar por nativos:** los nombres de los libros (`lib/nombres.js`) están escritos a mano; confianza baja en birmano, kurdo y uigur. La portada solo existe en 12 idiomas (es, en, fr, pt, ru, ar, fa, zh, id, tr, hi, ko): bengalí, vietnamita, birmano, hausa, kurdo y uigur muestran la portada en inglés. El texto de licencia dentro del archivo está en español.
+**Sin revisar por nativos:** los nombres de los libros en ruso, vietnamita y birmano (`lib/nombres.js`) los escribí a mano; los demás salen de la propia traducción. La portada solo existe en 12 idiomas (es, en, fr, pt, ru, ar, fa, zh, id, tr, hi, ko): bengalí, vietnamita, birmano, hausa, kurdo y uigur muestran la portada en inglés. El texto de licencia dentro del archivo está en español.
 
 ## Qué falta antes de dárselo a alguien en riesgo
 
