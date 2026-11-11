@@ -80,6 +80,8 @@ test('navegador', { skip: !pw && 'Playwright no está instalado' }, async t => {
     assert.equal(await p.textContent('.tt'), 'Reina-Valera 1909');
     assert.deepEqual(await p.locator('.bk').allTextContents(), ['Génesis', 'Salmos', 'Juan', 'Judas']);
     assert.equal(await p.locator('.gd hr').count(), 1, 'separador entre testamentos');
+    assert.equal(await p.textContent('.dd h2'), 'DEDICADO A:');
+    assert.match(await p.textContent('.dd'), /Por Jesús, que resucitando/);
     await p.click('.bk:has-text("Salmos")');                     // un solo capítulo, y no es el 1
     await p.waitForSelector('.tx');
     assert.equal(await p.textContent('.tt'), 'Salmos 23');

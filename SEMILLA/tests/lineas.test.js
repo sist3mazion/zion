@@ -70,3 +70,13 @@ test('faltantes: detecta los versículos ingleses que el formato de origen desca
   const libros = [{ id: 'JOL', caps: [[1, ['p', '1-2', 'a'], ['p', '3', 'b']], [2, ['p', '1', 'x'], ['p', '2', 'y']]] }];
   assert.deepEqual(faltantes(libros, vrs, NOMBRES.en), ['Genesis 1:1-2', 'Joel 2:3-5']);
 });
+
+test('la dedicatoria viaja cifrada: no aparece en claro y cae al inglés si falta el idioma', async () => {
+  const { construir } = require('../lib/paquete');
+  const DED = require('../src/dedicatoria');
+  assert.ok(DED.es && DED.en && DED.ar);
+  const libros = [{ id: 'GEN', nombre: 'Génesis', caps: [[1, ['p', '1', 'En el principio']]] }];
+  const r = await construir({ libros, clave: 'clave de prueba 1', idioma: 'es', nombre: 'x' });
+  assert.ok(!r.html.includes('Por Jesús'), 'la dedicatoria no debe estar en claro');
+  assert.ok(!r.html.includes('DEDICADO'), 'ni el título');
+});
