@@ -993,6 +993,7 @@
                 <div style="font-size:0.75rem; color:rgba(255,153,0,0.8); background:rgba(255,153,0,0.05); border:1px solid rgba(255,153,0,0.2); padding:12px; border-radius:12px; margin-bottom:16px; line-height:1.4" data-translate="stegoInfo">
                     Para obtener el mensaje de texto o imagen ocultos, pulsa en <b>LEER IMAGEN</b>, selecciona la carpeta ZIP e introduce la contraseña (no es necesario descomprimir el archivo ZIP).
                 </div>
+                <div style="font-size:0.75rem; color:#ff6b5e; background:rgba(255,59,48,0.06); border:1px solid rgba(255,59,48,0.25); padding:10px 12px; border-radius:12px; margin-bottom:16px; line-height:1.4" data-translate="stegoDocNote">⚠️ Envía la imagen como ARCHIVO/DOCUMENTO. Si la envías como foto, WhatsApp/Telegram destruyen los datos ocultos.</div>
                 <div style="display:flex; gap:10px">
                     <button onclick="msgEncrypt(); closeModal('propagationModal')" class="btn-main"
                         style="flex:1; background:rgba(0, 168, 255, 0.15); border:1px solid rgba(0, 168, 255, 0.4); color:#00a8ff; display:flex; gap:8px; justify-content:center; align-items:center; box-shadow:none; padding:12px; font-size:0.8rem">
@@ -1001,6 +1002,31 @@
                     <button onclick="msgDecrypt(); closeModal('propagationModal')" class="btn-main"
                         style="flex:1; background:rgba(255, 153, 0, 0.15); border:1px solid rgba(255, 153, 0, 0.4); color:#f90; display:flex; gap:8px; justify-content:center; align-items:center; box-shadow:none; padding:12px; font-size:0.8rem">
                         <span data-translate="btnDecrypt">🔓 LEER IMAGEN</span>
+                    </button>
+                </div>
+            </div>
+
+            <!-- OP 0.5: PHOTO POINTER (robusto a WhatsApp/Telegram) -->
+            <div id="pointerSection"
+                style="background:var(--glass-bg); border:1px solid var(--border); border-radius:16px; padding:20px; margin-bottom:16px; box-shadow:0 4px 15px rgba(0,0,0,0.2)">
+                <div style="display:flex; align-items:center; margin-bottom:16px">
+                    <div style="font-size:2rem; margin-right:16px">📍</div>
+                    <div>
+                        <div style="color:var(--fg); font-weight:600; font-size:1.1rem; letter-spacing:1px" data-translate="ptrTitle">ENLACE EN FOTO</div>
+                        <div style="color:rgba(255,255,255,0.5); font-size:0.8rem; margin-top:2px" data-translate="ptrDesc">Oculta un enlace Arweave/IPFS en una foto. Sobrevive a WhatsApp y Telegram.</div>
+                    </div>
+                </div>
+                <div style="font-size:0.75rem; color:rgba(0,200,120,0.85); background:rgba(0,200,120,0.05); border:1px solid rgba(0,200,120,0.2); padding:12px; border-radius:12px; margin-bottom:16px; line-height:1.4" data-translate="ptrInfo">
+                    Solo se oculta un enlace corto y cifrado (ID + clave opcional), no un archivo. Puedes enviarla como foto normal. No la recortes ni la edites después.
+                </div>
+                <div style="display:flex; gap:10px">
+                    <button onclick="closeModal('propagationModal'); pointerHide()" class="btn-main"
+                        style="flex:1; background:rgba(0,200,120,0.15); border:1px solid rgba(0,200,120,0.4); color:#00c878; display:flex; gap:8px; justify-content:center; align-items:center; box-shadow:none; padding:12px; font-size:0.8rem">
+                        <span data-translate="btnPtrHide">📍 ESCONDER ENLACE</span>
+                    </button>
+                    <button onclick="closeModal('propagationModal'); pointerRead()" class="btn-main"
+                        style="flex:1; background:rgba(255,255,255,0.05); border:1px solid var(--border); color:var(--fg); display:flex; gap:8px; justify-content:center; align-items:center; box-shadow:none; padding:12px; font-size:0.8rem">
+                        <span data-translate="btnPtrRead">🔎 LEER ENLACE</span>
                     </button>
                 </div>
             </div>
@@ -1292,6 +1318,27 @@
                     "accordCrypt": "🔐 CRYPTO OPS",
                     "btnEncrypt": "HIDE IN IMAGE 🔒",
                     "btnDecrypt": "READ IMAGE 🔓",
+                    "ptrTitle": "LINK IN PHOTO",
+                    "ptrDesc": "Hide an Arweave/IPFS link inside a photo. Survives WhatsApp and Telegram.",
+                    "ptrInfo": "Only a short encrypted link (ID + optional key) is hidden, not a file. You can send it as a normal photo. Do not crop or edit it afterwards.",
+                    "btnPtrHide": "📍 HIDE LINK",
+                    "btnPtrRead": "🔎 READ LINK",
+                    "ptrIdLabel": "Arweave transaction ID or IPFS CID",
+                    "ptrKeyLabel": "Decryption key (optional, 32 bytes hex/base64)",
+                    "ptrCancel": "CANCEL",
+                    "ptrNext": "NEXT",
+                    "ptrPickPhoto": "Choose the photo",
+                    "ptrPassTitle": "Photo password",
+                    "ptrWorking": "Hiding link in photo...",
+                    "ptrReading": "Searching for link...",
+                    "ptrDone": "✓ Photo saved. You can send it as a normal photo.",
+                    "ptrNotFound": "No link found in this photo, or wrong password. If it was cropped or edited, the link is lost.",
+                    "ptrResult": "LINK FOUND",
+                    "ptrOpen": "Open via gateway",
+                    "ptrCopy": "COPY ID",
+                    "ptrKeyOut": "Decryption key",
+                    "ptrErrKey": "Invalid key: use 64 hex characters or 32 bytes in base64.",
+                    "stegoDocNote": "⚠️ Send the image as a FILE/DOCUMENT. If sent as a photo, WhatsApp/Telegram destroy the hidden data.",
                     "btnPropagate": "ARKA LABORATORY 🧬",
                     "stegoTitle": "STEGANOGRAPHY",
                     "stegoDesc": "Hide or extract ZION from an image",
@@ -1459,6 +1506,27 @@
                     "accordCrypt": "🔐 CRIPTOGRAFÍA",
                     "btnEncrypt": "ESCONDER EN IMAGEN 🔒",
                     "btnDecrypt": "LEER IMAGEN 🔓",
+                    "ptrTitle": "ENLACE EN FOTO",
+                    "ptrDesc": "Oculta un enlace Arweave/IPFS en una foto. Sobrevive a WhatsApp y Telegram.",
+                    "ptrInfo": "Solo se oculta un enlace corto y cifrado (ID + clave opcional), no un archivo. Puedes enviarla como foto normal. No la recortes ni la edites después.",
+                    "btnPtrHide": "📍 ESCONDER ENLACE",
+                    "btnPtrRead": "🔎 LEER ENLACE",
+                    "ptrIdLabel": "ID de transacción Arweave o CID de IPFS",
+                    "ptrKeyLabel": "Clave de descifrado (opcional, 32 bytes hex/base64)",
+                    "ptrCancel": "CANCELAR",
+                    "ptrNext": "SIGUIENTE",
+                    "ptrPickPhoto": "Elige la foto",
+                    "ptrPassTitle": "Contraseña de la foto",
+                    "ptrWorking": "Ocultando enlace en la foto...",
+                    "ptrReading": "Buscando enlace...",
+                    "ptrDone": "✓ Foto guardada. Puedes enviarla como foto normal.",
+                    "ptrNotFound": "No hay enlace en esta foto o la contraseña es incorrecta. Si se recortó o editó, el enlace se pierde.",
+                    "ptrResult": "ENLACE ENCONTRADO",
+                    "ptrOpen": "Abrir mediante gateway",
+                    "ptrCopy": "COPIAR ID",
+                    "ptrKeyOut": "Clave de descifrado",
+                    "ptrErrKey": "Clave no válida: usa 64 caracteres hex o 32 bytes en base64.",
+                    "stegoDocNote": "⚠️ Envía la imagen como ARCHIVO/DOCUMENTO. Si la envías como foto, WhatsApp/Telegram destruyen los datos ocultos.",
                     "btnPropagate": "LABORATORIO ARKA 🧬",
                     "stegoTitle": "ESTEGANOGRAFÍA",
                     "stegoDesc": "Ocultar o Extraer de una imagen",
@@ -5264,7 +5332,7 @@
                                 const batchId = new DataView(view.buffer).getUint32(2);
                                 const idx = view[6];
                                 const total = view[7];
-                                const data = view.slice(8);
+                                const data = view.slice(9); // cabecera ZV = 9 bytes (antes 8: corrompía multi-volumen)
 
                                 if (!volumes.has(batchId)) {
                                     volumes.set(batchId, { id: batchId, total: total, parts: new Map() });
@@ -5700,55 +5768,507 @@
             );
         }
 
+        // ============================================================================
+        // ARKA v2 — CONTENEDOR SIN HUELLA
+        // Formato tras el chunk IEND real del PNG:
+        //   [SALT(32)] [AES-256-CTR(payload)] [HMAC-SHA256(SALT || CT)(32)]
+        // No hay firma ni longitud en claro: sin la contraseña los bytes añadidos son
+        // indistinguibles de ruido aleatorio (ya no aparece "ARKA" ni la cabecera "ZV").
+        // NOTA: sigue habiendo datos tras IEND, algo detectable a nivel estructural.
+        // Lectura retrocompatible con imágenes ARKA v1 (firma "ARKA").
+        // ============================================================================
+
+        async function deriveArkaV2Keys(pass, salt) {
+            const base = await crypto.subtle.importKey('raw', new TextEncoder().encode(pass + ':ARKA2'), 'PBKDF2', false, ['deriveBits']);
+            const bits = new Uint8Array(await crypto.subtle.deriveBits(
+                { name: 'PBKDF2', salt: salt, iterations: PBKDF2_ITERATIONS, hash: 'SHA-256' }, base, 512));
+            const encKey = await crypto.subtle.importKey('raw', bits.slice(0, 32), { name: 'AES-CTR' }, false, ['encrypt', 'decrypt']);
+            const macKey = await crypto.subtle.importKey('raw', bits.slice(32, 64), { name: 'HMAC', hash: 'SHA-256' }, false, ['sign', 'verify']);
+            bits.fill(0);
+            return { encKey, macKey };
+        }
+
+        /** Devuelve el offset justo después del chunk IEND real (recorriendo los chunks PNG). */
+        function pngEndOffset(bytes) {
+            if (bytes.length < 8 || bytes[0] !== 0x89 || bytes[1] !== 0x50 || bytes[2] !== 0x4E || bytes[3] !== 0x47) {
+                throw new Error('Not a valid PNG file');
+            }
+            const dv = new DataView(bytes.buffer, bytes.byteOffset, bytes.byteLength);
+            let p = 8;
+            while (p + 12 <= bytes.length) {
+                const len = dv.getUint32(p);
+                const isIEND = bytes[p + 4] === 0x49 && bytes[p + 5] === 0x45 && bytes[p + 6] === 0x4E && bytes[p + 7] === 0x44;
+                p += 12 + len;
+                if (isIEND) return p;
+            }
+            throw new Error('Invalid PNG: No IEND chunk found');
+        }
+
+        const ARKA2_ZERO_COUNTER = new Uint8Array(16);
+
         async function embedLSBSecure(pngBlob, dataBuf, pass) {
-            // Validaciones (mantener las existentes)
             if (!(pngBlob instanceof Blob)) throw new Error('Invalid cover image format');
             if (!(dataBuf instanceof Uint8Array)) throw new Error('Invalid payload data');
+            if (dataBuf.byteLength <= 0) throw new Error('Payload is empty');
             if (dataBuf.byteLength > MAX_STEGO_PAYLOAD) {
                 throw new Error(`Payload too large: ${(dataBuf.byteLength / 1024 / 1024).toFixed(2)}MB`);
             }
+            const pngBytes = new Uint8Array(await pngBlob.arrayBuffer());
+            const end = pngEndOffset(pngBytes); // descarta cualquier dato previo tras IEND
 
-            // Calcular HMAC del payload
-            const hmacSalt = crypto.getRandomValues(new Uint8Array(32));
-            const hmacKey = await deriveHMACKey(pass, hmacSalt);
-            const hmac = await crypto.subtle.sign('HMAC', hmacKey, dataBuf);
+            const salt = crypto.getRandomValues(new Uint8Array(32));
+            const { encKey, macKey } = await deriveArkaV2Keys(pass, salt);
+            // Clave única por salt -> contador fijo es seguro
+            const ct = new Uint8Array(await crypto.subtle.encrypt({ name: 'AES-CTR', counter: ARKA2_ZERO_COUNTER, length: 64 }, encKey, dataBuf));
+            const macInput = new Uint8Array(32 + ct.length);
+            macInput.set(salt, 0); macInput.set(ct, 32);
+            const mac = new Uint8Array(await crypto.subtle.sign('HMAC', macKey, macInput));
 
-            // Construir payload autenticado: [HMAC(32)][HMAC_SALT(32)][DATA_ORIGINAL]
-            const payload = new Uint8Array(64 + dataBuf.byteLength);
-            payload.set(new Uint8Array(hmac), 0);
-            payload.set(hmacSalt, 32);
-            payload.set(dataBuf, 64);
-
-            // Usar función embedLSB existente (NO MODIFICADA)
-            return embedLSB(pngBlob, payload, pass);
+            const out = new Uint8Array(end + 32 + ct.length + 32);
+            out.set(pngBytes.subarray(0, end), 0);
+            out.set(salt, end);
+            out.set(ct, end + 32);
+            out.set(mac, end + 32 + ct.length);
+            return new Blob([out], { type: 'image/png' });
         }
 
-        async function extractLSBSecure(pngBlob, pass) {
-            // Usar función extractLSB existente (NO MODIFICADA)
+        async function extractArkaV2(bytes, pass) {
+            const end = pngEndOffset(bytes);
+            const trailer = bytes.subarray(end);
+            if (trailer.length < 65) return null;
+            const salt = trailer.slice(0, 32);
+            const ct = trailer.slice(32, trailer.length - 32);
+            const mac = trailer.slice(trailer.length - 32);
+            const { encKey, macKey } = await deriveArkaV2Keys(pass, salt);
+            const macInput = new Uint8Array(32 + ct.length);
+            macInput.set(salt, 0); macInput.set(ct, 32);
+            if (!(await crypto.subtle.verify('HMAC', macKey, mac, macInput))) return null;
+            return crypto.subtle.decrypt({ name: 'AES-CTR', counter: ARKA2_ZERO_COUNTER, length: 64 }, encKey, ct);
+        }
+
+        /** Formato ARKA v1 (legado, con firma "ARKA"): solo lectura. */
+        async function extractArkaV1(pngBlob, pass) {
             const extracted = await extractLSB(pngBlob, pass);
             const view = new Uint8Array(extracted);
-
-            // Validar tamaño mínimo
-            if (view.length < 64) {
-                throw new Error('Invalid payload - too small');
-            }
-
-            // Extraer componentes
+            if (view.length < 64) throw new Error('Invalid payload - too small');
             const hmac = view.slice(0, 32);
             const hmacSalt = view.slice(32, 64);
             const data = view.slice(64);
-
-            // Verificar HMAC
             const hmacKey = await deriveHMACKey(pass, hmacSalt);
-            const valid = await crypto.subtle.verify('HMAC', hmacKey, hmac, data);
-
-            if (!valid) {
-                // Delay constante para prevenir timing attacks
-                await new Promise(r => setTimeout(r, 100 + Math.random() * 100));
+            if (!(await crypto.subtle.verify('HMAC', hmacKey, hmac, data))) {
                 throw new Error('Authentication failed - data has been tampered with or wrong password');
             }
-
             return data.buffer;
+        }
+
+        async function extractLSBSecure(pngBlob, pass) {
+            const bytes = new Uint8Array(await pngBlob.arrayBuffer());
+            if (bytes.length >= 3 && bytes[0] === 0xFF && bytes[1] === 0xD8 && bytes[2] === 0xFF) {
+                throw new Error('Image format is JPEG. If you used WhatsApp/Telegram, the hidden data was destroyed by compression. You must send the file as a Document.');
+            }
+            if (bytes.length >= 4 && bytes[0] === 0x52 && bytes[1] === 0x49 && bytes[2] === 0x46 && bytes[3] === 0x46) {
+                throw new Error('Image format is WEBP. Hidden data was destroyed by compression. Send as Document.');
+            }
+            try {
+                const v2 = await extractArkaV2(bytes, pass);
+                if (v2) return v2;
+            } catch (e) { /* PNG no parseable: intentar formato legado */ }
+            try {
+                return await extractArkaV1(new Blob([bytes]), pass);
+            } catch (e) { /* sin datos v1 válidos */ }
+            // Delay aleatorio: no revelar si no hay datos o si la contraseña es incorrecta
+            await new Promise(r => setTimeout(r, 100 + Math.random() * 100));
+            throw new Error('No hidden data found or wrong password');
+        }
+
+
+        // <ARKA_POINTER>
+        // ============================================================================
+        // ARKA POINTER — PUNTERO ROBUSTO EN FOTO
+        // Oculta en una foto un puntero cifrado (ID de Arweave/IPFS + clave opcional de
+        // 32 bytes, máx. 96 bytes) que SOBREVIVE al envío como foto por WhatsApp/Telegram
+        // (recompresión JPEG y redimensionado moderado). No sobrevive a recortes.
+        //
+        // Técnica: imagen normalizada a 1024 px de ancho, luminancia en bloques 8x8,
+        // QIM con dither sobre 3 coeficientes DCT de baja frecuencia, orden de bloques
+        // permutado por contraseña, Reed-Solomon(64) + repetición con voto suave.
+        // Sin firmas: sin contraseña no hay nada reconocible.
+        // ============================================================================
+        const ArkaPointer = (() => {
+            const CANON_W = 1024;
+            const STEP = 28;
+            const COEFS = [[0, 1], [1, 0], [1, 1]];
+            const PTR_LEN = 96;
+            const NSYM = 64;
+            const SEALED_LEN = 16 + 12 + PTR_LEN + 16;    // salt + iv + datos + tag GCM
+            const CODED_LEN = SEALED_LEN + NSYM;          // 204 bytes
+            const NBITS = CODED_LEN * 8;                  // 1632 bits
+            const ITER = (typeof PBKDF2_ITERATIONS === 'number') ? PBKDF2_ITERATIONS : 600000;
+            const enc = new TextEncoder();
+
+            // ---------- Reed-Solomon GF(2^8), polinomio 0x11d ----------
+            const EXP = new Uint8Array(512), LOG = new Uint8Array(256);
+            (() => { let x = 1; for (let i = 0; i < 255; i++) { EXP[i] = x; LOG[x] = i; x <<= 1; if (x & 0x100) x ^= 0x11d; } for (let i = 255; i < 512; i++) EXP[i] = EXP[i - 255]; })();
+            const gmul = (a, b) => (a === 0 || b === 0) ? 0 : EXP[LOG[a] + LOG[b]];
+            const gdiv = (a, b) => { if (b === 0) throw new Error('div0'); return a === 0 ? 0 : EXP[(LOG[a] + 255 - LOG[b]) % 255]; };
+            const gpow = (a, n) => EXP[((LOG[a] * n) % 255 + 255) % 255];
+            const ginv = (a) => EXP[255 - LOG[a]];
+            const pmul = (p, q) => { const r = new Array(p.length + q.length - 1).fill(0); for (let j = 0; j < q.length; j++) for (let i = 0; i < p.length; i++) r[i + j] ^= gmul(p[i], q[j]); return r; };
+            const padd = (p, q) => { const r = new Array(Math.max(p.length, q.length)).fill(0); for (let i = 0; i < p.length; i++) r[i + r.length - p.length] = p[i]; for (let i = 0; i < q.length; i++) r[i + r.length - q.length] ^= q[i]; return r; };
+            const pscale = (p, x) => p.map(c => gmul(c, x));
+            const peval = (p, x) => { let y = p[0]; for (let i = 1; i < p.length; i++) y = gmul(y, x) ^ p[i]; return y; };
+            const genPoly = (n) => { let g = [1]; for (let i = 0; i < n; i++) g = pmul(g, [1, gpow(2, i)]); return g; };
+            const GEN = genPoly(NSYM);
+
+            function rsEncode(msg) {
+                const out = new Array(msg.length + NSYM).fill(0);
+                for (let i = 0; i < msg.length; i++) out[i] = msg[i];
+                for (let i = 0; i < msg.length; i++) {
+                    const c = out[i];
+                    if (c !== 0) for (let j = 1; j < GEN.length; j++) out[i + j] ^= gmul(GEN[j], c);
+                }
+                for (let i = 0; i < msg.length; i++) out[i] = msg[i];
+                return Uint8Array.from(out);
+            }
+
+            function rsDecode(cw) {
+                const msg = Array.from(cw);
+                const synd = [0]; for (let i = 0; i < NSYM; i++) synd.push(peval(msg, gpow(2, i)));
+                if (synd.every(s => s === 0)) return Uint8Array.from(msg.slice(0, msg.length - NSYM));
+                // Berlekamp-Massey
+                let errLoc = [1], oldLoc = [1];
+                for (let i = 0; i < NSYM; i++) {
+                    const K = i + 1;
+                    let delta = synd[K];
+                    for (let j = 1; j < errLoc.length; j++) delta ^= gmul(errLoc[errLoc.length - 1 - j], synd[K - j]);
+                    oldLoc = oldLoc.concat([0]);
+                    if (delta !== 0) {
+                        if (oldLoc.length > errLoc.length) { const n = pscale(oldLoc, delta); oldLoc = pscale(errLoc, ginv(delta)); errLoc = n; }
+                        errLoc = padd(errLoc, pscale(oldLoc, delta));
+                    }
+                }
+                while (errLoc.length && errLoc[0] === 0) errLoc.shift();
+                const errs = errLoc.length - 1;
+                if (errs * 2 > NSYM) throw new Error('RS: demasiados errores');
+                // Chien
+                const n = msg.length, pos = [];
+                const errLocRev = errLoc.slice().reverse();
+                for (let i = 0; i < n; i++) if (peval(errLocRev, gpow(2, i)) === 0) pos.push(n - 1 - i);
+                if (pos.length !== errs) throw new Error('RS: no se pudieron localizar los errores');
+                // Forney
+                const coefPos = pos.map(p => n - 1 - p);
+                let eLoc = [1]; for (const i of coefPos) eLoc = pmul(eLoc, padd([1], [gpow(2, i), 0]));
+                const sRev = synd.slice().reverse(); // incluye el 0 inicial (igual que la referencia)
+                let omega = pmul(sRev, eLoc); omega = omega.slice(omega.length - eLoc.length);
+                const X = coefPos.map(i => gpow(2, i));
+                for (let i = 0; i < X.length; i++) {
+                    const Xi = X[i], XiInv = ginv(Xi);
+                    let denom = 1;
+                    for (let j = 0; j < X.length; j++) if (j !== i) denom = gmul(denom, 1 ^ gmul(XiInv, X[j]));
+                    const y = gmul(peval(omega, XiInv), Xi);
+                    msg[pos[i]] ^= gdiv(y, denom);
+                }
+                const check = []; for (let i = 0; i < NSYM; i++) check.push(peval(msg, gpow(2, i)));
+                if (check.some(s => s !== 0)) throw new Error('RS: corrección fallida');
+                return Uint8Array.from(msg.slice(0, msg.length - NSYM));
+            }
+
+            // ---------- PRNG determinista (sfc32) ----------
+            function sfc32(seed) {
+                const v = new DataView(seed.buffer, seed.byteOffset, 16);
+                let a = v.getUint32(0), b = v.getUint32(4), c = v.getUint32(8), d = v.getUint32(12);
+                return () => {
+                    a >>>= 0; b >>>= 0; c >>>= 0; d >>>= 0;
+                    let t = (a + b) | 0; a = b ^ (b >>> 9); b = (c + (c << 3)) | 0;
+                    c = (c << 21) | (c >>> 11); d = (d + 1) | 0; t = (t + d) | 0; c = (c + t) | 0;
+                    return (t >>> 0) / 4294967296;
+                };
+            }
+
+            async function pbkdf2(pass, salt, bits) {
+                const base = await crypto.subtle.importKey('raw', enc.encode(pass), 'PBKDF2', false, ['deriveBits']);
+                return new Uint8Array(await crypto.subtle.deriveBits({ name: 'PBKDF2', salt, iterations: ITER, hash: 'SHA-256' }, base, bits));
+            }
+
+            /** Orden de bloques y dither derivados de la contraseña (lento a propósito). */
+            async function layout(pass, nblocks) {
+                const seed = await pbkdf2(pass, enc.encode('ZION-ARKA-POINTER-LAYOUT-v1'), 256);
+                const r1 = sfc32(seed.slice(0, 16)), r2 = sfc32(seed.slice(16, 32));
+                const order = new Uint32Array(nblocks);
+                for (let i = 0; i < nblocks; i++) order[i] = i;
+                for (let i = nblocks - 1; i > 0; i--) { const j = Math.floor(r1() * (i + 1)); const t = order[i]; order[i] = order[j]; order[j] = t; }
+                const dither = new Float64Array(nblocks);
+                for (let i = 0; i < nblocks; i++) dither[i] = r2() * STEP;
+                return { order, dither };
+            }
+
+            async function seal(ptr, pass) {
+                const salt = crypto.getRandomValues(new Uint8Array(16));
+                const iv = crypto.getRandomValues(new Uint8Array(12));
+                const k = await crypto.subtle.importKey('raw', await pbkdf2(pass, salt, 256), 'AES-GCM', false, ['encrypt']);
+                const ct = new Uint8Array(await crypto.subtle.encrypt({ name: 'AES-GCM', iv }, k, ptr));
+                const out = new Uint8Array(SEALED_LEN); out.set(salt, 0); out.set(iv, 16); out.set(ct, 28);
+                return out;
+            }
+
+            async function unseal(sealed, pass) {
+                const salt = sealed.slice(0, 16), iv = sealed.slice(16, 28), ct = sealed.slice(28);
+                const k = await crypto.subtle.importKey('raw', await pbkdf2(pass, salt, 256), 'AES-GCM', false, ['decrypt']);
+                return new Uint8Array(await crypto.subtle.decrypt({ name: 'AES-GCM', iv }, k, ct));
+            }
+
+            // ---------- DCT 8x8 (solo los 3 coeficientes usados) ----------
+            const C = []; for (let u = 0; u < 8; u++) { C.push([]); for (let x = 0; x < 8; x++) C[u].push((u === 0 ? Math.SQRT1_2 : 1) * 0.5 * Math.cos((2 * x + 1) * u * Math.PI / 16)); }
+            const BASIS = COEFS.map(([u, v]) => { const b = new Float64Array(64); for (let x = 0; x < 8; x++) for (let y = 0; y < 8; y++) b[x * 8 + y] = C[u][x] * C[v][y]; return b; });
+
+            function lumaBlock(img, br, bc) {
+                const Y = new Float64Array(64), d = img.data, W = img.width;
+                for (let x = 0; x < 8; x++) for (let y = 0; y < 8; y++) {
+                    const p = ((br * 8 + x) * W + bc * 8 + y) * 4;
+                    Y[x * 8 + y] = 0.299 * d[p] + 0.587 * d[p + 1] + 0.114 * d[p + 2];
+                }
+                return Y;
+            }
+            const coef = (Y, b) => { let s = 0; for (let i = 0; i < 64; i++) s += Y[i] * b[i]; return s; };
+            const qim = (x, bit) => Math.round((x - bit * STEP / 2) / STEP) * STEP + bit * STEP / 2;
+            const dist = (x) => Math.abs(x - Math.round(x / STEP) * STEP);
+
+            function geometry(img) {
+                const bw = Math.floor(img.width / 8), bh = Math.floor(img.height / 8), nblocks = bw * bh;
+                const reps = Math.floor(nblocks / NBITS);
+                if (reps < 3) throw new Error('Imagen demasiado pequeña o alargada para el puntero');
+                return { bw, nblocks, reps };
+            }
+
+            /** Tamaño canónico (ancho 1024, alto múltiplo de 8) al que hay que escalar la foto. */
+            function canonicalSize(w, h) { return { width: CANON_W, height: Math.max(8, Math.round(CANON_W * h / w / 8) * 8) }; }
+
+            /** Empaqueta {id, key?} en 96 bytes: [tipo][lenId][id ASCII][lenKey][key][relleno aleatorio]. */
+            function packPointer({ id, key = null }) {
+                const idB = enc.encode(String(id).trim());
+                const keyB = key ? new Uint8Array(key) : new Uint8Array(0);
+                if (!/^[A-Za-z0-9_\-]+$/.test(String(id).trim())) throw new Error('ID no válido (solo letras, números, _ y -)');
+                if (keyB.length !== 0 && keyB.length !== 32) throw new Error('La clave debe tener 32 bytes');
+                if (2 + idB.length + 1 + keyB.length > PTR_LEN) throw new Error('ID demasiado largo');
+                const out = crypto.getRandomValues(new Uint8Array(PTR_LEN));
+                const type = /^(Qm|baf|bafy|bafk)/.test(String(id)) ? 2 : 1; // 1 Arweave, 2 IPFS
+                let o = 0;
+                out[o++] = type; out[o++] = idB.length; out.set(idB, o); o += idB.length;
+                out[o++] = keyB.length; out.set(keyB, o);
+                return out;
+            }
+
+            function unpackPointer(b) {
+                let o = 0;
+                const type = b[o++], idLen = b[o++];
+                const id = new TextDecoder().decode(b.slice(o, o + idLen)); o += idLen;
+                const keyLen = b[o++];
+                const key = keyLen ? b.slice(o, o + keyLen) : null;
+                return { network: type === 2 ? 'ipfs' : 'arweave', id, key };
+            }
+
+            /** Oculta el puntero (96 bytes) en un ImageData de tamaño canónico (modifica in situ). */
+            async function embed(img, ptr, pass) {
+                if (img.width !== CANON_W) throw new Error('La imagen debe estar a tamaño canónico');
+                if (ptr.length !== PTR_LEN) throw new Error('Puntero de tamaño incorrecto');
+                const coded = rsEncode(await seal(ptr, pass));
+                const { bw, nblocks, reps } = geometry(img);
+                const { order, dither } = await layout(pass, nblocks);
+                const d = img.data, W = img.width, delta = new Float64Array(64);
+                for (let k = 0; k < NBITS * reps; k++) {
+                    const b = order[k], i = k % NBITS;
+                    const bit = (coded[i >> 3] >> (7 - (i & 7))) & 1;
+                    const br = Math.floor(b / bw), bc = b % bw;
+                    const Y = lumaBlock(img, br, bc);
+                    delta.fill(0);
+                    for (let c = 0; c < BASIS.length; c++) {
+                        const x = coef(Y, BASIS[c]) - dither[b];
+                        const dc = qim(x, bit) - x;
+                        for (let p = 0; p < 64; p++) delta[p] += dc * BASIS[c][p];
+                    }
+                    for (let x = 0; x < 8; x++) for (let y = 0; y < 8; y++) {
+                        const p = ((br * 8 + x) * W + bc * 8 + y) * 4, dv = delta[x * 8 + y];
+                        d[p] = Math.max(0, Math.min(255, Math.round(d[p] + dv)));
+                        d[p + 1] = Math.max(0, Math.min(255, Math.round(d[p + 1] + dv)));
+                        d[p + 2] = Math.max(0, Math.min(255, Math.round(d[p + 2] + dv)));
+                    }
+                }
+                return img;
+            }
+
+            /** Extrae el puntero de un ImageData ya escalado a tamaño canónico. */
+            async function extract(img, pass) {
+                if (img.width !== CANON_W) throw new Error('La imagen debe estar a tamaño canónico');
+                const { bw, nblocks, reps } = geometry(img);
+                const { order, dither } = await layout(pass, nblocks);
+                const soft = new Float64Array(NBITS);
+                for (let k = 0; k < NBITS * reps; k++) {
+                    const b = order[k];
+                    const Y = lumaBlock(img, Math.floor(b / bw), b % bw);
+                    for (let c = 0; c < BASIS.length; c++) {
+                        const x = coef(Y, BASIS[c]) - dither[b];
+                        soft[k % NBITS] += dist(x) - dist(x - STEP / 2);
+                    }
+                }
+                const coded = new Uint8Array(CODED_LEN);
+                for (let i = 0; i < NBITS; i++) if (soft[i] > 0) coded[i >> 3] |= 1 << (7 - (i & 7));
+                let sealed;
+                try { sealed = rsDecode(coded); } catch (e) { throw new Error('No hidden pointer found or wrong password'); }
+                try { return await unseal(sealed, pass); } catch (e) { throw new Error('No hidden pointer found or wrong password'); }
+            }
+
+            return { CANON_W, PTR_LEN, canonicalSize, packPointer, unpackPointer, embed, extract, _rs: { rsEncode, rsDecode } };
+        })();
+        // </ARKA_POINTER>
+
+        // --- UI: ENLACE EN FOTO (ArkaPointer) ---
+        function pointerPickImage() {
+            return new Promise((resolve) => {
+                const inp = document.createElement('input');
+                inp.type = 'file'; inp.accept = 'image/*'; inp.style.display = 'none';
+                inp.onchange = () => { resolve(inp.files[0] || null); inp.remove(); };
+                document.body.appendChild(inp); inp.click();
+            });
+        }
+
+        /** Dibuja la imagen escalada al tamaño canónico y devuelve {canvas, ctx, imageData}. */
+        async function pointerCanonical(file) {
+            const bmp = await createImageBitmap(file);
+            const { width, height } = ArkaPointer.canonicalSize(bmp.width, bmp.height);
+            const canvas = document.createElement('canvas');
+            canvas.width = width; canvas.height = height;
+            const ctx = canvas.getContext('2d', { willReadFrequently: true });
+            ctx.imageSmoothingEnabled = true; ctx.imageSmoothingQuality = 'high';
+            ctx.drawImage(bmp, 0, 0, width, height);
+            if (bmp.close) bmp.close();
+            return { canvas, ctx, imageData: ctx.getImageData(0, 0, width, height) };
+        }
+
+        function pointerOverlay(innerHtml) {
+            const ov = document.createElement('div');
+            ov.className = 'modal-overlay';
+            ov.style.zIndex = '10050';
+            ov.innerHTML = `<div class="modal-content" style="max-width:440px">${innerHtml}</div>`;
+            document.body.appendChild(ov);
+            return ov;
+        }
+
+        const escHtml = (s) => String(s).replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
+        const toHex = (u8) => Array.from(u8, b => b.toString(16).padStart(2, '0')).join('');
+        function parseKey(str) {
+            const s = (str || '').trim();
+            if (!s) return null;
+            if (/^[0-9a-fA-F]{64}$/.test(s)) return Uint8Array.from(s.match(/../g), h => parseInt(h, 16));
+            try {
+                const b = atob(s.replace(/-/g, '+').replace(/_/g, '/') + '==='.slice((s.length + 3) % 4));
+                if (b.length === 32) return Uint8Array.from(b, c => c.charCodeAt(0));
+            } catch (e) { }
+            throw new Error(t('ptrErrKey'));
+        }
+
+        function pointerAskTarget() {
+            return new Promise((resolve) => {
+                const field = 'width:100%; margin:6px 0 14px; padding:12px; border-radius:10px; background:rgba(255,255,255,0.05); border:1px solid var(--border); color:var(--fg); font-family:monospace; font-size:0.8rem';
+                const ov = pointerOverlay(`
+                    <h3 style="color:var(--fg); margin-bottom:16px; text-align:center; letter-spacing:3px">${escHtml(t('ptrTitle'))}</h3>
+                    <label style="font-size:0.75rem; color:rgba(255,255,255,0.6)">${escHtml(t('ptrIdLabel'))}</label>
+                    <input id="ptrIdInput" autocomplete="off" spellcheck="false" style="${field}">
+                    <label style="font-size:0.75rem; color:rgba(255,255,255,0.6)">${escHtml(t('ptrKeyLabel'))}</label>
+                    <input id="ptrKeyInput" autocomplete="off" spellcheck="false" style="${field}">
+                    <div style="display:flex; gap:10px">
+                        <button id="ptrCancel" class="btn-main" style="flex:1; background:transparent; border:1px solid var(--border); color:var(--fg); box-shadow:none">${escHtml(t('ptrCancel'))}</button>
+                        <button id="ptrOk" class="btn-main" style="flex:1; background:rgba(0,200,120,0.15); border:1px solid rgba(0,200,120,0.4); color:#00c878; box-shadow:none">${escHtml(t('ptrNext'))}</button>
+                    </div>`);
+                ov.querySelector('#ptrIdInput').focus();
+                ov.querySelector('#ptrCancel').onclick = () => { ov.remove(); resolve(null); };
+                ov.querySelector('#ptrOk').onclick = () => {
+                    try {
+                        const id = ov.querySelector('#ptrIdInput').value.trim();
+                        const key = parseKey(ov.querySelector('#ptrKeyInput').value);
+                        const packed = ArkaPointer.packPointer({ id, key });
+                        ov.remove(); resolve(packed);
+                    } catch (e) { alert(e.message); }
+                };
+            });
+        }
+
+        async function pointerHide() {
+            if (typeof DeadMansSwitch === 'object') DeadMansSwitch.lastActivity = Date.now();
+            let packed = null, passStr = null;
+            try {
+                packed = await pointerAskTarget();
+                if (!packed) return;
+                showToast(t('ptrPickPhoto'));
+                const file = await pointerPickImage();
+                if (!file) return;
+                passStr = await getSecurePassphrase(t('ptrPassTitle'));
+                if (!passStr) return;
+                showSpinner();
+                document.getElementById('spinnerText').textContent = t('ptrWorking');
+                await new Promise(r => setTimeout(r, 50));
+                const { canvas, ctx, imageData } = await pointerCanonical(file);
+                await ArkaPointer.embed(imageData, packed, passStr);
+                ctx.putImageData(imageData, 0, 0);
+                const blob = await new Promise(r => canvas.toBlob(r, 'image/jpeg', 0.92));
+                const d = new Date(), p2 = (n) => String(n).padStart(2, '0');
+                const name = `IMG_${d.getFullYear()}${p2(d.getMonth() + 1)}${p2(d.getDate())}_${p2(d.getHours())}${p2(d.getMinutes())}${p2(d.getSeconds())}.jpg`;
+                const url = URL.createObjectURL(blob);
+                const a = document.createElement('a'); a.href = url; a.download = name;
+                document.body.appendChild(a); a.click(); a.remove();
+                setTimeout(() => URL.revokeObjectURL(url), 10000);
+                showToast(t('ptrDone'));
+            } catch (e) {
+                console.error('[POINTER]', e);
+                alert(e.message);
+            } finally {
+                hideSpinner();
+                if (packed) packed.fill(0);
+                passStr = null;
+            }
+        }
+
+        async function pointerRead() {
+            if (typeof DeadMansSwitch === 'object') DeadMansSwitch.lastActivity = Date.now();
+            let ptr = null;
+            try {
+                const file = await pointerPickImage();
+                if (!file) return;
+                const passStr = await getSecurePassphrase(t('ptrPassTitle'));
+                if (!passStr) return;
+                showSpinner();
+                document.getElementById('spinnerText').textContent = t('ptrReading');
+                await new Promise(r => setTimeout(r, 50));
+                const { imageData } = await pointerCanonical(file);
+                try { ptr = await ArkaPointer.extract(imageData, passStr); }
+                catch (e) { hideSpinner(); alert(t('ptrNotFound')); return; }
+                hideSpinner();
+                const info = ArkaPointer.unpackPointer(ptr);
+                const gws = (typeof GATEWAYS === 'object' && GATEWAYS[info.network]) ? GATEWAYS[info.network] : [];
+                const links = gws.slice(0, 6).map(g => {
+                    const host = g.replace(/^https?:\/\//, '').split('/')[0];
+                    return `<a href="${escHtml(g + info.id)}" target="_blank" rel="noopener noreferrer" style="display:block; padding:8px 0; color:#00c878; font-size:0.8rem; word-break:break-all">${escHtml(host)}</a>`;
+                }).join('');
+                const ov = pointerOverlay(`
+                    <h3 style="color:var(--fg); margin-bottom:16px; text-align:center; letter-spacing:3px">${escHtml(t('ptrResult'))}</h3>
+                    <div style="font-size:0.7rem; color:rgba(255,255,255,0.5)">${info.network.toUpperCase()} ID</div>
+                    <div id="ptrOutId" style="font-family:monospace; font-size:0.8rem; word-break:break-all; margin:4px 0 14px; color:var(--fg)">${escHtml(info.id)}</div>
+                    ${info.key ? `<div style="font-size:0.7rem; color:rgba(255,255,255,0.5)">${escHtml(t('ptrKeyOut'))}</div>
+                    <div id="ptrOutKey" style="font-family:monospace; font-size:0.75rem; word-break:break-all; margin:4px 0 14px; color:var(--fg)">${toHex(info.key)}</div>` : ''}
+                    <div style="font-size:0.7rem; color:rgba(255,255,255,0.5); margin-bottom:4px">${escHtml(t('ptrOpen'))}</div>
+                    ${links}
+                    <div style="display:flex; gap:10px; margin-top:16px">
+                        <button id="ptrCopy" class="btn-main" style="flex:1; background:rgba(255,255,255,0.05); border:1px solid var(--border); color:var(--fg); box-shadow:none">${escHtml(t('ptrCopy'))}</button>
+                        <button id="ptrClose" class="btn-main" style="flex:1; background:transparent; border:1px solid var(--border); color:var(--fg); box-shadow:none">${escHtml(t('close'))}</button>
+                    </div>`);
+                ov.querySelector('#ptrCopy').onclick = () => { navigator.clipboard && navigator.clipboard.writeText(info.id); showToast('✓'); };
+                ov.querySelector('#ptrClose').onclick = () => ov.remove();
+            } catch (e) {
+                hideSpinner();
+                console.error('[POINTER]', e);
+                alert(e.message);
+            } finally {
+                if (ptr) ptr.fill(0);
+            }
         }
 
 
@@ -5939,12 +6459,14 @@
             // Automatically translates any element with data-translate attribute
             document.querySelectorAll('[data-translate]').forEach(el => {
                 const key = el.getAttribute('data-translate');
-                if (T[key] !== undefined) {
+                // Si falta la traducción en este idioma, usar inglés (en vez del texto por defecto en español)
+                const val = (T[key] !== undefined) ? T[key] : (TRANSLATIONS.en ? TRANSLATIONS.en[key] : undefined);
+                if (val !== undefined) {
                     // Use innerHTML for keys that may contain HTML (safetyVerified etc.) otherwise textContent
                     if (key.startsWith('safety') || key.startsWith('ded') || key.endsWith('Info')) {
-                        el.innerHTML = T[key];
+                        el.innerHTML = val;
                     } else {
-                        el.textContent = T[key];
+                        el.textContent = val;
                     }
                 }
             });

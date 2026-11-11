@@ -5376,7 +5376,7 @@
                                 const batchId = new DataView(view.buffer).getUint32(2);
                                 const idx = view[6];
                                 const total = view[7];
-                                const data = view.slice(8);
+                                const data = view.slice(9); // cabecera ZV = 9 bytes (antes 8: corrompía multi-volumen)
 
                                 if (!volumes.has(batchId)) {
                                     volumes.set(batchId, { id: batchId, total: total, parts: new Map() });
@@ -5836,56 +5836,117 @@
             );
         }
 
+        // ============================================================================
+        // ARKA v2 — CONTENEDOR SIN HUELLA
+        // Formato tras el chunk IEND real del PNG:
+        //   [SALT(32)] [AES-256-CTR(payload)] [HMAC-SHA256(SALT || CT)(32)]
+        // No hay firma ni longitud en claro: sin la contraseña los bytes añadidos son
+        // indistinguibles de ruido aleatorio (ya no aparece "ARKA" ni la cabecera "ZV").
+        // NOTA: sigue habiendo datos tras IEND, algo detectable a nivel estructural.
+        // Lectura retrocompatible con imágenes ARKA v1 (firma "ARKA").
+        // ============================================================================
+
+        async function deriveArkaV2Keys(pass, salt) {
+            const base = await crypto.subtle.importKey('raw', new TextEncoder().encode(pass + ':ARKA2'), 'PBKDF2', false, ['deriveBits']);
+            const bits = new Uint8Array(await crypto.subtle.deriveBits(
+                { name: 'PBKDF2', salt: salt, iterations: PBKDF2_ITERATIONS, hash: 'SHA-256' }, base, 512));
+            const encKey = await crypto.subtle.importKey('raw', bits.slice(0, 32), { name: 'AES-CTR' }, false, ['encrypt', 'decrypt']);
+            const macKey = await crypto.subtle.importKey('raw', bits.slice(32, 64), { name: 'HMAC', hash: 'SHA-256' }, false, ['sign', 'verify']);
+            bits.fill(0);
+            return { encKey, macKey };
+        }
+
+        /** Devuelve el offset justo después del chunk IEND real (recorriendo los chunks PNG). */
+        function pngEndOffset(bytes) {
+            if (bytes.length < 8 || bytes[0] !== 0x89 || bytes[1] !== 0x50 || bytes[2] !== 0x4E || bytes[3] !== 0x47) {
+                throw new Error('Not a valid PNG file');
+            }
+            const dv = new DataView(bytes.buffer, bytes.byteOffset, bytes.byteLength);
+            let p = 8;
+            while (p + 12 <= bytes.length) {
+                const len = dv.getUint32(p);
+                const isIEND = bytes[p + 4] === 0x49 && bytes[p + 5] === 0x45 && bytes[p + 6] === 0x4E && bytes[p + 7] === 0x44;
+                p += 12 + len;
+                if (isIEND) return p;
+            }
+            throw new Error('Invalid PNG: No IEND chunk found');
+        }
+
+        const ARKA2_ZERO_COUNTER = new Uint8Array(16);
+
         async function embedLSBSecure(pngBlob, dataBuf, pass) {
-            // Validaciones (mantener las existentes)
             if (!(pngBlob instanceof Blob)) throw new Error('Invalid cover image format');
             if (!(dataBuf instanceof Uint8Array)) throw new Error('Invalid payload data');
+            if (dataBuf.byteLength <= 0) throw new Error('Payload is empty');
             if (dataBuf.byteLength > MAX_STEGO_PAYLOAD) {
                 throw new Error(`Payload too large: ${(dataBuf.byteLength / 1024 / 1024).toFixed(2)}MB`);
             }
+            const pngBytes = new Uint8Array(await pngBlob.arrayBuffer());
+            const end = pngEndOffset(pngBytes); // descarta cualquier dato previo tras IEND
 
-            // Calcular HMAC del payload
-            const hmacSalt = crypto.getRandomValues(new
-                Uint8Array(32));
-            const hmacKey = await deriveHMACKey(pass, hmacSalt);
-            const hmac = await crypto.subtle.sign('HMAC', hmacKey,
-                dataBuf);
+            const salt = crypto.getRandomValues(new Uint8Array(32));
+            const { encKey, macKey } = await deriveArkaV2Keys(pass, salt);
+            // Clave única por salt -> contador fijo es seguro
+            const ct = new Uint8Array(await crypto.subtle.encrypt({ name: 'AES-CTR', counter: ARKA2_ZERO_COUNTER, length: 64 }, encKey, dataBuf));
+            const macInput = new Uint8Array(32 + ct.length);
+            macInput.set(salt, 0); macInput.set(ct, 32);
+            const mac = new Uint8Array(await crypto.subtle.sign('HMAC', macKey, macInput));
 
-            // Construir payload autenticado:
-            // [HMAC(32)][HMAC_SALT(32)][DATA_ORIGINAL]
-            const payload = new Uint8Array(64 + dataBuf.byteLength);
-            payload.set(new Uint8Array(hmac), 0);
-            payload.set(hmacSalt, 32);
-            payload.set(dataBuf, 64);
-
-            // Usar función embedLSB existente (NO MODIFICADA)
-            return embedLSB(pngBlob, payload, pass);
+            const out = new Uint8Array(end + 32 + ct.length + 32);
+            out.set(pngBytes.subarray(0, end), 0);
+            out.set(salt, end);
+            out.set(ct, end + 32);
+            out.set(mac, end + 32 + ct.length);
+            return new Blob([out], { type: 'image/png' });
         }
 
-        async function extractLSBSecure(pngBlob, pass) {
-            // Usar función extractLSB existente (NO MODIFICADA)
+        async function extractArkaV2(bytes, pass) {
+            const end = pngEndOffset(bytes);
+            const trailer = bytes.subarray(end);
+            if (trailer.length < 65) return null;
+            const salt = trailer.slice(0, 32);
+            const ct = trailer.slice(32, trailer.length - 32);
+            const mac = trailer.slice(trailer.length - 32);
+            const { encKey, macKey } = await deriveArkaV2Keys(pass, salt);
+            const macInput = new Uint8Array(32 + ct.length);
+            macInput.set(salt, 0); macInput.set(ct, 32);
+            if (!(await crypto.subtle.verify('HMAC', macKey, mac, macInput))) return null;
+            return crypto.subtle.decrypt({ name: 'AES-CTR', counter: ARKA2_ZERO_COUNTER, length: 64 }, encKey, ct);
+        }
+
+        /** Formato ARKA v1 (legado, con firma "ARKA"): solo lectura. */
+        async function extractArkaV1(pngBlob, pass) {
             const extracted = await extractLSB(pngBlob, pass);
             const view = new Uint8Array(extracted);
-
-            // Validar tamaño mínimo
             if (view.length < 64) throw new Error('Invalid payload - too small');
-
-            // Extraer componentes
             const hmac = view.slice(0, 32);
             const hmacSalt = view.slice(32, 64);
             const data = view.slice(64);
-
-            // Verificar HMAC
             const hmacKey = await deriveHMACKey(pass, hmacSalt);
-            const valid = await crypto.subtle.verify('HMAC', hmacKey, hmac, data);
-
-            if (!valid) {
-                // Delay constante para prevenir timing attacks
-                await new Promise(r => setTimeout(r, 100 + Math.random() * 100));
+            if (!(await crypto.subtle.verify('HMAC', hmacKey, hmac, data))) {
                 throw new Error('Authentication failed - data has been tampered with or wrong password');
             }
-
             return data.buffer;
+        }
+
+        async function extractLSBSecure(pngBlob, pass) {
+            const bytes = new Uint8Array(await pngBlob.arrayBuffer());
+            if (bytes.length >= 3 && bytes[0] === 0xFF && bytes[1] === 0xD8 && bytes[2] === 0xFF) {
+                throw new Error('Image format is JPEG. If you used WhatsApp/Telegram, the hidden data was destroyed by compression. You must send the file as a Document.');
+            }
+            if (bytes.length >= 4 && bytes[0] === 0x52 && bytes[1] === 0x49 && bytes[2] === 0x46 && bytes[3] === 0x46) {
+                throw new Error('Image format is WEBP. Hidden data was destroyed by compression. Send as Document.');
+            }
+            try {
+                const v2 = await extractArkaV2(bytes, pass);
+                if (v2) return v2;
+            } catch (e) { /* PNG no parseable: intentar formato legado */ }
+            try {
+                return await extractArkaV1(new Blob([bytes]), pass);
+            } catch (e) { /* sin datos v1 válidos */ }
+            // Delay aleatorio: no revelar si no hay datos o si la contraseña es incorrecta
+            await new Promise(r => setTimeout(r, 100 + Math.random() * 100));
+            throw new Error('No hidden data found or wrong password');
         }
 
 

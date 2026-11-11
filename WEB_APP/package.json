@@ -1,14 +1,14 @@
 {
-  "name": "agente.dev_web-app",
+  "name": "zion-web-app",
   "version": "1.0.0",
   "main": "build_zion.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "node tests/test_arka_container.js && node tests/test_arka_pointer.js"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
-  "description": "",
+  "description": "ZION build system y tests",
   "dependencies": {
     "@napi-rs/canvas": "^0.1.91",
     "canvas": "^3.2.1",
