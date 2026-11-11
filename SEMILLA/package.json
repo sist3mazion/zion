@@ -1,0 +1,12 @@
+{
+  "name": "semilla",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Un solo archivo que parece un bloc de notas y lleva dentro un texto cifrado para leer sin conexión.",
+  "license": "GPL-3.0-or-later",
+  "engines": { "node": ">=20" },
+  "scripts": {
+    "test": "node --test",
+    "demo": "node generar.js tests/fixtures/es-rv1909.usfx.xml --idioma es --nombre \"Reina-Valera 1909 (muestra)\" --acerca \"Dominio público.\" --clave \"semilla buena tierra\" --salida dist/notas-muestra.html"
+  }
+}
