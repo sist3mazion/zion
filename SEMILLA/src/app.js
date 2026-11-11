@@ -635,6 +635,8 @@ function about() {
 
 /* ---------- lifecycle ---------- */
 D.addEventListener('visibilitychange', function () { if (D.hidden && S && !hold) lock(); });
+// Android takes the recents thumbnail before visibilitychange fires; blur arrives in time (tested: Android 10 + Brave).
+W.addEventListener('blur', function () { if (S && !hold) lock(); });
 W.addEventListener('pagehide', function () { if (S) lock(true); });
 D.addEventListener('keydown', function (e) { if (e.key === 'Escape' && S) lock(); idle(); });
 ['pointerdown', 'touchstart', 'scroll'].forEach(function (n) { rd.addEventListener(n, idle, { capture: true, passive: true }); });
