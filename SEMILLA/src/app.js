@@ -410,7 +410,14 @@ function books() {
     if (i && i === S.m.t) g.appendChild(el('hr'));
     g.appendChild(b);
   });
-  put(g);
+  var w = el('div');
+  w.appendChild(g);
+  if (S.m.dd) {
+    var q = S.m.dd, d = el('section', 'dd', el('h2', null, q[1]), el('p', null, q[2]), el('p', null, q[3]), el('p', null, q[4]));
+    d.dir = q[0];
+    w.appendChild(d);
+  }
+  put(w);
 }
 /* from a text page up to its chapter grid; one-chapter books go straight to the list */
 async function up(i) {

@@ -12,6 +12,7 @@ const crypto = require('crypto');
 const { cargarNucleo, fuenteJs, fuenteCss } = require('./nucleo');
 const { inicioNT, direccion } = require('./texto');
 const UI = require('../src/ui');
+const DED = require('../src/dedicatoria');
 
 // idiomas que escriben los números de versículo con sus propias cifras
 const CIFRAS = { ar: 0x660, fa: 0x6f0, prs: 0x6f0, ps: 0x6f0, ur: 0x6f0 };
@@ -91,7 +92,9 @@ async function construir(o) {
   const dir = direccion(o.libros);
   const pack = empaquetar(o.libros, {
     n: o.nombre || '', l: idioma, d: dir, g: o.cifrasLatinas ? 0 : (CIFRAS[idioma] || 0),
-    t: inicioNT(o.libros), a: o.acerca || '', u: u.r
+    t: inicioNT(o.libros), a: o.acerca || '', u: u.r,
+    // dedicatoria de la web de ZION: [dirección, título, p1, p2, p3]; en el idioma del texto si existe, si no en inglés
+    dd: [DED[idioma] ? dir : 'ltr'].concat(DED[idioma] || DED.en)
   });
   const azar = N.rand(2);
   const blob = N.b64e(await N.wrap(clave, N.cat(pack, N.rand(azar[0] << 8 | azar[1]))));
