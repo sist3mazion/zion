@@ -3,6 +3,7 @@
  * Las traducciones elegidas para repartir, con su licencia y de dónde sale cada texto.
  * Solo entran obras de dominio público o con licencia que permite copiar y redistribuir
  * (CC BY-SA, CC BY-NC). Se dejan fuera las CC BY-ND y BY-NC-ND (prohíben obras derivadas).
+ *   permiso: 'pendiente' = falta confirmar por escrito el permiso del titular; el generador lo avisa al crear el archivo.
  *   fuente: archivo dentro de la carpeta de fuentes. formato: 'usfx' (completo) | 'csv' (scrollmapper, completo) | 'zip' (USFM de eBible.org, completo; es la vía recomendada) | 'lineas' (ebible-corpus: pierde ~150 versículos)
  */
 module.exports = [
@@ -22,12 +23,12 @@ module.exports = [
     acerca: 'Hindi Standard Bible 2017. © Bridge Connectivity Solutions. Licencia CC BY-SA 4.0: puedes copiarla y repartirla citando la fuente y con la misma licencia.' },
   { id: 'bn',  nombre: 'বাংলা IRV', fuente: 'benirv_usfm.zip', formato: 'zip',
     acerca: 'Bengali Indian Revised Version. © Bridge Connectivity Solutions Pvt. Ltd. Licencia CC BY-SA 4.0: puedes copiarla y repartirla citando la fuente y con la misma licencia.' },
-  { id: 'id',  nombre: 'Alkitab Yang Terbuka (AYT)', fuente: 'indayt_usfm.zip', formato: 'zip',
+  { id: 'id',  nombre: 'Alkitab Yang Terbuka (AYT)', fuente: 'indayt_usfm.zip', formato: 'zip', permiso: 'pendiente',
     acerca: 'Alkitab Yang Terbuka (AYT). © YLSA-AYT. Uso no comercial y citando la fuente. AVISO: su licencia es ambigua (dice a la vez «compartible» y «sin obras derivadas»); confirmar con YLSA (ylsa@sabda.org) antes de repartir.' },
   { id: 'vi',  nombre: 'Thiên Ban Kinh Thánh Hiện Đại', fuente: 'vieovcb_usfm.zip', formato: 'zip',
     acerca: 'Biblica® Thiên Ban Kinh Thánh Hiện Đại™ (Biblica® Open Vietnamese Contemporary Bible™). Copyright © 1982, 1987, 1994, 2005, 2015 by Biblica, Inc. «Biblica» es una marca registrada de Biblica, Inc., usada con permiso. Licencia CC BY-SA 4.0: puedes copiarla y repartirla citando a Biblica y con la misma licencia (open.bible).' },
-  { id: 'my',  nombre: 'ဗမာ ဂျပ်စန် (Judson)', fuente: 'sm-BurJudson.csv', formato: 'csv', nombres: 'my',
-    acerca: 'Burmese Judson Bible. Adoniram Judson. Dominio público.' },
+  { id: 'my',  nombre: 'ဗမာ ကျမ်းစာ (Common Language Bible)', fuente: 'mya_usfm.zip', formato: 'zip', permiso: 'pendiente',
+    acerca: 'Burmese Common Language Bible. © 2005 Bible Society of Myanmar. Dominio público fuera de Myanmar según eBible.org (Myanmar no firmó el Convenio de Berna); dentro de Myanmar rige el copyright de la Bible Society of Myanmar.' },
   { id: 'ha',  nombre: 'Hausa Littafi Mai Tsarki', fuente: 'hausa_usfm.zip', formato: 'zip',
     acerca: 'Hausa Bible. © Biblica, Inc. Licencia CC BY-SA 4.0: puedes copiarla y repartirla citando a Biblica y con la misma licencia.' },
   { id: 'ckb', nombre: 'کوردی سۆرانی', fuente: 'ckb_usfm.zip', formato: 'zip',
