@@ -89,7 +89,7 @@ La carpeta de fuentes lleva los zips USFM de eBible.org (`engfbv_usfm.zip`, `arb
 | bn | Bengalí IRV | CC BY-SA 4.0 | USFM eBible.org |
 | id | Alkitab Yang Terbuka | **ambigua** (no comercial; el texto dice a la vez «compartible» y «sin obras derivadas»: confirmar con YLSA antes de repartir) | USFM eBible.org |
 | vi | Biblica Open Vietnamese Contemporary Bible (2015) | CC BY-SA 4.0 | USFM eBible.org (`vieovcb`) |
-| my | Birmano, Common Language Bible (2005) | © Bible Society of Myanmar; dominio público fuera de Myanmar según eBible (permiso en trámite) | USFM eBible.org (`mya`) |
+| my | Birmano, Common Language Bible (2005) | © Bible Society of Myanmar; dominio público fuera de Myanmar según eBible (permiso en trámite) | USFM eBible.org (`mya`); Cantares y Habacuc 3 de la Judson 1840 (`myajvb`, dominio público) |
 | ha | Hausa (Biblica) | CC BY-SA 4.0 | USFM eBible.org |
 | ckb | Kurdo sorani | CC BY-SA 4.0 | USFM eBible.org |
 | ug | Uigur (escritura árabe) | CC BY-SA 4.0 | USFM eBible.org |
@@ -100,8 +100,10 @@ La carpeta de fuentes lleva los zips USFM de eBible.org (`engfbv_usfm.zip`, `arb
 - **Indonesio (AYT):** licencia ambigua. Contacto: YLSA (ylsa@sabda.org).
 - **Español (VBL) y árabe (NAV):** confirmar la licencia con Free Bible Ministry y con Biblica; hay fuentes que dan la VBL como CC BY-ND.
 - **Ruso:** ya incluida la Russian Open Bible (CC BY-SA, sin permiso). Mejora opcional: Новый Перевод на Русский Язык (Biblica, 2006, derechos reservados); hace falta que Biblica dé el texto.
-- **Birmano:** ya incluida la Common Language Bible (Bible Society of Myanmar, 2005). eBible la marca como dominio público, pero su copyright rige dentro de Myanmar. Pedir permiso a la Bible Society of Myanmar.
+- **Birmano:** ya incluida la Common Language Bible (Bible Society of Myanmar, 2005). eBible la marca como dominio público, pero su copyright rige dentro de Myanmar. Pedir permiso a la Bible Society of Myanmar y pedirles también el texto completo: el de eBible tiene Habacuc 3 vacío y Cantares desplazado un versículo (se parchean con la Judson), y Job, Proverbios y Eclesiastés están en un birmano más antiguo.
 - El permiso debe cubrir expresamente: empaquetar el texto comprimido y cifrado en un HTML, repartir copias distintas byte a byte con clave nueva, y que la atribución vaya dentro del contenido cifrado.
+
+**Retoques a las fuentes.** `traducciones.js` declara cada retoque y el «Acerca de» de la copia lo anota (CC BY-SA obliga a indicar los cambios). Ninguno cambia palabras. Ruso: se quitan los títulos «Глава …», seis asteriscos sueltos y cada versículo va en su párrafo. Birmano: se quitan la nota de «fin de libro» de 22 libros, unos 15.000 guiones sueltos que dejaron las notas, los «%» de Habacuc, una referencia cruzada filtrada en Mt 5:27, y las comillas ASCII pasan a tipográficas; Cantares y Habacuc 3 vienen de la Judson, cuyo texto lleva espacios entre palabras y se ve más suelto que el resto. Job 30:30-31 sigue fusionado en un solo versículo en la fuente.
 
 **Versículos sin texto.** Algunas traducciones no traen ciertos versículos y no es un fallo del generador: las modernas omiten a propósito Mt 17:21, 18:11, 23:14, Mr 7:16, 9:44-46, 11:26, 15:28, Lc 17:36, 23:17, Jn 5:4, Hch 8:37… (inglés y hausa: 17 pasajes); en árabe, indonesio, kurdo y uigur son 1–9 casos de numeración distinta. `faltantes()` los detecta al generar.
 
@@ -109,12 +111,12 @@ La carpeta de fuentes lleva los zips USFM de eBible.org (`engfbv_usfm.zip`, `arb
 
 **Fuera por licencia** (CC BY-ND / BY-NC-ND prohíben obras derivadas): turco, urdu en escritura árabe, somalí, tibetano, tayiko. **No encontrados en ninguna fuente abierta:** uzbeko, amhárico, tigriña, pastún.
 
-**Sin revisar por nativos:** los nombres de los libros salen de la propia traducción en todos los idiomas. La portada solo existe en 12 idiomas (es, en, fr, pt, ru, ar, fa, zh, id, tr, hi, ko): bengalí, vietnamita, birmano, hausa, kurdo y uigur muestran la portada en inglés. El texto de licencia dentro del archivo está en español.
+**Sin revisar por nativos:** los nombres de los libros salen de la propia traducción en todos los idiomas. La interfaz existe en 14 idiomas (es, en, fr, pt, ru, ar, fa, zh, id, vi, my, tr, hi, ko): bengalí, hausa, kurdo y uigur la muestran en inglés. La vietnamita y la birmana (y su dedicatoria) están redactadas por IA; la birmana es la menos fiable y no debe repartirse sin revisión nativa. El texto de licencia dentro del archivo está en español.
 
 ## Qué falta antes de dárselo a alguien en riesgo
 
 1. **Probarlo en teléfonos reales**, sobre todo Android antiguos: abrir el archivo desde el gestor de archivos, desde WhatsApp y desde Telegram; que la clave abra; que «Enviar» funcione por Bluetooth. No sé todavía si todos los navegadores móviles permiten descifrar en un archivo abierto de esa forma.
-2. **Revisión por hablantes nativos** de la interfaz en los 10 idiomas que no son español ni inglés, y traducirla a los que faltan.
+2. **Revisión por hablantes nativos** de la interfaz en los 12 idiomas que no son español ni inglés, y traducirla a los que faltan.
 3. **Licencias**: elegir, para cada uno de los 24 idiomas, una traducción que se pueda redistribuir.
 4. **Auditoría externa** del cifrado y del modelo de amenazas.
 5. **Decidir el origen**: cómo llega la primera copia a cada país (ver [AMENAZAS.md](AMENAZAS.md)).
