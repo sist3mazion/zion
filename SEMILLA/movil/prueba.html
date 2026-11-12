@@ -1,0 +1,244 @@
+<!doctype html>
+<html lang="es" dir="ltr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'unsafe-inline'; style-src 'unsafe-inline'; base-uri 'none'; form-action 'none'">
+<meta name="referrer" content="no-referrer">
+<title>Prueba de compatibilidad</title>
+<style>
+body{font:15px/1.4 system-ui,sans-serif;margin:0;padding:12px;background:#fff;color:#111}
+h1{font-size:18px;margin:0 0 4px}
+p{margin:6px 0}
+.ok{color:#0a7a2f;font-weight:600}.no{color:#b00020;font-weight:600}.na{color:#8a6d00;font-weight:600}
+table{border-collapse:collapse;width:100%;margin:8px 0}
+td{border-top:1px solid #ddd;padding:4px 2px;vertical-align:top;word-break:break-word}
+td:first-child{width:48%;color:#444}
+button{font:inherit;padding:10px 14px;margin:4px 4px 4px 0;border:1px solid #888;border-radius:8px;background:#f3f3f3}
+input{font:inherit;width:100%;box-sizing:border-box;padding:8px;margin:4px 0;border:1px solid #888;border-radius:8px}
+pre{white-space:pre-wrap;word-break:break-word;background:#f6f6f6;padding:8px;border-radius:8px;font-size:12px}
+.cod{font-size:20px;font-weight:700;letter-spacing:2px}
+</style>
+</head>
+<body>
+<div id="main">
+<h1>Prueba de compatibilidad</h1>
+<p>No contiene ninguna Biblia ni se conecta a nada. Solo comprueba qué permite este navegador. Haz una captura de <b>toda</b> la pantalla (baja hasta el final) y mándala junto con una nota de cómo abriste el archivo.</p>
+<p>Código de esta apertura: <span class="cod" id="cod">…</span></p>
+
+<table id="t"></table>
+
+<p><button id="bm" type="button">Medir cifrado (puede tardar unos segundos)</button></p>
+<table id="tm"></table>
+
+<p><b>Prueba del teclado.</b> Escribe aquí una palabra inventada, por ejemplo <i>zxqvbn</i>, y pulsa Intro. Luego borra el campo y empieza a escribir «zx»: ¿el teclado te sugiere la palabra?</p>
+<input id="k" type="search" placeholder="Buscar" aria-label="Buscar" enterkeyhint="search">
+<p id="kr" class="na">Sin pulsar Intro todavía.</p>
+
+<p><b>Prueba de cambio de aplicación.</b> Cambia a otra aplicación y vuelve. Contadores abajo.</p>
+<table id="tv"></table>
+
+<p><b>Simulación del cierre de Semilla.</b> Elige un modo. Cuando se active, la página sustituye todo por una pantalla de notas vacía. Luego cambia de app y mira la miniatura en recientes: ¿sale en blanco/notas o con el informe?</p>
+<p>
+<label><input type="radio" name="sim" value="" checked style="width:auto"> Sin simulación</label><br>
+<label><input type="radio" name="sim" value="hidden" style="width:auto"> Al pasar a segundo plano (visibilitychange)</label><br>
+<label><input type="radio" name="sim" value="blur" style="width:auto"> Al perder el foco (blur)</label>
+</p>
+
+<p><button id="bc" type="button">Copiar resultado</button> <span id="cp"></span></p>
+<pre id="rep"></pre>
+
+</div>
+<div id="fake" hidden>
+<h1>Notas</h1>
+<input type="search" placeholder="Buscar" aria-label="Buscar" disabled>
+<p style="color:#888">No hay notas.</p>
+<p style="margin-top:60px"><button id="bv" type="button" style="font-size:12px;padding:4px 8px;color:#666">volver al informe</button></p>
+</div>
+<script>
+(function () {
+  'use strict';
+  var D = document, W = window;
+  function $(i) { return D.getElementById(i); }
+  function esc(s) { return String(s).replace(/[&<>]/g, function (c) { return { '&': '&amp;', '<': '&lt;', '>': '&gt;' }[c]; }); }
+  var rep = [];
+  function row(tb, k, v, cls, plain) {
+    var tr = D.createElement('tr');
+    tr.innerHTML = '<td>' + esc(k) + '</td><td class="' + (cls || '') + '">' + esc(v) + '</td>';
+    tb.appendChild(tr);
+    rep.push(k + ': ' + (plain || v));
+  }
+  function yn(b) { return b ? 'SÍ' : 'NO'; }
+
+  // --- código de apertura (corto, aleatorio) ---
+  var cod = '';
+  try {
+    var a = new Uint8Array(3); W.crypto.getRandomValues(a);
+    cod = Array.prototype.map.call(a, function (x) { return ('0' + x.toString(16)).slice(-2); }).join('').toUpperCase();
+  } catch (e) { cod = String(Math.floor(Math.random() * 1e6)); }
+  $('cod').textContent = cod;
+  rep.push('Código: ' + cod);
+  rep.push('Fecha: ' + new Date().toISOString());
+
+  var t = $('t');
+
+  // --- cómo se abrió ---
+  var proto = location.protocol, href = location.href;
+  row(t, 'Protocolo', proto, proto === 'file:' || proto === 'https:' ? 'ok' : 'na');
+  row(t, 'Dirección (recortada)', href.length > 80 ? href.slice(0, 80) + '…' : href);
+  row(t, 'Contexto seguro (isSecureContext)', yn(W.isSecureContext), W.isSecureContext ? 'ok' : 'no');
+  row(t, 'Dentro de otra página (iframe)', yn(W.top !== W.self), W.top !== W.self ? 'na' : 'ok');
+  row(t, 'Navegador (userAgent)', navigator.userAgent);
+  row(t, 'Idioma / pantalla', (navigator.language || '?') + ' / ' + screen.width + '×' + screen.height + ' @' + (W.devicePixelRatio || 1));
+  row(t, 'Núcleos / memoria (GB)', (navigator.hardwareConcurrency || '?') + ' / ' + (navigator.deviceMemory || '?'));
+
+  // --- API necesarias ---
+  var hasC = !!W.crypto, hasS = !!(W.crypto && W.crypto.subtle);
+  row(t, 'crypto', yn(hasC), hasC ? 'ok' : 'no');
+  row(t, 'crypto.subtle (imprescindible para descifrar)', yn(hasS), hasS ? 'ok' : 'no');
+  row(t, 'TextEncoder', yn(typeof TextEncoder === 'function'), typeof TextEncoder === 'function' ? 'ok' : 'no');
+  var hasDS = typeof DecompressionStream === 'function' && typeof Response === 'function' && typeof Blob === 'function';
+  row(t, 'Descompresor nativo (DecompressionStream)', yn(hasDS), hasDS ? 'ok' : 'na');
+  row(t, 'Normalize (NFC)', yn(typeof ''.normalize === 'function'), typeof ''.normalize === 'function' ? 'ok' : 'no');
+  row(t, 'async / await', 'SÍ (si ves esto, funciona JavaScript)', 'ok');
+
+  // --- almacenamiento y persistencia ---
+  var ls = 'no disponible', n = 0, first = '', mem = false;
+  try {
+    var k0 = 'prueba.n', k1 = 'prueba.f';
+    n = parseInt(localStorage.getItem(k0) || '0', 10) || 0;
+    first = localStorage.getItem(k1) || '';
+    n++;
+    localStorage.setItem(k0, String(n));
+    if (!first) { first = new Date().toISOString(); localStorage.setItem(k1, first); }
+    ls = 'escribe y lee';
+  } catch (e) { ls = 'ERROR: ' + (e && e.name); mem = true; }
+  row(t, 'localStorage', ls, mem ? 'no' : 'ok');
+  row(t, 'Aperturas guardadas (ábrelo 2 veces y mira si sube)', mem ? 'no se puede guardar' : String(n), mem ? 'no' : (n > 1 ? 'ok' : 'na'));
+  row(t, 'Primera apertura registrada', first || '—');
+  var ss = 'no';
+  try { sessionStorage.setItem('p', '1'); ss = sessionStorage.getItem('p') === '1' ? 'sí' : 'no'; } catch (e) { ss = 'ERROR: ' + (e && e.name); }
+  row(t, 'sessionStorage', ss, ss === 'sí' ? 'ok' : 'no');
+  var idb = 'indexedDB' in W;
+  row(t, 'indexedDB', yn(idb), idb ? 'ok' : 'na');
+
+  // --- medidas de cifrado ---
+  var tm = $('tm');
+  function sub(p, f) { return new Promise(function (res) { f().then(res, function (e) { res('ERROR: ' + (e && e.name || e)); }); }); }
+  async function medir() {
+    $('bm').disabled = true; $('bm').textContent = 'Midiendo…';
+    if (!hasS) { row(tm, 'Medidas', 'imposible: no hay crypto.subtle', 'no'); $('bm').textContent = 'Sin crypto.subtle'; return; }
+    var te = new TextEncoder(), salt = new Uint8Array(16), key;
+    W.crypto.getRandomValues(salt);
+    var tiempos = [];
+    for (var i = 0; i < 3; i++) {
+      var r = await sub(0, async function () {
+        var t0 = performance.now();
+        var base = await crypto.subtle.importKey('raw', te.encode('prueba de clave'.normalize('NFC')), 'PBKDF2', false, ['deriveKey']);
+        key = await crypto.subtle.deriveKey({ name: 'PBKDF2', salt: salt, iterations: 600000, hash: 'SHA-256' }, base, { name: 'AES-GCM', length: 256 }, false, ['encrypt', 'decrypt']);
+        return Math.round(performance.now() - t0);
+      });
+      tiempos.push(r);
+    }
+    var okT = tiempos.every(function (x) { return typeof x === 'number'; });
+    var med = okT ? Math.round(tiempos.reduce(function (a, b) { return a + b; }, 0) / tiempos.length) : 0;
+    row(tm, 'PBKDF2 600.000 rondas (3 pruebas, ms)', tiempos.join(' / '), okT ? (med > 2500 ? 'na' : 'ok') : 'no');
+    if (okT) {
+      var r2 = await sub(0, async function () {
+        var data = new Uint8Array(2 * 1024 * 1024);
+        for (var o = 0; o < data.length; o += 65536) crypto.getRandomValues(data.subarray(o, o + 65536));
+        var iv = new Uint8Array(12); crypto.getRandomValues(iv);
+        var t0 = performance.now();
+        var ct = new Uint8Array(await crypto.subtle.encrypt({ name: 'AES-GCM', iv: iv }, key, data));
+        var pt = new Uint8Array(await crypto.subtle.decrypt({ name: 'AES-GCM', iv: iv }, key, ct));
+        var ok = pt.length === data.length && pt[0] === data[0] && pt[pt.length - 1] === data[data.length - 1];
+        return { ms: Math.round(performance.now() - t0), ok: ok };
+      });
+      if (typeof r2 === 'object') row(tm, 'AES-GCM cifrar+descifrar 2 MB (ms)', r2.ms + (r2.ok ? ' · datos correctos' : ' · DATOS INCORRECTOS'), r2.ok ? 'ok' : 'no');
+      else row(tm, 'AES-GCM 2 MB', r2, 'no');
+      // clave incorrecta debe fallar
+      var r3 = await sub(0, async function () {
+        var iv = new Uint8Array(12), d = new Uint8Array(32);
+        var ct = await crypto.subtle.encrypt({ name: 'AES-GCM', iv: iv }, key, d);
+        var b2 = await crypto.subtle.importKey('raw', te.encode('otra clave'), 'PBKDF2', false, ['deriveKey']);
+        var k2 = await crypto.subtle.deriveKey({ name: 'PBKDF2', salt: salt, iterations: 1000, hash: 'SHA-256' }, b2, { name: 'AES-GCM', length: 256 }, false, ['decrypt']);
+        try { await crypto.subtle.decrypt({ name: 'AES-GCM', iv: iv }, k2, ct); return 'ABRE CON CLAVE MALA'; } catch (e) { return 'rechaza (correcto)'; }
+      });
+      row(tm, 'Clave incorrecta', r3, r3.indexOf('rechaza') === 0 ? 'ok' : 'no');
+    }
+    if (hasDS) {
+      var r4 = await sub(0, async function () {
+        var src = new Uint8Array(1000); for (var i = 0; i < src.length; i++) src[i] = i % 7;
+        var cs = await new Response(new Blob([src]).stream().pipeThrough(new CompressionStream('deflate'))).arrayBuffer();
+        var back = new Uint8Array(await new Response(new Blob([cs]).stream().pipeThrough(new DecompressionStream('deflate'))).arrayBuffer());
+        return back.length === 1000 && back[999] === src[999] ? 'comprime y descomprime bien' : 'RESULTADO INCORRECTO';
+      });
+      row(tm, 'Compresión nativa', r4, r4.indexOf('bien') > 0 ? 'ok' : 'na');
+    } else row(tm, 'Compresión nativa', 'no existe (Semilla usaría su descompresor propio, más lento)', 'na');
+    $('bm').textContent = 'Medir de nuevo';
+    $('bm').disabled = false;
+    pintar();
+  }
+  $('bm').onclick = medir;
+
+  // --- teclado ---
+  var k = $('k');
+  k.autocomplete = 'off'; k.spellcheck = false;
+  k.setAttribute('autocapitalize', 'none'); k.setAttribute('autocorrect', 'off');
+  var kform = D.createElement('form'); k.parentNode.insertBefore(kform, k); kform.appendChild(k);
+  kform.onsubmit = function (e) {
+    e.preventDefault();
+    $('kr').textContent = 'Intro recibido (' + k.value.length + ' caracteres escritos). Si el teclado ofrece esta palabra al reescribirla, anótalo en el mensaje.';
+    $('kr').className = 'ok';
+    rep.push('Teclado: Intro recibido, ' + k.value.length + ' caracteres');
+    pintar();
+  };
+
+  // --- cambio de aplicación ---
+  var vc = { oculta: 0, visible: 0, pagehide: 0, blur: 0, pageshow: 0 };
+  var tv = $('tv');
+  function pintarV() {
+    tv.innerHTML = '';
+    var save = rep.length;
+    [['Pasó a segundo plano (visibilitychange→hidden)', vc.oculta], ['Volvió (visible)', vc.visible], ['pagehide', vc.pagehide], ['blur de la ventana', vc.blur], ['pageshow', vc.pageshow]].forEach(function (x) {
+      var tr = D.createElement('tr'); tr.innerHTML = '<td>' + esc(x[0]) + '</td><td>' + x[1] + '</td>'; tv.appendChild(tr);
+    });
+    pintar();
+  }
+  var fake = $('fake'), main = $('main'), tit = D.title;
+  function modo() { var r = D.querySelector('input[name=sim]:checked'); return r ? r.value : ''; }
+  function cerrar(por) {
+    if (modo() !== por) return;
+    main.hidden = true; fake.hidden = false; D.title = 'Notas';
+  }
+  $('bv').onclick = function () { fake.hidden = true; main.hidden = false; D.title = tit; };
+  D.addEventListener('visibilitychange', function () { if (D.visibilityState === 'hidden') cerrar('hidden'); });
+  W.addEventListener('blur', function () { cerrar('blur'); });
+  D.addEventListener('visibilitychange', function () { if (D.visibilityState === 'hidden') vc.oculta++; else vc.visible++; pintarV(); });
+  W.addEventListener('pagehide', function () { vc.pagehide++; });
+  W.addEventListener('pageshow', function () { vc.pageshow++; pintarV(); });
+  W.addEventListener('blur', function () { vc.blur++; pintarV(); });
+
+  // --- informe en texto ---
+  var base = rep.slice();
+  function pintar() {
+    var extra = [];
+    $('tm').querySelectorAll('tr').forEach(function (tr) { extra.push(tr.children[0].textContent + ': ' + tr.children[1].textContent); });
+    extra.push('Teclado: ' + $('kr').textContent);
+    extra.push('Segundo plano: ' + JSON.stringify(vc));
+    $('rep').textContent = base.concat(extra).join('\n');
+  }
+  pintarV();
+
+  $('bc').onclick = function () {
+    var txt = $('rep').textContent;
+    function msg(m) { $('cp').textContent = m; }
+    try {
+      if (navigator.clipboard && navigator.clipboard.writeText) navigator.clipboard.writeText(txt).then(function () { msg('Copiado.'); }, function () { msg('No se pudo copiar: haz captura.'); });
+      else { var r = D.createRange(); r.selectNodeContents($('rep')); var s = getSelection(); s.removeAllRanges(); s.addRange(r); msg(D.execCommand('copy') ? 'Copiado.' : 'No se pudo copiar: haz captura.'); }
+    } catch (e) { msg('No se pudo copiar: haz captura.'); }
+  };
+})();
+</script>
+</body>
+</html>

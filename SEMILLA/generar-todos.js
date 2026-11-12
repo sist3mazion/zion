@@ -1,0 +1,56 @@
+#!/usr/bin/env node
+'use strict';
+/**
+ * Genera un archivo por cada traducción de traducciones.js.
+ *   node generar-todos.js <carpeta de fuentes> --clave "<clave>" [--salida dist/] [--vref vref.txt] [--solo es,ar]
+ * La carpeta de fuentes debe contener los archivos de traducciones.js y vref.txt (BibleNLP/ebible-corpus, metadata/vref.txt).
+ */
+const fs = require('fs');
+const path = require('path');
+const { leerArchivos } = require('./lib/texto');
+const { leerLineas, faltantes } = require('./lib/lineas');
+const { leerCsv } = require('./lib/csv');
+const NOMBRES = require('./lib/nombres');
+const { construir } = require('./lib/paquete');
+const { leerZip } = require('./lib/zip');
+const LISTA = require('./traducciones');
+
+async function main() {
+  const a = process.argv.slice(2), o = { _: [] };
+  for (let i = 0; i < a.length; i++) a[i].startsWith('--') ? o[a[i].slice(2)] = a[++i] : o._.push(a[i]);
+  const dir = o._[0], clave = o.clave || process.env.CLAVE;
+  if (!dir || !clave) { console.error('Uso: node generar-todos.js <carpeta de fuentes> --clave "<clave>" [--salida dist/] [--solo es,ar]'); process.exit(1); }
+  const vref = path.join(dir, o.vref || 'vref.txt');
+  const salida = o.salida || 'dist';
+  const solo = o.solo ? o.solo.split(',') : null;
+  fs.mkdirSync(salida, { recursive: true });
+  for (const t of LISTA) {
+    if (solo && !solo.includes(t.id)) continue;
+    const f = path.join(dir, t.fuente);
+    let libros, acerca = t.acerca, aviso = '';
+    if (t.formato === 'lineas') {
+      libros = leerLineas(fs.readFileSync(f, 'utf8'), fs.readFileSync(vref, 'utf8'), NOMBRES[t.nombres]);
+      const falta = faltantes(libros, fs.readFileSync(path.join(dir, 'eng.vrs'), 'utf8'), NOMBRES.en);
+      if (falta.length) {
+        acerca += '\n\nAVISO: a esta copia le faltan ' + falta.length + ' pasajes por diferencias entre la numeración hebrea y la inglesa del formato de origen: ' + falta.join('; ') +
+          '. Algunos (Mt 17:21, Mr 9:44…) los omiten a propósito las traducciones modernas. Para una copia completa hace falta el USFM de eBible.org.';
+        aviso = ' (faltan ' + falta.length + ' pasajes)';
+      }
+    } else if (t.formato === 'zip') {
+      const arch = leerZip(fs.readFileSync(f)).filter(e => /\.(usfm|sfm)$/i.test(e.nombre)).map(e => ({ nombre: path.basename(e.nombre), texto: e.datos.toString('utf8') }));
+      libros = leerArchivos(arch);
+      if (libros.length !== 66) throw new Error(t.id + ': el zip trae ' + libros.length + ' libros, no 66');
+      const falta = faltantes(libros, fs.readFileSync(path.join(dir, 'eng.vrs'), 'utf8'), NOMBRES.en);
+      if (falta.length) aviso = ' (' + falta.length + ' tramos sin texto: ' + falta.slice(0, 4).join('; ') + (falta.length > 4 ? '…' : '') + ')';
+    } else if (t.formato === 'csv') {
+      libros = leerCsv(fs.readFileSync(f, 'utf8'), NOMBRES[t.nombres], NOMBRES.en);
+    } else {
+      libros = leerArchivos([{ nombre: t.fuente, texto: fs.readFileSync(f, 'utf8') }]);
+    }
+    const r = await construir({ libros, clave, idioma: t.id, nombre: t.nombre, acerca });
+    const out = path.join(salida, 'notas-' + t.id + '.html');
+    fs.writeFileSync(out, r.html);
+    console.log(t.id.padEnd(4), String(r.libros).padStart(2) + ' libros', (Buffer.byteLength(r.html) / 1048576).toFixed(2) + ' MB', 'ui=' + r.ui, r.dir, '->', out + aviso);
+  }
+}
+main().catch(e => { console.error('Error: ' + e.message); process.exit(1); });
