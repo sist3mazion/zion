@@ -2,7 +2,7 @@
 /**
  * Las traducciones elegidas para repartir, con su licencia y de dónde sale cada texto.
  * Solo entran obras de dominio público o con licencia que permite copiar y redistribuir
- * (CC BY-SA, CC BY-NC). Se dejan fuera las CC BY-ND y BY-NC-ND (prohíben obras derivadas).
+ * (CC BY-SA, CC BY-NC). Las CC BY-ND y BY-NC-ND (turco, somalí, tibetano) entran solo con `permiso: 'pendiente'` (el titular aún no ha contestado; ver README).
  *   fuente: archivo dentro de la carpeta de fuentes. formato: 'usfx' (completo) | 'csv' (scrollmapper, completo) | 'zip' (USFM de eBible.org, completo; es la vía recomendada) | 'lineas' (ebible-corpus: pierde ~150 versículos)
  */
 module.exports = [
@@ -39,5 +39,13 @@ module.exports = [
   { id: 'ckb', nombre: 'کوردی سۆرانی', fuente: 'ckb_usfm.zip', formato: 'zip',
     acerca: 'Central Kurdish (Sorani) Bible. Licencia CC BY-SA 4.0: puedes copiarla y repartirla citando la fuente y con la misma licencia.' },
   { id: 'ug',  nombre: 'ئۇيغۇرچە (ئەرەب يېزىقى)', fuente: 'uigara_usfm.zip', formato: 'zip',
-    acerca: 'Uyghur Bible (Arabic script). Licencia CC BY-SA 4.0: puedes copiarla y repartirla citando la fuente y con la misma licencia.' }
+    acerca: 'Uyghur Bible (Arabic script). Licencia CC BY-SA 4.0: puedes copiarla y repartirla citando la fuente y con la misma licencia.' },
+  { id: 'ur',  nombre: 'Biblica® آزادانہ اردو ہم عصر ترجمہ', fuente: 'urdoucv_usfm.zip', formato: 'zip',
+    acerca: 'Biblica® آزادانہ اردو ہم عصر ترجمہ (Biblica® Open Urdu Contemporary Version). Copyright © 1999, 2005, 2022, 2024 by Biblica, Inc. «Biblica» es una marca registrada de Biblica, Inc., usada con permiso. Licencia CC BY-SA 4.0: puedes copiarla y repartirla citando a Biblica y con la misma licencia (open.bible).' },
+  { id: 'tr',  nombre: 'Yorumsuz Türkçe Çeviri (YTC)', fuente: 'turytc_usfm.zip', formato: 'zip', permiso: 'pendiente',
+    acerca: 'Yorumsuz Türkçe Çeviri (YTC, Turkish WEB). Copyright © 2023-2025 İsmail Serinken y eBible.org. Licencia CC BY-ND 4.0 (atribución, sin obras derivadas); la copia solo cambia el formato del texto y omite notas y títulos de sección.' },
+  { id: 'so',  nombre: 'Kitaabka Quduuska Ah', fuente: 'som_usfm.zip', formato: 'zip', permiso: 'pendiente',
+    acerca: 'Kitaabka Quduuska Ah (Somali Bible). Copyright © 1979, 2008 Society for International Ministries (Kenia). Licencia CC BY-NC-ND 3.0 (atribución, uso no comercial, sin obras derivadas); la licencia permite pasar el texto a otros formatos sin cambiar texto ni puntuación. Esta copia omite notas y títulos de sección.' },
+  { id: 'bo',  nombre: 'དམ་པའི་གསུང་རབ་བོད་འགྱུར་གསར་མ།', fuente: 'bodn_usfm.zip', formato: 'zip', permiso: 'pendiente',
+    acerca: 'དམ་པའི་གསུང་རབ་བོད་འགྱུར་གསར་མ། (New Tibetan Bible). Copyright © 2016-2023 New Tibetan Bible Translation Committee. Licencia CC BY-NC-ND 4.0 (atribución, uso no comercial, sin obras derivadas); esta copia solo cambia el formato del texto y omite notas y títulos de sección.' }
 ];

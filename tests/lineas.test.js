@@ -44,7 +44,7 @@ test('traducciones.js: cada entrada tiene licencia visible y nombres si es de un
   for (const t of LISTA) {
     assert.ok(!ids.has(t.id), 'id repetido ' + t.id); ids.add(t.id);
     assert.match(t.acerca, /Dominio público|CC BY|no comercial/, t.id);
-    assert.ok(!/CC BY-N[CD]-?ND|BY-ND/.test(t.acerca), t.id + ': las licencias ND no permiten esto');
+    if (/CC BY-N[CD]-?ND|BY-ND/.test(t.acerca)) assert.equal(t.permiso, 'pendiente', t.id + ': una licencia ND solo entra con permiso: \'pendiente\' (ver README)');
     if (t.formato === 'lineas') assert.ok(NOMBRES[t.nombres], t.id);
   }
   assert.ok(LISTA.length >= 12);
