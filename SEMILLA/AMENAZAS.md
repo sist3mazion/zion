@@ -26,6 +26,8 @@ Hay que decírselo con claridad a quien lo reciba.
 - **Del teclado.** La clave se escribe en un campo de búsqueda normal. Se le pide al teclado que no sugiera ni corrija, pero algunos teclados aprenden lo que se escribe. Conviene comprobar en el teléfono real que la clave no aparece luego como sugerencia.
 - **De los rastros del sistema.** El nombre del archivo en «Descargas», el historial del navegador («Notas») y la miniatura de aplicaciones recientes quedan fuera del control del archivo.
 - **De quien te lo pasó.** Si esa persona es detenida y conoce tu clave, la conoce.
+- **De lo que queda en las aplicaciones de mensajería.** Si el archivo llega por WhatsApp o Telegram, el chat guarda el nombre del archivo, quién lo envió y cuándo, y la miniatura de esa app en «recientes» puede enseñarlo. Semilla no puede borrar nada de eso. Mejor pasarlo sin red (tarjeta, cable, Bluetooth) y borrar el mensaje.
+- **De la miniatura de «recientes», en todos los teléfonos.** Android hace una foto de la pantalla al cambiar de aplicación. Semilla se cierra al perder el foco para que la foto muestre las notas; en el único teléfono probado llega a tiempo, pero una página web no puede garantizarlo. Lo seguro es cerrar con ✕ antes de salir.
 - **De una copia trampa.** Alguien puede repartir un archivo modificado que parezca igual. En el teléfono no hay forma de distinguirlo; quien reparte sí puede comprobarlo con `verificar.js` antes de pasarlo.
 
 ## Decisiones y motivos
@@ -70,3 +72,13 @@ Cómo llega la primera copia a un país es el punto más delicado y no lo resuel
 - El programa es idéntico en todas las copias; solo varía el bloque cifrado.
 - La clave pasa por un campo de texto visible.
 - El tamaño del archivo, aun con la cola aleatoria, delata el orden de magnitud del contenido.
+
+## Pruebas en teléfonos reales
+
+`movil/prueba.html` es un archivo de diagnóstico, sin Biblia y sin red: dice si el navegador puede descifrar, cuánto tarda la clave, si las notas se guardan y si la página reacciona al cambiar de aplicación.
+
+| Teléfono | Cómo se abrió | Resultado |
+|---|---|---|
+| Motorola, Android 10, Brave | Desde WhatsApp (`content://`) | Descifra (contexto seguro, WebCrypto y descompresor nativo). Clave en ~0,1 s. Las notas persisten al cerrar y reabrir. Bajar las notificaciones no cierra el lector. El teclado no sugirió la palabra de prueba (escrita una vez). Miniatura de «recientes»: muestra la Biblia con solo `visibilitychange`; muestra las notas al cerrar también en `blur` |
+
+Sin probar: otros fabricantes, Android de gama baja, Chrome y otros navegadores, abrir desde el gestor de archivos o Telegram, iPhone.
