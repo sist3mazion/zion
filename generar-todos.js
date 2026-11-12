@@ -7,7 +7,7 @@
  */
 const fs = require('fs');
 const path = require('path');
-const { leerArchivos } = require('./lib/texto');
+const { leerArchivos, sinTitulos } = require('./lib/texto');
 const { leerLineas, faltantes } = require('./lib/lineas');
 const { leerCsv } = require('./lib/csv');
 const NOMBRES = require('./lib/nombres');
@@ -39,6 +39,7 @@ async function main() {
     } else if (t.formato === 'zip') {
       const arch = leerZip(fs.readFileSync(f)).filter(e => /\.(usfm|sfm)$/i.test(e.nombre)).map(e => ({ nombre: path.basename(e.nombre), texto: e.datos.toString('utf8') }));
       libros = leerArchivos(arch);
+      if (t.quitarTitulos) sinTitulos(libros, new RegExp(t.quitarTitulos));
       if (libros.length !== 66) throw new Error(t.id + ': el zip trae ' + libros.length + ' libros, no 66');
       const falta = faltantes(libros, fs.readFileSync(path.join(dir, 'eng.vrs'), 'utf8'), NOMBRES.en);
       if (falta.length) aviso = ' (' + falta.length + ' tramos sin texto: ' + falta.slice(0, 4).join('; ') + (falta.length > 4 ? '…' : '') + ')';

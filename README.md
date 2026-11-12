@@ -75,7 +75,7 @@ Medidas con la Biblia completa en español, en Chrome de escritorio frenado 6× 
 
 `node generar-todos.js <carpeta de fuentes> --clave "<clave>"` genera un archivo por cada fila de [traducciones.js](traducciones.js).
 Solo entran obras de dominio público o con licencia que permite repartirlas (CC BY-SA, CC BY-NC); se prefieren las traducciones modernas; las antiguas de dominio público solo donde no hay una moderna abierta. Cada archivo lleva su licencia dentro («Acerca de»).
-La carpeta de fuentes lleva los zips USFM de eBible.org (`engfbv_usfm.zip`, `arbnav_usfm.zip`, …), el USFX de open-bibles (`spa-vbl.usfx.xml`), el CSV de scrollmapper (`sm-RusSynodal.csv`) y `eng.vrs`.
+La carpeta de fuentes lleva los zips USFM de eBible.org (`engfbv_usfm.zip`, `arbnav_usfm.zip`, …), el USFX de open-bibles (`spa-vbl.usfx.xml`), el zip del repositorio de Door43 (`ru_rob.zip`) y `eng.vrs`.
 
 | Idioma | Traducción | Licencia | Fuente |
 |---|---|---|---|
@@ -84,7 +84,7 @@ La carpeta de fuentes lleva los zips USFM de eBible.org (`engfbv_usfm.zip`, `arb
 | zh | Biblica Open Chinese Contemporary Bible (simplificado, 2022) | CC BY-SA 4.0 | USFM eBible.org (`cmncbs`) |
 | ar | Árabe estándar (NAV) | CC BY-SA 4.0 | USFM eBible.org |
 | fa | Biblica Open Persian Contemporary Bible (2022) | CC BY-SA 4.0 | USFM eBible.org (`pesopcb`) |
-| ru | Sinodal | dominio público | CSV scrollmapper |
+| ru | Русская открытая Библия (ROB, v8, 2021): revisión moderna de la Sinodal, alineada con el griego de unfoldingWord | CC BY-SA 4.0 | USFM Door43 (`Door43-Catalog/ru_rob`, zip del repositorio) |
 | hi | Hindi estándar 2017 | CC BY-SA 4.0 | USFM eBible.org |
 | bn | Bengalí IRV | CC BY-SA 4.0 | USFM eBible.org |
 | id | Alkitab Yang Terbuka | **ambigua** (no comercial; el texto dice a la vez «compartible» y «sin obras derivadas»: confirmar con YLSA antes de repartir) | USFM eBible.org |
@@ -94,12 +94,12 @@ La carpeta de fuentes lleva los zips USFM de eBible.org (`engfbv_usfm.zip`, `arb
 | ckb | Kurdo sorani | CC BY-SA 4.0 | USFM eBible.org |
 | ug | Uigur (escritura árabe) | CC BY-SA 4.0 | USFM eBible.org |
 
-**Criterio.** Se prefieren traducciones modernas y abiertas a las de dominio público, que son muy arcaicas. Las de Biblica (chino, persa, vietnamita, hausa, árabe) son «contemporáneas» (lectura natural, no literal) y exigen su aviso de copyright, que va en el «Acerca de». Sin sustituto abierto: el ruso (Sinodal, 1876) se queda hasta tener el texto y el permiso de una moderna. Los textos antiguos que ya no se usan (CUV 1919, persa antiguo, vietnamita 1934) siguen en el historial de git.
+**Criterio.** Se prefieren traducciones modernas y abiertas a las de dominio público, que son muy arcaicas. Las de Biblica (chino, persa, vietnamita, hausa, árabe) son «contemporáneas» (lectura natural, no literal) y exigen su aviso de copyright, que va en el «Acerca de». El ruso usa la Russian Open Bible, que es una revisión moderna de la Sinodal (no una traducción independiente); la NRT de Biblica sería más contemporánea y está pendiente de permiso. Los textos antiguos que ya no se usan (CUV 1919, persa antiguo, vietnamita 1934) siguen en el historial de git.
 
 **Permisos pendientes** (en trámite, los gestiona el responsable del proyecto):
 - **Indonesio (AYT):** licencia ambigua. Contacto: YLSA (ylsa@sabda.org).
 - **Español (VBL) y árabe (NAV):** confirmar la licencia con Free Bible Ministry y con Biblica; hay fuentes que dan la VBL como CC BY-ND.
-- **Ruso:** candidata moderna, Новый Перевод на Русский Язык (Biblica, 2006, derechos reservados). No está en eBible: hace falta que Biblica dé el texto; mientras, sigue la Sinodal.
+- **Ruso:** ya incluida la Russian Open Bible (CC BY-SA, sin permiso). Mejora opcional: Новый Перевод на Русский Язык (Biblica, 2006, derechos reservados); hace falta que Biblica dé el texto.
 - **Birmano:** ya incluida la Common Language Bible (Bible Society of Myanmar, 2005). eBible la marca como dominio público, pero su copyright rige dentro de Myanmar. Pedir permiso a la Bible Society of Myanmar.
 - El permiso debe cubrir expresamente: empaquetar el texto comprimido y cifrado en un HTML, repartir copias distintas byte a byte con clave nueva, y que la atribución vaya dentro del contenido cifrado.
 
@@ -109,7 +109,7 @@ La carpeta de fuentes lleva los zips USFM de eBible.org (`engfbv_usfm.zip`, `arb
 
 **Fuera por licencia** (CC BY-ND / BY-NC-ND prohíben obras derivadas): turco, urdu en escritura árabe, somalí, tibetano, tayiko. **No encontrados en ninguna fuente abierta:** uzbeko, amhárico, tigriña, pastún.
 
-**Sin revisar por nativos:** los nombres de los libros en ruso (`lib/nombres.js`) los escribí a mano; los demás salen de la propia traducción. La portada solo existe en 12 idiomas (es, en, fr, pt, ru, ar, fa, zh, id, tr, hi, ko): bengalí, vietnamita, birmano, hausa, kurdo y uigur muestran la portada en inglés. El texto de licencia dentro del archivo está en español.
+**Sin revisar por nativos:** los nombres de los libros salen de la propia traducción en todos los idiomas. La portada solo existe en 12 idiomas (es, en, fr, pt, ru, ar, fa, zh, id, tr, hi, ko): bengalí, vietnamita, birmano, hausa, kurdo y uigur muestran la portada en inglés. El texto de licencia dentro del archivo está en español.
 
 ## Qué falta antes de dárselo a alguien en riesgo
 
