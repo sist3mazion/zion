@@ -50,7 +50,7 @@ async function main() {
     const r = await construir({ libros, clave, idioma: t.id, nombre: t.nombre, acerca });
     const out = path.join(salida, 'notas-' + t.id + '.html');
     fs.writeFileSync(out, r.html);
-    console.log(t.id.padEnd(4), String(r.libros).padStart(2) + ' libros', (Buffer.byteLength(r.html) / 1048576).toFixed(2) + ' MB', 'ui=' + r.ui, r.dir, '->', out + aviso + (t.permiso === 'pendiente' ? '  ** PERMISO PENDIENTE: no repartir sin permiso escrito **' : ''));
+    console.log(t.id.padEnd(4), String(r.libros).padStart(2) + ' libros', (Buffer.byteLength(r.html) / 1048576).toFixed(2) + ' MB', 'ui=' + r.ui, r.dir, '->', out + aviso);
   }
 }
 main().catch(e => { console.error('Error: ' + e.message); process.exit(1); });

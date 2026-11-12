@@ -89,14 +89,14 @@ La carpeta de fuentes lleva los zips USFM de eBible.org (`engfbv_usfm.zip`, `arb
 | bn | Bengalí IRV | CC BY-SA 4.0 | USFM eBible.org |
 | id | Alkitab Yang Terbuka | **ambigua** (no comercial; el texto dice a la vez «compartible» y «sin obras derivadas»: confirmar con YLSA antes de repartir) | USFM eBible.org |
 | vi | Biblica Open Vietnamese Contemporary Bible (2015) | CC BY-SA 4.0 | USFM eBible.org (`vieovcb`) |
-| my | Birmano, Common Language Bible (2005) | **permiso pendiente** (© Bible Society of Myanmar; dominio público fuera de Myanmar según eBible) | USFM eBible.org (`mya`) |
+| my | Birmano, Common Language Bible (2005) | © Bible Society of Myanmar; dominio público fuera de Myanmar según eBible (permiso en trámite) | USFM eBible.org (`mya`) |
 | ha | Hausa (Biblica) | CC BY-SA 4.0 | USFM eBible.org |
 | ckb | Kurdo sorani | CC BY-SA 4.0 | USFM eBible.org |
 | ug | Uigur (escritura árabe) | CC BY-SA 4.0 | USFM eBible.org |
 
-**Criterio.** Se prefieren traducciones modernas y abiertas a las de dominio público, que son muy arcaicas. Las de Biblica (chino, persa, vietnamita, hausa, árabe) son «contemporáneas» (lectura natural, no literal) y exigen su aviso de copyright, que va en el «Acerca de». Sin sustituto abierto: el ruso (Sinodal, 1876) se queda hasta tener el texto y el permiso de una moderna. Las entradas con `permiso: 'pendiente'` (birmano, indonesio) generan el archivo con un aviso: no repartir sin permiso escrito. Los textos antiguos que ya no se usan (CUV 1919, persa antiguo, vietnamita 1934) siguen en el historial de git.
+**Criterio.** Se prefieren traducciones modernas y abiertas a las de dominio público, que son muy arcaicas. Las de Biblica (chino, persa, vietnamita, hausa, árabe) son «contemporáneas» (lectura natural, no literal) y exigen su aviso de copyright, que va en el «Acerca de». Sin sustituto abierto: el ruso (Sinodal, 1876) se queda hasta tener el texto y el permiso de una moderna. Los textos antiguos que ya no se usan (CUV 1919, persa antiguo, vietnamita 1934) siguen en el historial de git.
 
-**Permisos pendientes** (los gestiona el responsable del proyecto; sin respuesta por escrito, no repartir):
+**Permisos pendientes** (en trámite, los gestiona el responsable del proyecto):
 - **Indonesio (AYT):** licencia ambigua. Contacto: YLSA (ylsa@sabda.org).
 - **Español (VBL) y árabe (NAV):** confirmar la licencia con Free Bible Ministry y con Biblica; hay fuentes que dan la VBL como CC BY-ND.
 - **Ruso:** candidata moderna, Новый Перевод на Русский Язык (Biblica, 2006, derechos reservados). No está en eBible: hace falta que Biblica dé el texto; mientras, sigue la Sinodal.
