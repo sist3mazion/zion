@@ -1,6 +1,6 @@
 'use strict';
 /**
- * Dedicatoria de la web de ZION (LANDING/index.html), en los idiomas en que la web la tiene.
+ * Dedicatoria de la antigua web de ZION (LANDING/index.html, retirada; sigue en el historial de git), en los idiomas en que la web la tiene.
  * Va DENTRO del contenido cifrado (se ve al abrir la Biblia), nunca en la portada.
  * Si el idioma del texto no figura aquí, se usa el inglés.
  */
