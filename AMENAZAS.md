@@ -40,9 +40,9 @@ Hay que decírselo con claridad a quien lo reciba.
 
 **Texto y no PDF.** Casi nueve veces menos peso, se abre al instante, se puede buscar y ajustar la letra, y no arrastra un visor de PDF de un megabyte.
 
-**La copia cambia de clave.** Quien pasa el archivo elige una clave nueva para el siguiente. Así ninguna copia es igual a otra y cada persona solo conoce su clave y las que ella misma ha dado.
+**La copia cambia de clave.** Quien pasa el archivo elige una clave nueva para el siguiente. Así ninguna copia es igual a otra y cada persona solo conoce su clave y las que ella misma ha dado. Por defecto la copia lleva todos los idiomas; se pueden quitar algunos (archivo más pequeño) y cambiar el idioma de las notas.
 
-**Criptografía del navegador, sin inventar nada.** PBKDF2-SHA256 (600 000 rondas) y AES-256-GCM de WebCrypto. No hay implementación propia de ningún algoritmo de cifrado. El único código «propio» sensible es un descompresor de reserva, que se ejecuta después de verificar la autenticidad del contenido.
+**Criptografía del navegador, sin inventar nada.** PBKDF2-SHA256 (600 000 rondas) y AES-256-GCM de WebCrypto. No hay implementación propia de ningún algoritmo de cifrado. El código «propio» sensible son dos descompresores: LZMA (el que se usa siempre) y zlib de reserva. Los dos se ejecutan después de que AES-GCM haya verificado la autenticidad del bloque, y ante datos dañados lanzan error en vez de colgarse.
 
 ## El origen
 
@@ -54,14 +54,17 @@ Cómo llega la primera copia a un país es el punto más delicado y no lo resuel
 
 ## Para quien audite
 
-**Formato.** `base64( sal[16] ‖ iv[12] ‖ AES-256-GCM(clave, iv, contenido) )`, con `clave = PBKDF2-HMAC-SHA256(frase en NFC, sal, 600 000, 32 bytes)`. Sin cabecera, firma ni versión en claro. Sal e IV salen de `crypto.getRandomValues` y se renuevan en cada copia.
+**Formato.** `base64( sal[16] ‖ caja(u32le posición, u32le longitud del índice) ‖ bloques ‖ caja(índice) ‖ cola aleatoria de 0–65 535 bytes )`, con `caja = iv[12] ‖ AES-256-GCM(clave, iv, datos)` y `clave = PBKDF2-HMAC-SHA256(frase en NFC, sal, 600 000, 32 bytes)`. Una sola derivación de clave; cada caja lleva su propio IV aleatorio (un archivo de 18 idiomas tiene ~110 cajas). Sin cabecera, firma ni versión en claro: las fronteras entre cajas solo se conocen tras descifrar el índice. Sal, IV y cola salen de `crypto.getRandomValues` y se renuevan en cada copia.
 
-**Contenido.** `u32le(n) ‖ cabecera JSON[n] ‖ un bloque zlib por libro ‖ cola aleatoria de 0–65 535 bytes`. La cola solo sirve para variar el tamaño.
+**Datos asociados.** El índice se cifra con `"i"` y el bloque *j* de la traducción *i* con `"i.j"`: una caja no se puede mover a otro sitio del archivo sin que falle la verificación.
+
+**Contenido.** El índice es JSON: los textos de la interfaz en todos los idiomas y, por traducción, nombre, licencia, dirección de escritura, libros (bloque, posición y longitud de cada uno) y dónde está cada bloque. Cada bloque son varios libros seguidos, comprimidos con LZMA crudo (`lc=3 lp=0 pb=2`) o zlib; ~6 bloques por traducción. Al abrir se descifra solo el índice; un bloque se descifra y descomprime cuando se lee uno de sus libros, y se guardan como mucho dos.
 
 **Dónde mirar.**
 
 - `src/app.js`, entre `/* <core> */` y `/* </core> */`: todo el cifrado y el ensamblado. Es el mismo código que usa el generador.
-- `enter()`: único punto donde se prueba una clave. `lock()`: sobrescribe con ceros el contenido descifrado y vacía el lector.
+- `open()`: único punto donde se prueba una clave (desde `enter()`). `lock()`: sobrescribe con ceros los bloques descifrados y vacía el lector.
+- `build()`: el mismo código monta el archivo en el generador y la copia en el móvil. La copia descifra cada bloque y lo vuelve a cifrar con la clave nueva; no recomprime.
 - `assemble()`: la copia reutiliza literalmente el script, los estilos y la política del archivo original; solo cambia el bloque cifrado.
 - La posición de lectura se guarda cifrada con la misma clave. Las notas y las preferencias de aspecto se guardan en claro: son la portada.
 
@@ -71,7 +74,8 @@ Cómo llega la primera copia a un país es el punto más delicado y no lo resuel
 - JavaScript no garantiza el borrado de memoria: las cadenas ya creadas (texto del capítulo en pantalla, índice de búsqueda) las libera el recolector cuando quiere.
 - El programa es idéntico en todas las copias; solo varía el bloque cifrado.
 - La clave pasa por un campo de texto visible.
-- El tamaño del archivo, aun con la cola aleatoria, delata el orden de magnitud del contenido.
+- El tamaño del archivo, aun con la cola aleatoria, delata el orden de magnitud del contenido. Con los 18 idiomas son ~28 MB: un «bloc de notas» de ese tamaño llama la atención si alguien revisa el teléfono. Una copia con uno o dos idiomas pesa 2–4 MB.
+- Los textos de la interfaz no se borran de memoria al cerrar (son cadenas de JavaScript); el índice tampoco.
 
 ## Pruebas en teléfonos reales
 
@@ -81,4 +85,6 @@ Cómo llega la primera copia a un país es el punto más delicado y no lo resuel
 |---|---|---|
 | Motorola, Android 10, Brave | Desde WhatsApp (`content://`) | Descifra (contexto seguro, WebCrypto y descompresor nativo). Clave en ~0,1 s. Las notas persisten al cerrar y reabrir. Bajar las notificaciones no cierra el lector. El teclado no sugirió la palabra de prueba (escrita una vez). Miniatura de «recientes»: muestra la Biblia con solo `visibilitychange`; muestra las notas al cerrar también en `blur` |
 
-Sin probar: otros fabricantes, Android de gama baja, Chrome y otros navegadores, abrir desde el gestor de archivos o Telegram, iPhone.
+| Samsung de gama de entrada, Android 10, Chrome 157, 4 GB | Desde WhatsApp | `movil/generar-prueba-grande.js` (25 MB, sin Biblia, mismo tamaño y descompresor que el archivo de 18 idiomas): abre. Carga 1,2 s; clave y descifrado 0,24 s; descomprimir 16,8 MB de texto birmano de una vez 0,69 s |
+
+Sin probar: **teléfonos con 1–2 GB de RAM** (frecuentes en las zonas de destino), el archivo real de 18 idiomas en un teléfono (solo la página de prueba del mismo tamaño), otros fabricantes, abrir desde el gestor de archivos o Telegram, iPhone.

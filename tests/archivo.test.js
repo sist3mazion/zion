@@ -61,21 +61,29 @@ test('dos archivos del mismo texto y la misma clave no se parecen (ni en bytes n
 });
 
 test('con la clave se recupera todo; sin ella, nada', async () => {
-  const { html } = await hacer();
-  const p = partes(html);
-  const caja = N.b64d(p.blob);
-  await assert.rejects(N.unwrap('otra clave distinta', caja));
-  const { data } = await N.unwrap(CLAVE, caja);
-  const { m, o } = N.parse(data);
-  assert.equal(m.n, 'Reina-Valera 1909'); assert.equal(m.l, 'es'); assert.equal(m.d, 'ltr'); assert.equal(m.a, 'Dominio público.');
-  assert.deepEqual(m.b.map(x => x[0]), ['Génesis', 'Salmos', 'Juan', 'Judas']);
-  assert.equal(m.t, 2);
-  assert.deepEqual(m.u, UI.es.r);
-  for (const [, pos, len] of m.b) {
-    const caps = JSON.parse(Buffer.from(await N.unz(data.slice(o + pos, o + pos + len))).toString('utf8'));
-    assert.ok(Array.isArray(caps) && caps.length >= 1 && typeof caps[0][0] === 'number');
+  const ar = leerArchivos([{ nombre: 'ar.usfm', texto: fs.readFileSync(path.join(FX, 'ar-vd.usfm'), 'utf8') }]);
+  const r = await construir({ clave: CLAVE, traducciones: [
+    { libros: libros(), idioma: 'es', nombre: 'Reina-Valera 1909', acerca: 'Dominio público.' },
+    { libros: ar, idioma: 'ar', nombre: 'فان دايك' }] });
+  const p = partes(r.html);
+  assert.equal(r.textos, 2);
+  await assert.rejects(N.open('otra clave distinta', p.blob));
+  const { key, m } = await N.open(CLAVE, p.blob);
+  const es = m.t[0];
+  assert.equal(es.n, 'Reina-Valera 1909'); assert.equal(es.l, 'es'); assert.equal(es.d, 'ltr'); assert.equal(es.a, 'Dominio público.');
+  assert.deepEqual(es.b.map(x => x[0]), ['Génesis', 'Salmos', 'Juan', 'Judas']);
+  assert.equal(es.t, 2);
+  assert.deepEqual(m.u.es.r, UI.es.r);
+  assert.equal(m.t[1].l, 'ar'); assert.equal(m.t[1].d, 'rtl');
+  for (let i = 0; i < m.t.length; i++) {
+    for (const [, j, at, len] of m.t[i].b) {
+      const d = await N.inflate(m.t[i].k[j], await N.piece(key, p.blob, m, i, j));
+      const caps = JSON.parse(Buffer.from(d.subarray(at, at + len)).toString('utf8'));
+      assert.ok(Array.isArray(caps) && caps.length >= 1 && typeof caps[0][0] === 'number');
+    }
   }
-  assert.ok(data.length >= o + m.z);
+  // cada bloque solo abre en su sitio: no se pueden cambiar de lugar
+  await assert.rejects(N.unseal(key, N.b64at(p.blob, m.t[0].k[0][0], m.t[0].k[0][1]), '1.0'));
 });
 
 test('comprobar: reconoce el programa auténtico y detecta cualquier cambio fuera del contenido cifrado', async () => {
@@ -107,8 +115,8 @@ test('texto de derecha a izquierda y cifras propias', async () => {
   const { html, ui, dir } = await construir({ libros: ar, clave: CLAVE, idioma: 'ar' });
   const p = partes(html);
   assert.equal(ui, 'ar'); assert.equal(dir, 'rtl'); assert.equal(p.lang, 'ar'); assert.equal(p.dir, 'rtl');
-  const { m } = N.parse((await N.unwrap(CLAVE, N.b64d(p.blob))).data);
-  assert.equal(m.d, 'rtl'); assert.equal(m.g, 0x660);
+  const { m } = await N.open(CLAVE, p.blob);
+  assert.equal(m.t[0].d, 'rtl'); assert.equal(m.t[0].g, 0x660);
 });
 
 test('idioma sin interfaz propia: cae a inglés y lo dice', async () => {

@@ -130,7 +130,8 @@ async function main() {
   const caps = libros.reduce((n, l) => n + l.caps.length, 0);
   console.log('Hecho: ' + salida);
   console.log('  ' + r.libros + ' libros, ' + caps + ' capítulos, ' + (Buffer.byteLength(r.html) / 1048576).toFixed(2) + ' MB');
-  console.log('  portada en "' + r.ui + '", lectura ' + (r.dir === 'rtl' ? 'de derecha a izquierda' : 'de izquierda a derecha'));
+  console.log('  portada en "' + r.ui + '", lectura ' + (r.dir === 'rtl' ? 'de derecha a izquierda' : 'de izquierda a derecha') + ', compresión ' + r.compresion);
+  if (r.compresion !== 'lzma') console.log('  AVISO: no encuentro la orden xz; comprimido con zlib (archivo ~40 % más grande).');
   if (!acerca) console.log('  AVISO: sin texto de licencia (--acerca). Comprueba que puedes redistribuir esta traducción.');
   if (!o.ui && !uiDatos && r.ui !== (o.idioma || 'en').toLowerCase()) console.log('  AVISO: no hay interfaz en "' + o.idioma + '"; se ha usado "' + r.ui + '". Usa --ui-archivo para añadirla.');
 }

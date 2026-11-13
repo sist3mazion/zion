@@ -6,7 +6,7 @@ html.d{--bg:#141312;--fg:#e9e5dd;--mu:#9a948a;--ln:#2b2927;--cd:#1e1d1b;--ac:#e3
 html,body{height:100%}
 body{margin:0;background:var(--bg);color:var(--fg);font:16px/1.45 system-ui,-apple-system,"Segoe UI",Roboto,"Noto Sans",sans-serif}
 [hidden]{display:none!important}
-button,input,textarea{font:inherit;color:inherit}
+button,input,textarea,select{font:inherit;color:inherit}
 button{cursor:pointer}
 .app{max-width:720px;margin:0 auto;height:100%;position:relative}
 .cv,.rd,.lv,.ed{height:100%}
@@ -42,7 +42,8 @@ html.d .fab,html.d .pb{color:#141312}
 .bk{text-align:start;padding:12px 14px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
 .cg{grid-template-columns:repeat(auto-fill,minmax(54px,1fr))}
 .ch{height:54px;padding:0;font-variant-numeric:tabular-nums}
-.bk:active,.ch:active,.ht:active{border-color:var(--ac)}
+.bk:active,.ch:active,.ht:active,.lg .on{border-color:var(--ac)}
+.lg{grid-template-columns:1fr}
 .dd{margin:36px 8px 24px;text-align:center;color:var(--mu);font-size:14px;line-height:1.6}
 .dd h2{font-size:12px;letter-spacing:.12em;font-weight:600;margin:0 0 12px}
 .dd p{margin:0 0 8px}
@@ -80,6 +81,11 @@ mark{background:var(--hl);color:inherit;border-radius:3px;padding:0 1px}
 .fm{max-width:26em;margin:0 auto}
 .fm label{display:block;font-size:14px;color:var(--mu);margin:14px 0 6px}
 .fm label input{display:block;margin-top:6px;color:var(--fg)}
+.fm select{display:block;width:100%;margin-top:6px;padding:11px 14px;border-radius:12px;border:1px solid var(--ln);background:var(--cd);color:var(--fg);font-size:16px}
+.ck{border:0;padding:0;margin:16px 0 0;min-width:0}
+.ck legend{font-size:14px;color:var(--mu);padding:0;margin-bottom:2px}
+.fm .ck label{display:flex;align-items:center;gap:12px;margin:0;padding:9px 0;color:var(--fg);font-size:16px}
+.fm .ck input{display:block;flex:none;width:20px;height:20px;margin:0;padding:0;accent-color:var(--ac);-webkit-appearance:auto;appearance:auto}
 .fm p{margin:0 0 6px;line-height:1.55}
 .fm .er{color:var(--ac);min-height:1.5em;margin:10px 0 4px;font-size:14px}
 .pb,.sb{display:block;width:100%;border-radius:12px;padding:13px 16px;font-size:16px;font-weight:600;margin:10px 0}

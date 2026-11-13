@@ -1,9 +1,12 @@
 #!/usr/bin/env node
 'use strict';
 /**
- * Genera un archivo por cada traducción de traducciones.js.
- *   node generar-todos.js <carpeta de fuentes> --clave "<clave>" [--salida dist/] [--vref vref.txt] [--solo es,ar]
- * La carpeta de fuentes debe contener los archivos de traducciones.js y vref.txt (BibleNLP/ebible-corpus, metadata/vref.txt).
+ * Genera UN archivo con todas las traducciones de traducciones.js (el «maestro»).
+ *   node generar-todos.js <carpeta de fuentes> --clave "<clave>" [--salida dist/] [--ui es] [--solo es,ar] [--vref vref.txt]
+ * --ui: idioma de la portada (por defecto el de la primera traducción). Al pasar una copia se puede cambiar.
+ * --solo: solo esas traducciones. Desde el propio archivo, «Pasar una copia» también permite quitar idiomas.
+ * La carpeta de fuentes debe contener los archivos de traducciones.js y eng.vrs (y vref.txt si alguna fila usa el formato 'lineas').
+ * Necesita la orden xz (Linux, macOS) para comprimir con LZMA; sin ella usa zlib y el archivo sale ~40 % más grande.
  */
 const fs = require('fs');
 const path = require('path');
@@ -11,7 +14,8 @@ const { leerArchivos, sinTitulos, sustituir, sinFinal, unVersiculoPorParrafo, pa
 const { leerLineas, faltantes } = require('./lib/lineas');
 const { leerCsv } = require('./lib/csv');
 const NOMBRES = require('./lib/nombres');
-const { construir } = require('./lib/paquete');
+const { construir, hayXz } = require('./lib/paquete');
+const UI = require('./src/ui');
 const { leerZip } = require('./lib/zip');
 const LISTA = require('./traducciones');
 
@@ -19,7 +23,9 @@ async function main() {
   const a = process.argv.slice(2), o = { _: [] };
   for (let i = 0; i < a.length; i++) a[i].startsWith('--') ? o[a[i].slice(2)] = a[++i] : o._.push(a[i]);
   const dir = o._[0], clave = o.clave || process.env.CLAVE;
-  if (!dir || !clave) { console.error('Uso: node generar-todos.js <carpeta de fuentes> --clave "<clave>" [--salida dist/] [--solo es,ar]'); process.exit(1); }
+  if (!dir || !clave) { console.error('Uso: node generar-todos.js <carpeta de fuentes> --clave "<clave>" [--salida dist/] [--ui es] [--solo es,ar]'); process.exit(1); }
+  if (!hayXz()) console.log('AVISO: no encuentro la orden xz; comprimo con zlib (archivo ~40 % más grande).');
+  const lista = [];
   const vref = path.join(dir, o.vref || 'vref.txt');
   const salida = o.salida || 'dist';
   const solo = o.solo ? o.solo.split(',') : null;
@@ -59,10 +65,13 @@ async function main() {
       const falta = faltantes(libros, fs.readFileSync(path.join(dir, 'eng.vrs'), 'utf8'), NOMBRES.en);
       if (falta.length) aviso = ' (' + falta.length + ' tramos sin texto: ' + falta.slice(0, 4).join('; ') + (falta.length > 4 ? '…' : '') + ')' + aviso;
     }
-    const r = await construir({ libros, clave, idioma: t.id, nombre: t.nombre, acerca });
-    const out = path.join(salida, 'notas-' + t.id + '.html');
-    fs.writeFileSync(out, r.html);
-    console.log(t.id.padEnd(4), String(r.libros).padStart(2) + ' libros', (Buffer.byteLength(r.html) / 1048576).toFixed(2) + ' MB', 'ui=' + r.ui, r.dir, '->', out + aviso);
+    lista.push({ libros, idioma: t.id, nombre: t.nombre, acerca });
+    console.log(t.id.padEnd(4), String(libros.length).padStart(2) + ' libros' + aviso);
   }
+  if (!lista.length) throw new Error('Ninguna traducción coincide con --solo');
+  const r = await construir({ traducciones: lista, clave, ui: o.ui });
+  const out = path.join(salida, (UI[r.ui] || UI.en).c.f + '.html');
+  fs.writeFileSync(out, r.html);
+  console.log('Hecho: ' + out + ' · ' + r.textos + ' traducciones · ' + (Buffer.byteLength(r.html) / 1048576).toFixed(2) + ' MB · ' + r.compresion + ' · portada "' + r.ui + '"');
 }
 main().catch(e => { console.error('Error: ' + e.message); process.exit(1); });
