@@ -138,7 +138,7 @@ La carpeta de fuentes lleva los zips USFM de eBible.org (`engfbv_usfm.zip`, `arb
   lib/lineas.js     lee «un versículo por línea» (ebible-corpus) y detecta lo que falta
   lib/csv.js        lee CSV de scrollmapper
   lib/nombres.js    nombres de los 66 libros en 12 idiomas
-  traducciones.js   las 14 traducciones elegidas y su licencia
+  traducciones.js   las 18 traducciones elegidas y su licencia
   generar-todos.js  genera un archivo por traducción
   lib/paquete.js    empaqueta, cifra y ensambla
   lib/nucleo.js     carga en Node el mismo código de cifrado que usa la app
@@ -147,3 +147,7 @@ La carpeta de fuentes lleva los zips USFM de eBible.org (`engfbv_usfm.zip`, `arb
 ```
 
 Sin dependencias: ni para generar ni dentro del archivo.
+
+## Cómo se contribuye
+
+Los cambios entran por pull request y se fusionan con **Squash and merge**: `main` recibe un solo commit por PR, creado y firmado por GitHub (sale «Verified»). Antes de fusionar, el CI debe ejecutar `npm test` en verde (48 pruebas).
