@@ -122,13 +122,13 @@ La carpeta de fuentes lleva los zips USFM de eBible.org (`engfbv_usfm.zip`, `arb
 
 **Fuera:** el tayiko (CC BY-NC-ND y casi incompleto) y el amhárico (solo Nuevo Testamento, copyright de la Bible Society of Ethiopia sin licencia clara). **No encontrados en eBible:** uzbeko, tigriña y pastún.
 
-**Sin revisar por nativos:** los nombres de los libros salen de la propia traducción en todos los idiomas. La interfaz existe en 14 idiomas (es, en, fr, pt, ru, ar, fa, zh, id, vi, my, tr, hi, ko): bengalí, hausa, kurdo, uigur, urdu, somalí y tibetano la muestran en inglés. La vietnamita y la birmana (y su dedicatoria) están redactadas por IA; la birmana es la menos fiable y no debe repartirse sin revisión nativa. El texto de licencia dentro del archivo está en español.
+**Sin revisar por nativos:** los nombres de los libros salen de la propia traducción en todos los idiomas. La interfaz existe en 14 idiomas (es, en, fr, pt, ru, ar, fa, zh, id, vi, my, tr, hi, ko): bengalí, hausa, kurdo, uigur, urdu, somalí y tibetano la muestran en inglés. La vietnamita y la birmana están redactadas por IA; la birmana es la menos fiable y no debe repartirse sin revisión nativa. Las dedicatorias de todos los idiomas salvo es y en también son de IA; las de hausa, kurdo, uigur, somalí y tibetano son las menos fiables. El texto de licencia dentro del archivo está en español.
 
 ## Qué falta antes de dárselo a alguien en riesgo
 
 1. **Probarlo en teléfonos reales**, sobre todo Android antiguos: abrir el archivo desde el gestor de archivos, desde WhatsApp y desde Telegram; que la clave abra; que «Enviar» funcione por Bluetooth. No sé todavía si todos los navegadores móviles permiten descifrar en un archivo abierto de esa forma. Con los 18 idiomas (~28 MB): probar en teléfonos de **1–2 GB de RAM** y medir cuánto tarda en pasar por Bluetooth.
 2. **Revisión por hablantes nativos** de la interfaz en los 12 idiomas que no son español ni inglés, y traducirla a los que faltan. Los textos nuevos de idioma y copia (`nm`, `lg`, `cl`, `cc`, `e3` en `src/ui.js`) también son de IA.
-3. **Licencias**: elegir, para cada uno de los 24 idiomas, una traducción que se pueda redistribuir.
+3. **Licencias**: elegir, para cada uno de los 18 idiomas, una traducción que se pueda redistribuir.
 4. **Auditoría externa** del cifrado y del modelo de amenazas.
 5. **Decidir el origen**: cómo llega la primera copia a cada país (ver [AMENAZAS.md](AMENAZAS.md)).
 
