@@ -7,7 +7,7 @@
  */
 const fs = require('fs');
 const path = require('path');
-const { leerArchivos } = require('./lib/texto');
+const { leerArchivos, sinTitulos, sustituir, sinFinal, unVersiculoPorParrafo, parchear } = require('./lib/texto');
 const { leerLineas, faltantes } = require('./lib/lineas');
 const { leerCsv } = require('./lib/csv');
 const NOMBRES = require('./lib/nombres');
@@ -39,13 +39,25 @@ async function main() {
     } else if (t.formato === 'zip') {
       const arch = leerZip(fs.readFileSync(f)).filter(e => /\.(usfm|sfm)$/i.test(e.nombre)).map(e => ({ nombre: path.basename(e.nombre), texto: e.datos.toString('utf8') }));
       libros = leerArchivos(arch);
+      if (t.quitarTitulos) sinTitulos(libros, new RegExp(t.quitarTitulos));
       if (libros.length !== 66) throw new Error(t.id + ': el zip trae ' + libros.length + ' libros, no 66');
-      const falta = faltantes(libros, fs.readFileSync(path.join(dir, 'eng.vrs'), 'utf8'), NOMBRES.en);
-      if (falta.length) aviso = ' (' + falta.length + ' tramos sin texto: ' + falta.slice(0, 4).join('; ') + (falta.length > 4 ? '…' : '') + ')';
     } else if (t.formato === 'csv') {
       libros = leerCsv(fs.readFileSync(f, 'utf8'), NOMBRES[t.nombres], NOMBRES.en);
     } else {
       libros = leerArchivos([{ nombre: t.fuente, texto: fs.readFileSync(f, 'utf8') }]);
+    }
+    // retoques de la fuente (cada uno se declara en traducciones.js y se anota en «Acerca de»)
+    const zipLibros = f2 => leerArchivos(leerZip(fs.readFileSync(path.join(dir, f2))).filter(e => /\.(usfm|sfm)$/i.test(e.nombre)).map(e => ({ nombre: path.basename(e.nombre), texto: e.datos.toString('utf8') })));
+    for (const p of t.parches || []) {
+      parchear(libros, zipLibros(p.fuente), p.libros, p.capitulos, (p.sustituciones || []).map(([e, r]) => [new RegExp(e, 'gu'), r]));
+      aviso += ' [parche ' + p.fuente + ': ' + (p.libros || []).concat(Object.entries(p.capitulos || {}).map(([k, v]) => k + ' ' + v.join(','))).join(', ') + ']';
+    }
+    if (t.sustituciones) sustituir(libros, t.sustituciones.map(([e, r]) => [new RegExp(e, 'gu'), r]));
+    if (t.quitarFinal) aviso += ' [' + sinFinal(libros, new RegExp(t.quitarFinal, 'u')) + ' notas finales quitadas]';
+    if (t.versiculoPorParrafo) unVersiculoPorParrafo(libros);
+    if (t.formato === 'zip') {    // la comprobación va después de los retoques, para medir lo que de verdad se reparte
+      const falta = faltantes(libros, fs.readFileSync(path.join(dir, 'eng.vrs'), 'utf8'), NOMBRES.en);
+      if (falta.length) aviso = ' (' + falta.length + ' tramos sin texto: ' + falta.slice(0, 4).join('; ') + (falta.length > 4 ? '…' : '') + ')' + aviso;
     }
     const r = await construir({ libros, clave, idioma: t.id, nombre: t.nombre, acerca });
     const out = path.join(salida, 'notas-' + t.id + '.html');

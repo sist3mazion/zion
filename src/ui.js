@@ -108,6 +108,28 @@ module.exports = {
       hp: 'Untuk membuka: ketik kata sandi di kotak pencarian catatan lalu tekan Enter. Untuk menutup: ✕, Kembali, atau pindah ke aplikasi lain.'
     }
   },
+  vi: {
+    dir: 'ltr',
+    c: { t: 'Ghi chú', s: 'Tìm kiếm', e: 'Chưa có ghi chú', z: 'Không có kết quả', n: 'Ghi chú mới', d: 'Xóa', b: 'Quay lại', p: 'Viết tại đây…', f: 'ghi chú' },
+    r: {
+      pv: 'Trước', nx: 'Tiếp', f: 'Cỡ chữ', th: 'Giao diện', cp: 'Trao một bản sao', ab: 'Giới thiệu', x: 'Đóng', s: 'Tìm kiếm', m: 'Khác', z: 'Không có kết quả',
+      k1: 'Mật khẩu mới', k2: 'Nhập lại mật khẩu', fn: 'Tên tệp', mk: 'Tạo bản sao', e1: 'Ít nhất 8 ký tự', e2: 'Hai mật khẩu không khớp',
+      h1: 'Tạo một bản sao cho người khác. Bản sao đó có mật khẩu riêng và khác với bản của bạn. Hãy nói mật khẩu trực tiếp, đừng gửi qua tin nhắn.',
+      h2: 'Bản sao đã sẵn sàng. Hãy chuyển qua Bluetooth, thẻ nhớ hoặc cáp.', sd: 'Gửi', sv: 'Lưu', ok: 'Xong',
+      hp: 'Để mở: nhập mật khẩu vào ô tìm kiếm ghi chú rồi nhấn Enter. Để đóng: ✕, Quay lại, hoặc chuyển sang ứng dụng khác.'
+    }
+  },
+  my: {
+    dir: 'ltr',
+    c: { t: 'မှတ်စုများ', s: 'ရှာဖွေရန်', e: 'မှတ်စု မရှိပါ', z: 'ရလဒ် မတွေ့ပါ', n: 'မှတ်စုအသစ်', d: 'ဖျက်ရန်', b: 'နောက်သို့', p: 'ဤနေရာတွင် ရေးပါ…', f: 'မှတ်စု' },
+    r: {
+      pv: 'ယခင်အခန်း', nx: 'နောက်အခန်း', f: 'စာလုံးအရွယ်အစား', th: 'အပြင်အဆင်', cp: 'မိတ္တူတစ်ခု ပေးရန်', ab: 'အကြောင်း', x: 'ပိတ်ရန်', s: 'ရှာဖွေရန်', m: 'နောက်ထပ်', z: 'ရလဒ် မတွေ့ပါ',
+      k1: 'စကားဝှက်အသစ်', k2: 'စကားဝှက်ကို ထပ်ရိုက်ပါ', fn: 'ဖိုင်အမည်', mk: 'မိတ္တူ ပြုလုပ်ရန်', e1: 'အနည်းဆုံး စာလုံး ၈ လုံး', e2: 'စကားဝှက်နှစ်ခု မတူညီပါ',
+      h1: 'အခြားသူတစ်ဦးအတွက် မိတ္တူတစ်ခု ပြုလုပ်ပါ။ ထိုမိတ္တူတွင် ကိုယ်ပိုင်စကားဝှက် ပါရှိပြီး သင့်မိတ္တူနှင့် မတူပါ။ စကားဝှက်ကို မျက်နှာချင်းဆိုင် ပြောပြပါ၊ မက်ဆေ့ချ်ဖြင့် မပို့ပါနှင့်။',
+      h2: 'မိတ္တူ အသင့်ဖြစ်ပါပြီ။ Bluetooth၊ မန်မိုရီကတ် သို့မဟုတ် ကြိုးဖြင့် ပေးပါ။', sd: 'ပို့ရန်', sv: 'သိမ်းရန်', ok: 'ပြီးပါပြီ',
+      hp: 'ဖွင့်ရန် - မှတ်စုများ၏ ရှာဖွေရေးအကွက်တွင် စကားဝှက်ကို ရိုက်ထည့်ပြီး Enter နှိပ်ပါ။ ပိတ်ရန် - ✕၊ နောက်သို့၊ သို့မဟုတ် အခြားအက်ပ်သို့ ပြောင်းပါ။'
+    }
+  },
   tr: {
     dir: 'ltr',
     c: { t: 'Notlar', s: 'Ara', e: 'Not yok', z: 'Sonuç yok', n: 'Yeni not', d: 'Sil', b: 'Geri', p: 'Buraya yazın…', f: 'notlar' },

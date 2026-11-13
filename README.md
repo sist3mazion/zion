@@ -71,41 +71,57 @@ La prueba de navegador necesita Playwright (`npm i -D playwright`); si no está,
 
 Medidas con la Biblia completa en español, en Chrome de escritorio frenado 6× para imitar un móvil modesto: abrir 0,6 s, abrir un libro 0,2 s, primera búsqueda en toda la Biblia 3,7 s, las siguientes 0,7 s, unos 25–30 MB de memoria. La derivación de la clave no se frena con ese método, así que en un teléfono real abrir tardará más (estimación: 1–3 s).
 
-## Traducciones incluidas (14 idiomas)
+## Traducciones incluidas (18 idiomas)
 
 `node generar-todos.js <carpeta de fuentes> --clave "<clave>"` genera un archivo por cada fila de [traducciones.js](traducciones.js).
-Solo entran obras de dominio público o con licencia que permite repartirlas (CC BY-SA, CC BY-NC); cada archivo lleva su licencia dentro («Acerca de»).
-La carpeta de fuentes lleva los zips USFM de eBible.org (`engfbv_usfm.zip`, `arbnav_usfm.zip`, …), los dos USFX de open-bibles (`spa-vbl.usfx.xml`, `chi-cuv-simp.usfx.xml`), los CSV de scrollmapper (`sm-RusSynodal.csv`, `sm-Viet.csv`, `sm-BurJudson.csv`) y `eng.vrs`.
+Solo entran obras de dominio público o con licencia que permite repartirlas (CC BY-SA, CC BY-NC); se prefieren las traducciones modernas; las antiguas de dominio público solo donde no hay una moderna abierta. Cada archivo lleva su licencia dentro («Acerca de»).
+La carpeta de fuentes lleva los zips USFM de eBible.org (`engfbv_usfm.zip`, `arbnav_usfm.zip`, …), el USFX de open-bibles (`spa-vbl.usfx.xml`), el zip del repositorio de Door43 (`ru_rob.zip`) y `eng.vrs`.
 
 | Idioma | Traducción | Licencia | Fuente |
 |---|---|---|---|
 | es | Versión Biblia Libre | CC BY-SA 4.0 | USFX open-bibles |
 | en | Free Bible Version | CC BY-SA 4.0 | USFM eBible.org |
-| zh | 和合本 simplificado | dominio público | USFX open-bibles |
+| zh | Biblica Open Chinese Contemporary Bible (simplificado, 2022) | CC BY-SA 4.0 | USFM eBible.org (`cmncbs`) |
 | ar | Árabe estándar (NAV) | CC BY-SA 4.0 | USFM eBible.org |
-| fa | Persa, versión antigua | dominio público | USFM eBible.org |
-| ru | Sinodal | dominio público | CSV scrollmapper |
+| fa | Biblica Open Persian Contemporary Bible (2022) | CC BY-SA 4.0 | USFM eBible.org (`pesopcb`) |
+| ru | Русская открытая Библия (ROB, v8, 2021): revisión moderna de la Sinodal, alineada con el griego de unfoldingWord | CC BY-SA 4.0 | USFM Door43 (`Door43-Catalog/ru_rob`, zip del repositorio) |
 | hi | Hindi estándar 2017 | CC BY-SA 4.0 | USFM eBible.org |
 | bn | Bengalí IRV | CC BY-SA 4.0 | USFM eBible.org |
 | id | Alkitab Yang Terbuka | **ambigua** (no comercial; el texto dice a la vez «compartible» y «sin obras derivadas»: confirmar con YLSA antes de repartir) | USFM eBible.org |
-| vi | Kinh Thánh 1934 | dominio público | CSV scrollmapper |
-| my | Birmano, Judson | dominio público | CSV scrollmapper (14 versículos menos que el estándar) |
+| vi | Biblica Open Vietnamese Contemporary Bible (2015) | CC BY-SA 4.0 | USFM eBible.org (`vieovcb`) |
+| my | Birmano, Common Language Bible (2005) | © Bible Society of Myanmar; dominio público fuera de Myanmar según eBible (permiso en trámite) | USFM eBible.org (`mya`); Cantares y Habacuc 3 de la Judson 1840 (`myajvb`, dominio público) |
 | ha | Hausa (Biblica) | CC BY-SA 4.0 | USFM eBible.org |
 | ckb | Kurdo sorani | CC BY-SA 4.0 | USFM eBible.org |
 | ug | Uigur (escritura árabe) | CC BY-SA 4.0 | USFM eBible.org |
+| ur | Biblica Open Urdu Contemporary Version (2024) | CC BY-SA 4.0 | USFM eBible.org (`urdoucv`) |
+| tr | Yorumsuz Türkçe Çeviri (YTC, Turkish WEB) | **CC BY-ND 4.0**: hace falta permiso de İsmail Serinken | USFM eBible.org (`turytc`) |
+| so | Kitaabka Quduuska Ah (SIM) | **CC BY-NC-ND 3.0**: permite cambiar de formato sin tocar texto ni puntuación; confirmar con SIM que omitir notas y títulos entra | USFM eBible.org (`som`) |
+| bo | New Tibetan Bible | **CC BY-NC-ND 4.0**: hace falta permiso del New Tibetan Bible Translation Committee | USFM eBible.org (`bodn`) |
 
-**Versículos sin texto.** Algunas traducciones no traen ciertos versículos y no es un fallo del generador: las modernas omiten a propósito Mt 17:21, 18:11, 23:14, Mr 7:16, 9:44-46, 11:26, 15:28, Lc 17:36, 23:17, Jn 5:4, Hch 8:37… (inglés y hausa: 17 pasajes); el persa antiguo omite otros 21 (Gn 15:21, 21:34, 1 S 8:22…); en árabe, indonesio, kurdo y uigur son 1–9 casos de numeración distinta. `faltantes()` los detecta al generar.
+**Criterio.** Se prefieren traducciones modernas y abiertas a las de dominio público, que son muy arcaicas. Las de Biblica (chino, persa, vietnamita, hausa, árabe) son «contemporáneas» (lectura natural, no literal) y exigen su aviso de copyright, que va en el «Acerca de». El ruso usa la Russian Open Bible, que es una revisión moderna de la Sinodal (no una traducción independiente); la NRT de Biblica sería más contemporánea y está pendiente de permiso. Los textos antiguos que ya no se usan (CUV 1919, persa antiguo, vietnamita 1934) siguen en el historial de git.
+
+**Permisos pendientes** (en trámite, los gestiona el responsable del proyecto):
+- **Indonesio (AYT):** licencia ambigua. Contacto: YLSA (ylsa@sabda.org).
+- **Español (VBL) y árabe (NAV):** eBible los publica hoy como CC BY-SA 4.0 (la VBL, con permiso expreso de «revisiones y adaptaciones razonables»). Fuentes antiguas (Biblearc, open.bible, un prefacio de 2022) la dan como BY-ND: pedir confirmación escrita a Free Bible Ministry (info@freebibleministry.org) y a Biblica.
+- **Turco (YTC), somalí (SIM) y tibetano (NTB):** son CC BY-ND / BY-NC-ND. Se usan igualmente y el permiso lo tramita el responsable del proyecto: aclarar que cubre pasar el texto a datos comprimidos y cifrados, omitir notas y títulos, y repartir copias con clave distinta. Alternativa limpia para el turco: `turobt` (Biblica, CC BY-SA, solo Nuevo Testamento).
+- **Ruso:** ya incluida la Russian Open Bible (CC BY-SA, sin permiso). Mejora opcional: Новый Перевод на Русский Язык (Biblica, 2006, derechos reservados); hace falta que Biblica dé el texto.
+- **Birmano:** ya incluida la Common Language Bible (Bible Society of Myanmar, 2005). eBible la marca como dominio público, pero su copyright rige dentro de Myanmar. Pedir permiso a la Bible Society of Myanmar y pedirles también el texto completo: el de eBible tiene Habacuc 3 vacío y Cantares desplazado un versículo (se parchean con la Judson), y Job, Proverbios y Eclesiastés están en un birmano más antiguo.
+- El permiso debe cubrir expresamente: empaquetar el texto comprimido y cifrado en un HTML, repartir copias distintas byte a byte con clave nueva, y que la atribución vaya dentro del contenido cifrado.
+
+**Retoques a las fuentes.** `traducciones.js` declara cada retoque y el «Acerca de» de la copia lo anota (CC BY-SA obliga a indicar los cambios). Ninguno cambia palabras. Ruso: se quitan los títulos «Глава …», seis asteriscos sueltos y cada versículo va en su párrafo. Birmano: se quitan la nota de «fin de libro» de 22 libros, unos 15.000 guiones sueltos que dejaron las notas, los «%» de Habacuc, una referencia cruzada filtrada en Mt 5:27, y las comillas ASCII pasan a tipográficas; Cantares y Habacuc 3 vienen de la Judson, cuyo texto lleva espacios entre palabras y se ve más suelto que el resto. Job 30:30-31 sigue fusionado en un solo versículo en la fuente.
+
+**Versículos sin texto.** Algunas traducciones no traen ciertos versículos y no es un fallo del generador: las modernas omiten a propósito Mt 17:21, 18:11, 23:14, Mr 7:16, 9:44-46, 11:26, 15:28, Lc 17:36, 23:17, Jn 5:4, Hch 8:37… (inglés y hausa: 17 pasajes); en árabe, indonesio, kurdo y uigur son 1–9 casos de numeración distinta. `faltantes()` los detecta al generar.
 
 **Qué hay que NO usar.** `lib/lineas.js` lee el formato «un versículo por línea» de BibleNLP/ebible-corpus, pero ese formato **pierde ~150 versículos** (Joel 2:28-32 y 3:6-21, Malaquías 4, Números 16:36-50…) porque su numeración es la hebrea. Se conserva solo por si no hay otra fuente; si se usa, el archivo debe avisarlo dentro.
 
-**Fuera por licencia** (CC BY-ND / BY-NC-ND prohíben obras derivadas): turco, urdu en escritura árabe, somalí, tibetano, tayiko. **No encontrados en ninguna fuente abierta:** uzbeko, amhárico, tigriña, pastún.
+**Fuera:** el tayiko (CC BY-NC-ND y casi incompleto) y el amhárico (solo Nuevo Testamento, copyright de la Bible Society of Ethiopia sin licencia clara). **No encontrados en eBible:** uzbeko, tigriña y pastún.
 
-**Sin revisar por nativos:** los nombres de los libros en ruso, vietnamita y birmano (`lib/nombres.js`) los escribí a mano; los demás salen de la propia traducción. La portada solo existe en 12 idiomas (es, en, fr, pt, ru, ar, fa, zh, id, tr, hi, ko): bengalí, vietnamita, birmano, hausa, kurdo y uigur muestran la portada en inglés. El texto de licencia dentro del archivo está en español.
+**Sin revisar por nativos:** los nombres de los libros salen de la propia traducción en todos los idiomas. La interfaz existe en 14 idiomas (es, en, fr, pt, ru, ar, fa, zh, id, vi, my, tr, hi, ko): bengalí, hausa, kurdo, uigur, urdu, somalí y tibetano la muestran en inglés. La vietnamita y la birmana (y su dedicatoria) están redactadas por IA; la birmana es la menos fiable y no debe repartirse sin revisión nativa. El texto de licencia dentro del archivo está en español.
 
 ## Qué falta antes de dárselo a alguien en riesgo
 
 1. **Probarlo en teléfonos reales**, sobre todo Android antiguos: abrir el archivo desde el gestor de archivos, desde WhatsApp y desde Telegram; que la clave abra; que «Enviar» funcione por Bluetooth. No sé todavía si todos los navegadores móviles permiten descifrar en un archivo abierto de esa forma.
-2. **Revisión por hablantes nativos** de la interfaz en los 10 idiomas que no son español ni inglés, y traducirla a los que faltan.
+2. **Revisión por hablantes nativos** de la interfaz en los 12 idiomas que no son español ni inglés, y traducirla a los que faltan.
 3. **Licencias**: elegir, para cada uno de los 24 idiomas, una traducción que se pueda redistribuir.
 4. **Auditoría externa** del cifrado y del modelo de amenazas.
 5. **Decidir el origen**: cómo llega la primera copia a cada país (ver [AMENAZAS.md](AMENAZAS.md)).
