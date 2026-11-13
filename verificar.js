@@ -26,8 +26,9 @@ async function main() {
   if (!clave) { console.log('  (pasa la clave tras --clave o en la variable CLAVE para ver el contenido)'); return; }
   const N = cargarNucleo();
   try {
-    const { m } = N.parse((await N.unwrap(clave.trim(), N.b64d(r.piezas.blob))).data);
-    console.log('✔ La clave abre. "' + (m.n || 'sin nombre') + '", ' + m.b.length + ' libros (' + m.b[0][0] + ' … ' + m.b[m.b.length - 1][0] + '), lectura ' + m.d + '.');
+    const { m } = await N.open(clave.trim(), r.piezas.blob);
+    console.log('✔ La clave abre. ' + m.t.length + (m.t.length === 1 ? ' traducción:' : ' traducciones:'));
+    for (const t of m.t) console.log('  ' + t.l.padEnd(4) + '"' + (t.n || 'sin nombre') + '", ' + t.b.length + ' libros (' + t.b[0][0] + ' … ' + t.b[t.b.length - 1][0] + '), lectura ' + t.d + ', ' + t.k.length + ' bloques ' + (t.k[0][2] === 'x' ? 'LZMA' : 'zlib') + '.');
   } catch (e) { console.log('✖ La clave no abre este archivo.'); process.exit(3); }
 }
 main().catch(e => { console.error('Error: ' + e.message); process.exit(1); });

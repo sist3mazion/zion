@@ -1,6 +1,6 @@
 # ZION · Semilla
 
-Un solo archivo HTML que se abre como un bloc de notas corriente y lleva dentro la Biblia, cifrada, para leerla sin conexión y pasarla de mano en mano.
+Un solo archivo HTML que se abre como un bloc de notas corriente y lleva dentro la Biblia en 18 idiomas, cifrada, para leerla sin conexión y pasarla de mano en mano.
 
 Objetivo de ZION: que alguien en un país con censura pueda **tener**, **leer** y **pasar** la Biblia con el menor riesgo posible. El nombre ZION es el del proyecto; no aparece en ningún archivo que se reparte.
 
@@ -11,8 +11,9 @@ Objetivo de ZION: que alguien en un país con censura pueda **tener**, **leer** 
 - **Por fuera es un bloc de notas que funciona de verdad**: crear, editar, borrar y buscar notas.
 - **Se abre con una clave**: se escribe en el buscador de notas y se pulsa Intro. Si la clave no es correcta, se comporta como una búsqueda sin resultados.
 - **Lector de texto, no PDF**: libros, capítulos, búsqueda en toda la Biblia sin acentos ni mayúsculas, tamaño de letra, modo oscuro, y retoma donde lo dejaste.
+- **Varios idiomas en un archivo**: **⋯ → Idioma** cambia de traducción. Solo se descifra lo que se lee.
 - **Se cierra al instante**: con ✕, con Atrás, con Escape o al cambiar de aplicación. Vuelve a las notas y borra el texto de la pantalla y de la memoria.
-- **Pasar una copia**: desde dentro se genera otro archivo con clave nueva. Es distinto byte a byte del original, así que no se puede detectar comparándolo con una lista de archivos conocidos.
+- **Pasar una copia**: desde dentro se genera otro archivo con clave nueva. Es distinto byte a byte del original, así que no se puede detectar comparándolo con una lista de archivos conocidos. Por defecto lleva todos los idiomas; se pueden quitar algunos para que pese menos y elegir el idioma de las notas de la copia. Cualquier copia puede a su vez hacer copias.
 - **No se conecta a nada**: el propio archivo prohíbe al navegador cualquier conexión.
 
 ## Historia
@@ -24,11 +25,12 @@ Semilla sustituye a la primera versión de ZION (ZION Web/Core/Lite: PDF en clar
 1. Abre el archivo con el navegador del móvil. Verás un bloc de notas.
 2. Escribe la clave en **Buscar** y pulsa Intro.
 3. Para cerrar: ✕, Atrás, o cambia de aplicación.
-4. Para dárselo a otra persona: **⋯ → Pasar una copia**, elige una clave nueva y dísela en persona.
+4. Para cambiar de idioma: **⋯ → Idioma**.
+5. Para dárselo a otra persona: **⋯ → Pasar una copia**, elige una clave nueva y dísela en persona. Puedes quitar idiomas (pesa menos) y elegir el idioma de las notas.
 
 ## Cómo se genera (quien reparte)
 
-Hace falta [Node.js](https://nodejs.org) 20 o posterior. No hay nada que instalar.
+Hace falta [Node.js](https://nodejs.org) 20 o posterior y la orden `xz` (viene en Linux y macOS) para comprimir con LZMA. Sin `xz` se comprime con zlib y el archivo sale ~40 % más grande. No hay paquetes que instalar.
 
 1. Descarga la traducción de [eBible.org](https://ebible.org): en la página de cada traducción, el archivo `…_usfm.zip`.
 2. **Comprueba la licencia de esa traducción.** Muchas son de dominio público o Creative Commons; otras tienen copyright y no se pueden redistribuir.
@@ -43,7 +45,7 @@ Pedirá la clave por teclado (mínimo 8 caracteres; mejor tres palabras al azar)
 | Opción | Para qué |
 |---|---|
 | `--solo NT` | Solo Nuevo Testamento (archivo cuatro veces más pequeño). También `AT` o una lista: `MAT,MRK,LUK,JHN` |
-| `--ui es` | Idioma de la portada y los menús. Hay: es, en, fr, pt, ru, ar, fa, zh, id, tr, hi, ko |
+| `--ui es` | Idioma de la portada y los menús. Hay: es, en, fr, pt, ru, ar, fa, zh, id, vi, my, tr, hi, ko |
 | `--ui-archivo x.json` | Textos propios para un idioma que no está en la lista |
 | `--acerca "…"` | Licencia y atribución que se muestran dentro. Si el zip trae `copr.htm`, se usa solo |
 | `--salida ruta.html` | Dónde guardar |
@@ -71,9 +73,13 @@ La prueba de navegador necesita Playwright (`npm i -D playwright`); si no está,
 
 Medidas con la Biblia completa en español, en Chrome de escritorio frenado 6× para imitar un móvil modesto: abrir 0,6 s, abrir un libro 0,2 s, primera búsqueda en toda la Biblia 3,7 s, las siguientes 0,7 s, unos 25–30 MB de memoria. La derivación de la clave no se frena con ese método, así que en un teléfono real abrir tardará más (estimación: 1–3 s).
 
+Con los 18 idiomas en un archivo (27,7 MB), en el mismo Chrome frenado 6×: cargar el archivo 2,0 s, abrir con la clave 0,5 s, cambiar de idioma 0,2 s, abrir un libro en birmano (el idioma más pesado) 0,6 s, buscar en chino 0,8 s, hacer una copia con los 18 idiomas 2,5 s; memoria de JavaScript 34 MB leyendo y 81 MB tras copiar. En un Samsung de gama de entrada (Android 10, 4 GB), desde WhatsApp, la página de prueba del mismo tamaño abre bien (ver [AMENAZAS.md](AMENAZAS.md#pruebas-en-teléfonos-reales)). **No está probado en teléfonos de 1–2 GB.**
+
+Para probar un teléfono sin llevar ninguna Biblia: `node movil/generar-prueba-grande.js` genera `dist/prueba-grande.html`, del mismo tamaño y con el mismo descompresor.
+
 ## Traducciones incluidas (18 idiomas)
 
-`node generar-todos.js <carpeta de fuentes> --clave "<clave>"` genera un archivo por cada fila de [traducciones.js](traducciones.js).
+`node generar-todos.js <carpeta de fuentes> --clave "<clave>"` genera **un solo archivo** con todas las filas de [traducciones.js](traducciones.js) (`dist/notas.html`, 27,7 MB con los 18 idiomas; con zlib serían ~38 MB). `--solo es,ar` deja solo esas; `--ui` elige el idioma de la portada. Una copia con uno o dos idiomas pesa 2–4 MB.
 Solo entran obras de dominio público o con licencia que permite repartirlas (CC BY-SA, CC BY-NC); se prefieren las traducciones modernas; las antiguas de dominio público solo donde no hay una moderna abierta. Cada archivo lleva su licencia dentro («Acerca de»).
 La carpeta de fuentes lleva los zips USFM de eBible.org (`engfbv_usfm.zip`, `arbnav_usfm.zip`, …), el USFX de open-bibles (`spa-vbl.usfx.xml`), el zip del repositorio de Door43 (`ru_rob.zip`) y `eng.vrs`.
 
@@ -120,8 +126,8 @@ La carpeta de fuentes lleva los zips USFM de eBible.org (`engfbv_usfm.zip`, `arb
 
 ## Qué falta antes de dárselo a alguien en riesgo
 
-1. **Probarlo en teléfonos reales**, sobre todo Android antiguos: abrir el archivo desde el gestor de archivos, desde WhatsApp y desde Telegram; que la clave abra; que «Enviar» funcione por Bluetooth. No sé todavía si todos los navegadores móviles permiten descifrar en un archivo abierto de esa forma.
-2. **Revisión por hablantes nativos** de la interfaz en los 12 idiomas que no son español ni inglés, y traducirla a los que faltan.
+1. **Probarlo en teléfonos reales**, sobre todo Android antiguos: abrir el archivo desde el gestor de archivos, desde WhatsApp y desde Telegram; que la clave abra; que «Enviar» funcione por Bluetooth. No sé todavía si todos los navegadores móviles permiten descifrar en un archivo abierto de esa forma. Con los 18 idiomas (~28 MB): probar en teléfonos de **1–2 GB de RAM** y medir cuánto tarda en pasar por Bluetooth.
+2. **Revisión por hablantes nativos** de la interfaz en los 12 idiomas que no son español ni inglés, y traducirla a los que faltan. Los textos nuevos de idioma y copia (`nm`, `lg`, `cl`, `cc`, `e3` en `src/ui.js`) también son de IA.
 3. **Licencias**: elegir, para cada uno de los 24 idiomas, una traducción que se pueda redistribuir.
 4. **Auditoría externa** del cifrado y del modelo de amenazas.
 5. **Decidir el origen**: cómo llega la primera copia a cada país (ver [AMENAZAS.md](AMENAZAS.md)).
@@ -139,14 +145,15 @@ La carpeta de fuentes lleva los zips USFM de eBible.org (`engfbv_usfm.zip`, `arb
   lib/csv.js        lee CSV de scrollmapper
   lib/nombres.js    nombres de los 66 libros en 12 idiomas
   traducciones.js   las 18 traducciones elegidas y su licencia
-  generar-todos.js  genera un archivo por traducción
-  lib/paquete.js    empaqueta, cifra y ensambla
+  generar-todos.js  genera un archivo con todas las traducciones
+  lib/paquete.js    reparte en bloques, comprime (LZMA o zlib), cifra y ensambla
   lib/nucleo.js     carga en Node el mismo código de cifrado que usa la app
   lib/zip.js        lee los .zip de eBible
   tests/            pruebas y textos de muestra (dominio público)
+  movil/            páginas de diagnóstico para teléfonos (sin Biblia)
 ```
 
-Sin dependencias: ni para generar ni dentro del archivo.
+Sin dependencias dentro del archivo. Para generar: Node y, para LZMA, la orden `xz`.
 
 ## Cómo se contribuye
 

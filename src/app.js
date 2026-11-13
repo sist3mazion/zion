@@ -30,12 +30,14 @@ async function kdf(pass, salt) {
   return crypto.subtle.deriveKey({ name: 'PBKDF2', salt: salt, iterations: ITER, hash: 'SHA-256' }, base,
     { name: 'AES-GCM', length: 256 }, false, ['encrypt', 'decrypt']);
 }
-async function seal(key, plain) {
+/* ad: optional additional data, ties a box to its place in the file */
+function gcm(iv, ad) { var p = { name: 'AES-GCM', iv: iv }; if (ad) p.additionalData = te.encode(ad); return p; }
+async function seal(key, plain, ad) {
   var iv = rand(12);
-  return cat(iv, new Uint8Array(await crypto.subtle.encrypt({ name: 'AES-GCM', iv: iv }, key, plain)));
+  return cat(iv, new Uint8Array(await crypto.subtle.encrypt(gcm(iv, ad), key, plain)));
 }
-async function unseal(key, box) {
-  return new Uint8Array(await crypto.subtle.decrypt({ name: 'AES-GCM', iv: box.subarray(0, 12) }, key, box.subarray(12)));
+async function unseal(key, box, ad) {
+  return new Uint8Array(await crypto.subtle.decrypt(gcm(box.subarray(0, 12), ad), key, box.subarray(12)));
 }
 async function wrap(pass, plain) {
   var salt = rand(16);
@@ -149,10 +151,128 @@ async function unz(z) {
   return puff(z, 2);
 }
 
-/* pack: u32le(len) | header json | chunks | random tail */
-function parse(pack) {
-  var n = new DataView(pack.buffer, pack.byteOffset, pack.byteLength).getUint32(0, true);
-  return { m: JSON.parse(td.decode(pack.subarray(4, 4 + n))), o: 4 + n };
+/* LZMA1 decoder (raw stream, output size known), written from the public-domain LZMA specification
+   (Igor Pavlov, LzmaSpec.cpp). The whole output stays in memory, so it is also the dictionary.
+   props = lc + lp * 9 + pb * 45 */
+function unlz(src, props, size) {
+  var lc = props % 9, lp = ((props / 9) | 0) % 5, pb = (props / 45) | 0;
+  var out = new Uint8Array(size), op = 0, pos = 0, range = 0xffffffff, code = 0, i;
+  function bad() { throw new Error('z'); }
+  function P(n) { var a = new Uint16Array(n); a.fill(1024); return a; }
+  function bit(p, k) {
+    var v = p[k], b = (range >>> 11) * v;
+    if (code < b) { range = b; p[k] = v + ((2048 - v) >>> 5); v = 0; }
+    else { range -= b; code -= b; p[k] = v - (v >>> 5); v = 1; }
+    if (range < 16777216) { if (pos >= src.length) bad(); range = (range << 8) >>> 0; code = ((code << 8) | src[pos++]) >>> 0; }
+    return v;
+  }
+  function tree(p, o, n) { var m = 1, k; for (k = 0; k < n; k++) m = (m << 1) | bit(p, o + m); return m - (1 << n); }
+  function rtree(p, o, n) { var m = 1, s = 0, k, b; for (k = 0; k < n; k++) { b = bit(p, o + m); m = (m << 1) | b; s |= b << k; } return s; }
+  function direct(n) {
+    var r = 0;
+    while (n--) {
+      range >>>= 1;
+      if (code >= range) { code -= range; r = (r << 1) | 1; } else r <<= 1;
+      if (range < 16777216) { if (pos >= src.length) bad(); range = (range << 8) >>> 0; code = ((code << 8) | src[pos++]) >>> 0; }
+    }
+    return r >>> 0;
+  }
+  function len(L, ps) {
+    if (!bit(L, 0)) return tree(L, 2 + (ps << 3), 3);
+    if (!bit(L, 1)) return 8 + tree(L, 130 + (ps << 3), 3);
+    return 16 + tree(L, 258, 8);
+  }
+  if (lc > 8 || pb > 4 || src.length < 5 || src[0] !== 0) bad();
+  for (i = 1; i < 5; i++) code = ((code << 8) | src[i]) >>> 0;
+  pos = 5;
+  var lit = P(0x300 << (lc + lp)), isM = P(192), isR = P(12), g0 = P(12), g1 = P(12), g2 = P(12), r0l = P(192),
+    slot = P(256), pd = P(115), al = P(16), ld = P(514), rl = P(514);
+  var st = 0, d0 = 0, d1 = 0, d2 = 0, d3 = 0, pm = (1 << pb) - 1, lm = (1 << lp) - 1, ps, s, mb, b, mbit, n, k, t;
+  while (op < size) {
+    ps = op & pm;
+    if (!bit(isM, (st << 4) + ps)) {
+      k = 0x300 * (((op & lm) << lc) + ((op ? out[op - 1] : 0) >> (8 - lc)));
+      s = 1;
+      if (st >= 7) {
+        mb = out[op - d0 - 1];
+        do { mbit = (mb >> 7) & 1; mb <<= 1; b = bit(lit, k + ((1 + mbit) << 8) + s); s = (s << 1) | b; if (mbit !== b) break; } while (s < 256);
+      }
+      while (s < 256) s = (s << 1) | bit(lit, k + s);
+      out[op++] = s & 255;
+      st = st < 4 ? 0 : st < 10 ? st - 3 : st - 6;
+      continue;
+    }
+    if (bit(isR, st)) {
+      if (!op) bad();
+      if (!bit(g0, st)) {
+        if (!bit(r0l, (st << 4) + ps)) { st = st < 7 ? 9 : 11; out[op] = out[op - d0 - 1]; op++; continue; }
+      } else {
+        if (!bit(g1, st)) t = d1;
+        else { if (!bit(g2, st)) t = d2; else { t = d3; d3 = d2; } d2 = d1; }
+        d1 = d0; d0 = t;
+      }
+      n = len(rl, ps); st = st < 7 ? 8 : 11;
+    } else {
+      d3 = d2; d2 = d1; d1 = d0;
+      n = len(ld, ps); st = st < 7 ? 7 : 10;
+      s = tree(slot, (n < 3 ? n : 3) << 6, 6);
+      if (s < 4) d0 = s;
+      else {
+        k = (s >> 1) - 1; d0 = (2 | (s & 1)) * Math.pow(2, k);
+        if (s < 14) d0 += rtree(pd, d0 - s, k);
+        else d0 += direct(k - 4) * 16 + rtree(al, 0, 4);
+      }
+      if (d0 >= op) bad();
+    }
+    n += 2;
+    if (op + n > size) bad();
+    for (k = op - d0 - 1, t = op + n; op < t;) out[op++] = out[k++];
+  }
+  return out;
+}
+var LZP = 93;   /* lc 3, lp 0, pb 2 */
+
+/* bytes [off, off + len) of the base64 string s, without decoding the rest */
+function b64at(s, off, len) {
+  var a = Math.floor(off / 3), b = Math.ceil((off + len) / 3);
+  return b64d(s.slice(a * 4, b * 4)).subarray(off - a * 3, off - a * 3 + len);
+}
+/* base64 of the parts joined, as a list of strings (no single big copy) */
+function b64parts(parts) {
+  var out = [], rest = new Uint8Array(0), i, a, n;
+  for (i = 0; i < parts.length; i++) {
+    a = rest.length ? cat(rest, parts[i]) : parts[i];
+    n = i === parts.length - 1 ? a.length : a.length - a.length % 3;
+    out.push(b64e(a.subarray(0, n)));
+    rest = a.subarray(n);
+  }
+  return out;
+}
+
+/* file layout:  salt(16) | box(u32le at, u32le len of the index) | blocks | index | random tail
+   box = iv(12) | AES-GCM ciphertext and tag. Additional data: 'i' for the index, '<text>.<block>' for a block.
+   index = { v: 2, u: {code: interface texts}, t: [{ l, n, d, g, t, a, dd, b: [[name, block, at, len]], k: [[off, len, 'x'|'z', size]] }] } */
+var HEAD = 52;
+async function open(pass, s) {
+  var r = await unwrap(pass, b64at(s, 0, HEAD)), v = new DataView(r.data.buffer, r.data.byteOffset, 8);
+  var ix = await unseal(r.key, b64at(s, v.getUint32(0, true), v.getUint32(4, true)), 'i');
+  return { key: r.key, m: JSON.parse(td.decode(ix)) };
+}
+/* compressed block j of text i, then its bytes */
+function piece(key, s, m, i, j) { return unseal(key, b64at(s, m.t[i].k[j][0], m.t[i].k[j][1]), i + '.' + j); }
+function inflate(k, p) { return k[2] === 'x' ? unlz(p, LZP, k[3]) : unz(p); }
+/* get(i, j) -> compressed block j of text i. Fills the offsets of m.t[].k and returns the parts of the file */
+async function build(pass, m, get) {
+  var salt = rand(16), key = await kdf(pass, salt), out = [], at = HEAD, i, j, t, b, ix, h = new Uint8Array(8), v = new DataView(h.buffer), z = rand(2);
+  for (i = 0; i < m.t.length; i++) {
+    for (t = m.t[i], j = 0; j < t.k.length; j++) {
+      b = await seal(key, await get(i, j), i + '.' + j);
+      t.k[j][0] = at; t.k[j][1] = b.length; at += b.length; out.push(b);
+    }
+  }
+  ix = await seal(key, te.encode(JSON.stringify(m)), 'i');
+  v.setUint32(0, at, true); v.setUint32(4, ix.length, true);
+  return [salt, await seal(key, h)].concat(out, [ix, rand(z[0] << 8 | z[1])]);
 }
 
 /* search folding: case, Latin/Hebrew/Arabic marks, Arabic-script letter variants */
@@ -185,7 +305,8 @@ var IC = {
   x: 'M6 6l12 12M18 6L6 18', search: 'M11 4a7 7 0 1 0 0 14a7 7 0 0 0 0-14zM20 20l-4-4',
   trash: 'M5 7h14M10 7V5h4v2M7 7l1 12h8l1-12', more: 'M5 12h.01M12 12h.01M19 12h.01',
   share: 'M12 15V4M8 8l4-4 4 4M5 14v5h14v-5', info: 'M12 11v6M12 7.5v.01M12 3a9 9 0 1 0 0 18a9 9 0 0 0 0-18z',
-  moon: 'M20 14.5A8 8 0 0 1 9.5 4a8 8 0 1 0 10.5 10.5z'
+  moon: 'M20 14.5A8 8 0 0 1 9.5 4a8 8 0 1 0 10.5 10.5z',
+  globe: 'M12 3a9 9 0 1 0 0 18a9 9 0 0 0 0-18zM3 12h18M12 3c3 3 3 15 0 18M12 3c-3 3-3 15 0 18'
 };
 function ic(n) {
   var t = D.createElement('span');
@@ -310,8 +431,8 @@ async function enter(v) {
   if (!v || busy || S || !W.crypto || !crypto.subtle) return;
   busy = true; q.blur();
   try {
-    if (!raw) raw = b64d(D.getElementById('d').textContent.trim());
-    r = await unwrap(v, raw);
+    if (!raw) raw = D.getElementById('d').textContent;
+    r = await open(v, raw);
   } catch (e) { r = null; }
   busy = false;
   if (!r) return;
@@ -344,19 +465,28 @@ function flip() {
   setPref('t', dark ? 'l' : 'd');
 }
 
+/* one state per open text; switching text makes a new one, so pending work for the old one stops */
+function fresh(k, x, i, v, pv) { return { k: k, x: x, ti: i, m: x.t[i], bl: {}, bo: [], bk: {}, ord: [], ix: [], tok: 0, v: v, pv: pv }; }
+function forget(s) { for (var k in s.bl) { try { s.bl[k].fill(0); } catch (e) { } } s.bl = {}; }
+function use(i) {
+  var o = S;
+  forget(o);
+  S = fresh(o.k, o.x, i, o.v, o.pv);
+  pn.dir = S.m.d;
+  books();
+}
 async function start(r) {
-  var p = parse(r.data), pos = null, c;
-  S = { k: r.key, d: r.data, m: p.m, o: p.o, bk: {}, ord: [], ix: [], tok: 0, v: null, pv: null };
-  R = p.m.u;
+  var x = r.m, pos = null, c, i, ti = -1;
+  S = fresh(r.key, x, 0, null, null);
+  R = (x.u[LANG] || x.u.en || x.u[Object.keys(x.u)[0]]).r;
   wipe(rd);
   ttl = el('button', 'tt'); ttl.type = 'button';
   ttl.onclick = function () { var v = S.v; if (v.t === 'text') up(v.b); else books(); };
   pg = el('main', 'pg'); pg.onclick = function () { mn.hidden = true; };
   pn = el('div', 'pn', btn('rb fl', 'back', R.pv, function () { step(-1); }), btn('rb fl', 'next', R.nx, function () { step(1); }));
-  pn.dir = S.m.d;
   mn = el('div', 'mn',
     el('div', 'fr', el('span', null, R.f), btn('ib', 'minus', R.f + ' -', function () { size(-2); }), btn('ib', 'plus', R.f + ' +', function () { size(2); })),
-    item('moon', R.th, flip), item('share', R.cp, copy), item('info', R.ab, about));
+    item('moon', R.th, flip), x.t.length > 1 ? item('globe', R.lg, langs) : null, item('share', R.cp, copy), item('info', R.ab, about));
   mn.hidden = true;
   rd.appendChild(el('div', 'bar', btn('ib', 'x', R.x, function () { lock(); }), ttl,
     btn('ib', 'search', R.s, find), btn('ib', 'more', R.m, function () { mn.hidden = !mn.hidden; })));
@@ -365,13 +495,30 @@ async function start(r) {
   var s = S;
   try { c = sg('nt.c'); if (c) pos = JSON.parse(td.decode(await unseal(s.k, b64d(c)))); } catch (e) { pos = null; }
   if (S !== s) return;
-  if (pos && s.m.b[pos.b]) text(pos.b, pos.c); else books();
+  // last text read; otherwise the one in the language of the notes; otherwise the first
+  for (i = 0; i < x.t.length; i++) if (pos && x.t[i].l === pos.l && ti < 0) ti = i;
+  if (ti < 0) { pos = null; for (i = 0; i < x.t.length; i++) if (x.t[i].l === LANG && ti < 0) ti = i; }
+  S = fresh(s.k, x, ti < 0 ? 0 : ti, null, null);
+  pn.dir = S.m.d;
+  if (pos && S.m.b[pos.b]) text(pos.b, pos.c); else books();
+}
+
+function langs() {
+  var w = el('div', 'gd lg');
+  set({ t: 'lang' }); ttl.textContent = R.lg;
+  S.x.t.forEach(function (t, i) {
+    var b = el('button', 'bk' + (i === S.ti ? ' on' : ''), t.n);
+    b.type = 'button'; b.dir = t.d;
+    b.onclick = function () { if (i === S.ti) books(); else use(i); };
+    w.appendChild(b);
+  });
+  put(w);
 }
 
 function lock(fromPop) {
   if (!S) return;
   clearTimeout(idleT);
-  try { S.d.fill(0); } catch (e) { }
+  forget(S);
   S = null; R = null; hold = false;
   wipe(rd); rd.hidden = true; cv.hidden = false;
   if (!fromPop) disarm();
@@ -390,11 +537,24 @@ function rBack() {
   return true;
 }
 
+/* a block holds several books: decrypted and unpacked on first use, at most two kept */
+async function block(j) {
+  var s = S, d = s.bl[j], p, o;
+  if (d) return d;
+  p = await piece(s.k, raw, s.x, s.ti, j);
+  d = await inflate(s.m.k[j], p);
+  p.fill(0);
+  if (S !== s) return d;      // closed or switched meanwhile: not kept
+  s.bl[j] = d; s.bo.push(j);
+  if (s.bo.length > 2) { o = s.bo.shift(); if (s.bl[o]) { s.bl[o].fill(0); delete s.bl[o]; } }
+  return d;
+}
 async function book(i) {
-  var s = S, c = s.bk[i], e;
+  var s = S, c = s.bk[i], e, d;
   if (c) return c;
   e = s.m.b[i];
-  c = JSON.parse(td.decode(await unz(s.d.slice(s.o + e[1], s.o + e[1] + e[2]))));
+  d = await block(e[1]);
+  c = JSON.parse(td.decode(d.subarray(e[2], e[2] + e[3])));
   s.bk[i] = c; s.ord.push(i);
   if (s.ord.length > 3) delete s.bk[s.ord.shift()];
   return c;
@@ -461,7 +621,7 @@ async function text(i, cn, mark) {
   }
   put(x);
   if (hit && hit.scrollIntoView) hit.scrollIntoView({ block: 'center' });
-  try { ss('nt.c', b64e(await seal(s.k, te.encode(JSON.stringify({ b: i, c: ch[0] }))))); } catch (e) { }
+  try { ss('nt.c', b64e(await seal(s.k, te.encode(JSON.stringify({ l: s.m.l, b: i, c: ch[0] }))))); } catch (e) { }
 }
 async function step(d) {
   var s = S, v = s.v, bk, k, at = 0, nb;
@@ -583,29 +743,48 @@ function field(label, type, value) {
   return l;
 }
 function copy() {
-  var a = field(R.k1, 'password'), b = field(R.k2, 'password'), f = field(R.fn, 'text', U.f), msg = el('p', 'er');
-  var go = el('button', 'pb', R.mk);
+  var x = S.x, a = field(R.k1, 'password'), b = field(R.k2, 'password'), f = field(R.fn, 'text', U.f), msg = el('p', 'er');
+  var go = el('button', 'pb', R.mk), cs = [], box = null, sel = null, nf = U.f, codes = Object.keys(x.u);
   go.type = 'button';
+  // which texts go in the copy: all by default
+  if (x.t.length > 1) {
+    box = el('fieldset', 'ck', el('legend', null, R.cl));
+    x.t.forEach(function (t) {
+      var c = el('input'), n = el('span', null, t.n), l = el('label', null, c, n);
+      c.type = 'checkbox'; c.checked = true; n.dir = t.d;
+      cs.push(c); box.appendChild(l);
+    });
+  }
+  // language of the notes in the copy
+  if (codes.length > 1) {
+    sel = el('select');
+    codes.forEach(function (c) { var o = el('option', null, x.u[c].nm || c); o.value = c; if (c === LANG) o.selected = true; sel.appendChild(o); });
+    sel.onchange = function () { var v = x.u[sel.value].c.f; if (f.i.value === nf) f.i.value = v; nf = v; };
+  }
   go.onclick = async function () {
-    var s = S, p = a.i.value.trim(), body, tail, html, name;
+    var s = S, p = a.i.value.trim(), keep = [], m, parts, html, at, cov = sel ? sel.value : LANG, u = x.u[cov] || { c: U }, name, i, same = cov === LANG;
     if (p.length < 8) { msg.textContent = R.e1; return; }
     if (a.i.value !== b.i.value) { msg.textContent = R.e2; return; }
+    for (i = 0; i < x.t.length; i++) if (!cs.length || cs[i].checked) keep.push(i);
+    if (!keep.length) { msg.textContent = R.e3; return; }
     msg.textContent = ''; go.disabled = true;
     try {
-      tail = rand(2);
-      body = cat(s.d.subarray(0, s.o + s.m.z), rand(tail[0] << 8 | tail[1]));
+      m = { v: 2, u: x.u, t: keep.map(function (i) { return Object.assign({}, x.t[i], { k: x.t[i].k.map(function (k) { return k.slice(); }) }); }) };
+      parts = await build(p, m, function (i, j) { return piece(s.k, raw, x, keep[i], j); });
       html = assemble({
-        lang: D.documentElement.lang, dir: D.documentElement.dir || 'ltr', title: U.t,
+        lang: same ? D.documentElement.lang : cov, dir: same ? D.documentElement.dir || 'ltr' : u.dir === 'rtl' ? 'rtl' : 'ltr', title: same ? U.t : u.c.t,
         csp: D.querySelector('meta[http-equiv]').content, css: D.querySelector('style').textContent,
-        ui: D.getElementById('u').textContent, blob: b64e(await wrap(p, body)), js: SELF
+        ui: same ? D.getElementById('u').textContent : JSON.stringify(u.c).replace(/</g, '\\u003c'), blob: '\u0001', js: SELF
       });
+      at = html.indexOf('\u0001');
+      parts = [html.slice(0, at)].concat(b64parts(parts), [html.slice(at + 1)]);
     } catch (e) { go.disabled = false; return; }
     if (S !== s || s.v.t !== 'copy') return;
-    name = (f.i.value.trim().replace(/\.html?$/i, '').replace(/[\\\/:*?"<>|\u0000-\u001f]/g, '') || U.f) + '.html';
-    ready(new Blob([html], { type: 'text/html' }), name);
+    name = (f.i.value.trim().replace(/\.html?$/i, '').replace(/[\\\/:*?"<>|\u0000-\u001f]/g, '') || u.c.f) + '.html';
+    ready(new Blob(parts, { type: 'text/html' }), name);
   };
   set({ t: 'copy' }); ttl.textContent = R.cp;
-  put(el('div', 'fm', el('p', null, R.h1), a, b, f, msg, go));
+  put(el('div', 'fm', el('p', null, R.h1), a, b, f, box, sel ? el('label', null, R.cc, sel) : null, msg, go));
 }
 function ready(blob, name) {
   var file = null, can = false, box = el('div', 'fm', el('p', null, R.h2)), b;
