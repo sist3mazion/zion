@@ -475,10 +475,23 @@ function use(i) {
   pn.dir = S.m.d;
   books();
 }
+// first language of the phone that the file has (exact code, then without region); read locally, never sent
+function phone(has) {
+  var l = navigator.languages && navigator.languages.length ? navigator.languages : [navigator.language || ''], i, c;
+  for (i = 0; i < l.length; i++) {
+    c = String(l[i]).toLowerCase();
+    if (has(c)) return c;
+    c = c.split('-')[0];
+    if (has(c)) return c;
+  }
+  return null;
+}
 async function start(r) {
   var x = r.m, pos = null, c, i, ti = -1;
   S = fresh(r.key, x, 0, null, null);
-  R = (x.u[LANG] || x.u.en || x.u[Object.keys(x.u)[0]]).r;
+  var ul = phone(function (c) { return !!(x.u[c] && x.u[c].r); }) || (x.u[LANG] ? LANG : x.u.en ? 'en' : Object.keys(x.u)[0]);
+  R = x.u[ul].r;
+  rd.lang = ul; rd.dir = x.u[ul].dir === 'rtl' ? 'rtl' : 'ltr';
   wipe(rd);
   ttl = el('button', 'tt'); ttl.type = 'button';
   ttl.onclick = function () { var v = S.v; if (v.t === 'text') up(v.b); else books(); };
@@ -520,7 +533,7 @@ function lock(fromPop) {
   clearTimeout(idleT);
   forget(S);
   S = null; R = null; hold = false;
-  wipe(rd); rd.hidden = true; cv.hidden = false;
+  wipe(rd); rd.hidden = true; rd.removeAttribute('lang'); rd.removeAttribute('dir'); cv.hidden = false;
   if (!fromPop) disarm();
 }
 function idle() { clearTimeout(idleT); if (S) idleT = setTimeout(function () { lock(); }, 600000); }
