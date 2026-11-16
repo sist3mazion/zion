@@ -196,9 +196,9 @@ module.exports = {
     dir: 'ltr',
     c: { t: 'নোট', s: 'খুঁজুন', e: 'কোনো নোট নেই', z: 'কোনো ফলাফল নেই', n: 'নতুন নোট', d: 'মুছুন', b: 'পিছনে', p: 'এখানে লিখুন…', f: 'নোট' },
     r: {
-      pv: 'আগের', nx: 'পরের', f: 'লেখার আকার', th: 'থিম', cp: 'একটি কপি দিন', ab: 'সম্পর্কে', x: 'বন্ধ করুন', s: 'খুঁজুন', m: 'আরও', z: 'কোনো ফলাফল নেই',
+      pv: 'আগের', nx: 'পরের', f: 'লেখার আকার', th: 'থিম', cp: 'একটি কপি দিন', ab: 'অ্যাপ সম্পর্কে', x: 'বন্ধ করুন', s: 'খুঁজুন', m: 'আরও', z: 'কোনো ফলাফল নেই',
       k1: 'নতুন পাসওয়ার্ড', k2: 'পাসওয়ার্ড আবার লিখুন', fn: 'ফাইলের নাম', mk: 'কপি তৈরি করুন', e1: 'কমপক্ষে 8টি অক্ষর', e2: 'পাসওয়ার্ড দুটি মিলছে না',
-      h1: 'অন্য কারও জন্য একটি কপি তৈরি করুন। এর নিজস্ব পাসওয়ার্ড থাকবে এবং এটি আপনার কপি থেকে আলাদা হবে। পাসওয়ার্ডটি সামনাসামনি বলুন, কখনো মেসেজে পাঠাবেন না।',
+      h1: 'অন্য কারও জন্য একটি কপি তৈরি করুন। কপিটির পাসওয়ার্ড আপনার পাসওয়ার্ড থেকে আলাদা হবে। পাসওয়ার্ডটি সেই ব্যক্তিকে সামনাসামনি বলুন, কখনো মেসেজে পাঠাবেন না।',
       h2: 'কপি তৈরি। ব্লুটুথ, মেমোরি কার্ড বা কেবলের মাধ্যমে দিন।', sd: 'পাঠান', sv: 'সংরক্ষণ করুন', ok: 'হয়ে গেছে',
       hp: 'খুলতে: নোটের সার্চ বক্সে পাসওয়ার্ড লিখে Enter চাপুন। বন্ধ করতে: ✕, পিছনে, অথবা অন্য অ্যাপে যান।',
       lg: 'ভাষা', cl: 'কপিতে যে ভাষাগুলো থাকবে', cc: 'নোটের ভাষা', e3: 'অন্তত একটি ভাষা বেছে নিন'
@@ -209,10 +209,10 @@ module.exports = {
     dir: 'ltr',
     c: { t: 'Rubuce-rubuce', s: 'Nema', e: 'Babu rubutu tukuna', z: 'Ba a sami komai ba', n: 'Sabon rubutu', d: 'Goge', b: 'Koma baya', p: 'Rubuta a nan…', f: 'rubuce-rubuce' },
     r: {
-      pv: 'Na baya', nx: 'Na gaba', f: 'Girman rubutu', th: 'Launi', cp: 'Ba da kwafi', ab: 'Game da shi', x: 'Rufe', s: 'Nema', m: 'Ƙari', z: 'Ba a sami komai ba',
+      pv: 'Na baya', nx: 'Na gaba', f: 'Girman rubutu', th: 'Yanayin nuni', cp: 'Ba da kwafi', ab: 'Game da manhajar', x: 'Rufe', s: 'Nema', m: 'Ƙari', z: 'Ba a sami komai ba',
       k1: 'Sabuwar kalmar sirri', k2: 'Maimaita kalmar sirri', fn: 'Sunan fayil', mk: 'Yi kwafi', e1: 'Aƙalla haruffa 8', e2: 'Kalmomin sirrin ba su yi daidai ba',
-      h1: 'Yi kwafi don wani mutum. Zai sami kalmar sirrinsa ta daban, kuma zai bambanta da naka. Faɗa masa kalmar sirrin ido da ido; kada ka taɓa aika ta a saƙo.',
-      h2: 'Kwafin ya shirya. Ba da shi ta Bluetooth, katin ƙwaƙwalwa ko waya.', sd: 'Aika', sv: 'Ajiye', ok: 'An gama',
+      h1: 'Yi kwafi don wani mutum. Kwafin zai sami kalmar sirri ta kansa, wadda ta bambanta da kalmar sirrinka. Ka faɗa wa mutumin kalmar sirrin ido da ido; kada ka taɓa aika ta a saƙo.',
+      h2: 'Kwafin ya shirya. Ba da shi ta Bluetooth, katin ma’ajiya ko kebul.', sd: 'Aika', sv: 'Ajiye', ok: 'An gama',
       hp: 'Don buɗewa: rubuta kalmar sirri a akwatin nema na rubuce-rubuce, sannan ka danna Enter. Don rufewa: ✕, Koma baya, ko ka koma wata manhaja.',
       lg: 'Harshe', cl: 'Harsunan da ke cikin kwafin', cc: 'Harshen rubuce-rubuce', e3: 'Zaɓi aƙalla harshe ɗaya'
     }
@@ -223,8 +223,8 @@ module.exports = {
     c: { t: 'تێبینییەکان', s: 'گەڕان', e: 'هیچ تێبینییەک نییە', z: 'هیچ ئەنجامێک نییە', n: 'تێبینیی نوێ', d: 'سڕینەوە', b: 'گەڕانەوە', p: 'لێرە بنووسە…', f: 'تێبینییەکان' },
     r: {
       pv: 'پێشوو', nx: 'دواتر', f: 'قەبارەی نووسین', th: 'ڕووکار', cp: 'دانی کۆپییەک', ab: 'دەربارە', x: 'داخستن', s: 'گەڕان', m: 'زیاتر', z: 'هیچ ئەنجامێک نییە',
-      k1: 'وشەی نهێنیی نوێ', k2: 'دووبارە وشەی نهێنی بنووسەوە', fn: 'ناوی فایل', mk: 'دروستکردنی کۆپی', e1: 'لانیکەم 8 پیت', e2: 'وشە نهێنییەکان وەک یەک نین',
-      h1: 'کۆپییەک بۆ کەسێکی تر دروست بکە. وشەی نهێنیی تایبەت بە خۆی دەبێت و جیاوازە لە هی تۆ. وشەی نهێنییەکە ڕووبەڕوو پێی بڵێ، هەرگیز بە نامە مەینێرە.',
+      k1: 'وشەی نهێنیی نوێ', k2: 'دووبارە وشەی نهێنی بنووسەوە', fn: 'ناوی فایل', mk: 'دروستکردنی کۆپی', e1: 'لانیکەم 8 کارەکتەر', e2: 'وشە نهێنییەکان وەک یەک نین',
+      h1: 'کۆپییەک بۆ کەسێکی تر دروست بکە. وشەی نهێنیی کۆپییەکە جیاواز دەبێت لە وشەی نهێنیی تۆ. وشەی نهێنییەکە ڕووبەڕوو پێی بڵێ، هەرگیز بە پەیام مەینێرە.',
       h2: 'کۆپییەکە ئامادەیە. بە بلووتووس، کارتی بیرگە یان کێبڵ بیدە.', sd: 'ناردن', sv: 'پاشەکەوتکردن', ok: 'تەواو',
       hp: 'بۆ کردنەوە: وشەی نهێنی لە سندووقی گەڕانی تێبینییەکان بنووسە و Enter دابگرە. بۆ داخستن: ✕، گەڕانەوە، یان بڕۆ بۆ ئەپێکی تر.',
       lg: 'زمان', cl: 'زمانەکانی ناو کۆپییەکە', cc: 'زمانی تێبینییەکان', e3: 'لانیکەم یەک زمان هەڵبژێرە'
@@ -235,9 +235,9 @@ module.exports = {
     dir: 'rtl',
     c: { t: 'خاتىرە', s: 'ئىزدەش', e: 'خاتىرە يوق', z: 'نەتىجە يوق', n: 'يېڭى خاتىرە', d: 'ئۆچۈرۈش', b: 'قايتىش', p: 'بۇ يەرگە يېزىڭ…', f: 'خاتىرە' },
     r: {
-      pv: 'ئالدىنقى', nx: 'كېيىنكى', f: 'خەت چوڭلۇقى', th: 'ئۇسلۇب', cp: 'كۆچۈرمە بېرىش', ab: 'ھەققىدە', x: 'تاقاش', s: 'ئىزدەش', m: 'تېخىمۇ كۆپ', z: 'نەتىجە يوق',
-      k1: 'يېڭى پارول', k2: 'پارولنى قايتا كىرگۈزۈڭ', fn: 'ھۆججەت نامى', mk: 'كۆچۈرمە ياساش', e1: 'كەم دېگەندە 8 ھەرپ', e2: 'پاروللار ماس كەلمىدى',
-      h1: 'باشقا بىرسى ئۈچۈن كۆچۈرمە ياساڭ. ئۇنىڭ ئۆزىگە خاس پارولى بولىدۇ ۋە سىزنىڭكىدىن پەرقلىق بولىدۇ. پارولنى يۈزمۇيۈز ئېيتىڭ، ھەرگىز ئۇچۇر ئارقىلىق ئەۋەتمەڭ.',
+      pv: 'ئالدىنقى', nx: 'كېيىنكى', f: 'خەت چوڭلۇقى', th: 'كۆرۈنۈش', cp: 'كۆچۈرمە بېرىش', ab: 'ھەققىدە', x: 'تاقاش', s: 'ئىزدەش', m: 'تېخىمۇ كۆپ', z: 'نەتىجە يوق',
+      k1: 'يېڭى پارول', k2: 'پارولنى قايتا كىرگۈزۈڭ', fn: 'ھۆججەت نامى', mk: 'كۆچۈرمە ياساش', e1: 'كەم دېگەندە 8 ھەرپ-بەلگە', e2: 'پاروللار ماس كەلمىدى',
+      h1: 'باشقا بىرسى ئۈچۈن كۆچۈرمە ياساڭ. ئۇ كۆچۈرمىنىڭ ئۆزىگە خاس پارولى بولىدۇ، بۇ پارول سىزنىڭ پارولىڭىزدىن پەرقلىق بولىدۇ. پارولنى يۈزمۇيۈز ئېيتىڭ، ھەرگىز ئۇچۇر ئارقىلىق ئەۋەتمەڭ.',
       h2: 'كۆچۈرمە تەييار. ئۇنى Bluetooth، ئەستە ساقلاش كارتىسى ياكى سىم ئارقىلىق بېرىڭ.', sd: 'ئەۋەتىش', sv: 'ساقلاش', ok: 'تامام',
       hp: 'ئېچىش ئۈچۈن: پارولنى خاتىرىلەرنىڭ ئىزدەش رامكىسىغا يېزىپ Enter نى بېسىڭ. تاقاش ئۈچۈن: ✕، قايتىش ياكى باشقا ئەپكە ئۆتۈڭ.',
       lg: 'تىل', cl: 'كۆچۈرمىدىكى تىللار', cc: 'خاتىرىلەرنىڭ تىلى', e3: 'كەم دېگەندە بىر تىل تاللاڭ'
@@ -246,11 +246,11 @@ module.exports = {
   ur: {
     nm: 'اردو',
     dir: 'rtl',
-    c: { t: 'نوٹس', s: 'تلاش', e: 'کوئی نوٹ نہیں', z: 'کوئی نتیجہ نہیں', n: 'نیا نوٹ', d: 'حذف کریں', b: 'واپس', p: 'یہاں لکھیں…', f: 'نوٹس' },
+    c: { t: 'نوٹس', s: 'تلاش', e: 'کوئی نوٹ نہیں', z: 'کوئی نتیجہ نہیں ملا', n: 'نیا نوٹ', d: 'حذف کریں', b: 'واپس', p: 'یہاں لکھیں…', f: 'نوٹس' },
     r: {
-      pv: 'پچھلا', nx: 'اگلا', f: 'حروف کا سائز', th: 'تھیم', cp: 'ایک کاپی دیں', ab: 'تعارف', x: 'بند کریں', s: 'تلاش', m: 'مزید', z: 'کوئی نتیجہ نہیں',
+      pv: 'پچھلا', nx: 'اگلا', f: 'حروف کا سائز', th: 'تھیم', cp: 'ایک کاپی دیں', ab: 'ایپ کے بارے میں', x: 'بند کریں', s: 'تلاش', m: 'مزید', z: 'کوئی نتیجہ نہیں ملا',
       k1: 'نیا پاس ورڈ', k2: 'پاس ورڈ دوبارہ لکھیں', fn: 'فائل کا نام', mk: 'کاپی بنائیں', e1: 'کم از کم 8 حروف', e2: 'دونوں پاس ورڈ ایک جیسے نہیں ہیں',
-      h1: 'کسی اور کے لیے ایک کاپی بنائیں۔ اس کا اپنا پاس ورڈ ہوگا اور وہ آپ کی کاپی سے مختلف ہوگی۔ پاس ورڈ آمنے سامنے بتائیں، کبھی پیغام میں نہ بھیجیں۔',
+      h1: 'کسی اور کے لیے ایک کاپی بنائیں۔ اس کا پاس ورڈ آپ کے پاس ورڈ سے مختلف ہوگا۔ یہ پاس ورڈ اس شخص کو آمنے سامنے بتائیں، کبھی پیغام میں نہ بھیجیں۔',
       h2: 'کاپی تیار ہے۔ اسے بلوٹوتھ، میموری کارڈ یا کیبل سے دیں۔', sd: 'بھیجیں', sv: 'محفوظ کریں', ok: 'ہو گیا',
       hp: 'کھولنے کے لیے: نوٹس کے تلاش کے خانے میں پاس ورڈ لکھیں اور Enter دبائیں۔ بند کرنے کے لیے: ✕، واپس، یا کسی اور ایپ پر جائیں۔',
       lg: 'زبان', cl: 'کاپی میں شامل زبانیں', cc: 'نوٹس کی زبان', e3: 'کم از کم ایک زبان منتخب کریں'
@@ -261,9 +261,9 @@ module.exports = {
     dir: 'ltr',
     c: { t: 'Qoraallo', s: 'Raadi', e: 'Wax qoraal ah ma jiraan', z: 'Natiijo lama helin', n: 'Qoraal cusub', d: 'Tirtir', b: 'Dib u noqo', p: 'Halkan ku qor…', f: 'qoraallo' },
     r: {
-      pv: 'Hore', nx: 'Xiga', f: 'Cabbirka qoraalka', th: 'Muuqaal', cp: 'Bixi nuqul', ab: 'Ku saabsan', x: 'Xir', s: 'Raadi', m: 'Wax kale', z: 'Natiijo lama helin',
+      pv: 'Hore', nx: 'Xiga', f: 'Cabbirka qoraalka', th: 'Muuqaal', cp: 'Bixi nuqul', ab: 'Ku saabsan app-ka', x: 'Xir', s: 'Raadi', m: 'Ikhtiyaarro dheeraad ah', z: 'Natiijo lama helin',
       k1: 'Eray sir ah oo cusub', k2: 'Ku celi erayga sirta ah', fn: 'Magaca faylka', mk: 'Samee nuqul', e1: 'Ugu yaraan 8 xaraf', e2: 'Erayada sirta ahi isku mid ma aha',
-      h1: 'Nuqul u samee qof kale. Wuxuu yeelan doonaa eray sir ah oo u gaar ah, wuuna ka duwanaan doonaa kaaga. Erayga sirta ah fool ka fool ugu sheeg; weligaa farriin ha ugu dirin.',
+      h1: 'Nuqul u samee qof kale. Nuqulku wuxuu yeelan doonaa eray sir ah oo u gaar ah, kaas oo ka duwanaan doona eraygaaga sirta ah. Erayga sirta ah qofka fool ka fool ugu sheeg; weligaa farriin ha ugu dirin.',
       h2: 'Nuqulku waa diyaar. Ku sii Bluetooth, kaarka xusuusta ama fiilo.', sd: 'Dir', sv: 'Kaydi', ok: 'Waa dhammaatay',
       hp: 'Si aad u furto: erayga sirta ah ku qor sanduuqa raadinta qoraallada oo riix Enter. Si aad u xirto: ✕, Dib u noqo, ama u gudub app kale.',
       lg: 'Luqad', cl: 'Luqadaha ku jira nuqulka', cc: 'Luqadda qoraallada', e3: 'Dooro ugu yaraan hal luqad'
@@ -276,7 +276,7 @@ module.exports = {
     r: {
       pv: 'སྔོན་མ།', nx: 'རྗེས་མ།', f: 'ཡིག་གཟུགས་ཆེ་ཆུང་།', th: 'ཁ་དོག', cp: 'འདྲ་བཤུས་སྤྲོད་པ།', ab: 'ངོ་སྤྲོད།', x: 'ཁ་རྒྱག', s: 'འཚོལ་བ།', m: 'གཞན།', z: 'འབྲས་བུ་མ་རྙེད།',
       k1: 'གསང་ཨང་གསར་པ།', k2: 'གསང་ཨང་ཡང་བསྐྱར་བྲིས།', fn: 'ཡིག་ཆའི་མིང་།', mk: 'འདྲ་བཤུས་བཟོ།', e1: 'ཉུང་མཐར་ཡིག་འབྲུ་ 8', e2: 'གསང་ཨང་གཉིས་མི་མཐུན།',
-      h1: 'མི་གཞན་ཞིག་ལ་འདྲ་བཤུས་ཤིག་བཟོ། དེ་ལ་རང་གི་གསང་ཨང་སྒེར་པ་ཡོད་ཅིང་ཁྱེད་ཀྱི་དེ་དང་མི་འདྲ། གསང་ཨང་ངོ་ཐུག་ནས་ཁ་ཐོག་ཏུ་ཤོད། འཕྲིན་ཐོག་ནམ་ཡང་མ་གཏོང་།',
+      h1: 'མི་གཞན་ཞིག་ལ་འདྲ་བཤུས་ཤིག་བཟོ། དེའི་གསང་ཨང་དེ་ཁྱེད་ཀྱི་གསང་ཨང་དང་མི་འདྲ། གསང་ཨང་ངོ་ཐུག་ནས་ཁ་ཐོག་ཏུ་ཤོད། འཕྲིན་ཐོག་ནམ་ཡང་མ་གཏོང་།',
       h2: 'འདྲ་བཤུས་གྲ་སྒྲིག་ཡོད། Bluetooth དང་། ཁཱཌ། ཡང་ན་སྐུད་པ་བརྒྱུད་ནས་སྤྲོད།', sd: 'གཏོང་བ།', sv: 'ཉར་བ།', ok: 'ཚར་སོང་།',
       hp: 'ཁ་ཕྱེ་བར། ཟིན་བྲིས་ཀྱི་འཚོལ་སྒམ་དུ་གསང་ཨང་བྲིས་ནས་ Enter གནོན། ཁ་རྒྱག་པར། ✕ དང་། ཕྱིར་ལོག ཡང་ན་ཉེར་སྤྱོད་གཞན་ལ་བརྗེ།',
       lg: 'སྐད་ཡིག', cl: 'འདྲ་བཤུས་ནང་གི་སྐད་ཡིག', cc: 'ཟིན་བྲིས་ཀྱི་སྐད་ཡིག', e3: 'ཉུང་མཐར་སྐད་ཡིག་གཅིག་འདེམས།'
