@@ -33,7 +33,7 @@ test('navegador', { skip: !pw && 'Playwright no está instalado' }, async t => {
   fs.writeFileSync(ar, (await construir({ libros: fuenteAr, clave: CLAVE, idioma: 'ar', nombre: 'فان دايك' })).html);
 
   const nav = await pw.chromium.launch(Object.assign({ args: ['--no-sandbox'] }, CHROME ? { executablePath: CHROME } : {}));
-  const ctx = await nav.newContext({ viewport: { width: 390, height: 780 }, isMobile: true, hasTouch: true, acceptDownloads: true });
+  const ctx = await nav.newContext({ viewport: { width: 390, height: 780 }, isMobile: true, hasTouch: true, acceptDownloads: true, locale: 'es-ES' });
   await ctx.setOffline(true);                               // todo debe funcionar sin red
   const problemas = [];
   async function abrir(archivo) {
@@ -175,7 +175,8 @@ test('navegador', { skip: !pw && 'Playwright no está instalado' }, async t => {
     assert.equal(await q.textContent('.tt'), 'يوحنا ٣');
     assert.equal(await q.textContent('.tx sup'), '١٦');
     assert.equal(await q.getAttribute('.tx', 'dir'), 'rtl');
-    await q.click('.bar button[aria-label="بحث"]');
+    assert.equal(await q.getAttribute('.rd', 'lang'), 'es');   // el menú sigue al teléfono (es), no a la portada (ar)
+    await q.click('.bar button[aria-label="Buscar"]');
     await q.fill('.fv input', 'احب الله العالم');               // sin tashkil y con alef simple
     await q.waitForSelector('.ht');
     assert.match(await q.textContent('.ht b'), /يوحنا ٣:١٦/);
