@@ -1,6 +1,6 @@
 # ZION · Semilla
 
-Un solo archivo HTML que se abre como un bloc de notas corriente y lleva dentro la Biblia en 20 idiomas, cifrada, para leerla sin conexión y pasarla de mano en mano.
+Un solo archivo HTML que se abre como un bloc de notas corriente y lleva dentro la Biblia en 21 idiomas, cifrada, para leerla sin conexión y pasarla de mano en mano.
 
 Objetivo de ZION: que alguien en un país con censura pueda **tener**, **leer** y **pasar** la Biblia con el menor riesgo posible. El nombre ZION es el del proyecto; no aparece en ningún archivo que se reparte.
 
@@ -73,13 +73,13 @@ La prueba de navegador necesita Playwright (`npm i -D playwright`); si no está,
 
 Medidas con la Biblia completa en español, en Chrome de escritorio frenado 6× para imitar un móvil modesto: abrir 0,6 s, abrir un libro 0,2 s, primera búsqueda en toda la Biblia 3,7 s, las siguientes 0,7 s, unos 25–30 MB de memoria. La derivación de la clave no se frena con ese método, así que en un teléfono real abrir tardará más (estimación: 1–3 s).
 
-Con 18 idiomas en un archivo (27,7 MB; con francés y portugués serán unos 31 MB, estimado y sin medir), en el mismo Chrome frenado 6×: cargar el archivo 2,0 s, abrir con la clave 0,5 s, cambiar de idioma 0,2 s, abrir un libro en birmano (el idioma más pesado) 0,6 s, buscar en chino 0,8 s, hacer una copia con los 18 idiomas 2,5 s; memoria de JavaScript 34 MB leyendo y 81 MB tras copiar. En un Samsung de gama de entrada (Android 10, 4 GB), desde WhatsApp, la página de prueba del mismo tamaño abre bien (ver [AMENAZAS.md](AMENAZAS.md#pruebas-en-teléfonos-reales)). **No está probado en teléfonos de 1–2 GB.**
+Con 18 idiomas en un archivo (27,7 MB; con francés, portugués y coreano serán unos 32 MB, estimado y sin medir), en el mismo Chrome frenado 6×: cargar el archivo 2,0 s, abrir con la clave 0,5 s, cambiar de idioma 0,2 s, abrir un libro en birmano (el idioma más pesado) 0,6 s, buscar en chino 0,8 s, hacer una copia con los 18 idiomas 2,5 s; memoria de JavaScript 34 MB leyendo y 81 MB tras copiar. En un Samsung de gama de entrada (Android 10, 4 GB), desde WhatsApp, la página de prueba del mismo tamaño abre bien (ver [AMENAZAS.md](AMENAZAS.md#pruebas-en-teléfonos-reales)). **No está probado en teléfonos de 1–2 GB.**
 
 Para probar un teléfono sin llevar ninguna Biblia: `node movil/generar-prueba-grande.js` genera `dist/prueba-grande.html`, del mismo tamaño y con el mismo descompresor.
 
-## Traducciones incluidas (20 idiomas)
+## Traducciones incluidas (21 idiomas)
 
-`node generar-todos.js <carpeta de fuentes> --clave "<clave>"` genera **un solo archivo** con todas las filas de [traducciones.js](traducciones.js) (`dist/notas.html`, 27,7 MB con 18 idiomas y unos 31 MB con los 20, estimado; con zlib serían ~38 MB). `--solo es,ar` deja solo esas; `--ui` elige el idioma de la portada. Una copia con uno o dos idiomas pesa 2–4 MB.
+`node generar-todos.js <carpeta de fuentes> --clave "<clave>"` genera **un solo archivo** con todas las filas de [traducciones.js](traducciones.js) (`dist/notas.html`, 27,7 MB con 18 idiomas y unos 32 MB con los 21, estimado; con zlib serían ~38 MB). `--solo es,ar` deja solo esas; `--ui` elige el idioma de la portada. Una copia con uno o dos idiomas pesa 2–4 MB.
 Solo entran obras de dominio público o con licencia que permite repartirlas (CC BY-SA, CC BY-NC); se prefieren las traducciones modernas; las antiguas de dominio público solo donde no hay una moderna abierta. Cada archivo lleva su licencia dentro («Acerca de»).
 La carpeta de fuentes lleva los zips USFM de eBible.org (`engfbv_usfm.zip`, `arbnav_usfm.zip`, …), el USFX de open-bibles (`spa-vbl.usfx.xml`), el zip del repositorio de Door43 (`ru_rob.zip`) y `eng.vrs`.
 
@@ -105,6 +105,7 @@ La carpeta de fuentes lleva los zips USFM de eBible.org (`engfbv_usfm.zip`, `arb
 | bo | New Tibetan Bible | **CC BY-NC-ND 4.0**: hace falta permiso del New Tibetan Bible Translation Committee | USFM eBible.org (`bodn`) |
 | fr | Sainte Bible néo-Crampon Libre (2022): modernización de la Crampon católica. Se reparten los 66 libros; se quitan los 7 deuterocanónicos | CC BY-SA 4.0 | USFM eBible.org (`francl`) |
 | pt | Bíblia Livre (BLIVRE, 2018): actualización de la Almeida de 1819 sobre el Textus Receptus | CC BY 4.0 (citar fuente y fecha de la versión) | USFM eBible.org (`porbr2018`) |
+| ko | Korean Revised Version (개역한글, 1961) | Dominio público desde 2011 según la Sociedad Bíblica de Corea (hay que citar la autoría y no alterar el texto) | CSV scrollmapper/bible_databases (`KorRV`) |
 
 **Criterio.** Se prefieren traducciones modernas y abiertas a las de dominio público, que son muy arcaicas. Las de Biblica (chino, persa, vietnamita, hausa, árabe) son «contemporáneas» (lectura natural, no literal) y exigen su aviso de copyright, que va en el «Acerca de». El ruso usa la Russian Open Bible, que es una revisión moderna de la Sinodal (no una traducción independiente); la NRT de Biblica sería más contemporánea y está pendiente de permiso. Los textos antiguos que ya no se usan (CUV 1919, persa antiguo, vietnamita 1934) siguen en el historial de git.
 
@@ -124,7 +125,7 @@ La carpeta de fuentes lleva los zips USFM de eBible.org (`engfbv_usfm.zip`, `arb
 
 **Francés y portugués:** la néo-Crampon usa la numeración hebrea (Joel 2:28-32 va como Joel 3, Malaquías 4 como 3:19-24…), por eso el generador avisa de 45 «tramos sin texto»: el texto está completo, solo cambia el número. La Bíblia Livre solo avisa de 3 Juan 1:15 y Apocalipsis 12:18, que van unidos al versículo anterior. Se descartó la Nova Bíblia Viva de Biblica (poronbv, CC BY-SA) por ser una paráfrasis; queda como alternativa.
 
-**Coreano (sin Biblia todavía):** la interfaz existe, pero la única traducción de dominio público de eBible (`kor`, 1910) está truncada: 1 Pedro acaba en 4:14, Colosenses en 4:9, el Salmo 118 en el versículo 9, y en total faltan 45 tramos (Génesis 30:32-43, Ester 4:15-17…), no solo por numeración. No se incluye hasta encontrar un texto completo y con licencia clara (la KorRV de scrollmapper no tiene la licencia confirmada ni la he verificado entera).
+**Coreano:** se usa la Korean Revised Version (개역한글, 1961) del CSV de scrollmapper. La única de dominio público en eBible (`kor`, 1910) está truncada (1 Pedro acaba en 4:14, Colosenses en 4:9, el Salmo 118 en el v. 9; 45 tramos sin texto) y se descartó. La Sociedad Bíblica de Corea declara en su web que los derechos de explotación de la 개역한글 vencieron el 31-12-2011 y se puede usar sin permiso; siguen vigentes los derechos morales (citar la autoría y no alterar el texto). El CSV trae 20 versículos vacíos (lista en el «Acerca de»): unos los omiten a propósito muchas traducciones modernas, pero Isaías 30:2 y 48:2, Jeremías 21:2, Ezequiel 24:5 y Romanos 9:2 parecen huecos de la fuente; conviene rellenarlos desde otra copia fiel de la 개역한글. Los nombres de los libros están escritos a mano.
 
 **Fuera:** el tayiko (CC BY-NC-ND y casi incompleto) y el amhárico (solo Nuevo Testamento, copyright de la Bible Society of Ethiopia sin licencia clara). **No encontrados en eBible:** uzbeko, tigriña y pastún.
 
@@ -134,7 +135,7 @@ La carpeta de fuentes lleva los zips USFM de eBible.org (`engfbv_usfm.zip`, `arb
 
 1. **Probarlo en teléfonos reales**, sobre todo Android antiguos: abrir el archivo desde el gestor de archivos, desde WhatsApp y desde Telegram; que la clave abra; que «Enviar» funcione por Bluetooth. No sé todavía si todos los navegadores móviles permiten descifrar en un archivo abierto de esa forma. Con los 18 idiomas (~28 MB): probar en teléfonos de **1–2 GB de RAM** y medir cuánto tarda en pasar por Bluetooth.
 2. **Revisión por hablantes nativos** de la interfaz en los 19 idiomas que no son español ni inglés; primero las frases de clave y copia (`h1`, `hp`, `h2`, `e1`, `e2`). Los textos nuevos de idioma y copia (`nm`, `lg`, `cl`, `cc`, `e3` en `src/ui.js`) también son de IA.
-3. **Licencias**: elegir, para cada uno de los 20 idiomas, una traducción que se pueda redistribuir.
+3. **Licencias**: elegir, para cada uno de los 21 idiomas, una traducción que se pueda redistribuir.
 4. **Auditoría externa** del cifrado y del modelo de amenazas.
 5. **Decidir el origen**: cómo llega la primera copia a cada país (ver [AMENAZAS.md](AMENAZAS.md)).
 
@@ -150,7 +151,7 @@ La carpeta de fuentes lleva los zips USFM de eBible.org (`engfbv_usfm.zip`, `arb
   lib/lineas.js     lee «un versículo por línea» (ebible-corpus) y detecta lo que falta
   lib/csv.js        lee CSV de scrollmapper
   lib/nombres.js    nombres de los 66 libros en 12 idiomas
-  traducciones.js   las 20 traducciones elegidas y su licencia
+  traducciones.js   las 21 traducciones elegidas y su licencia
   generar-todos.js  genera un archivo con todas las traducciones
   lib/paquete.js    reparte en bloques, comprime (LZMA o zlib), cifra y ensambla
   lib/nucleo.js     carga en Node el mismo código de cifrado que usa la app
