@@ -757,14 +757,23 @@ function field(label, type, value) {
 }
 function copy() {
   var x = S.x, a = field(R.k1, 'password'), b = field(R.k2, 'password'), f = field(R.fn, 'text', U.f), msg = el('p', 'er');
-  var go = el('button', 'pb', R.mk), cs = [], box = null, sel = null, nf = U.f, codes = Object.keys(x.u);
+  var go = el('button', 'pb', R.mk), cs = [], box = null, sel = null, nf = U.f, codes = Object.keys(x.u), touched = false;
   go.type = 'button';
-  // which texts go in the copy: all by default
+  // the notes language follows the first text ticked, until the person picks one by hand
+  function follow() {
+    if (!sel || touched) return;
+    for (var i = 0; i < x.t.length; i++) if (!cs.length || cs[i].checked) {
+      if (x.u[x.t[i].l]) { sel.value = x.t[i].l; sel.onchange(); }
+      return;
+    }
+  }
+  // which texts go in the copy: only the one being read by default (a lighter, less conspicuous file)
   if (x.t.length > 1) {
     box = el('fieldset', 'ck', el('legend', null, R.cl));
-    x.t.forEach(function (t) {
+    x.t.forEach(function (t, i) {
       var c = el('input'), n = el('span', null, t.n), l = el('label', null, c, n);
-      c.type = 'checkbox'; c.checked = true; n.dir = t.d;
+      c.type = 'checkbox'; c.checked = i === S.ti; n.dir = t.d;
+      c.onchange = follow;
       cs.push(c); box.appendChild(l);
     });
   }
@@ -773,6 +782,8 @@ function copy() {
     sel = el('select');
     codes.forEach(function (c) { var o = el('option', null, x.u[c].nm || c); o.value = c; if (c === LANG) o.selected = true; sel.appendChild(o); });
     sel.onchange = function () { var v = x.u[sel.value].c.f; if (f.i.value === nf) f.i.value = v; nf = v; };
+    sel.addEventListener('change', function () { touched = true; });   // only a real change by the person (not follow())
+    follow();
   }
   go.onclick = async function () {
     var s = S, p = a.i.value.trim(), keep = [], m, parts, html, at, cov = sel ? sel.value : LANG, u = x.u[cov] || { c: U }, name, i, same = cov === LANG;
