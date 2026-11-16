@@ -10,7 +10,7 @@
  */
 const fs = require('fs');
 const path = require('path');
-const { leerArchivos, sinTitulos, sustituir, sinFinal, unVersiculoPorParrafo, parchear } = require('./lib/texto');
+const { leerArchivos, sinTitulos, sustituir, sinFinal, unVersiculoPorParrafo, parchear, DC } = require('./lib/texto');
 const { leerLineas, faltantes } = require('./lib/lineas');
 const { leerCsv } = require('./lib/csv');
 const NOMBRES = require('./lib/nombres');
@@ -45,6 +45,7 @@ async function main() {
     } else if (t.formato === 'zip') {
       const arch = leerZip(fs.readFileSync(f)).filter(e => /\.(usfm|sfm)$/i.test(e.nombre)).map(e => ({ nombre: path.basename(e.nombre), texto: e.datos.toString('utf8') }));
       libros = leerArchivos(arch);
+      if (t.sinDeuterocanonicos) libros = libros.filter(l => !DC.includes(l.id));    // fuentes católicas: se reparten los 66 libros, como en todos los idiomas
       if (t.quitarTitulos) sinTitulos(libros, new RegExp(t.quitarTitulos));
       if (libros.length !== 66) throw new Error(t.id + ': el zip trae ' + libros.length + ' libros, no 66');
     } else if (t.formato === 'csv') {
