@@ -797,7 +797,10 @@ function copy() {
     ready(new Blob(parts, { type: 'text/html' }), name);
   };
   set({ t: 'copy' }); ttl.textContent = R.cp;
-  put(el('div', 'fm', el('p', null, R.h1), a, b, f, box, sel ? el('label', null, R.cc, sel) : null, msg, go));
+  // the last sentence of h1 (the passphrase rule) goes on its own line, in bold
+  var h = /^([\s\S]*?[.!?\u3002\u0964\u06d4\u0f0d\u104b])\s*([^.!?\u3002\u0964\u06d4\u0f0d\u104b]+[.!?\u3002\u0964\u06d4\u0f0d\u104b]?)$/.exec(R.h1.trim());
+  a.appendChild(el('p', 'hi', R.e1));
+  put(el('div', 'fm', h ? el('p', null, h[1]) : null, el('p', 'wn', h ? h[2] : R.h1), a, b, f, box, sel ? el('label', null, R.cc, sel) : null, msg, go));
 }
 function ready(blob, name) {
   var file = null, can = false, box = el('div', 'fm', el('p', null, R.h2)), b;
