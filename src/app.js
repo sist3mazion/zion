@@ -586,11 +586,17 @@ function books() {
   var w = el('div');
   w.appendChild(g);
   if (S.m.dd) {
-    var q = S.m.dd, d = el('section', 'dd', el('h2', null, q[1]), el('p', null, q[2]), el('p', null, q[3]), el('p', null, q[4]));
+    var q = S.m.dd, d = el('section', 'dd', el('h2', null, q[1]), el('p', null, q[2]), el('p', null, q[3]), bold(q[4]));
     d.dir = q[0];
     w.appendChild(d);
   }
   put(w);
+}
+/* a paragraph where *name* goes in bold */
+function bold(s) {
+  var n = el('p'), a = s.split('*'), i;
+  for (i = 0; i < a.length; i++) if (a[i]) n.appendChild(i % 2 ? el('b', null, a[i]) : D.createTextNode(a[i]));
+  return n;
 }
 /* from a text page up to its chapter grid; one-chapter books go straight to the list */
 async function up(i) {
