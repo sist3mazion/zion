@@ -21,7 +21,7 @@ Hay que decírselo con claridad a quien lo reciba.
 
 - **De alguien que conoce esta herramienta.** El código es público. Quien lo haya estudiado reconocerá el archivo por su programa, aunque no pueda abrirlo. Semilla resiste listas de huellas y búsquedas de palabras; no resiste un detector hecho a medida.
 - **De que te obliguen a dar la clave.** No hay clave falsa ni contenido señuelo.
-- **De una clave débil.** Con el archivo en la mano se pueden probar claves sin límite. Cada intento cuesta 600 000 rondas de PBKDF2; una clave de cuatro cifras cae enseguida con una tarjeta gráfica; tres palabras al azar, no.
+- **De una clave débil.** Con el archivo en la mano se pueden probar claves sin límite. Cada intento cuesta 1 000 000 rondas de PBKDF2; una clave de cuatro cifras cae enseguida con una tarjeta gráfica; tres palabras al azar, no. Por eso «Pasar una copia» exige como mínimo 16 caracteres (los espacios cuentan): una frase de cuatro palabras ya llega.
 - **De un teléfono intervenido.** Si hay un programa espía, ve la pantalla y lo que se teclea.
 - **Del teclado.** La clave se escribe en un campo de búsqueda normal. Se le pide al teclado que no sugiera ni corrija, pero algunos teclados aprenden lo que se escribe. Conviene comprobar en el teléfono real que la clave no aparece luego como sugerencia.
 - **De los rastros del sistema.** El nombre del archivo en «Descargas», el historial del navegador («Notas») y la miniatura de aplicaciones recientes quedan fuera del control del archivo.
@@ -42,7 +42,7 @@ Hay que decírselo con claridad a quien lo reciba.
 
 **La copia cambia de clave.** Quien pasa el archivo elige una clave nueva para el siguiente. Así ninguna copia es igual a otra y cada persona solo conoce su clave y las que ella misma ha dado. Por defecto la copia lleva todos los idiomas; se pueden quitar algunos (archivo más pequeño) y cambiar el idioma de las notas.
 
-**Criptografía del navegador, sin inventar nada.** PBKDF2-SHA256 (600 000 rondas) y AES-256-GCM de WebCrypto. No hay implementación propia de ningún algoritmo de cifrado. El código «propio» sensible son dos descompresores: LZMA (el que se usa siempre) y zlib de reserva. Los dos se ejecutan después de que AES-GCM haya verificado la autenticidad del bloque, y ante datos dañados lanzan error en vez de colgarse.
+**Criptografía del navegador, sin inventar nada.** PBKDF2-SHA256 (1 000 000 rondas) y AES-256-GCM de WebCrypto. No hay implementación propia de ningún algoritmo de cifrado. El código «propio» sensible son dos descompresores: LZMA (el que se usa siempre) y zlib de reserva. Los dos se ejecutan después de que AES-GCM haya verificado la autenticidad del bloque, y ante datos dañados lanzan error en vez de colgarse.
 
 ## El origen
 
@@ -54,7 +54,7 @@ Cómo llega la primera copia a un país es el punto más delicado y no lo resuel
 
 ## Para quien audite
 
-**Formato.** `base64( sal[16] ‖ caja(u32le posición, u32le longitud del índice) ‖ bloques ‖ caja(índice) ‖ cola aleatoria de 0–65 535 bytes )`, con `caja = iv[12] ‖ AES-256-GCM(clave, iv, datos)` y `clave = PBKDF2-HMAC-SHA256(frase en NFC, sal, 600 000, 32 bytes)`. Una sola derivación de clave; cada caja lleva su propio IV aleatorio (un archivo de 18 idiomas tiene ~110 cajas). Sin cabecera, firma ni versión en claro: las fronteras entre cajas solo se conocen tras descifrar el índice. Sal, IV y cola salen de `crypto.getRandomValues` y se renuevan en cada copia.
+**Formato.** `base64( sal[16] ‖ caja(u32le posición, u32le longitud del índice) ‖ bloques ‖ caja(índice) ‖ cola aleatoria de 0–65 535 bytes )`, con `caja = iv[12] ‖ AES-256-GCM(clave, iv, datos)` y `clave = PBKDF2-HMAC-SHA256(frase en NFC, sal, 1 000 000, 32 bytes)`. Una sola derivación de clave; cada caja lleva su propio IV aleatorio (un archivo de 18 idiomas tiene ~110 cajas). Sin cabecera, firma ni versión en claro: las fronteras entre cajas solo se conocen tras descifrar el índice. Sal, IV y cola salen de `crypto.getRandomValues` y se renuevan en cada copia.
 
 **Datos asociados.** El índice se cifra con `"i"` y el bloque *j* de la traducción *i* con `"i.j"`: una caja no se puede mover a otro sitio del archivo sin que falle la verificación.
 

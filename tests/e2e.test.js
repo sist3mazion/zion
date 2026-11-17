@@ -142,7 +142,7 @@ test('navegador', { skip: !pw && 'Playwright no está instalado' }, async t => {
   await t.test('pasar una copia: clave nueva, bytes nuevos, mismo programa', async () => {
     await p.click('.bar button[aria-label="Más"]'); await p.click('.it:has-text("Pasar una copia")');
     await p.fill('.fm label >> nth=0 >> input', 'corta'); await p.fill('.fm label >> nth=1 >> input', 'corta'); await p.click('.pb');
-    assert.equal(await p.textContent('.er'), 'Mínimo 8 caracteres');
+    assert.equal(await p.textContent('.er'), 'Mínimo 16 caracteres');
     await p.fill('.fm label >> nth=0 >> input', CLAVE2); await p.fill('.fm label >> nth=1 >> input', CLAVE2 + 'x'); await p.click('.pb');
     assert.equal(await p.textContent('.er'), 'Las claves no coinciden');
     await p.fill('.fm label >> nth=1 >> input', CLAVE2); await p.fill('.fm label >> nth=2 >> input', 'apuntes');

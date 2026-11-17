@@ -95,7 +95,7 @@ test('comprobar: reconoce el programa auténtico y detecta cualquier cambio fuer
   assert.equal(comprobar(html).ok, true);
   const p = partes(html);
   // un carácter del programa
-  assert.equal(comprobar(html.replace('var ITER = 600000', 'var ITER = 600001')).ok, false);
+  assert.equal(comprobar(html.replace('var ITER = 1000000', 'var ITER = 1000001')).ok, false);
   // un script añadido
   assert.equal(comprobar(html.replace('</body>', '<script>1</script></body>')).ok, false);
   // política relajada
