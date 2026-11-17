@@ -452,7 +452,7 @@ function num(x) {
 function put(node) { wipe(pg); pg.appendChild(node); pg.scrollTop = 0; }
 function set(v) {
   if (v.t === 'books' || v.t === 'chap' || v.t === 'text') S.pv = v;
-  S.v = v; hold = false; mn.hidden = true; pn.hidden = v.t !== 'text'; sb.hidden = v.t === 'copy'; S.tok++;   // no search on the copy form: tapping it would discard what was typed
+  S.v = v; hold = false; mn.hidden = true; pn.hidden = v.t !== 'text'; sb.hidden = v.t === 'copy' || v.t === 'about'; S.tok++;   // search is hidden here: on the copy form it would throw away the typed key
 }
 function item(icon, label, fn) {
   var b = el('button', 'it', ic(icon), el('span', null, label));
