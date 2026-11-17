@@ -3,7 +3,7 @@
 var D = document, W = window, SELF = D.currentScript ? D.currentScript.textContent : '';
 
 /* <core> */
-var ITER = 600000, te = new TextEncoder(), td = new TextDecoder();
+var ITER = 1000000, te = new TextEncoder(), td = new TextDecoder();
 
 function b64d(s) {
   var bin = atob(s), n = bin.length, a = new Uint8Array(n), i;
@@ -800,7 +800,8 @@ function copy() {
   }
   go.onclick = async function () {
     var s = S, p = a.i.value.trim(), keep = [], m, parts, html, at, cov = sel ? sel.value : LANG, u = x.u[cov] || { c: U }, name, i, same = cov === LANG;
-    if (p.length < 8) { msg.textContent = R.e1; return; }
+    // a weak passphrase can be guessed offline without limit: 16 characters at least (spaces count)
+    if (Array.from(p).length < 16) { msg.textContent = R.e1; return; }
     if (a.i.value !== b.i.value) { msg.textContent = R.e2; return; }
     for (i = 0; i < x.t.length; i++) if (!cs.length || cs[i].checked) keep.push(i);
     if (!keep.length) { msg.textContent = R.e3; return; }
