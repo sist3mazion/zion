@@ -43,7 +43,11 @@ test('política de contenido: nada externo, y solo se ejecuta el script cuyo has
 test('en claro no hay ni una palabra delatora ni una vía de red', async () => {
   const { html } = await hacer();
   const p = partes(html);
-  const claro = html.replace(p.blob, '');
+  // Los dos hashes de la política son base64 y pueden coincidir por azar con una palabra o con «//»: se neutralizan solo ellos
+  const HASH = /'sha256-[A-Za-z0-9+/]{43}='/g;
+  const bruto = html.replace(p.blob, '');
+  assert.equal(bruto.match(HASH).length, 2);
+  const claro = bruto.replace(HASH, "'sha256-'");
   assert.equal(DELATORAS.exec(claro), null);
   assert.equal(RED.exec(claro), null);
   assert.equal(RED_CSS.exec(p.css), null);
