@@ -424,7 +424,7 @@ q.oninput = draw;
 sf.onsubmit = function (e) { e.preventDefault(); enter(q.value); };
 
 /* ---------- unlock: the search box, Enter ---------- */
-var raw = null, busy = false, S = null, R = null, hold = false, idleT = 0;
+var raw = null, busy = false, S = null, R = null, hold = false, idleT = 0, mk = false;
 async function enter(v) {
   var r;
   v = v.trim();
@@ -542,7 +542,8 @@ function lock(fromPop) {
   wipe(rd); rd.hidden = true; rd.removeAttribute('lang'); rd.removeAttribute('dir'); cv.hidden = false;
   if (!fromPop) disarm();
 }
-function idle() { clearTimeout(idleT); if (S) idleT = setTimeout(function () { lock(); }, 600000); }
+// one minute without touching the screen closes the reader; never in the middle of making a copy
+function idle() { clearTimeout(idleT); if (S) idleT = setTimeout(function () { if (mk) idle(); else lock(); }, 60000); }
 
 /* Back: true while the reader stays open */
 function rBack() {
@@ -803,7 +804,7 @@ function copy() {
     if (a.i.value !== b.i.value) { msg.textContent = R.e2; return; }
     for (i = 0; i < x.t.length; i++) if (!cs.length || cs[i].checked) keep.push(i);
     if (!keep.length) { msg.textContent = R.e3; return; }
-    msg.textContent = ''; go.disabled = true;
+    msg.textContent = ''; go.disabled = true; mk = true;
     try {
       m = { v: 2, u: x.u, t: keep.map(function (i) { return Object.assign({}, x.t[i], { k: x.t[i].k.map(function (k) { return k.slice(); }) }); }) };
       parts = await build(p, m, function (i, j) { return piece(s.k, raw, x, keep[i], j); });
@@ -814,7 +815,7 @@ function copy() {
       });
       at = html.indexOf('\u0001');
       parts = [html.slice(0, at)].concat(b64parts(parts), [html.slice(at + 1)]);
-    } catch (e) { go.disabled = false; return; }
+    } catch (e) { go.disabled = false; return; } finally { mk = false; }
     if (S !== s || s.v.t !== 'copy') return;
     name = (f.i.value.trim().replace(/\.html?$/i, '').replace(/[\\\/:*?"<>|\u0000-\u001f]/g, '') || u.c.f) + '.html';
     ready(new Blob(parts, { type: 'text/html' }), name);
