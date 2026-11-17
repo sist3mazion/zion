@@ -97,11 +97,11 @@ La carpeta de fuentes lleva los zips USFM de eBible.org (`engfbv_usfm.zip`, `arb
 | vi | Biblica Open Vietnamese Contemporary Bible (2015) | CC BY-SA 4.0 | USFM eBible.org (`vieovcb`) |
 | my | Birmano, Common Language Bible (2005) | © Bible Society of Myanmar; dominio público fuera de Myanmar según eBible (permiso en trámite) | USFM eBible.org (`mya`); Cantares y Habacuc 3 de la Judson 1840 (`myajvb`, dominio público) |
 | ha | Hausa (Biblica) | CC BY-SA 4.0 | USFM eBible.org |
-| ckb | Kurdo sorani | CC BY-SA 4.0 | USFM eBible.org |
-| ug | Uigur (escritura árabe) | CC BY-SA 4.0 | USFM eBible.org |
+| ckb | Biblica Open Kurdi Sorani Standard Version (2020) | CC BY-SA 4.0 | USFM eBible.org (`ckb`) |
+| ug | Uigur (escritura árabe), Mukeddes Kalam (2010) | CC BY-SA 4.0 | USFM eBible.org (`uigara`) |
 | ur | Biblica Open Urdu Contemporary Version (2024) | CC BY-SA 4.0 | USFM eBible.org (`urdoucv`) |
 | tr | Yorumsuz Türkçe Çeviri (YTC, Turkish WEB) | **CC BY-ND 4.0**: hace falta permiso de İsmail Serinken | USFM eBible.org (`turytc`) |
-| so | Kitaabka Quduuska Ah (SIM) | **CC BY-NC-ND 3.0**: permite cambiar de formato sin tocar texto ni puntuación; confirmar con SIM que omitir notas y títulos entra | USFM eBible.org (`som`) |
+| so | Kitaabka Quduuska Ah (SIM) | **CC BY-NC-ND 4.0** (la fuente conserva también el aviso de la 3.0): permite cambiar de formato sin tocar texto ni puntuación; confirmar con SIM que omitir notas y títulos entra | USFM eBible.org (`som`) |
 | bo | New Tibetan Bible | **CC BY-NC-ND 4.0**: hace falta permiso del New Tibetan Bible Translation Committee | USFM eBible.org (`bodn`) |
 | fr | Sainte Bible néo-Crampon Libre (2022): modernización de la Crampon católica. Se reparten los 66 libros; se quitan los 7 deuterocanónicos | CC BY-SA 4.0 | USFM eBible.org (`francl`) |
 | pt | Bíblia Livre (BLIVRE, 2018): actualización de la Almeida de 1819 sobre el Textus Receptus | CC BY 4.0 (citar fuente y fecha de la versión) | USFM eBible.org (`porbr2018`) |
