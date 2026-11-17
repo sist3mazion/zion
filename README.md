@@ -26,7 +26,7 @@ Semilla sustituye a la primera versión de ZION (ZION Web/Core/Lite: PDF en clar
 2. Escribe la clave en **Buscar** y pulsa Intro.
 3. Para cerrar: ✕, Atrás, o cambia de aplicación.
 4. Para cambiar de idioma: **⋯ → Idioma**.
-5. Para dárselo a otra persona: **⋯ → Pasar una copia**, elige una clave nueva y dísela en persona. Puedes quitar idiomas (pesa menos) y elegir el idioma de las notas.
+5. Para dárselo a otra persona: **⋯ → Pasar una copia**, elige una clave nueva y dísela en persona. Por defecto la copia lleva solo el idioma que estás leyendo (pesa 2–4 MB en vez de ~32 MB y llama menos la atención); marca más idiomas si los necesitas. El idioma de las notas (la portada que se ve sin clave) sigue al primer idioma marcado hasta que lo cambies a mano.
 
 ## Cómo se genera (quien reparte)
 
