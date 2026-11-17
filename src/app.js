@@ -442,7 +442,7 @@ async function enter(v) {
 
 /* ---------- reader ---------- */
 var HD = { s: 1, S: 1, d: 1, r: 1, a: 1 };
-var ttl, pg, pn, mn;
+var ttl, pg, pn, mn, sb;
 
 function num(x) {
   var g = S && S.m.g;
@@ -452,7 +452,7 @@ function num(x) {
 function put(node) { wipe(pg); pg.appendChild(node); pg.scrollTop = 0; }
 function set(v) {
   if (v.t === 'books' || v.t === 'chap' || v.t === 'text') S.pv = v;
-  S.v = v; hold = false; mn.hidden = true; pn.hidden = v.t !== 'text'; S.tok++;
+  S.v = v; hold = false; mn.hidden = true; pn.hidden = v.t !== 'text'; sb.hidden = v.t === 'copy'; S.tok++;   // no search on the copy form: tapping it would discard what was typed
 }
 function item(icon, label, fn) {
   var b = el('button', 'it', ic(icon), el('span', null, label));
@@ -502,7 +502,7 @@ async function start(r) {
     item('moon', R.th, flip), x.t.length > 1 ? item('globe', R.lg, langs) : null, item('share', R.cp, copy), item('info', R.ab, about));
   mn.hidden = true;
   rd.appendChild(el('div', 'bar', btn('ib', 'x', R.x, function () { lock(); }), ttl,
-    btn('ib', 'search', R.s, find), btn('ib', 'more', R.m, function () { mn.hidden = !mn.hidden; })));
+    (sb = btn('ib', 'search', R.s, find)), btn('ib', 'more', R.m, function () { mn.hidden = !mn.hidden; })));
   rd.appendChild(pg); rd.appendChild(pn); rd.appendChild(mn);
   cv.hidden = true; rd.hidden = false; arm(); idle();
   var s = S;
