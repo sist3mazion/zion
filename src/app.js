@@ -516,11 +516,17 @@ async function start(r) {
   if (pos && S.m.b[pos.b]) text(pos.b, pos.c); else books();
 }
 
+/* name of a text in the language lists: the language itself; the version (it is in About) only if two texts share a language */
+function lname(x, t) {
+  var u = x.u[t.l];
+  return u && u.nm && !x.t.some(function (o) { return o !== t && o.l === t.l; }) ? u.nm : t.n;
+}
+
 function langs() {
   var w = el('div', 'gd lg');
   set({ t: 'lang' }); ttl.textContent = R.lg;
   S.x.t.forEach(function (t, i) {
-    var b = el('button', 'bk' + (i === S.ti ? ' on' : ''), t.n);
+    var b = el('button', 'bk' + (i === S.ti ? ' on' : ''), lname(S.x, t));
     b.type = 'button'; b.dir = t.d;
     b.onclick = function () { if (i === S.ti) books(); else use(i); };
     w.appendChild(b);
@@ -777,7 +783,7 @@ function copy() {
   if (x.t.length > 1) {
     box = el('fieldset', 'ck', el('legend', null, R.cl));
     x.t.forEach(function (t, i) {
-      var c = el('input'), n = el('span', null, t.n), l = el('label', null, c, n);
+      var c = el('input'), n = el('span', null, lname(x, t)), l = el('label', null, c, n);
       c.type = 'checkbox'; c.checked = i === S.ti; n.dir = t.d;
       c.onchange = follow;
       cs.push(c); box.appendChild(l);
