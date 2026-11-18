@@ -70,6 +70,11 @@ html.d .fab,html.d .pb{color:#121212}
 .tx .on{background:var(--hl);border-radius:4px}
 .pn{flex:none;display:flex;justify-content:space-between;align-items:center;padding:6px 14px;border-top:1px solid var(--ln)}
 .pn[hidden]{display:none}
+.rg{width:28px;height:28px;transform:rotate(-90deg);flex:none}
+.rg circle{fill:none;stroke-width:2.5}
+.rk{stroke:var(--ln)}
+.rv{stroke:var(--fg);stroke-dasharray:56.55;stroke-dashoffset:0;animation:rg 60s linear forwards}
+@keyframes rg{to{stroke-dashoffset:56.55}}
 .rb{width:44px;height:44px;border-radius:50%;border:1px solid var(--ln);background:var(--cd);display:flex;align-items:center;justify-content:center}
 .mn{position:absolute;top:56px;inset-inline-end:8px;z-index:5;min-width:236px;background:var(--cd);border:1px solid var(--ln);border-radius:16px;padding:6px;box-shadow:0 12px 32px rgba(0,0,0,.22)}
 .it{display:flex;align-items:center;gap:12px;width:100%;border:0;background:none;border-radius:10px;padding:11px 12px;text-align:start;font-size:16px}
