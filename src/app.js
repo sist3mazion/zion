@@ -442,7 +442,7 @@ async function enter(v) {
 
 /* ---------- reader ---------- */
 var HD = { s: 1, S: 1, d: 1, r: 1, a: 1 };
-var ttl, pg, pn, mn, sb;
+var ttl, pg, pn, mn, sb, bkb, rg, rgT = 0;
 
 function num(x) {
   var g = S && S.m.g;
@@ -452,7 +452,7 @@ function num(x) {
 function put(node) { wipe(pg); pg.appendChild(node); pg.scrollTop = 0; }
 function set(v) {
   if (v.t === 'books' || v.t === 'chap' || v.t === 'text') S.pv = v;
-  S.v = v; hold = false; mn.hidden = true; pn.hidden = v.t !== 'text'; sb.hidden = v.t === 'copy' || v.t === 'about'; S.tok++;   // search is hidden here: on the copy form it would throw away the typed key
+  S.v = v; hold = false; mn.hidden = true; pn.hidden = v.t !== 'text'; bkb.hidden = v.t === 'books'; sb.hidden = v.t === 'copy' || v.t === 'about'; S.tok++;   // search is hidden here: on the copy form it would throw away the typed key
 }
 function item(icon, label, fn) {
   var b = el('button', 'it', ic(icon), el('span', null, label));
@@ -496,12 +496,14 @@ async function start(r) {
   ttl = el('button', 'tt'); ttl.type = 'button';
   ttl.onclick = function () { var v = S.v; if (v.t === 'text') up(v.b); else books(); };
   pg = el('main', 'pg'); pg.onclick = function () { mn.hidden = true; };
-  pn = el('div', 'pn', btn('rb fl', 'back', R.pv, function () { step(-1); }), btn('rb fl', 'next', R.nx, function () { step(1); }));
+  rg = ring();
+  pn = el('div', 'pn', btn('rb fl', 'back', R.pv, function () { step(-1); }), rg, btn('rb fl', 'next', R.nx, function () { step(1); }));
   mn = el('div', 'mn',
     el('div', 'fr', el('span', null, R.f), btn('ib', 'minus', R.f + ' -', function () { size(-2); }), btn('ib', 'plus', R.f + ' +', function () { size(2); })),
     item('moon', R.th, flip), x.t.length > 1 ? item('globe', R.lg, langs) : null, item('share', R.cp, copy), item('info', R.ab, about));
   mn.hidden = true;
-  rd.appendChild(el('div', 'bar', btn('ib', 'x', R.x, function () { lock(); }), ttl,
+  bkb = btn('ib fl', 'back', R.bk, function () { if (S && S.v.t !== 'books') rBack(); });
+  rd.appendChild(el('div', 'bar', btn('ib', 'x', R.x, function () { lock(); }), bkb, ttl,
     (sb = btn('ib', 'search', R.s, find)), btn('ib', 'more', R.m, function () { mn.hidden = !mn.hidden; })));
   rd.appendChild(pg); rd.appendChild(pn); rd.appendChild(mn);
   cv.hidden = true; rd.hidden = false; arm(); idle();
@@ -543,7 +545,20 @@ function lock(fromPop) {
   if (!fromPop) disarm();
 }
 // one minute without touching the screen closes the reader; never in the middle of making a copy
-function idle() { clearTimeout(idleT); if (S) idleT = setTimeout(function () { if (mk) idle(); else lock(); }, 60000); }
+function idle() {
+  clearTimeout(idleT);
+  if (!S) return;
+  idleT = setTimeout(function () { if (mk) idle(); else lock(); }, 60000);
+  // the ring shows the minute running out; restarted at most once a second so scrolling stays smooth
+  if (rg && Date.now() - rgT > 1000) { var c = rg.lastChild; rgT = Date.now(); c.style.animation = 'none'; void c.getBoundingClientRect(); c.style.animation = ''; }
+}
+/* time left before the reader closes on its own: a circle that empties over the minute */
+function ring() {
+  var t = D.createElement('span');
+  t.innerHTML = '<svg class="rg" viewBox="0 0 24 24" aria-hidden="true"><circle class="rk" cx="12" cy="12" r="9"/><circle class="rv" cx="12" cy="12" r="9"/></svg>';
+  rgT = 0;
+  return t.firstChild;
+}
 
 /* Back: true while the reader stays open */
 function rBack() {
