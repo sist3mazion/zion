@@ -66,7 +66,7 @@ Dice si el archivo lleva exactamente el programa de este repositorio, sin nada a
 
 - **Cifrado**: ida y vuelta; clave incorrecta o un bit cambiado no abre; la clave que sale de Argon2id es idéntica a la de la implementación de referencia en C, y el formato lo descifra la criptografía estándar de Node sin usar la app.
 - **Lectura de traducciones**: USFM y USFX. Aparte de las pruebas automáticas, pasé 16 Biblias reales completas por el lector sin que quedara un solo resto de marcado.
-- **El archivo**: no contiene ninguna palabra delatora ni ninguna vía de red en claro; solo puede ejecutarse el código cuyo hash figura en él; dos archivos con el mismo texto y la misma clave no se parecen.
+- **El archivo**: no contiene ninguna palabra delatora ni ninguna vía de red en claro; el programa va sin comentarios (los del repo explican el diseño; en el archivo solo queda la licencia MIT de Argon2id), y `verificar.js` aplica la misma limpieza al comparar; solo puede ejecutarse el código cuyo hash figura en él; dos archivos con el mismo texto y la misma clave no se parecen.
 - **En navegador real** (Chrome sin interfaz, tamaño de móvil, sin red): notas, apertura, navegación, búsqueda, cierre por las cuatro vías, copia con clave nueva, árabe de derecha a izquierda con cifras propias, y funcionamiento sin descompresor nativo ni almacenamiento. Durante toda la sesión: cero errores y cero peticiones de red.
 
 La prueba de navegador necesita Playwright (`npm i -D playwright`); si no está, se salta sola.
