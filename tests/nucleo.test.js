@@ -35,15 +35,22 @@ test('cifrado: la clave se normaliza (NFC), así da igual cómo componga los ace
   assert.equal(new TextDecoder().decode(r.data), 'x');
 });
 
-test('cifrado: el formato es estándar (lo abre la criptografía de Node sin usar la app)', async () => {
-  const datos = enc('interoperable');
-  const caja = Buffer.from(await N.wrap('clave de prueba', datos));
-  const clave = nodeCrypto.pbkdf2Sync('clave de prueba', caja.subarray(0, 16), N.ITER, 32, 'sha256');
-  const d = nodeCrypto.createDecipheriv('aes-256-gcm', clave, caja.subarray(16, 28));
+test('cifrado: el formato es estándar (Argon2id igual que la implementación de referencia en C; AES-GCM de Node)', async () => {
+  // Argon2id('clave de prueba', sal 00..0f, 64 MiB, t=3, p=4, 32 bytes) calculado con la implementación de referencia en C (argon2-cffi)
+  const REF = Buffer.from('f5de01722eeadb3bcbeb804d6343b75e669882c3a69017e5405e371b9e9b5a7e', 'hex');
+  const sal = Buffer.from([...Array(16).keys()]), iv = nodeCrypto.randomBytes(12);
+  const c = nodeCrypto.createCipheriv('aes-256-gcm', REF, iv);
+  const cuerpo = Buffer.concat([c.update('interoperable'), c.final()]);
+  // una caja hecha solo con Node la abre la app: misma derivación de clave y mismo formato
+  const r = await N.unwrap('clave de prueba', new Uint8Array(Buffer.concat([sal, iv, cuerpo, c.getAuthTag()])));
+  assert.equal(new TextDecoder().decode(r.data), 'interoperable');
+  // y lo que cifra la app lo abre Node con esa clave
+  const k = await N.kdf('clave de prueba', new Uint8Array(sal));
+  const caja = Buffer.from(await N.seal(k, enc('de vuelta')));
+  const d = nodeCrypto.createDecipheriv('aes-256-gcm', REF, caja.subarray(0, 12));
   d.setAuthTag(caja.subarray(caja.length - 16));
-  const claro = Buffer.concat([d.update(caja.subarray(28, caja.length - 16)), d.final()]);
-  assert.equal(claro.toString(), 'interoperable');
-  assert.ok(N.ITER >= 600000, 'PBKDF2 por debajo de la recomendación OWASP');
+  assert.equal(Buffer.concat([d.update(caja.subarray(12, caja.length - 16)), d.final()]).toString(), 'de vuelta');
+  assert.deepEqual(N.KDF, { m: 65536, t: 3, p: 4 }, 'Argon2id por debajo de la segunda opción de RFC 9106');
 });
 
 test('descompresor propio = zlib, con todos los tipos de bloque', () => {

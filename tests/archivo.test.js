@@ -34,8 +34,9 @@ const RED_CSS = /url\s*\(|@import|@font-face/i;
 test('política de contenido: nada externo, y solo se ejecuta el script cuyo hash coincide', async () => {
   const { html } = await hacer();
   const p = partes(html);
-  assert.equal(p.csp, "default-src 'none'; script-src 'sha256-" + sha(p.js) + "'; style-src 'sha256-" + sha(p.css) + "'; base-uri 'none'; form-action 'none'");
-  assert.ok(!/unsafe|\*|https?:|data:|blob:/.test(p.csp));
+  assert.equal(p.csp, "default-src 'none'; script-src 'sha256-" + sha(p.js) + "' 'wasm-unsafe-eval'; style-src 'sha256-" + sha(p.css) + "'; base-uri 'none'; form-action 'none'");
+  // 'wasm-unsafe-eval' solo deja compilar el WebAssembly del Argon2id; nada más puede relajarse
+  assert.ok(!/unsafe|\*|https?:|data:|blob:/.test(p.csp.replace(" 'wasm-unsafe-eval'", '')));
   assert.ok(!/[^\n\x20-\x7e]/.test(p.js + p.css), 'el código debe ser ASCII puro');
   assert.ok(!html.includes('\r'));
 });
@@ -47,7 +48,10 @@ test('en claro no hay ni una palabra delatora ni una vía de red', async () => {
   const HASH = /'sha256-[A-Za-z0-9+/]{43}='/g;
   const bruto = html.replace(p.blob, '');
   assert.equal(bruto.match(HASH).length, 2);
-  const claro = bruto.replace(HASH, "'sha256-'");
+  // y los dos módulos WebAssembly del Argon2id van en base64, que también puede contener «//» por azar
+  const WASM = /"[A-Za-z0-9+/=]{1000,}"/g;
+  assert.equal(bruto.match(WASM).length, 2);
+  const claro = bruto.replace(HASH, "'sha256-'").replace(WASM, '""');
   assert.equal(DELATORAS.exec(claro), null);
   assert.equal(RED.exec(claro), null);
   assert.equal(RED_CSS.exec(p.css), null);
@@ -95,7 +99,7 @@ test('comprobar: reconoce el programa auténtico y detecta cualquier cambio fuer
   assert.equal(comprobar(html).ok, true);
   const p = partes(html);
   // un carácter del programa
-  assert.equal(comprobar(html.replace('var ITER = 1000000', 'var ITER = 1000001')).ok, false);
+  assert.equal(comprobar(html.replace('var HEAD = 52', 'var HEAD = 53')).ok, false);
   // un script añadido
   assert.equal(comprobar(html.replace('</body>', '<script>1</script></body>')).ok, false);
   // política relajada
@@ -111,7 +115,7 @@ test('comprobar: reconoce el programa auténtico y detecta cualquier cambio fuer
 });
 
 test('claves cortas se rechazan al generar', async () => {
-  await assert.rejects(hacer({ clave: 'corta' }), /al menos 8/);
+  await assert.rejects(hacer({ clave: 'quince caracter' }), /al menos 16/);
 });
 
 test('texto de derecha a izquierda y cifras propias', async () => {

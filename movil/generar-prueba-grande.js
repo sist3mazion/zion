@@ -15,6 +15,7 @@ const path = require('path');
 const crypto = require('crypto');
 const cp = require('child_process');
 const { cargarNucleo } = require('../lib/nucleo');
+const A2 = fs.readFileSync(path.join(__dirname, '..', 'src', 'argon2.js'), 'utf8');   // Argon2id, como la app
 
 const a = process.argv.slice(2), o = {};
 for (let i = 0; i < a.length; i += 2) o[a[i].replace(/^--/, '')] = a[i + 1];
@@ -51,7 +52,7 @@ function texto() {
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'unsafe-inline'; style-src 'unsafe-inline'; base-uri 'none'; form-action 'none'">
+<meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'unsafe-inline' 'wasm-unsafe-eval'; style-src 'unsafe-inline'; base-uri 'none'; form-action 'none'">
 <meta name="referrer" content="no-referrer">
 <title>Prueba de archivo grande</title>
 <style>
@@ -75,6 +76,7 @@ pre{white-space:pre-wrap;word-break:break-all;background:#f6f6f6;padding:8px;bor
 <script type="application/json" id="m">${JSON.stringify(meta)}</script>
 <script type="application/octet-stream" id="d">${blob}</script>
 <script>
+${A2}
 (function () {
 'use strict';
 var T0 = performance.now(), D = document;
