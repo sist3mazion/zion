@@ -104,3 +104,7 @@ mark{background:var(--hl);color:inherit;border-radius:3px;padding:0 1px}
 .ab h3{margin:0 0 10px;font-size:20px}
 .ab p{white-space:pre-wrap;line-height:1.6;margin:0 0 16px}
 .ab .nt{color:var(--mu);font-size:14px;border-top:1px solid var(--ln);padding-top:16px}
+.fm .ks{margin:6px 0 4px;padding:10px 14px;border:1px solid var(--ln);border-radius:12px;background:var(--cd);font-size:14px;color:var(--mu)}
+.fm .ks .kv{margin:6px 0 8px;font:600 20px/1.4 ui-monospace,Menlo,Consolas,monospace;letter-spacing:.04em;color:var(--fg);text-align:start;unicode-bidi:isolate}
+.fm .ks .kv[hidden]{display:none}
+.fm .ks .sb{color:var(--fg);margin:0}
