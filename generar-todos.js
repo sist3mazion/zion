@@ -14,7 +14,7 @@ const { leerArchivos, sinTitulos, sustituir, sinFinal, unVersiculoPorParrafo, pa
 const { leerLineas, faltantes } = require('./lib/lineas');
 const { leerCsv } = require('./lib/csv');
 const NOMBRES = require('./lib/nombres');
-const { construir, hayXz, CLAVE_MIN } = require('./lib/paquete');
+const { construir, hayXz, CLAVE_MIN, largo } = require('./lib/paquete');
 const UI = require('./src/ui');
 const { leerZip } = require('./lib/zip');
 const LISTA = require('./traducciones');
@@ -25,7 +25,7 @@ async function main() {
   const dir = o._[0], clave = o.clave || process.env.CLAVE;
   if (!dir || !clave) { console.error('Uso: node generar-todos.js <carpeta de fuentes> --clave "<clave>" [--salida dist/] [--ui es] [--solo es,ar]'); process.exit(1); }
   // antes de leer las fuentes, que tarda: la misma regla que aplica construir()
-  if (Array.from(clave.trim()).length < CLAVE_MIN) { console.error('Error: la clave debe tener al menos ' + CLAVE_MIN + ' caracteres (mejor cinco palabras al azar)'); process.exit(1); }
+  if (largo(clave.trim()) < CLAVE_MIN) { console.error('Error: la clave debe tener al menos ' + CLAVE_MIN + ' caracteres (mejor cinco palabras al azar)'); process.exit(1); }
   if (!hayXz()) console.log('AVISO: no encuentro la orden xz; comprimo con zlib (archivo ~40 % más grande).');
   const lista = [];
   const vref = path.join(dir, o.vref || 'vref.txt');

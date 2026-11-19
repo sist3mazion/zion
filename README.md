@@ -13,7 +13,7 @@ Objetivo de ZION: que alguien en un país con censura pueda **tener**, **leer** 
 - **Lector de texto, no PDF**: libros, capítulos, búsqueda en toda la Biblia sin acentos ni mayúsculas, tamaño de letra, modo oscuro, y retoma donde lo dejaste.
 - **Varios idiomas en un archivo**: **⋯ → Idioma** cambia de traducción. Solo se descifra lo que se lee.
 - **Se cierra al instante**: con ✕, con Atrás, con Escape o al cambiar de aplicación. Vuelve a las notas y borra el texto de la pantalla y de la memoria.
-- **Pasar una copia**: desde dentro se genera otro archivo con clave nueva. Es distinto byte a byte del original, así que no se puede detectar comparándolo con una lista de archivos conocidos. Por defecto lleva solo el idioma que se está leyendo; se pueden marcar más y elegir el idioma de las notas de la copia. Cualquier copia puede a su vez hacer copias. A cada persona hay que darle su propia copia: un mismo archivo reenviado a varias es idéntico en todas y una lista de huellas lo encuentra.
+- **Pasar una copia**: desde dentro se genera otro archivo con clave nueva. La pantalla propone una clave al azar de 20 cifras en grupos de cuatro (por ejemplo `4821 0937 5512 8846 0393`, 66 bits): cualquier teclado tiene cifras y en cualquier idioma se pueden dictar. Vale escrita con las cifras de cualquier alfabeto (٤٨٢١, ۴۸۲۱, ४८२१…) y con o sin espacios, guiones o puntos. «Otra» da otra distinta y se puede escribir una propia. Solo se ve en esa pantalla y no se guarda en ningún sitio. Es distinto byte a byte del original, así que no se puede detectar comparándolo con una lista de archivos conocidos. Por defecto lleva solo el idioma que se está leyendo; se pueden marcar más y elegir el idioma de las notas de la copia. Cualquier copia puede a su vez hacer copias. A cada persona hay que darle su propia copia: un mismo archivo reenviado a varias es idéntico en todas y una lista de huellas lo encuentra.
 - **No se conecta a nada**: el propio archivo prohíbe al navegador cualquier conexión.
 
 ## Historia
@@ -26,7 +26,7 @@ Semilla sustituye a la primera versión de ZION (ZION Web/Core/Lite: PDF en clar
 2. Escribe la clave en **Buscar** y pulsa Intro.
 3. Para cerrar: ✕, Atrás, o cambia de aplicación.
 4. Para cambiar de idioma: **⋯ → Idioma**.
-5. Para dárselo a otra persona: **⋯ → Pasar una copia**, elige una clave nueva y dísela en persona. Una copia para cada persona: no reenvíes el mismo archivo a varias. Por defecto la copia lleva solo el idioma que estás leyendo (pesa 2–4 MB en vez de ~32 MB y llama menos la atención); marca más idiomas si los necesitas. El idioma de las notas (la portada que se ve sin clave) sigue al primer idioma marcado hasta que lo cambies a mano.
+5. Para dárselo a otra persona: **⋯ → Pasar una copia**, usa la clave sugerida (o pulsa «Otra», o escribe la tuya) y dísela en persona o en un papel aparte, nunca por mensaje ni en una nota del teléfono. Una copia para cada persona: no reenvíes el mismo archivo a varias. Por defecto la copia lleva solo el idioma que estás leyendo (pesa 2–4 MB en vez de ~32 MB y llama menos la atención); marca más idiomas si los necesitas. El idioma de las notas (la portada que se ve sin clave) sigue al primer idioma marcado hasta que lo cambies a mano.
 
 ## Cómo se genera (quien reparte)
 
@@ -134,7 +134,7 @@ La carpeta de fuentes lleva los zips USFM de eBible.org (`engfbv_usfm.zip`, `arb
 ## Qué falta antes de dárselo a alguien en riesgo
 
 1. **Probarlo en teléfonos reales**, sobre todo Android antiguos. La clave se deriva con Argon2id en WebAssembly: un navegador que no lo permita dentro del archivo (`'wasm-unsafe-eval'`) no podrá abrirlo nunca, y quien lo intente creerá que la clave está mal. Comprobado solo en Chrome 157 (Android 10); faltan Brave, Samsung Internet, Firefox, navegadores antiguos e iPhone. abrir el archivo desde el gestor de archivos, desde WhatsApp y desde Telegram; que la clave abra; que «Enviar» funcione por Bluetooth. No sé todavía si todos los navegadores móviles permiten descifrar en un archivo abierto de esa forma. Con los 18 idiomas (~28 MB): probar en teléfonos de **1–2 GB de RAM** y medir cuánto tarda en pasar por Bluetooth.
-2. **Revisión por hablantes nativos** de la interfaz en los 19 idiomas que no son español ni inglés; primero las frases de clave y copia (`h1`, `hp`, `h2`, `e1`, `e2`). Los textos nuevos de idioma y copia (`nm`, `lg`, `cl`, `cc`, `e3` en `src/ui.js`) también son de IA.
+2. **Revisión por hablantes nativos** de la interfaz en los 19 idiomas que no son español ni inglés; primero las frases de clave y copia (`h1`, `hp`, `h2`, `e1`, `e2`). Los textos nuevos de idioma y copia (`nm`, `lg`, `cl`, `cc`, `e3`, `ks`, `ot` en `src/ui.js`) también son de IA.
 3. **Licencias**: elegir, para cada uno de los 21 idiomas, una traducción que se pueda redistribuir.
 4. **Auditoría externa** del cifrado y del modelo de amenazas.
 5. **Decidir el origen**: cómo llega la primera copia a cada país (ver [AMENAZAS.md](AMENAZAS.md)).

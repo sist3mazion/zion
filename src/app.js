@@ -29,8 +29,19 @@ function cat() {
    gains far less over a phone than with PBKDF2. A2 is hash-wasm (src/argon2.js), checked against the reference C code.
    The browser has no Argon2 of its own yet: this needs WebAssembly ('wasm-unsafe-eval' in the policy). */
 var KDF = { m: 65536, t: 3, p: 4 };
+/* the same key from any keyboard: a digit of any script counts as 0-9 (every Unicode series of ten digits
+   starts at its zero, so the value is the distance to the start of the run), and a key made only of digits,
+   spaces and punctuation keeps just the digits: 4821-0937 = 4821 0937 = 48210937 */
+function fold(pass) {
+  var nd = /\p{Nd}/u, s = pass.normalize('NFC').replace(/\p{Nd}/gu, function (c) {
+    var n = c.codePointAt(0), z = n;
+    while (nd.test(String.fromCodePoint(z - 1))) z--;
+    return String((n - z) % 10);
+  });
+  return /^[0-9\s\p{P}\p{Z}]+$/u.test(s) ? s.replace(/[^0-9]/g, '') : s;
+}
 async function kdf(pass, salt) {
-  var pw = te.encode(pass.normalize('NFC')), raw = null;
+  var pw = te.encode(fold(pass)), raw = null;
   try {
     raw = await A2.argon2id({ password: pw, salt: salt, parallelism: KDF.p, iterations: KDF.t, memorySize: KDF.m, hashLength: 32, outputType: 'binary' });
     return await crypto.subtle.importKey('raw', raw, 'AES-GCM', false, ['encrypt', 'decrypt']);
@@ -789,9 +800,27 @@ function field(label, type, value) {
   l.i = i;
   return l;
 }
+// suggested key: 20 random digits in groups of four (10^20, 66 bits). Every keyboard has digits and every
+// language can say them; fold() takes them from any script, with or without the spaces.
+function suggest() {
+  var s = '', r;
+  while (s.replace(/ /g, '').length < 20) {
+    r = rand(1)[0];
+    if (r >= 250) continue;               // 250 = 25 * 10: no bias
+    if (s.length % 5 === 4) s += ' ';
+    s += r % 10;
+  }
+  return s;
+}
 function copy() {
   var x = S.x, a = field(R.k1, 'password'), b = field(R.k2, 'password'), f = field(R.fn, 'text', U.f), msg = el('p', 'er');
   var go = el('button', 'pb', R.mk), cs = [], box = null, sel = null, nf = U.f, codes = Object.keys(x.u), touched = false;
+  // the key comes ready: seen only here, never stored; the person may ask for another or type their own
+  var kv = el('p', 'kv'), ot = el('button', 'sb', R.ot), kb = el('div', 'ks', el('span', null, R.ks), kv, ot);
+  function fill() { var k = suggest(); kv.textContent = k; kv.hidden = false; a.i.value = b.i.value = k; msg.textContent = ''; }
+  a.i.oninput = b.i.oninput = function () { kv.hidden = a.i.value !== kv.textContent || b.i.value !== kv.textContent; };
+  ot.type = 'button'; ot.onclick = fill; kv.dir = 'ltr';
+  fill();
   go.type = 'button';
   // the notes language follows the first text ticked, until the person picks one by hand
   function follow() {
@@ -822,7 +851,7 @@ function copy() {
   go.onclick = async function () {
     var s = S, p = a.i.value.trim(), keep = [], m, parts, html, at, cov = sel ? sel.value : LANG, u = x.u[cov] || { c: U }, name, i, same = cov === LANG;
     // a weak passphrase can be guessed offline without limit: 16 characters at least (spaces count)
-    if (Array.from(p).length < 16) { msg.textContent = R.e1; return; }
+    if (Array.from(fold(p)).length < 16) { msg.textContent = R.e1; return; }   // a key of digits counts its digits only
     if (a.i.value !== b.i.value) { msg.textContent = R.e2; return; }
     for (i = 0; i < x.t.length; i++) if (!cs.length || cs[i].checked) keep.push(i);
     if (!keep.length) { msg.textContent = R.e3; return; }
@@ -846,18 +875,19 @@ function copy() {
   // the last sentence of h1 (the passphrase rule) goes on its own line, in bold
   var h = /^([\s\S]*?[.!?\u3002\u0964\u06d4\u0f0d\u104b])\s*([^.!?\u3002\u0964\u06d4\u0f0d\u104b]+[.!?\u3002\u0964\u06d4\u0f0d\u104b]?)$/.exec(R.h1.trim());
   a.appendChild(el('p', 'hi', R.e1));
-  put(el('div', 'fm', h ? el('p', null, h[1]) : null, el('p', 'wn', h ? h[2] : R.h1), a, b, f, box, sel ? el('label', null, R.cc, sel) : null, msg, go));
+  put(el('div', 'fm', h ? el('p', null, h[1]) : null, el('p', 'wn', h ? h[2] : R.h1), kb, a, b, f, box, sel ? el('label', null, R.cc, sel) : null, msg, go));
 }
 function ready(blob, name) {
   var file = null, can = false, box = el('div', 'fm', el('p', null, R.h2)), b;
   try { file = new File([blob], name, { type: 'text/html' }); can = !!(navigator.canShare && navigator.canShare({ files: [file] })); } catch (e) { }
   if (can) {
     b = el('button', 'pb', R.sd); b.type = 'button';
-    b.onclick = function () { try { navigator.share({ files: [file] }).catch(function () { }); } catch (e) { } };
+    b.onclick = function () { brief(); try { navigator.share({ files: [file] }).catch(function () { }); } catch (e) { } };
     box.appendChild(b);
   }
   b = el('button', can ? 'sb' : 'pb', R.sv); b.type = 'button';
   b.onclick = function () {
+    brief();
     var u = URL.createObjectURL(blob), l = el('a');
     l.href = u; l.download = name; rd.appendChild(l); l.click(); rd.removeChild(l);
     setTimeout(function () { URL.revokeObjectURL(u); }, 60000);
@@ -867,7 +897,13 @@ function ready(blob, name) {
   b.onclick = function () { if (S) rBack(); };
   box.appendChild(b);
   put(box);
+}
+// the share sheet or the save prompt takes the focus away: no lock for that, only until the person is back
+function brief() {
+  var t = setTimeout(back, 60000);
+  function back() { clearTimeout(t); W.removeEventListener('focus', back); rd.removeEventListener('pointerdown', back, true); hold = false; }
   hold = true;
+  W.addEventListener('focus', back); rd.addEventListener('pointerdown', back, true);
 }
 function about() {
   set({ t: 'about' }); ttl.textContent = R.ab;
