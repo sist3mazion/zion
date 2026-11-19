@@ -13,7 +13,7 @@ Objetivo de ZION: que alguien en un país con censura pueda **tener**, **leer** 
 - **Lector de texto, no PDF**: libros, capítulos, búsqueda en toda la Biblia sin acentos ni mayúsculas, tamaño de letra, modo oscuro, y retoma donde lo dejaste.
 - **Varios idiomas en un archivo**: **⋯ → Idioma** cambia de traducción. Solo se descifra lo que se lee.
 - **Se cierra al instante**: con ✕, con Atrás, con Escape o al cambiar de aplicación. Vuelve a las notas y borra el texto de la pantalla y de la memoria.
-- **Pasar una copia**: desde dentro se genera otro archivo con clave nueva. Es distinto byte a byte del original, así que no se puede detectar comparándolo con una lista de archivos conocidos. Por defecto lleva todos los idiomas; se pueden quitar algunos para que pese menos y elegir el idioma de las notas de la copia. Cualquier copia puede a su vez hacer copias.
+- **Pasar una copia**: desde dentro se genera otro archivo con clave nueva. Es distinto byte a byte del original, así que no se puede detectar comparándolo con una lista de archivos conocidos. Por defecto lleva solo el idioma que se está leyendo; se pueden marcar más y elegir el idioma de las notas de la copia. Cualquier copia puede a su vez hacer copias. A cada persona hay que darle su propia copia: un mismo archivo reenviado a varias es idéntico en todas y una lista de huellas lo encuentra.
 - **No se conecta a nada**: el propio archivo prohíbe al navegador cualquier conexión.
 
 ## Historia
@@ -26,7 +26,7 @@ Semilla sustituye a la primera versión de ZION (ZION Web/Core/Lite: PDF en clar
 2. Escribe la clave en **Buscar** y pulsa Intro.
 3. Para cerrar: ✕, Atrás, o cambia de aplicación.
 4. Para cambiar de idioma: **⋯ → Idioma**.
-5. Para dárselo a otra persona: **⋯ → Pasar una copia**, elige una clave nueva y dísela en persona. Por defecto la copia lleva solo el idioma que estás leyendo (pesa 2–4 MB en vez de ~32 MB y llama menos la atención); marca más idiomas si los necesitas. El idioma de las notas (la portada que se ve sin clave) sigue al primer idioma marcado hasta que lo cambies a mano.
+5. Para dárselo a otra persona: **⋯ → Pasar una copia**, elige una clave nueva y dísela en persona. Una copia para cada persona: no reenvíes el mismo archivo a varias. Por defecto la copia lleva solo el idioma que estás leyendo (pesa 2–4 MB en vez de ~32 MB y llama menos la atención); marca más idiomas si los necesitas. El idioma de las notas (la portada que se ve sin clave) sigue al primer idioma marcado hasta que lo cambies a mano.
 
 ## Cómo se genera (quien reparte)
 
@@ -40,12 +40,12 @@ Hace falta [Node.js](https://nodejs.org) 20 o posterior y la orden `xz` (viene e
 node generar.js ruta/al/arb-vd_usfm.zip --idioma ar --nombre "فان دايك"
 ```
 
-Pedirá la clave por teclado (mínimo 8 caracteres; mejor tres palabras al azar) y dejará el archivo en `dist/`. Opciones útiles:
+Pedirá la clave por teclado (mínimo 16 caracteres, los espacios cuentan; mejor cinco palabras al azar) y dejará el archivo en `dist/`. Opciones útiles:
 
 | Opción | Para qué |
 |---|---|
 | `--solo NT` | Solo Nuevo Testamento (archivo cuatro veces más pequeño). También `AT` o una lista: `MAT,MRK,LUK,JHN` |
-| `--ui es` | Idioma de la portada y los menús. Hay: es, en, fr, pt, ru, ar, fa, zh, id, vi, my, tr, hi, ko |
+| `--ui es` | Idioma de la portada y los menús. Hay: es, en, fr, pt, ru, ar, fa, zh, id, vi, my, tr, hi, ko, bn, ha, ckb, ug, ur, so, bo |
 | `--ui-archivo x.json` | Textos propios para un idioma que no está en la lista |
 | `--acerca "…"` | Licencia y atribución que se muestran dentro. Si el zip trae `copr.htm`, se usa solo |
 | `--salida ruta.html` | Dónde guardar |
@@ -64,14 +64,14 @@ Dice si el archivo lleva exactamente el programa de este repositorio, sin nada a
 
 `npm test` ejecuta 48 pruebas sobre el código real (no sobre copias):
 
-- **Cifrado**: ida y vuelta; clave incorrecta o un bit cambiado no abre; el formato lo descifra la criptografía estándar de Node sin usar la app.
+- **Cifrado**: ida y vuelta; clave incorrecta o un bit cambiado no abre; la clave que sale de Argon2id es idéntica a la de la implementación de referencia en C, y el formato lo descifra la criptografía estándar de Node sin usar la app.
 - **Lectura de traducciones**: USFM y USFX. Aparte de las pruebas automáticas, pasé 16 Biblias reales completas por el lector sin que quedara un solo resto de marcado.
 - **El archivo**: no contiene ninguna palabra delatora ni ninguna vía de red en claro; solo puede ejecutarse el código cuyo hash figura en él; dos archivos con el mismo texto y la misma clave no se parecen.
 - **En navegador real** (Chrome sin interfaz, tamaño de móvil, sin red): notas, apertura, navegación, búsqueda, cierre por las cuatro vías, copia con clave nueva, árabe de derecha a izquierda con cifras propias, y funcionamiento sin descompresor nativo ni almacenamiento. Durante toda la sesión: cero errores y cero peticiones de red.
 
 La prueba de navegador necesita Playwright (`npm i -D playwright`); si no está, se salta sola.
 
-Medidas con la Biblia completa en español, en Chrome de escritorio frenado 6× para imitar un móvil modesto: abrir 0,6 s, abrir un libro 0,2 s, primera búsqueda en toda la Biblia 3,7 s, las siguientes 0,7 s, unos 25–30 MB de memoria. La derivación de la clave no se frena con ese método, así que en un teléfono real abrir tardará más (estimación: 1–3 s).
+Medidas con la Biblia completa en español, en Chrome de escritorio frenado 6× para imitar un móvil modesto: abrir 0,6 s, abrir un libro 0,2 s, primera búsqueda en toda la Biblia 3,7 s, las siguientes 0,7 s, unos 25–30 MB de memoria. Esas medidas son de cuando la clave se derivaba con PBKDF2. La derivación con Argon2id, medida aparte en dos teléfonos Android 10 de 4 GB con Chrome 157: 0,7 s (con PBKDF2 eran 0,36 s); usa 64 MiB de memoria mientras dura.
 
 Con 18 idiomas en un archivo (27,7 MB; con francés, portugués y coreano serán unos 32 MB, estimado y sin medir), en el mismo Chrome frenado 6×: cargar el archivo 2,0 s, abrir con la clave 0,5 s, cambiar de idioma 0,2 s, abrir un libro en birmano (el idioma más pesado) 0,6 s, buscar en chino 0,8 s, hacer una copia con los 18 idiomas 2,5 s; memoria de JavaScript 34 MB leyendo y 81 MB tras copiar. En un Samsung de gama de entrada (Android 10, 4 GB), desde WhatsApp, la página de prueba del mismo tamaño abre bien (ver [AMENAZAS.md](AMENAZAS.md#pruebas-en-teléfonos-reales)). **No está probado en teléfonos de 1–2 GB.**
 
@@ -79,7 +79,7 @@ Para probar un teléfono sin llevar ninguna Biblia: `node movil/generar-prueba-g
 
 ## Traducciones incluidas (21 idiomas)
 
-`node generar-todos.js <carpeta de fuentes> --clave "<clave>"` genera **un solo archivo** con todas las filas de [traducciones.js](traducciones.js) (`dist/notas.html`, 27,7 MB con 18 idiomas y unos 32 MB con los 21, estimado; con zlib serían ~38 MB). `--solo es,ar` deja solo esas; `--ui` elige el idioma de la portada. Una copia con uno o dos idiomas pesa 2–4 MB.
+`node generar-todos.js <carpeta de fuentes> --clave "<clave de 16 caracteres o más>"` genera **un solo archivo** con todas las filas de [traducciones.js](traducciones.js) (`dist/notas.html`, 27,7 MB con 18 idiomas y unos 32 MB con los 21, estimado; con zlib serían ~38 MB). `--solo es,ar` deja solo esas; `--ui` elige el idioma de la portada. Una copia con uno o dos idiomas pesa 2–4 MB.
 Solo entran obras de dominio público o con licencia que permite repartirlas (CC BY-SA, CC BY-NC); se prefieren las traducciones modernas; las antiguas de dominio público solo donde no hay una moderna abierta. Cada archivo lleva su licencia dentro («Acerca de»).
 La carpeta de fuentes lleva los zips USFM de eBible.org (`engfbv_usfm.zip`, `arbnav_usfm.zip`, …), el USFX de open-bibles (`spa-vbl.usfx.xml`), el zip del repositorio de Door43 (`ru_rob.zip`) y `eng.vrs`.
 
@@ -133,7 +133,7 @@ La carpeta de fuentes lleva los zips USFM de eBible.org (`engfbv_usfm.zip`, `arb
 
 ## Qué falta antes de dárselo a alguien en riesgo
 
-1. **Probarlo en teléfonos reales**, sobre todo Android antiguos: abrir el archivo desde el gestor de archivos, desde WhatsApp y desde Telegram; que la clave abra; que «Enviar» funcione por Bluetooth. No sé todavía si todos los navegadores móviles permiten descifrar en un archivo abierto de esa forma. Con los 18 idiomas (~28 MB): probar en teléfonos de **1–2 GB de RAM** y medir cuánto tarda en pasar por Bluetooth.
+1. **Probarlo en teléfonos reales**, sobre todo Android antiguos. La clave se deriva con Argon2id en WebAssembly: un navegador que no lo permita dentro del archivo (`'wasm-unsafe-eval'`) no podrá abrirlo nunca, y quien lo intente creerá que la clave está mal. Comprobado solo en Chrome 157 (Android 10); faltan Brave, Samsung Internet, Firefox, navegadores antiguos e iPhone. abrir el archivo desde el gestor de archivos, desde WhatsApp y desde Telegram; que la clave abra; que «Enviar» funcione por Bluetooth. No sé todavía si todos los navegadores móviles permiten descifrar en un archivo abierto de esa forma. Con los 18 idiomas (~28 MB): probar en teléfonos de **1–2 GB de RAM** y medir cuánto tarda en pasar por Bluetooth.
 2. **Revisión por hablantes nativos** de la interfaz en los 19 idiomas que no son español ni inglés; primero las frases de clave y copia (`h1`, `hp`, `h2`, `e1`, `e2`). Los textos nuevos de idioma y copia (`nm`, `lg`, `cl`, `cc`, `e3` en `src/ui.js`) también son de IA.
 3. **Licencias**: elegir, para cada uno de los 21 idiomas, una traducción que se pueda redistribuir.
 4. **Auditoría externa** del cifrado y del modelo de amenazas.
@@ -145,6 +145,7 @@ La carpeta de fuentes lleva los zips USFM de eBible.org (`engfbv_usfm.zip`, `arb
   generar.js        el comando que crea el archivo
   verificar.js      comprueba que un archivo lleva el programa auténtico
   src/app.js        la app (portada + lector). Va tal cual dentro del archivo, sin minificar
+  src/argon2.js     Argon2id para derivar la clave (hash-wasm 4.13.0, licencia MIT, sin cambios). Va delante de la app
   src/app.css       estilos
   src/ui.js         textos de la interfaz por idioma
   lib/texto.js      lee USFM y USFX
@@ -160,7 +161,7 @@ La carpeta de fuentes lleva los zips USFM de eBible.org (`engfbv_usfm.zip`, `arb
   movil/            páginas de diagnóstico para teléfonos (sin Biblia)
 ```
 
-Sin dependencias dentro del archivo. Para generar: Node y, para LZMA, la orden `xz`.
+Dentro del archivo solo va una librería de terceros: el Argon2id de hash-wasm (`src/argon2.js`, licencia MIT; su cabecera lleva la huella del original para comprobar que no se ha tocado). Para generar: Node y, para LZMA, la orden `xz`.
 
 ## Cómo se contribuye
 

@@ -117,7 +117,7 @@ async function main() {
 
   let clave = o.clave || process.env.CLAVE || '';
   if (!clave) {
-    clave = await pedirClave('Clave de apertura (mínimo ' + CLAVE_MIN + ' caracteres; mejor tres palabras): ');
+    clave = await pedirClave('Clave de apertura (mínimo ' + CLAVE_MIN + ' caracteres; mejor cinco palabras al azar): ');
     if (clave !== await pedirClave('Repite la clave: ')) throw new Error('Las claves no coinciden');
   }
 

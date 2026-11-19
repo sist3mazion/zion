@@ -21,13 +21,14 @@ Hay que decírselo con claridad a quien lo reciba.
 
 - **De alguien que conoce esta herramienta.** El código es público. Quien lo haya estudiado reconocerá el archivo por su programa, aunque no pueda abrirlo. Semilla resiste listas de huellas y búsquedas de palabras; no resiste un detector hecho a medida.
 - **De que te obliguen a dar la clave.** No hay clave falsa ni contenido señuelo.
-- **De una clave débil.** Con el archivo en la mano se pueden probar claves sin límite. Cada intento cuesta 1 000 000 rondas de PBKDF2; una clave de cuatro cifras cae enseguida con una tarjeta gráfica; tres palabras al azar, no. Por eso «Pasar una copia» exige como mínimo 16 caracteres (los espacios cuentan): una frase de cuatro palabras ya llega.
+- **De una clave débil.** Con el archivo en la mano se pueden probar claves sin límite. Cada intento cuesta una derivación Argon2id con 64 MiB de memoria: una tarjeta gráfica de gama alta (RTX 4090) prueba unas 1 700 claves por segundo (con el PBKDF2 de antes eran unas 8 900). Una clave de cuatro cifras cae enseguida, y una frase adivinable también: quien persigue a cristianos probará primero versículos y frases religiosas. Cinco palabras elegidas al azar, no. Por eso «Pasar una copia» y el generador exigen como mínimo 16 caracteres (los espacios cuentan), pero el mínimo no garantiza nada: lo que protege es el azar.
 - **De un teléfono intervenido.** Si hay un programa espía, ve la pantalla y lo que se teclea.
 - **Del teclado.** La clave se escribe en un campo de búsqueda normal. Se le pide al teclado que no sugiera ni corrija, pero algunos teclados aprenden lo que se escribe. Conviene comprobar en el teléfono real que la clave no aparece luego como sugerencia.
 - **De los rastros del sistema.** El nombre del archivo en «Descargas», el historial del navegador («Notas») y la miniatura de aplicaciones recientes quedan fuera del control del archivo.
 - **De quien te lo pasó.** Si esa persona es detenida y conoce tu clave, la conoce.
 - **De lo que queda en las aplicaciones de mensajería.** Si el archivo llega por WhatsApp o Telegram, el chat guarda el nombre del archivo, quién lo envió y cuándo, y la miniatura de esa app en «recientes» puede enseñarlo. Semilla no puede borrar nada de eso. Mejor pasarlo sin red (tarjeta, cable, Bluetooth) y borrar el mensaje.
 - **De la miniatura de «recientes», en todos los teléfonos.** Android hace una foto de la pantalla al cambiar de aplicación. Semilla se cierra al perder el foco para que la foto muestre las notas; en el único teléfono probado llega a tiempo, pero una página web no puede garantizarlo. Lo seguro es cerrar con ✕ antes de salir.
+- **De que el mismo archivo pase de mano en mano.** Cada copia hecha con «Pasar una copia» es única; un archivo reenviado tal cual a varias personas es idéntico en todas, y una lista de huellas (como las que usan los escáneres de teléfonos de Xinjiang) lo encuentra en todos. Una copia para cada persona.
 - **De una copia trampa.** Alguien puede repartir un archivo modificado que parezca igual. En el teléfono no hay forma de distinguirlo; quien reparte sí puede comprobarlo con `verificar.js` antes de pasarlo.
 
 ## Decisiones y motivos
@@ -36,13 +37,13 @@ Hay que decírselo con claridad a quien lo reciba.
 
 **Sin autodestrucción.** El archivo no puede borrarse a sí mismo del teléfono; una pantalla negra con un «sistema detenido» llama más la atención que unas notas. Cerrar es volver a las notas, nada más.
 
-**Sin red.** Ni fuentes, ni enlaces, ni descargas, ni tráfico de camuflaje. El tráfico señuelo hacia una lista fija de dominios identifica a quien lo usa. La política de contenido del archivo es `default-src 'none'` y solo admite el script y los estilos cuyo hash lleva escrito.
+**Sin red.** Ni fuentes, ni enlaces, ni descargas, ni tráfico de camuflaje. El tráfico señuelo hacia una lista fija de dominios identifica a quien lo usa. La política de contenido del archivo es `default-src 'none'` y solo admite el script y los estilos cuyo hash lleva escrito, y compilar el WebAssembly que va dentro de ese script.
 
 **Texto y no PDF.** Casi nueve veces menos peso, se abre al instante, se puede buscar y ajustar la letra, y no arrastra un visor de PDF de un megabyte.
 
-**La copia cambia de clave.** Quien pasa el archivo elige una clave nueva para el siguiente. Así ninguna copia es igual a otra y cada persona solo conoce su clave y las que ella misma ha dado. Por defecto la copia lleva todos los idiomas; se pueden quitar algunos (archivo más pequeño) y cambiar el idioma de las notas.
+**La copia cambia de clave.** Quien pasa el archivo elige una clave nueva para el siguiente. Así ninguna copia es igual a otra y cada persona solo conoce su clave y las que ella misma ha dado. Por defecto la copia lleva solo el idioma que se está leyendo (archivo más pequeño); se pueden marcar más y cambiar el idioma de las notas.
 
-**Criptografía del navegador, sin inventar nada.** PBKDF2-SHA256 (1 000 000 rondas) y AES-256-GCM de WebCrypto. No hay implementación propia de ningún algoritmo de cifrado. El código «propio» sensible son dos descompresores: LZMA (el que se usa siempre) y zlib de reserva. Los dos se ejecutan después de que AES-GCM haya verificado la autenticidad del bloque, y ante datos dañados lanzan error en vez de colgarse.
+**Criptografía estándar, sin inventar nada.** AES-256-GCM de WebCrypto y, para derivar la clave, Argon2id con la segunda opción de RFC 9106 (64 MiB, 3 pasadas, 4 carriles). El navegador aún no trae Argon2: va como WebAssembly de la librería hash-wasm (MIT), sin cambios respecto a la publicada (`src/argon2.js` lleva la huella del original), y los tests comprueban que da exactamente lo mismo que la implementación de referencia en C. Se cambió desde PBKDF2 tras medirlo en teléfonos de 4 GB: con la misma espera, Argon2id frena 2,6 veces más a una tarjeta gráfica, y mucho más a un hardware hecho a medida, porque cada intento necesita 64 MiB de memoria. La sal se queda en 128 bits, lo que recomienda RFC 9106. No hay implementación propia de ningún algoritmo de cifrado. El código «propio» sensible son dos descompresores: LZMA (el que se usa siempre) y zlib de reserva. Los dos se ejecutan después de que AES-GCM haya verificado la autenticidad del bloque, y ante datos dañados lanzan error en vez de colgarse.
 
 ## El origen
 
@@ -54,7 +55,7 @@ Cómo llega la primera copia a un país es el punto más delicado y no lo resuel
 
 ## Para quien audite
 
-**Formato.** `base64( sal[16] ‖ caja(u32le posición, u32le longitud del índice) ‖ bloques ‖ caja(índice) ‖ cola aleatoria de 0–65 535 bytes )`, con `caja = iv[12] ‖ AES-256-GCM(clave, iv, datos)` y `clave = PBKDF2-HMAC-SHA256(frase en NFC, sal, 1 000 000, 32 bytes)`. Una sola derivación de clave; cada caja lleva su propio IV aleatorio (un archivo de 18 idiomas tiene ~110 cajas). Sin cabecera, firma ni versión en claro: las fronteras entre cajas solo se conocen tras descifrar el índice. Sal, IV y cola salen de `crypto.getRandomValues` y se renuevan en cada copia.
+**Formato.** `base64( sal[16] ‖ caja(u32le posición, u32le longitud del índice) ‖ bloques ‖ caja(índice) ‖ cola aleatoria de 0–65 535 bytes )`, con `caja = iv[12] ‖ AES-256-GCM(clave, iv, datos)` y `clave = Argon2id(frase en NFC, sal, m = 64 MiB, t = 3, p = 4, 32 bytes)`. Una sola derivación de clave; cada caja lleva su propio IV aleatorio (un archivo de 18 idiomas tiene ~110 cajas). Sin cabecera, firma ni versión en claro: las fronteras entre cajas solo se conocen tras descifrar el índice. Sal, IV y cola salen de `crypto.getRandomValues` y se renuevan en cada copia.
 
 **Datos asociados.** El índice se cifra con `"i"` y el bloque *j* de la traducción *i* con `"i.j"`: una caja no se puede mover a otro sitio del archivo sin que falle la verificación.
 
@@ -70,7 +71,8 @@ Cómo llega la primera copia a un país es el punto más delicado y no lo resuel
 
 **Puntos débiles que ya conozco.**
 
-- PBKDF2 es más barato de atacar con GPU que Argon2 o scrypt, que WebCrypto no ofrece.
+- Argon2id va en WebAssembly de terceros porque WebCrypto aún no lo ofrece: es código que no se lee como texto (lo acotan su huella y la comparación con la referencia en C), y obliga a admitir `'wasm-unsafe-eval'` en la política. Un navegador que no lo admita no puede abrir el archivo, y quien lo intente creerá que la clave está mal.
+- La memoria de Argon2id (64 MiB) no se borra a mano: la libera el recolector.
 - JavaScript no garantiza el borrado de memoria: las cadenas ya creadas (texto del capítulo en pantalla, índice de búsqueda) las libera el recolector cuando quiere.
 - El programa es idéntico en todas las copias; solo varía el bloque cifrado.
 - La clave pasa por un campo de texto visible.
@@ -84,7 +86,7 @@ Cómo llega la primera copia a un país es el punto más delicado y no lo resuel
 | Teléfono | Cómo se abrió | Resultado |
 |---|---|---|
 | Motorola, Android 10, Brave | Desde WhatsApp (`content://`) | Descifra (contexto seguro, WebCrypto y descompresor nativo). Clave en ~0,1 s. Las notas persisten al cerrar y reabrir. Bajar las notificaciones no cierra el lector. El teclado no sugirió la palabra de prueba (escrita una vez). Miniatura de «recientes»: muestra la Biblia con solo `visibilitychange`; muestra las notas al cerrar también en `blur` |
-
 | Samsung de gama de entrada, Android 10, Chrome 157, 4 GB | Desde WhatsApp | `movil/generar-prueba-grande.js` (25 MB, sin Biblia, mismo tamaño y descompresor que el archivo de 18 idiomas): abre. Carga 1,2 s; clave y descifrado 0,24 s; descomprimir 16,8 MB de texto birmano de una vez 0,69 s |
+| Dos teléfonos Android 10, 4 GB, 8 núcleos, Chrome 157 | Desde WhatsApp | Página de prueba de la clave (sin Biblia): Argon2id con 64 MiB 0,7 s (PBKDF2 con 1 000 000 de rondas, 0,36 s); con 128 MiB, 1,4 s. WebAssembly permitido con la política del archivo y resultado idéntico a la referencia en C |
 
 Sin probar: **teléfonos con 1–2 GB de RAM** (frecuentes en las zonas de destino), el archivo real de 18 idiomas en un teléfono (solo la página de prueba del mismo tamaño), otros fabricantes, abrir desde el gestor de archivos o Telegram, iPhone.

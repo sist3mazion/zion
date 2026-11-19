@@ -142,7 +142,7 @@ pre{white-space:pre-wrap;word-break:break-word;background:#f6f6f6;padding:8px;bo
     }
     var okT = tiempos.every(function (x) { return typeof x === 'number'; });
     var med = okT ? Math.round(tiempos.reduce(function (a, b) { return a + b; }, 0) / tiempos.length) : 0;
-    row(tm, 'PBKDF2 600.000 rondas (3 pruebas, ms)', tiempos.join(' / '), okT ? (med > 2500 ? 'na' : 'ok') : 'no');
+    row(tm, 'PBKDF2 1.000.000 rondas (3 pruebas, ms)', tiempos.join(' / '), okT ? (med > 2500 ? 'na' : 'ok') : 'no');
     if (okT) {
       var r2 = await sub(0, async function () {
         var data = new Uint8Array(2 * 1024 * 1024);

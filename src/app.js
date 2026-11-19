@@ -3,7 +3,7 @@
 var D = document, W = window, SELF = D.currentScript ? D.currentScript.textContent : '';
 
 /* <core> */
-var ITER = 1000000, te = new TextEncoder(), td = new TextDecoder();
+var te = new TextEncoder(), td = new TextDecoder();
 
 function b64d(s) {
   var bin = atob(s), n = bin.length, a = new Uint8Array(n), i;
@@ -24,11 +24,17 @@ function cat() {
   return o;
 }
 
-/* PBKDF2-SHA256 -> AES-256-GCM. Layout: salt(16) | iv(12) | ciphertext+tag */
+/* Argon2id -> AES-256-GCM. Layout: salt(16) | iv(12) | ciphertext+tag
+   Argon2id with the second option of RFC 9106 (64 MiB, 3 passes, 4 lanes): memory-hard, so a graphics card
+   gains far less over a phone than with PBKDF2. A2 is hash-wasm (src/argon2.js), checked against the reference C code.
+   The browser has no Argon2 of its own yet: this needs WebAssembly ('wasm-unsafe-eval' in the policy). */
+var KDF = { m: 65536, t: 3, p: 4 };
 async function kdf(pass, salt) {
-  var base = await crypto.subtle.importKey('raw', te.encode(pass.normalize('NFC')), 'PBKDF2', false, ['deriveKey']);
-  return crypto.subtle.deriveKey({ name: 'PBKDF2', salt: salt, iterations: ITER, hash: 'SHA-256' }, base,
-    { name: 'AES-GCM', length: 256 }, false, ['encrypt', 'decrypt']);
+  var pw = te.encode(pass.normalize('NFC')), raw = null;
+  try {
+    raw = await A2.argon2id({ password: pw, salt: salt, parallelism: KDF.p, iterations: KDF.t, memorySize: KDF.m, hashLength: 32, outputType: 'binary' });
+    return await crypto.subtle.importKey('raw', raw, 'AES-GCM', false, ['encrypt', 'decrypt']);
+  } finally { pw.fill(0); if (raw) raw.fill(0); }
 }
 /* ad: optional additional data, ties a box to its place in the file */
 function gcm(iv, ad) { var p = { name: 'AES-GCM', iv: iv }; if (ad) p.additionalData = te.encode(ad); return p; }
