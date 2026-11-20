@@ -64,7 +64,7 @@ Cómo llega la primera copia a un país es el punto más delicado y no lo resuel
 **Dónde mirar.**
 
 - `src/app.js`, entre `/* <core> */` y `/* </core> */`: todo el cifrado y el ensamblado. Es el mismo código que usa el generador.
-- `open()`: único punto donde se prueba una clave (desde `enter()`). `lock()`: sobrescribe con ceros los bloques descifrados y vacía el lector.
+- `open()`: único punto donde se prueba una clave (desde `enter()`). `lock()`: sobrescribe con ceros los bloques descifrados, suelta los libros y el índice de búsqueda, y vacía el lector. Un bloque que se termina de descifrar después de cerrar se sobrescribe con ceros sin llegar a usarse.
 - `build()`: el mismo código monta el archivo en el generador y la copia en el móvil. La copia descifra cada bloque y lo vuelve a cifrar con la clave nueva; no recomprime.
 - `assemble()`: la copia reutiliza literalmente el script, los estilos y la política del archivo original; solo cambia el bloque cifrado.
 - La posición de lectura se guarda cifrada con la misma clave. Las notas y las preferencias de aspecto se guardan en claro: son la portada.
@@ -73,9 +73,9 @@ Cómo llega la primera copia a un país es el punto más delicado y no lo resuel
 
 - Argon2id va en WebAssembly de terceros porque WebCrypto aún no lo ofrece: es código que no se lee como texto (lo acotan su huella y la comparación con la referencia en C), y obliga a admitir `'wasm-unsafe-eval'` en la política. Un navegador que no lo admita no puede abrir el archivo, y quien lo intente creerá que la clave está mal.
 - La memoria de Argon2id (64 MiB) no se borra a mano: la libera el recolector.
-- JavaScript no garantiza el borrado de memoria: las cadenas ya creadas (texto del capítulo en pantalla, índice de búsqueda) las libera el recolector cuando quiere.
+- JavaScript no garantiza el borrado de memoria: al cerrar se sueltan los libros y el índice de búsqueda, pero las cadenas ya creadas (texto del capítulo, índice) siguen en memoria hasta que el recolector las libera.
 - El programa es idéntico en todas las copias; solo varía el bloque cifrado.
-- La clave pasa por un campo de texto visible.
+- La clave se ve mientras se escribe: es el buscador de notas. Un campo de contraseña (con puntos) delataría el disfraz, y el gestor de contraseñas del teléfono ofrecería guardarla. Al pulsar Intro desaparece, correcta o no, y si se cambia de aplicación mientras se comprueba, el lector no se abre.
 - El tamaño del archivo, aun con la cola aleatoria, delata el orden de magnitud del contenido. Con los 18 idiomas son ~28 MB: un «bloc de notas» de ese tamaño llama la atención si alguien revisa el teléfono. Una copia con uno o dos idiomas pesa 2–4 MB.
 - Los textos de la interfaz no se borran de memoria al cerrar (son cadenas de JavaScript); el índice tampoco.
 
