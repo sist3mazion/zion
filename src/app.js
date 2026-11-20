@@ -536,6 +536,8 @@ async function start(r) {
   for (i = 0; i < x.t.length; i++) if (pos && x.t[i].l === pos.l && ti < 0) ti = i;
   if (ti < 0) { pos = null; for (i = 0; i < x.t.length; i++) if (x.t[i].l === LANG && ti < 0) ti = i; }
   S = fresh(s.k, x, ti < 0 ? 0 : ti, null, null);
+  // first time with this copy (no reading position yet): a short notice above the books; nothing new is stored for it
+  S.fi = !c;
   pn.dir = S.m.d;
   if (pos && S.m.b[pos.b]) text(pos.b, pos.c); else books();
 }
@@ -629,6 +631,11 @@ function books() {
     g.appendChild(b);
   });
   var w = el('div');
+  if (S.fi) {
+    var ok = el('button', 'sb', R.ok), fi = el('div', 'fi', el('p', null, R.fi), ok);
+    ok.type = 'button'; ok.onclick = function () { if (S) S.fi = false; fi.remove(); };
+    w.appendChild(fi);
+  }
   w.appendChild(g);
   if (S.m.dd) {
     var q = S.m.dd, d = el('section', 'dd', el('h2', null, q[1]), el('p', null, q[2]), el('p', null, q[3]), bold(q[4]));
@@ -881,7 +888,7 @@ function copy() {
   // the last sentence of h1 (the passphrase rule) goes on its own line, in bold
   var h = /^([\s\S]*?[.!?\u3002\u0964\u06d4\u0f0d\u104b])\s*([^.!?\u3002\u0964\u06d4\u0f0d\u104b]+[.!?\u3002\u0964\u06d4\u0f0d\u104b]?)$/.exec(R.h1.trim());
   a.appendChild(el('p', 'hi', R.e1));
-  put(el('div', 'fm', h ? el('p', null, h[1]) : null, el('p', 'wn', h ? h[2] : R.h1), kb, a, b, f, box, sel ? el('label', null, R.cc, sel) : null, msg, go));
+  put(el('div', 'fm', h ? el('p', null, h[1]) : null, el('p', 'wn', h ? h[2] : R.h1), el('p', 'wn', R.h3), kb, a, b, f, box, sel ? el('label', null, R.cc, sel) : null, msg, go));
 }
 function ready(blob, name) {
   var file = null, can = false, box = el('div', 'fm', el('p', null, R.h2)), b;
@@ -913,7 +920,7 @@ function brief() {
 }
 function about() {
   set({ t: 'about' }); ttl.textContent = R.ab;
-  put(el('div', 'ab', el('h3', null, S.m.n), S.m.a ? el('p', null, S.m.a) : null, el('p', 'nt', R.hp)));
+  put(el('div', 'ab', el('h3', null, S.m.n), S.m.a ? el('p', null, S.m.a) : null, el('p', 'nt', R.hp + '\n' + R.nc)));
 }
 
 /* ---------- lifecycle ---------- */
