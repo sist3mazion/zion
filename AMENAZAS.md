@@ -33,7 +33,7 @@ Hay que decírselo con claridad a quien lo reciba.
   - Quien recibe su primera copia depende de quien se la da. La comprueba quien reparte, con `verificar.js`, antes de pasarla.
   - Lo más importante es comprobar a quien va a **hacer** copias: una copia trampa contagia la trampa a todas las que se hagan desde ella.
   - Quien ya tiene una copia buena no necesita otra: no hay que aceptar «versiones nuevas» de nadie.
-  - `verificar.js` solo reconoce el programa de la versión actual del repositorio: una copia legítima hecha con una versión anterior sale «NO AUTÉNTICO». Antes de repartir hay que congelar el programa y publicar la lista de versiones válidas.
+  - `verificar.js` reconoce todas las versiones publicadas del programa (`versiones.json`) y dice cuál lleva la copia. Hay que verificar con el repositorio actualizado: con una lista antigua, una copia legítima de una versión más nueva saldría «NO AUTÉNTICO». Una versión con aviso es auténtica, pero conviene sustituirla por una copia de la versión actual hecha por alguien de confianza.
   - Si hay que abrir un archivo de origen dudoso, no escribir la clave. El modo avión no basta: los archivos HTML abiertos en el mismo navegador comparten el almacenamiento (comprobado en Chromium con archivos locales; en Android, sin comprobar), así que una trampa puede leer las notas y guardar lo que se escriba en ella para enviarlo cuando el teléfono vuelva a tener red.
 
 ## Decisiones y motivos

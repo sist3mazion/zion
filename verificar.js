@@ -1,7 +1,8 @@
 #!/usr/bin/env node
 'use strict';
 /**
- * Comprueba que un archivo lleva exactamente el programa de esta carpeta, sin nada añadido.
+ * Comprueba que un archivo lleva exactamente una versión publicada del programa (versiones.json), sin nada añadido.
+ * Verifica siempre con el repositorio actualizado: una lista antigua no conoce las versiones nuevas.
  *
  *   node verificar.js dist/notas.html            solo el programa
  *   node verificar.js dist/notas.html --clave    además lo abre (pide la clave) y dice qué contiene
@@ -18,7 +19,11 @@ async function main() {
   if (!ruta) { console.log('Uso: node verificar.js <archivo.html> [--clave "<clave>"]'); process.exit(1); }
   const r = comprobar(fs.readFileSync(ruta, 'utf8'));
   if (!r.ok) { console.log('✖ NO AUTÉNTICO. ' + r.motivo); process.exit(2); }
-  console.log('✔ Programa auténtico: es el de esta carpeta, sin nada añadido, y no puede conectarse a la red.');
+  const v = r.version;
+  if (v.actual && v.fecha === 'sin publicar') console.log('! Programa de esta carpeta, pero aún no está en versiones.json: no lo repartas hasta añadirlo (node versiones.js --añadir).');
+  else if (v.actual) console.log('✔ Programa auténtico: versión actual (' + v.fecha + '), sin nada añadido, y no puede conectarse a la red.');
+  else console.log('✔ Programa auténtico: versión anterior (' + v.fecha + '), sin nada añadido, y no puede conectarse a la red. Hay una versión más nueva.');
+  if (v.aviso) console.log('! Aviso de esta versión: ' + v.aviso);
   console.log('  Portada: "' + r.piezas.title + '" (' + r.piezas.lang + '). Contenido cifrado: ' + (r.piezas.blob.length * 3 / 4 / 1048576).toFixed(2) + ' MB.');
   const i = args.indexOf('--clave');
   if (i < 0) return;

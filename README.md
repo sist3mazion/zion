@@ -59,7 +59,7 @@ También acepta una carpeta con archivos `.usfm` o un archivo `.usfx.xml`.
 node verificar.js dist/notas.html
 ```
 
-Dice si el archivo lleva exactamente el programa de este repositorio, sin nada añadido. Solo reconoce la versión actual: una copia legítima hecha con una versión anterior del programa sale «NO AUTÉNTICO». Sirve para quien reparte: una copia que llega de otra persona puede haber sido manipulada, y esto lo detecta. Funciona porque el navegador solo ejecuta el código cuyo hash va escrito en el propio archivo.
+Dice si el archivo lleva exactamente una versión publicada del programa, sin nada añadido, y cuál: la actual o una anterior (con su aviso, si esa versión tiene un fallo conocido). Las versiones publicadas están en `versiones.json`. Verifica siempre con el repositorio actualizado: una lista antigua no conoce las versiones más nuevas y las daría por falsas. Sirve para quien reparte: una copia que llega de otra persona puede haber sido manipulada, y esto lo detecta. Funciona porque el navegador solo ejecuta el código cuyo hash va escrito en el propio archivo.
 
 ## Qué está comprobado
 
@@ -143,13 +143,15 @@ La carpeta de fuentes lleva los zips USFM de eBible.org (`engfbv_usfm.zip`, `arb
 3. **Licencias**: elegir, para cada uno de los 21 idiomas, una traducción que se pueda redistribuir.
 4. **Auditoría externa** del cifrado y del modelo de amenazas.
 5. **Decidir el origen**: cómo llega la primera copia a cada país (ver [AMENAZAS.md](AMENAZAS.md)).
-6. **Congelar el programa** antes de repartir y que `verificar.js` reconozca la lista de versiones publicadas: hoy solo reconoce la actual.
+6. **Programa congelado**: desde ahora, cada cambio en `src/app.js`, `src/app.css` o `src/argon2.js` añade su versión a `versiones.json` en el mismo commit (`node versiones.js --añadir`); `npm test` falla si falta. Ninguna versión se borra nunca: las copias repartidas dependen de la lista. Si una versión resulta tener un fallo, se le pone un aviso en vez de quitarla.
 
 ## Estructura
 
 ```
   generar.js        el comando que crea el archivo
-  verificar.js      comprueba que un archivo lleva el programa auténtico
+  verificar.js      comprueba que un archivo lleva una versión publicada del programa
+  versiones.json    versiones publicadas del programa (huellas SHA-256 del script y los estilos)
+  versiones.js      calcula la huella actual y la añade a versiones.json
   src/app.js        la app (portada + lector). Va tal cual dentro del archivo, sin minificar
   src/argon2.js     Argon2id para derivar la clave (hash-wasm 4.13.0, licencia MIT, sin cambios). Va delante de la app
   src/app.css       estilos
