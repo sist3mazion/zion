@@ -1,0 +1,11 @@
+{
+  "_": "Versiones publicadas del programa. Cada cambio en src/app.js, src/app.css o src/argon2.js añade aquí su versión en el mismo commit (node versiones.js la calcula). Nunca se borra una versión: las copias repartidas con ella dependen de esta lista.",
+  "versiones": [
+    {
+      "fecha": "2026-11-20",
+      "js": "9d4c8434a6ea3d472f65fb3a985fb6691dfd3ad764fd17dc8800fd50c2faaab0",
+      "css": "bbaad5a7097a33aae242edd81bfa54cd6b8661a3b06caffafae57f8d1f743254",
+      "aviso": ""
+    }
+  ]
+}

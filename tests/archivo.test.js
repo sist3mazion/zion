@@ -97,6 +97,8 @@ test('con la clave se recupera todo; sin ella, nada', async () => {
 test('comprobar: reconoce el programa auténtico y detecta cualquier cambio fuera del contenido cifrado', async () => {
   const { html } = await hacer();
   assert.equal(comprobar(html).ok, true);
+  // la versión actual del programa tiene que estar publicada en versiones.json (node versiones.js --añadir)
+  assert.equal(comprobar(html).version.fecha !== 'sin publicar', true, 'falta la versión actual en versiones.json');
   const p = partes(html);
   // un carácter del programa
   assert.equal(comprobar(html.replace('var HEAD = 52', 'var HEAD = 53')).ok, false);
