@@ -108,3 +108,6 @@ mark{background:var(--hl);color:inherit;border-radius:3px;padding:0 1px}
 .fm .ks .kv{margin:6px 0 8px;font:600 20px/1.4 ui-monospace,Menlo,Consolas,monospace;letter-spacing:.04em;color:var(--fg);text-align:start;unicode-bidi:isolate}
 .fm .ks .kv[hidden]{display:none}
 .fm .ks .sb{color:var(--fg);margin:0}
+.fi{margin:0 0 16px;padding:12px 14px;border:1px solid var(--ln);border-radius:12px;background:var(--cd);font-size:15px;line-height:1.5}
+.fi p{margin:0 0 10px}
+.fi .sb{display:block;width:auto;margin:0 0 0 auto;margin-inline-start:auto;margin-inline-end:0;padding:6px 16px;border:1px solid var(--ln);border-radius:10px;background:none;color:var(--fg);font:inherit}
