@@ -124,11 +124,12 @@ test('navegador', { skip: !pw && 'Playwright no está instalado' }, async t => {
     assert.equal(await p.locator('.ls li').count(), 1, 'Atrás no debe sacar de la página');
   });
 
-  await t.test('tamaño de letra y tema se aplican y se recuerdan; la lectura se retoma tras recargar', async () => {
+  await t.test('tamaño de letra y tema se aplican y se recuerdan; la posición de lectura no deja rastro al recargar', async () => {
     await p.reload();
+    assert.equal(await p.evaluate(() => localStorage.getItem('nt.c')), null, 'la posición no debe quedar en el almacenamiento');
     await entrar(p, CLAVE);
-    assert.equal(await p.textContent('.tt'), 'Juan 3');
-    assert.ok(!/Juan|\"b\":/.test(await p.evaluate(() => localStorage.getItem('nt.c'))), 'la posición debe guardarse cifrada');
+    assert.equal(await p.textContent('.tt'), 'Reina-Valera 1909', 'tras recargar se empieza por los libros');
+    await p.click('.bk:has-text("Juan")'); await p.waitForSelector('.tx');
     const antes = await p.evaluate(() => getComputedStyle(document.querySelector('.tx')).fontSize);
     await p.click('.bar button[aria-label="Más"]'); await p.click('.fr button >> nth=1'); await p.click('.fr button >> nth=1');
     const despues = await p.evaluate(() => getComputedStyle(document.querySelector('.tx')).fontSize);

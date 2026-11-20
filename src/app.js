@@ -56,13 +56,13 @@ async function seal(key, plain, ad) {
 async function unseal(key, box, ad) {
   return new Uint8Array(await crypto.subtle.decrypt(gcm(box.subarray(0, 12), ad), key, box.subarray(12)));
 }
-async function wrap(pass, plain) {
+async function wrap(pass, plain, ad) {
   var salt = rand(16);
-  return cat(salt, await seal(await kdf(pass, salt), plain));
+  return cat(salt, await seal(await kdf(pass, salt), plain, ad));
 }
-async function unwrap(pass, blob) {
+async function unwrap(pass, blob, ad) {
   var key = await kdf(pass, blob.subarray(0, 16));
-  return { key: key, data: await unseal(key, blob.subarray(16)) };
+  return { key: key, data: await unseal(key, blob.subarray(16), ad) };
 }
 
 /* raw inflate (RFC 1951), used only where the native stream is missing */
@@ -267,11 +267,12 @@ function b64parts(parts) {
 }
 
 /* file layout:  salt(16) | box(u32le at, u32le len of the index) | blocks | index | random tail
-   box = iv(12) | AES-GCM ciphertext and tag. Additional data: 'i' for the index, '<text>.<block>' for a block.
+   box = iv(12) | AES-GCM ciphertext and tag. Additional data: 'h' for the header, 'i' for the index, '<text>.<block>' for a block
+   (and 'c' for the reading position, which lives only in memory).
    index = { v: 2, u: {code: interface texts}, t: [{ l, n, d, g, t, a, dd, b: [[name, block, at, len]], k: [[off, len, 'x'|'z', size]] }] } */
 var HEAD = 52;
 async function open(pass, s) {
-  var r = await unwrap(pass, b64at(s, 0, HEAD)), v = new DataView(r.data.buffer, r.data.byteOffset, 8);
+  var r = await unwrap(pass, b64at(s, 0, HEAD), 'h'), v = new DataView(r.data.buffer, r.data.byteOffset, 8);
   var ix = await unseal(r.key, b64at(s, v.getUint32(0, true), v.getUint32(4, true)), 'i');
   return { key: r.key, m: JSON.parse(td.decode(ix)) };
 }
@@ -289,7 +290,7 @@ async function build(pass, m, get) {
   }
   ix = await seal(key, te.encode(JSON.stringify(m)), 'i');
   v.setUint32(0, at, true); v.setUint32(4, ix.length, true);
-  return [salt, await seal(key, h)].concat(out, [ix, rand(z[0] << 8 | z[1])]);
+  return [salt, await seal(key, h, 'h')].concat(out, [ix, rand(z[0] << 8 | z[1])]);
 }
 
 /* search folding: case, Latin/Hebrew/Arabic marks, Arabic-script letter variants */
@@ -356,6 +357,9 @@ function later(fn, ms) { var t = 0; return function () { clearTimeout(t); t = se
 
 /* ---------- storage (best effort) ---------- */
 var mem = {};
+/* the reading position lives only in memory (pc), encrypted: storage would show, without the key, that the reader was used,
+   and every file opened in the same browser shares it. Older versions kept it in storage: remove what they left. */
+try { localStorage.removeItem('nt.c'); } catch (e) { }
 function sg(k) { try { var v = localStorage.getItem(k); if (v !== null) return v; } catch (e) { } return k in mem ? mem[k] : null; }
 function ss(k, v) { mem[k] = v; try { localStorage.setItem(k, v); } catch (e) { } }
 
@@ -441,7 +445,7 @@ q.oninput = draw;
 sf.onsubmit = function (e) { e.preventDefault(); enter(q.value); };
 
 /* ---------- unlock: the search box, Enter ---------- */
-var raw = null, busy = false, away = false, S = null, R = null, hold = false, idleT = 0, mk = false;
+var pc = null, raw = null, busy = false, away = false, S = null, R = null, hold = false, idleT = 0, mk = false;
 async function enter(v) {
   var r = null;
   v = v.trim();
@@ -530,13 +534,13 @@ async function start(r) {
   rd.appendChild(pg); rd.appendChild(pn); rd.appendChild(mn);
   cv.hidden = true; rd.hidden = false; arm(); idle();
   var s = S;
-  try { c = sg('nt.c'); if (c) pos = JSON.parse(td.decode(await unseal(s.k, b64d(c)))); } catch (e) { pos = null; }
+  try { c = pc; if (c) pos = JSON.parse(td.decode(await unseal(s.k, c, 'c'))); } catch (e) { pos = null; }
   if (S !== s) return;
   // last text read; otherwise the one in the language of the notes; otherwise the first
   for (i = 0; i < x.t.length; i++) if (pos && x.t[i].l === pos.l && ti < 0) ti = i;
   if (ti < 0) { pos = null; for (i = 0; i < x.t.length; i++) if (x.t[i].l === LANG && ti < 0) ti = i; }
   S = fresh(s.k, x, ti < 0 ? 0 : ti, null, null);
-  // first time with this copy (no reading position yet): a short notice above the books; nothing new is stored for it
+  // nothing read yet since the file was opened: a short notice above the books; nothing is stored for it
   S.fi = !c;
   pn.dir = S.m.d;
   if (pos && S.m.b[pos.b]) text(pos.b, pos.c); else books();
@@ -692,7 +696,7 @@ async function text(i, cn, mark) {
   }
   put(x);
   if (hit && hit.scrollIntoView) hit.scrollIntoView({ block: 'center' });
-  try { ss('nt.c', b64e(await seal(s.k, te.encode(JSON.stringify({ l: s.m.l, b: i, c: ch[0] }))))); } catch (e) { }
+  try { pc = await seal(s.k, te.encode(JSON.stringify({ l: s.m.l, b: i, c: ch[0] })), 'c'); } catch (e) { }
 }
 async function step(d) {
   var s = S, v = s.v, bk, k, at = 0, nb;
