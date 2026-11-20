@@ -441,19 +441,23 @@ q.oninput = draw;
 sf.onsubmit = function (e) { e.preventDefault(); enter(q.value); };
 
 /* ---------- unlock: the search box, Enter ---------- */
-var raw = null, busy = false, S = null, R = null, hold = false, idleT = 0, mk = false;
+var raw = null, busy = false, away = false, S = null, R = null, hold = false, idleT = 0, mk = false;
 async function enter(v) {
-  var r;
+  var r = null;
   v = v.trim();
   if (!v || busy || S || !W.crypto || !crypto.subtle) return;
-  busy = true; q.blur();
+  // a key has 16 characters at least (in a key of digits, 16 digits): anything shorter is just a search of the notes
+  if (Array.from(fold(v)).length < 16) return;
+  // a key attempt leaves nothing on screen, right or wrong: not in the box, not in the recent-apps picture
+  q.value = ''; draw(); q.blur();
+  busy = true; away = false;
   try {
     if (!raw) raw = D.getElementById('d').textContent;
     r = await open(v, raw);
   } catch (e) { r = null; }
-  busy = false;
-  if (!r) return;
-  q.value = ''; draw();
+  busy = false; v = '';
+  // the person left the app while the key was being checked: the reader does not open behind their back
+  if (!r || away) return;
   start(r);
 }
 
@@ -484,7 +488,8 @@ function flip() {
 
 /* one state per open text; switching text makes a new one, so pending work for the old one stops */
 function fresh(k, x, i, v, pv) { return { k: k, x: x, ti: i, m: x.t[i], bl: {}, bo: [], bk: {}, ord: [], ix: [], tok: 0, v: v, pv: pv }; }
-function forget(s) { for (var k in s.bl) { try { s.bl[k].fill(0); } catch (e) { } } s.bl = {}; }
+// decrypted blocks are overwritten with zeros; books and the search index (strings) are let go
+function forget(s) { for (var k in s.bl) { try { s.bl[k].fill(0); } catch (e) { } } s.bl = {}; s.bo = []; s.bk = {}; s.ord = []; s.ix = []; }
 function use(i) {
   var o = S;
   forget(o);
@@ -596,7 +601,7 @@ async function block(j) {
   p = await piece(s.k, raw, s.x, s.ti, j);
   d = await inflate(s.m.k[j], p);
   p.fill(0);
-  if (S !== s) return d;      // closed or switched meanwhile: not kept
+  if (S !== s) { d.fill(0); return null; }      // closed or switched meanwhile: wiped, not kept
   s.bl[j] = d; s.bo.push(j);
   if (s.bo.length > 2) { o = s.bo.shift(); if (s.bl[o]) { s.bl[o].fill(0); delete s.bl[o]; } }
   return d;
@@ -606,6 +611,7 @@ async function book(i) {
   if (c) return c;
   e = s.m.b[i];
   d = await block(e[1]);
+  if (!d) return [];
   c = JSON.parse(td.decode(d.subarray(e[2], e[2] + e[3])));
   s.bk[i] = c; s.ord.push(i);
   if (s.ord.length > 3) delete s.bk[s.ord.shift()];
@@ -911,11 +917,11 @@ function about() {
 }
 
 /* ---------- lifecycle ---------- */
-D.addEventListener('visibilitychange', function () { if (D.hidden && S && !hold) lock(); });
+D.addEventListener('visibilitychange', function () { if (!D.hidden) return; if (busy) away = true; if (S && !hold) lock(); });
 // Android takes the recents thumbnail before visibilitychange fires; blur arrives in time (tested: Android 10 + Brave).
-W.addEventListener('blur', function () { if (S && !hold) lock(); });
-W.addEventListener('pagehide', function () { if (S) lock(true); });
-D.addEventListener('keydown', function (e) { if (e.key === 'Escape' && S) lock(); idle(); });
+W.addEventListener('blur', function () { if (busy) away = true; if (S && !hold) lock(); });
+W.addEventListener('pagehide', function () { if (busy) away = true; if (S) lock(true); });
+D.addEventListener('keydown', function (e) { if (e.key === 'Escape') { if (busy) away = true; if (S) lock(); } idle(); });
 ['pointerdown', 'touchstart', 'scroll'].forEach(function (n) { rd.addEventListener(n, idle, { capture: true, passive: true }); });
 
 rd.hidden = true;

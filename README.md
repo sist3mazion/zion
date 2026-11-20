@@ -9,7 +9,7 @@ Objetivo de ZION: que alguien en un país con censura pueda **tener**, **leer** 
 ## Qué hace
 
 - **Por fuera es un bloc de notas que funciona de verdad**: crear, editar, borrar y buscar notas.
-- **Se abre con una clave**: se escribe en el buscador de notas y se pulsa Intro. Si la clave no es correcta, se comporta como una búsqueda sin resultados.
+- **Se abre con una clave**: se escribe en el buscador de notas y se pulsa Intro. Al pulsar Intro lo escrito desaparece del buscador, sea la clave correcta o no, y si se cambia de aplicación mientras se comprueba, no se abre. Lo que tiene menos de 16 caracteres es una búsqueda normal de notas.
 - **Lector de texto, no PDF**: libros, capítulos, búsqueda en toda la Biblia sin acentos ni mayúsculas, tamaño de letra, modo oscuro, y retoma donde lo dejaste.
 - **Varios idiomas en un archivo**: **⋯ → Idioma** cambia de traducción. Solo se descifra lo que se lee.
 - **Se cierra al instante**: con ✕, con Atrás, con Escape o al cambiar de aplicación. Vuelve a las notas y borra el texto de la pantalla y de la memoria.
