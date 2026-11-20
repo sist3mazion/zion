@@ -24,12 +24,17 @@ Hay que decírselo con claridad a quien lo reciba.
 - **De una clave débil.** Con el archivo en la mano se pueden probar claves sin límite. Cada intento cuesta una derivación Argon2id con 64 MiB de memoria: una tarjeta gráfica de gama alta (RTX 4090) prueba unas 1 700 claves por segundo (con el PBKDF2 de antes eran unas 8 900). Una clave de cuatro cifras cae enseguida, y una frase adivinable también: quien persigue a cristianos probará primero versículos y frases religiosas. Cinco palabras elegidas al azar, no. Por eso «Pasar una copia» y el generador exigen como mínimo 16 caracteres (los espacios cuentan), pero el mínimo no garantiza nada: lo que protege es el azar. Además, «Pasar una copia» ya trae una clave sugerida: 20 cifras al azar en grupos de cuatro (10²⁰ combinaciones, 66 bits; con mil tarjetas como esa se tardaría más de un millón de años en recorrer la mitad). Cifras porque todos los teclados las tienen y en todos los idiomas se dictan; una lista de palabras por idioma no se podía verificar en los 21 idiomas, y las letras latinas obligan a cambiar de teclado. La app trata igual las cifras de cualquier alfabeto (las 77 series de Unicode: árabe, persa, devanagari, bengalí, tibetano, birmano, de ancho completo, tailandés…) y, si la clave es solo de cifras, ignora espacios, guiones y puntos; el mínimo de 16 cuenta entonces solo las cifras. Es más difícil de memorizar que una frase. No hay que apuntarla en una nota: las notas se guardan sin cifrar.
 - **De un teléfono intervenido.** Si hay un programa espía, ve la pantalla y lo que se teclea.
 - **Del teclado.** La clave se escribe en un campo de búsqueda normal. Se le pide al teclado que no sugiera ni corrija, pero algunos teclados aprenden lo que se escribe. Conviene comprobar en el teléfono real que la clave no aparece luego como sugerencia.
-- **De los rastros del sistema.** El nombre del archivo en «Descargas», el historial del navegador («Notas») y la miniatura de aplicaciones recientes quedan fuera del control del archivo.
+- **De los rastros del sistema.** El nombre del archivo en «Descargas», el historial del navegador («Notas») y la miniatura de aplicaciones recientes quedan fuera del control del archivo. El lector no deja nada en el almacenamiento del navegador: allí solo quedan las notas y las preferencias de aspecto, que son la portada.
 - **De quien te lo pasó.** Si esa persona es detenida y conoce tu clave, la conoce.
 - **De lo que queda en las aplicaciones de mensajería.** Si el archivo llega por WhatsApp o Telegram, el chat guarda el nombre del archivo, quién lo envió y cuándo, y la miniatura de esa app en «recientes» puede enseñarlo. Semilla no puede borrar nada de eso. Mejor pasarlo sin red (tarjeta, cable, Bluetooth) y borrar el mensaje.
 - **De la miniatura de «recientes», en todos los teléfonos.** Android hace una foto de la pantalla al cambiar de aplicación. Semilla se cierra al perder el foco para que la foto muestre las notas; en el único teléfono probado llega a tiempo, pero una página web no puede garantizarlo. Lo seguro es cerrar con ✕ antes de salir.
 - **De que el mismo archivo pase de mano en mano.** Cada copia hecha con «Pasar una copia» es única; un archivo reenviado tal cual a varias personas es idéntico en todas, y una lista de huellas (como las que usan los escáneres de teléfonos de Xinjiang) lo encuentra en todos. Una copia para cada persona.
-- **De una copia trampa.** Alguien puede repartir un archivo modificado que parezca igual. En el teléfono no hay forma de distinguirlo; quien reparte sí puede comprobarlo con `verificar.js` antes de pasarlo.
+- **De una copia trampa, ni de no saber si la primera copia es buena.** Ningún archivo puede demostrar por sí mismo que es auténtico: una trampa diría de sí misma lo mismo. En el teléfono no hay forma de distinguirlo. Por eso:
+  - Quien recibe su primera copia depende de quien se la da. La comprueba quien reparte, con `verificar.js`, antes de pasarla.
+  - Lo más importante es comprobar a quien va a **hacer** copias: una copia trampa contagia la trampa a todas las que se hagan desde ella.
+  - Quien ya tiene una copia buena no necesita otra: no hay que aceptar «versiones nuevas» de nadie.
+  - `verificar.js` solo reconoce el programa de la versión actual del repositorio: una copia legítima hecha con una versión anterior sale «NO AUTÉNTICO». Antes de repartir hay que congelar el programa y publicar la lista de versiones válidas.
+  - Si hay que abrir un archivo de origen dudoso, no escribir la clave. El modo avión no basta: los archivos HTML abiertos en el mismo navegador comparten el almacenamiento (comprobado en Chromium con archivos locales; en Android, sin comprobar), así que una trampa puede leer las notas y guardar lo que se escriba en ella para enviarlo cuando el teléfono vuelva a tener red.
 
 ## Decisiones y motivos
 
@@ -57,7 +62,7 @@ Cómo llega la primera copia a un país es el punto más delicado y no lo resuel
 
 **Formato.** `base64( sal[16] ‖ caja(u32le posición, u32le longitud del índice) ‖ bloques ‖ caja(índice) ‖ cola aleatoria de 0–65 535 bytes )`, con `caja = iv[12] ‖ AES-256-GCM(clave, iv, datos)` y `clave = Argon2id(frase en NFC con las cifras de cualquier alfabeto pasadas a 0–9 y, si solo hay cifras, sin espacios ni signos, sal, m = 64 MiB, t = 3, p = 4, 32 bytes)`. Una sola derivación de clave; cada caja lleva su propio IV aleatorio (un archivo de 18 idiomas tiene ~110 cajas). Sin cabecera, firma ni versión en claro: las fronteras entre cajas solo se conocen tras descifrar el índice. Sal, IV y cola salen de `crypto.getRandomValues` y se renuevan en cada copia.
 
-**Datos asociados.** El índice se cifra con `"i"` y el bloque *j* de la traducción *i* con `"i.j"`: una caja no se puede mover a otro sitio del archivo sin que falle la verificación.
+**Datos asociados.** La cabecera se cifra con `"h"`, el índice con `"i"` y el bloque *j* de la traducción *i* con `"i.j"`: una caja no se puede mover a otro sitio del archivo sin que falle la verificación. La posición de lectura, que solo está en memoria, con `"c"`.
 
 **Contenido.** El índice es JSON: los textos de la interfaz en todos los idiomas y, por traducción, nombre, licencia, dirección de escritura, libros (bloque, posición y longitud de cada uno) y dónde está cada bloque. Cada bloque son varios libros seguidos, comprimidos con LZMA crudo (`lc=3 lp=0 pb=2`) o zlib; ~6 bloques por traducción. Al abrir se descifra solo el índice; un bloque se descifra y descomprime cuando se lee uno de sus libros, y se guardan como mucho dos.
 
@@ -67,7 +72,7 @@ Cómo llega la primera copia a un país es el punto más delicado y no lo resuel
 - `open()`: único punto donde se prueba una clave (desde `enter()`). `lock()`: sobrescribe con ceros los bloques descifrados, suelta los libros y el índice de búsqueda, y vacía el lector. Un bloque que se termina de descifrar después de cerrar se sobrescribe con ceros sin llegar a usarse.
 - `build()`: el mismo código monta el archivo en el generador y la copia en el móvil. La copia descifra cada bloque y lo vuelve a cifrar con la clave nueva; no recomprime.
 - `assemble()`: la copia reutiliza literalmente el script, los estilos y la política del archivo original; solo cambia el bloque cifrado.
-- La posición de lectura se guarda cifrada con la misma clave. Las notas y las preferencias de aspecto se guardan en claro: son la portada.
+- La posición de lectura solo está en memoria, cifrada con la misma clave: no se guarda en el teléfono y se pierde al cerrar el navegador. Al abrir, el archivo borra la que guardaban las versiones anteriores (`nt.c`), que delataba sin la clave que se había usado el lector. Las notas y las preferencias de aspecto se guardan en claro: son la portada.
 
 **Puntos débiles que ya conozco.**
 
@@ -75,6 +80,7 @@ Cómo llega la primera copia a un país es el punto más delicado y no lo resuel
 - La memoria de Argon2id (64 MiB) no se borra a mano: la libera el recolector.
 - JavaScript no garantiza el borrado de memoria: al cerrar se sueltan los libros y el índice de búsqueda, pero las cadenas ya creadas (texto del capítulo, índice) siguen en memoria hasta que el recolector las libera.
 - El programa es idéntico en todas las copias; solo varía el bloque cifrado.
+- Los archivos HTML abiertos en el mismo navegador comparten almacenamiento (medido en Chromium con archivos locales; en Android, sin medir): las notas de una copia se ven en otra, y un archivo trampa puede leerlas.
 - La clave se ve mientras se escribe: es el buscador de notas. Un campo de contraseña (con puntos) delataría el disfraz, y el gestor de contraseñas del teléfono ofrecería guardarla. Al pulsar Intro desaparece, correcta o no, y si se cambia de aplicación mientras se comprueba, el lector no se abre.
 - El tamaño del archivo, aun con la cola aleatoria, delata el orden de magnitud del contenido. Con los 18 idiomas son ~28 MB: un «bloc de notas» de ese tamaño llama la atención si alguien revisa el teléfono. Una copia con uno o dos idiomas pesa 2–4 MB.
 - Los textos de la interfaz no se borran de memoria al cerrar (son cadenas de JavaScript); el índice tampoco.

@@ -10,7 +10,7 @@
  */
 const fs = require('fs');
 const path = require('path');
-const { leerArchivos, sinTitulos, sustituir, sinFinal, unVersiculoPorParrafo, parchear, DC } = require('./lib/texto');
+const { leerArchivos, sinTitulos, sustituir, sinFinal, unVersiculoPorParrafo, sinRepetidos, parchear, DC } = require('./lib/texto');
 const { leerLineas, faltantes } = require('./lib/lineas');
 const { leerCsv } = require('./lib/csv');
 const NOMBRES = require('./lib/nombres');
@@ -64,6 +64,7 @@ async function main() {
     if (t.sustituciones) sustituir(libros, t.sustituciones.map(([e, r]) => [new RegExp(e, 'gu'), r]));
     if (t.quitarFinal) aviso += ' [' + sinFinal(libros, new RegExp(t.quitarFinal, 'u')) + ' notas finales quitadas]';
     if (t.versiculoPorParrafo) unVersiculoPorParrafo(libros);
+    if (t.sinRepetidos) { const q = sinRepetidos(libros); aviso += ' [' + (q.length ? 'repetido quitado: ' + q.join(', ') : 'ningún versículo repetido') + ']'; }
     if (t.formato === 'zip') {    // la comprobación va después de los retoques, para medir lo que de verdad se reparte
       const falta = faltantes(libros, fs.readFileSync(path.join(dir, 'eng.vrs'), 'utf8'), NOMBRES.en);
       if (falta.length) aviso = ' (' + falta.length + ' tramos sin texto: ' + falta.slice(0, 4).join('; ') + (falta.length > 4 ? '…' : '') + ')' + aviso;

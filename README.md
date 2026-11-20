@@ -10,10 +10,10 @@ Objetivo de ZION: que alguien en un país con censura pueda **tener**, **leer** 
 
 - **Por fuera es un bloc de notas que funciona de verdad**: crear, editar, borrar y buscar notas.
 - **Se abre con una clave**: se escribe en el buscador de notas y se pulsa Intro. Al pulsar Intro lo escrito desaparece del buscador, sea la clave correcta o no, y si se cambia de aplicación mientras se comprueba, no se abre. Lo que tiene menos de 16 caracteres es una búsqueda normal de notas.
-- **Lector de texto, no PDF**: libros, capítulos, búsqueda en toda la Biblia sin acentos ni mayúsculas, tamaño de letra, modo oscuro, y retoma donde lo dejaste.
+- **Lector de texto, no PDF**: libros, capítulos, búsqueda en toda la Biblia sin acentos ni mayúsculas, tamaño de letra, modo oscuro, y retoma donde lo dejaste mientras el archivo siga abierto en el navegador (la posición no se guarda en el teléfono).
 - **Varios idiomas en un archivo**: **⋯ → Idioma** cambia de traducción. Solo se descifra lo que se lee.
 - **Se cierra al instante**: con ✕, con Atrás, con Escape o al cambiar de aplicación. Vuelve a las notas y borra el texto de la pantalla y de la memoria.
-- **Avisa donde hace falta**: la primera vez que se abre una copia, un aviso breve encima de los libros explica cómo cerrar y que la clave va en papel, nunca en una nota (sale mientras no haya posición de lectura guardada; no se guarda nada más para ello). «Pasar una copia» recuerda que cada persona necesita su propia copia y que una clave perdida no se recupera. «Acerca de» añade que el archivo no se conecta a nada.
+- **Avisa donde hace falta**: al abrir el lector, un aviso breve encima de los libros explica cómo cerrar y que la clave va en papel, nunca en una nota (sale cada vez que se abre el archivo, hasta que se lee algo; no se guarda nada para ello). «Pasar una copia» recuerda que cada persona necesita su propia copia y que una clave perdida no se recupera. «Acerca de» añade que el archivo no se conecta a nada.
 - **Pasar una copia**: desde dentro se genera otro archivo con clave nueva. La pantalla propone una clave al azar de 20 cifras en grupos de cuatro (por ejemplo `4821 0937 5512 8846 0393`, 66 bits): cualquier teclado tiene cifras y en cualquier idioma se pueden dictar. Vale escrita con las cifras de cualquier alfabeto (٤٨٢١, ۴۸۲۱, ४८२१…) y con o sin espacios, guiones o puntos. «Otra» da otra distinta y se puede escribir una propia. Solo se ve en esa pantalla y no se guarda en ningún sitio. Es distinto byte a byte del original, así que no se puede detectar comparándolo con una lista de archivos conocidos. Por defecto lleva solo el idioma que se está leyendo; se pueden marcar más y elegir el idioma de las notas de la copia. Cualquier copia puede a su vez hacer copias. A cada persona hay que darle su propia copia: un mismo archivo reenviado a varias es idéntico en todas y una lista de huellas lo encuentra.
 - **No se conecta a nada**: el propio archivo prohíbe al navegador cualquier conexión.
 
@@ -59,7 +59,7 @@ También acepta una carpeta con archivos `.usfm` o un archivo `.usfx.xml`.
 node verificar.js dist/notas.html
 ```
 
-Dice si el archivo lleva exactamente el programa de este repositorio, sin nada añadido. Sirve para quien reparte: una copia que llega de otra persona puede haber sido manipulada, y esto lo detecta. Funciona porque el navegador solo ejecuta el código cuyo hash va escrito en el propio archivo.
+Dice si el archivo lleva exactamente el programa de este repositorio, sin nada añadido. Solo reconoce la versión actual: una copia legítima hecha con una versión anterior del programa sale «NO AUTÉNTICO». Sirve para quien reparte: una copia que llega de otra persona puede haber sido manipulada, y esto lo detecta. Funciona porque el navegador solo ejecuta el código cuyo hash va escrito en el propio archivo.
 
 ## Qué está comprobado
 
@@ -118,13 +118,17 @@ La carpeta de fuentes lleva los zips USFM de eBible.org (`engfbv_usfm.zip`, `arb
 - **Birmano:** ya incluida la Common Language Bible (Bible Society of Myanmar, 2005). eBible la marca como dominio público, pero su copyright rige dentro de Myanmar. Pedir permiso a la Bible Society of Myanmar y pedirles también el texto completo: el de eBible tiene Habacuc 3 vacío y Cantares desplazado un versículo (se parchean con la Judson), y Job, Proverbios y Eclesiastés están en un birmano más antiguo.
 - El permiso debe cubrir expresamente: empaquetar el texto comprimido y cifrado en un HTML, repartir copias distintas byte a byte con clave nueva, y que la atribución vaya dentro del contenido cifrado.
 
-**Retoques a las fuentes.** `traducciones.js` declara cada retoque y el «Acerca de» de la copia lo anota (CC BY-SA obliga a indicar los cambios). Ninguno cambia palabras. Ruso: se quitan los títulos «Глава …», seis asteriscos sueltos y cada versículo va en su párrafo. Birmano: se quitan la nota de «fin de libro» de 22 libros, unos 15.000 guiones sueltos que dejaron las notas, los «%» de Habacuc, una referencia cruzada filtrada en Mt 5:27, y las comillas ASCII pasan a tipográficas; Cantares y Habacuc 3 vienen de la Judson, cuyo texto lleva espacios entre palabras y se ve más suelto que el resto. Job 30:30-31 sigue fusionado en un solo versículo en la fuente.
+**Retoques a las fuentes.** `traducciones.js` declara cada retoque y el «Acerca de» de la copia lo anota (CC BY-SA obliga a indicar los cambios). Ninguno cambia palabras. Ruso: se quitan los títulos «Глава …», seis asteriscos sueltos y Jonás 2:11, que en la fuente repite el 2:10 (`sinRepetidos`), y cada versículo va en su párrafo. Birmano: se quitan la nota de «fin de libro» de 22 libros, unos 15.000 guiones sueltos que dejaron las notas, los «%» de Habacuc, una referencia cruzada filtrada en Mt 5:27, y las comillas ASCII pasan a tipográficas; Cantares y Habacuc 3 vienen de la Judson, cuyo texto lleva espacios entre palabras y se ve más suelto que el resto. Job 30:30-31 sigue fusionado en un solo versículo en la fuente, y Juan 7:53 va dentro del 8:1 («luego cada uno se fue a su casa; el Señor Jesús fue al monte de los Olivos»): el texto está, falta el número.
 
 **Versículos sin texto.** Algunas traducciones no traen ciertos versículos y no es un fallo del generador: las modernas omiten a propósito Mt 17:21, 18:11, 23:14, Mr 7:16, 9:44-46, 11:26, 15:28, Lc 17:36, 23:17, Jn 5:4, Hch 8:37… (inglés y hausa: 17 pasajes); en árabe, indonesio, kurdo y uigur son 1–9 casos de numeración distinta. `faltantes()` los detecta al generar.
 
 **Qué hay que NO usar.** `lib/lineas.js` lee el formato «un versículo por línea» de BibleNLP/ebible-corpus, pero ese formato **pierde ~150 versículos** (Joel 2:28-32 y 3:6-21, Malaquías 4, Números 16:36-50…) porque su numeración es la hebrea. Se conserva solo por si no hay otra fuente; si se usa, el archivo debe avisarlo dentro.
 
 **Francés y portugués:** la néo-Crampon usa la numeración hebrea (Joel 2:28-32 va como Joel 3, Malaquías 4 como 3:19-24…), por eso el generador avisa de 45 «tramos sin texto»: el texto está completo, solo cambia el número. La Bíblia Livre solo avisa de 3 Juan 1:15 y Apocalipsis 12:18, que van unidos al versículo anterior. Se descartó la Nova Bíblia Viva de Biblica (poronbv, CC BY-SA) por ser una paráfrasis; queda como alternativa.
+
+**Ruso:** la ROB numera como la Biblia Sinodal, la que conocen los lectores rusos: los Salmos siguen la numeración griega (el 23 es el 22; el 119, el 118) y cuentan el título como versículo, y en algunos libros cambia el número de algún versículo. Por eso el generador avisa de 73 «tramos sin texto». Comprobado salmo a salmo frente al francés (que usa la numeración hebrea) y tramo a tramo en el resto: el texto está, salvo **Apocalipsis 12:18** («y se quedó en la arena del mar»), que la fuente no trae. Además la fuente une varios versículos en uno (Números 13:33, Job 39:30 y 40:24, Eclesiastés 4:16, Cantares 7:13, Isaías 3:19, Daniel 3:30, Oseas 14:9, 2 Corintios 11:32): el texto está, pero faltan esos números. El «Acerca de» del ruso lo dice.
+
+**Otros defectos de las fuentes**: en persa, el Salmo 136:3 repetía el 136:2 y falta su texto propio («al Señor de los señores»); se quita el duplicado (`sinRepetidos`) y se avisa en «Acerca de», así que la numeración salta del 2 al 4. En indonesio, Isaías 22:10 y 22:11 solo dicen «(22:9)» porque la fuente agrupa su texto en el 22:9: no falta nada, solo los números.
 
 **Coreano:** se usa la Korean Revised Version (개역한글, 1961) del CSV de scrollmapper. La única de dominio público en eBible (`kor`, 1910) está truncada (1 Pedro acaba en 4:14, Colosenses en 4:9, el Salmo 118 en el v. 9; 45 tramos sin texto) y se descartó. La Sociedad Bíblica de Corea declara en su web que los derechos de explotación de la 개역한글 vencieron el 31-12-2011 y se puede usar sin permiso; siguen vigentes los derechos morales (citar la autoría y no alterar el texto). El CSV trae 20 números de versículo sin texto propio (lista en el «Acerca de»), pero no falta ninguna palabra: unos van unidos al versículo anterior en la propia traducción (Romanos 9:1-2, Isaías 30:1-2…) y otros los omite a propósito. Los nombres de los libros están escritos a mano.
 
@@ -139,6 +143,7 @@ La carpeta de fuentes lleva los zips USFM de eBible.org (`engfbv_usfm.zip`, `arb
 3. **Licencias**: elegir, para cada uno de los 21 idiomas, una traducción que se pueda redistribuir.
 4. **Auditoría externa** del cifrado y del modelo de amenazas.
 5. **Decidir el origen**: cómo llega la primera copia a cada país (ver [AMENAZAS.md](AMENAZAS.md)).
+6. **Congelar el programa** antes de repartir y que `verificar.js` reconozca la lista de versiones publicadas: hoy solo reconoce la actual.
 
 ## Estructura
 
