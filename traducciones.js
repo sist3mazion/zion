@@ -15,7 +15,9 @@ module.exports = [
   { id: 'ar',  nombre: 'الترجمة العربية المبسطة (NAV)', fuente: 'arbnav_usfm.zip', formato: 'zip',
     acerca: 'Arabic Standard Version (NAV). © Biblica, Inc. Licencia CC BY-SA 4.0: puedes copiarla y repartirla citando a Biblica y con la misma licencia.' },
   { id: 'fa',  nombre: 'کتاب مقدس، ترجمۀ معاصر رایگان', fuente: 'pesopcb_usfm.zip', formato: 'zip',
-    acerca: 'کتاب مقدس، ترجمۀ معاصر رایگان Biblica® (Biblica® Open Persian Contemporary Bible 2022). Copyright © 2022 by Biblica, Inc. «Biblica» es una marca registrada de Biblica, Inc., usada con permiso. Licencia CC BY-SA 4.0: puedes copiarla y repartirla citando a Biblica y con la misma licencia (open.bible).' },
+    // Salmo 136:3 repite en la fuente el 136:2: se quita (lib/texto.js, sinRepetidos)
+    sinRepetidos: true,
+    acerca: 'کتاب مقدس، ترجمۀ معاصر رایگان Biblica® (Biblica® Open Persian Contemporary Bible 2022). Copyright © 2022 by Biblica, Inc. «Biblica» es una marca registrada de Biblica, Inc., usada con permiso. Licencia CC BY-SA 4.0: puedes copiarla y repartirla citando a Biblica y con la misma licencia (open.bible). تغییر: در منبع، مزمور ۱۳۶:۳ عین مزمور ۱۳۶:۲ را تکرار می‌کرد و حذف شد.' },
   { id: 'ru',  nombre: 'Русская открытая Библия (РОБ)', fuente: 'ru_rob.zip', formato: 'zip', quitarTitulos: '^Глава\\s+([ХX]|\\d+)$',
     // Jonás 2:11 repite en la fuente el 2:10: se quita (lib/texto.js, sinRepetidos)
     sustituciones: [['\\*', '']], versiculoPorParrafo: true, sinRepetidos: true,
