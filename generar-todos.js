@@ -10,7 +10,7 @@
  */
 const fs = require('fs');
 const path = require('path');
-const { leerArchivos, sinTitulos, sustituir, sinFinal, unVersiculoPorParrafo, sinRepetidos, parchear, DC } = require('./lib/texto');
+const { NT, leerArchivos, sinTitulos, sustituir, sinFinal, unVersiculoPorParrafo, sinRepetidos, parchear, DC } = require('./lib/texto');
 const { leerLineas, faltantes } = require('./lib/lineas');
 const { leerCsv } = require('./lib/csv');
 const NOMBRES = require('./lib/nombres');
@@ -49,7 +49,8 @@ async function main() {
       libros = leerArchivos(arch);
       if (t.sinDeuterocanonicos) libros = libros.filter(l => !DC.includes(l.id));    // fuentes católicas: se reparten los 66 libros, como en todos los idiomas
       if (t.quitarTitulos) sinTitulos(libros, new RegExp(t.quitarTitulos));
-      if (libros.length !== 66) throw new Error(t.id + ': el zip trae ' + libros.length + ' libros, no 66');
+      if (t.soloNT) { if (libros.length !== 27 || libros.some(l => !NT.includes(l.id))) throw new Error(t.id + ': soloNT pide los 27 libros del Nuevo Testamento y el zip trae ' + libros.length); }
+      else if (libros.length !== 66) throw new Error(t.id + ': el zip trae ' + libros.length + ' libros, no 66');
     } else if (t.formato === 'csv') {
       libros = leerCsv(fs.readFileSync(f, 'utf8'), NOMBRES[t.nombres], NOMBRES.en);
     } else {
@@ -66,7 +67,8 @@ async function main() {
     if (t.versiculoPorParrafo) unVersiculoPorParrafo(libros);
     if (t.sinRepetidos) { const q = sinRepetidos(libros); aviso += ' [' + (q.length ? 'repetido quitado: ' + q.join(', ') : 'ningún versículo repetido') + ']'; }
     if (t.formato === 'zip') {    // la comprobación va después de los retoques, para medir lo que de verdad se reparte
-      const falta = faltantes(libros, fs.readFileSync(path.join(dir, 'eng.vrs'), 'utf8'), NOMBRES.en);
+      let falta = faltantes(libros, fs.readFileSync(path.join(dir, 'eng.vrs'), 'utf8'), NOMBRES.en);
+      if (t.soloNT) falta = falta.filter(x => NOMBRES.en.slice(39).some(n => x.startsWith(n + ' ')));   // un Nuevo Testamento solo se mide contra el NT
       if (falta.length) aviso = ' (' + falta.length + ' tramos sin texto: ' + falta.slice(0, 4).join('; ') + (falta.length > 4 ? '…' : '') + ')' + aviso;
     }
     lista.push({ libros, idioma: t.id, nombre: t.nombre, acerca, permiso: t.permiso });
