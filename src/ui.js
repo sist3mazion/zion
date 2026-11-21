@@ -294,5 +294,44 @@ module.exports = {
       hp: 'Ili kufungua: andika nenosiri kwenye kisanduku cha kutafuta madokezo kisha bonyeza Enter. Ili kufunga: ✕, Rudi, au badili programu.',
       lg: 'Lugha', cl: 'Lugha katika nakala', cc: 'Lugha ya madokezo', e3: 'Chagua angalau lugha moja'
     }
+  },
+  hne: {
+    nm: 'छत्तीसगढ़ी',
+    dir: 'ltr',
+    c: { t: 'नोट्स', s: 'खोजें', e: 'कोई नोट नहीं है', z: 'कोई परिणाम नहीं मिला', n: 'नया नोट', d: 'हटाएँ', b: 'वापस', p: 'यहाँ लिखें…', f: 'नोट्स' },
+    r: {
+      bk: 'वापस', pv: 'पिछला', nx: 'अगला', f: 'अक्षरों का आकार', th: 'थीम', cp: 'एक प्रति दें', ab: 'जानकारी', x: 'बंद करें', s: 'खोजें', m: 'और', z: 'कोई परिणाम नहीं मिला',
+      k1: 'नया पासवर्ड', k2: 'पासवर्ड दोबारा लिखें', fn: 'फ़ाइल का नाम', mk: 'प्रति बनाएँ', e1: 'कम से कम 16 अक्षर', e2: 'दोनों पासवर्ड एक जैसे नहीं हैं', ks: 'सुझाया गया पासवर्ड', ot: 'दूसरा', h3: 'हर व्यक्ति के लिए अलग प्रति। वह पासवर्ड काग़ज़ पर लिखे, किसी नोट में नहीं: खो जाने पर वापस नहीं मिल सकता।', fi: 'बंद करने के लिए: ✕, वापस, या किसी दूसरे ऐप पर जाएँ; एक मिनट तक स्क्रीन न छूने पर यह अपने आप भी बंद हो जाता है। पासवर्ड काग़ज़ पर रखें, किसी नोट में नहीं।', nc: 'यह फ़ाइल कहीं नहीं जुड़ती और कोई डेटा नहीं भेजती।',
+      h1: 'किसी और के लिए एक प्रति बनाएँ। उसका अपना पासवर्ड होगा और वह आपकी प्रति से अलग होगी। पासवर्ड आमने-सामने बताएँ, संदेश में न भेजें।',
+      h2: 'प्रति तैयार है। इसे ब्लूटूथ, मेमोरी कार्ड या केबल से दें।', sd: 'भेजें', sv: 'सहेजें', ok: 'हो गया',
+      hp: 'खोलने के लिए: नोट्स के खोज बॉक्स में पासवर्ड लिखें और Enter दबाएँ। बंद करने के लिए: ✕, वापस, या किसी दूसरे ऐप पर जाएँ।',
+      lg: 'भाषा', cl: 'प्रति में भाषाएँ', cc: 'नोट्स की भाषा', e3: 'कम से कम एक भाषा चुनें'
+    }
+  },
+  om: {
+    nm: 'Afaan Oromoo',
+    dir: 'ltr',
+    c: { t: 'Yaadannoo', s: 'Barbaadi', e: 'Yaadannoon hin jiru', z: 'Bu’aan hin argamne', n: 'Yaadannoo haaraa', d: 'Haqi', b: 'Duubatti', p: 'As barreessi…', f: 'yaadannoo' },
+    r: {
+      bk: 'Duubatti', pv: 'Kan duraa', nx: 'Kan itti aanu', f: 'Guddina qubee', th: 'Bifa', cp: 'Garagalcha kenni', ab: 'Waa’ee', x: 'Cufi', s: 'Barbaadi', m: 'Dabalata', z: 'Bu’aan hin argamne',
+      k1: 'Jecha icciitii haaraa', k2: 'Jecha icciitii irra deebi’i', fn: 'Maqaa faayilii', mk: 'Garagalcha uumi', e1: 'Yoo xiqqaate qubee 16', e2: 'Jechoonni icciitii wal hin simne', ks: 'Jecha icciitii yaada kenname', ot: 'Kan biraa', h3: 'Nama tokkoof garagalcha tokko. Jecha icciitii waraqaa irratti haa barreessu, yaadannoo keessatti miti: yoo bade, deebi’ee hin argamu.', fi: 'Cufuuf: ✕, Duubatti, ykn app biraatti ce’i; daqiiqaa tokkoof iskiriinii osoo hin tuqin ofumaan cufama. Jecha icciitii waraqaa irratti qabadhu, yaadannoo keessatti miti.', nc: 'Faayiliin kun waan tokkoon illee hin walqabatu, odeeffannoos hin ergu.',
+      h1: 'Nama biraaf garagalcha uumi. Jecha icciitii mataa isaa qaba, kan keetiin adda. Jecha icciitii fuula fuulatti itti himi, ergaadhaan gonkumaa.',
+      h2: 'Garagalchi qophaa’eera. Bluetooth, kaardii ykn kebiliidhaan kenni.', sd: 'Ergi', sv: 'Olkaa’i', ok: 'Xumurameera',
+      hp: 'Banuuf: jecha icciitii saanduqa barbaacha yaadannoo keessatti barreessii Enter tuqi. Cufuuf: ✕, Duubatti, ykn app biraatti ce’i.',
+      lg: 'Afaan', cl: 'Afaanota garagalcha keessaa', cc: 'Afaan yaadannoo', e3: 'Yoo xiqqaate afaan tokko filadhu'
+    }
+  },
+  or: {
+    nm: 'ଓଡ଼ିଆ',
+    dir: 'ltr',
+    c: { t: 'ନୋଟ୍', s: 'ଖୋଜନ୍ତୁ', e: 'କୌଣସି ନୋଟ୍ ନାହିଁ', z: 'କୌଣସି ଫଳାଫଳ ମିଳିଲା ନାହିଁ', n: 'ନୂଆ ନୋଟ୍', d: 'ବିଲୋପ କରନ୍ତୁ', b: 'ପଛକୁ', p: 'ଏଠାରେ ଲେଖନ୍ତୁ…', f: 'ନୋଟ୍' },
+    r: {
+      bk: 'ପଛକୁ', pv: 'ପୂର୍ବବର୍ତ୍ତୀ', nx: 'ପରବର୍ତ୍ତୀ', f: 'ଅକ୍ଷର ଆକାର', th: 'ଥିମ୍', cp: 'ଏକ କପି ଦିଅନ୍ତୁ', ab: 'ବିଷୟରେ', x: 'ବନ୍ଦ କରନ୍ତୁ', s: 'ଖୋଜନ୍ତୁ', m: 'ଅଧିକ', z: 'କୌଣସି ଫଳାଫଳ ମିଳିଲା ନାହିଁ',
+      k1: 'ନୂଆ ପାସୱାର୍ଡ', k2: 'ପାସୱାର୍ଡ ପୁଣି ଲେଖନ୍ତୁ', fn: 'ଫାଇଲ୍ ନାମ', mk: 'କପି ତିଆରି କରନ୍ତୁ', e1: 'ଅତି କମରେ 16ଟି ଅକ୍ଷର', e2: 'ଦୁଇଟି ପାସୱାର୍ଡ ମେଳ ଖାଉନାହିଁ', ks: 'ପ୍ରସ୍ତାବିତ ପାସୱାର୍ଡ', ot: 'ଅନ୍ୟ ଏକ', h3: 'ପ୍ରତ୍ୟେକ ବ୍ୟକ୍ତି ପାଇଁ ଅଲଗା କପି। ସେ ପାସୱାର୍ଡ କାଗଜରେ ଲେଖନ୍ତୁ, କୌଣସି ନୋଟ୍‌ରେ ନୁହେଁ: ହଜିଗଲେ ଫେରି ପାଇହେବ ନାହିଁ।', fi: 'ବନ୍ଦ କରିବାକୁ: ✕, ପଛକୁ, କିମ୍ବା ଅନ୍ୟ ଆପ୍‌କୁ ଯାଆନ୍ତୁ; ଏକ ମିନିଟ୍ ସ୍କ୍ରିନ୍ ନ ଛୁଇଁଲେ ଏହା ନିଜେ ବନ୍ଦ ହୋଇଯାଏ। ପାସୱାର୍ଡ କାଗଜରେ ରଖନ୍ତୁ, କୌଣସି ନୋଟ୍‌ରେ ନୁହେଁ।', nc: 'ଏହି ଫାଇଲ୍ କୌଣସି ସହିତ ଯୋଡ଼ି ହୁଏ ନାହିଁ ଏବଂ କୌଣସି ତଥ୍ୟ ପଠାଏ ନାହିଁ।',
+      h1: 'ଅନ୍ୟ ଜଣଙ୍କ ପାଇଁ ଏକ କପି ତିଆରି କରନ୍ତୁ। ଏହାର ନିଜସ୍ୱ ପାସୱାର୍ଡ ରହିବ ଏବଂ ଆପଣଙ୍କ କପିଠାରୁ ଅଲଗା ହେବ। ପାସୱାର୍ଡ ମୁହାଁମୁହିଁ କୁହନ୍ତୁ, ମେସେଜରେ କେବେ ନୁହେଁ।',
+      h2: 'କପି ପ୍ରସ୍ତୁତ। ବ୍ଲୁଟୁଥ୍, ମେମୋରୀ କାର୍ଡ କିମ୍ବା କେବଲ୍ ଦ୍ୱାରା ଦିଅନ୍ତୁ।', sd: 'ପଠାନ୍ତୁ', sv: 'ସଞ୍ଚୟ କରନ୍ତୁ', ok: 'ହୋଇଗଲା',
+      hp: 'ଖୋଲିବାକୁ: ନୋଟ୍ ଖୋଜା ବାକ୍ସରେ ପାସୱାର୍ଡ ଲେଖି Enter ଦବାନ୍ତୁ। ବନ୍ଦ କରିବାକୁ: ✕, ପଛକୁ, କିମ୍ବା ଅନ୍ୟ ଆପ୍‌କୁ ଯାଆନ୍ତୁ।',
+      lg: 'ଭାଷା', cl: 'କପିରେ ଥିବା ଭାଷା', cc: 'ନୋଟ୍‌ର ଭାଷା', e3: 'ଅତି କମରେ ଗୋଟିଏ ଭାଷା ବାଛନ୍ତୁ'
+    }
   }
 };
