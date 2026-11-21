@@ -1,6 +1,6 @@
 # ZION · Semilla
 
-Un solo archivo HTML que se abre como un bloc de notas corriente y lleva dentro la Biblia en 24 idiomas, cifrada, para leerla sin conexión y pasarla de mano en mano.
+Un solo archivo HTML que se abre como un bloc de notas corriente y lleva dentro la Biblia en 25 idiomas, cifrada, para leerla sin conexión y pasarla de mano en mano.
 
 Objetivo de ZION: que alguien en un país con censura pueda **tener**, **leer** y **pasar** la Biblia con el menor riesgo posible. El nombre ZION es el del proyecto; no aparece en ningún archivo que se reparte.
 
@@ -78,7 +78,7 @@ Con 18 idiomas en un archivo (27,7 MB; con francés, portugués y coreano serán
 
 Para probar un teléfono sin llevar ninguna Biblia: `node movil/generar-prueba-grande.js` genera `dist/prueba-grande.html`, del mismo tamaño y con el mismo descompresor.
 
-## Traducciones incluidas (24 idiomas)
+## Traducciones incluidas (25 idiomas)
 
 `node generar-todos.js <carpeta de fuentes> --clave "<clave de 16 caracteres o más>"` genera **un solo archivo** con todas las filas de [traducciones.js](traducciones.js) (`dist/notas.html`, 27,7 MB con 18 idiomas y unos 32 MB con los 21, estimado; con zlib serían ~38 MB). `--solo es,ar` deja solo esas; `--ui` elige el idioma de la portada. Una copia con uno o dos idiomas pesa 2–4 MB.
 Solo entran obras de dominio público o con licencia que permite repartirlas (CC BY-SA, CC BY-NC); se prefieren las traducciones modernas; las antiguas de dominio público solo donde no hay una moderna abierta. Cada archivo lleva su licencia dentro («Acerca de»).
@@ -94,6 +94,7 @@ La carpeta de fuentes lleva los zips USFM de eBible.org (`engfbv_usfm.zip`, `arb
 | ru | Русская открытая Библия (ROB, v8, 2021): revisión moderna de la Sinodal, alineada con el griego de unfoldingWord | CC BY-SA 4.0 | USFM Door43 (`Door43-Catalog/ru_rob`, zip del repositorio) |
 | hi | Hindi estándar 2017 | CC BY-SA 4.0 | USFM eBible.org |
 | bn | Bengalí IRV | CC BY-SA 4.0 | USFM eBible.org |
+| id | Alkitab Yang Terbuka | **ambigua** (no comercial; el texto dice a la vez «compartible» y «sin obras derivadas»): confirmar con YLSA antes de repartir | USFM eBible.org (`indayt`) |
 | vi | Biblica Open Vietnamese Contemporary Bible (2015) | CC BY-SA 4.0 | USFM eBible.org (`vieovcb`) |
 | my | Birmano, Common Language Bible (2005) | © Bible Society of Myanmar; dominio público fuera de Myanmar según eBible (permiso en trámite) | USFM eBible.org (`mya`); Cantares y Habacuc 3 de la Judson 1840 (`myajvb`, dominio público) |
 | ha | Hausa (Biblica) | CC BY-SA 4.0 | USFM eBible.org |
@@ -114,6 +115,7 @@ La carpeta de fuentes lleva los zips USFM de eBible.org (`engfbv_usfm.zip`, `arb
 **Criterio.** Se prefieren traducciones modernas y abiertas a las de dominio público, que son muy arcaicas. Las de Biblica (chino, persa, vietnamita, hausa, árabe, kurdo, urdu, suajili, oromo, chhattisgarhi) son «contemporáneas» (lectura natural, no literal) y exigen su aviso de copyright, que va en el «Acerca de». Como cada copia es una obra derivada (cambio de formato, cifrado, sin notas), la licencia de Biblica obliga a quitar la marca registrada, indicar los cambios y citar «Original work by Biblica, Inc., available free of charge from www.biblica.com and open.bible»; así va en todos. El ruso usa la Russian Open Bible, que es una revisión moderna de la Sinodal (no una traducción independiente); la NRT de Biblica sería más contemporánea y está pendiente de permiso. Los textos antiguos que ya no se usan (CUV 1919, persa antiguo, vietnamita 1934) siguen en el historial de git.
 
 **Permisos pendientes** (en trámite, los gestiona el responsable del proyecto):
+- **Indonesio (AYT):** licencia ambigua. Contacto: YLSA (ylsa@sabda.org). Se incluye por la presión que sufren los conversos (Aceh, Java Occidental), aunque la Biblia se venda legalmente.
 - **Español (VBL) y árabe (NAV):** eBible los publica hoy como CC BY-SA 4.0 (la VBL, con permiso expreso de «revisiones y adaptaciones razonables»). Fuentes antiguas (Biblearc, open.bible, un prefacio de 2022) la dan como BY-ND: pedir confirmación escrita a Free Bible Ministry (info@freebibleministry.org) y a Biblica.
 - **Turco (YTC), somalí (SIM) y tibetano (NTB):** son CC BY-ND / BY-NC-ND. Se usan igualmente y el permiso lo tramita el responsable del proyecto: aclarar que cubre pasar el texto a datos comprimidos y cifrados, omitir notas y títulos, y repartir copias con clave distinta. Alternativa limpia para el turco: `turobt` (Biblica, CC BY-SA, solo Nuevo Testamento).
 - **Ruso:** ya incluida la Russian Open Bible (CC BY-SA, sin permiso). Mejora opcional: Новый Перевод на Русский Язык (Biblica, 2006, derechos reservados); hace falta que Biblica dé el texto.
@@ -134,15 +136,15 @@ La carpeta de fuentes lleva los zips USFM de eBible.org (`engfbv_usfm.zip`, `arb
 
 **Coreano:** se usa la Korean Revised Version (개역한글, 1961) del CSV de scrollmapper. La única de dominio público en eBible (`kor`, 1910) está truncada (1 Pedro acaba en 4:14, Colosenses en 4:9, el Salmo 118 en el v. 9; 45 tramos sin texto) y se descartó. La Sociedad Bíblica de Corea declara en su web que los derechos de explotación de la 개역한글 vencieron el 31-12-2011 y se puede usar sin permiso; siguen vigentes los derechos morales (citar la autoría y no alterar el texto). El CSV trae 20 números de versículo sin texto propio (lista en el «Acerca de»), pero no falta ninguna palabra: unos van unidos al versículo anterior en la propia traducción (Romanos 9:1-2, Isaías 30:1-2…) y otros los omite a propósito. Los nombres de los libros están escritos a mano.
 
-**Fuera:** el indonesio (AYT: licencia ambigua y la Biblia se vende legalmente en Indonesia; su hueco lo ocupa el oromo), el tayiko (CC BY-NC-ND y casi incompleto) y el amhárico (solo Nuevo Testamento, copyright de la Bible Society of Ethiopia sin licencia clara). **No encontrados en eBible:** uzbeko, tigriña y pastún.
+**Fuera:** el tayiko (CC BY-NC-ND y casi incompleto) y el amhárico (solo Nuevo Testamento, copyright de la Bible Society of Ethiopia sin licencia clara). **No encontrados en eBible:** uzbeko, tigriña y pastún.
 
-**Sin revisar por nativos:** los nombres de los libros salen de la propia traducción en todos los idiomas. La interfaz existe en 25 idiomas (es, en, fr, pt, ru, ar, fa, zh, id, vi, my, tr, hi, ko, bn, ha, ckb, ug, ur, so, bo, sw, hne, om, or; la indonesia se conserva aunque el texto indonesio ya no va); el menú del lector sale en el idioma del teléfono si el archivo lo tiene. La de bengalí, hausa, kurdo, uigur, urdu, somalí, suajili, oromo, odia y tibetano es de IA; la de chhattisgarhi es la hindi con su propio nombre y la menos fiable, sobre todo la tibetana. La vietnamita y la birmana están redactadas por IA; la birmana es la menos fiable y no debe repartirse sin revisión nativa. Las dedicatorias de todos los idiomas salvo es y en también son de IA; las de hausa, kurdo, uigur, somalí, suajili, oromo, odia y tibetano son las menos fiables (la de chhattisgarhi es la hindi). El texto de licencia dentro del archivo está en español.
+**Sin revisar por nativos:** los nombres de los libros salen de la propia traducción en todos los idiomas. La interfaz existe en 25 idiomas (es, en, fr, pt, ru, ar, fa, zh, id, vi, my, tr, hi, ko, bn, ha, ckb, ug, ur, so, bo, sw, hne, om, or); el menú del lector sale en el idioma del teléfono si el archivo lo tiene. La de bengalí, hausa, kurdo, uigur, urdu, somalí, suajili, oromo, odia y tibetano es de IA; la de chhattisgarhi es la hindi con su propio nombre y la menos fiable, sobre todo la tibetana. La vietnamita y la birmana están redactadas por IA; la birmana es la menos fiable y no debe repartirse sin revisión nativa. Las dedicatorias de todos los idiomas salvo es y en también son de IA; las de hausa, kurdo, uigur, somalí, suajili, oromo, odia y tibetano son las menos fiables (la de chhattisgarhi es la hindi). El texto de licencia dentro del archivo está en español.
 
 ## Qué falta antes de dárselo a alguien en riesgo
 
 1. **Probarlo en teléfonos reales**, sobre todo Android antiguos. La clave se deriva con Argon2id en WebAssembly: un navegador que no lo permita dentro del archivo (`'wasm-unsafe-eval'`) no podrá abrirlo nunca, y quien lo intente creerá que la clave está mal. Comprobado solo en Chrome 157 (Android 10); faltan Brave, Samsung Internet, Firefox, navegadores antiguos e iPhone. abrir el archivo desde el gestor de archivos, desde WhatsApp y desde Telegram; que la clave abra; que «Enviar» funcione por Bluetooth. No sé todavía si todos los navegadores móviles permiten descifrar en un archivo abierto de esa forma. Con los 18 idiomas (~28 MB): probar en teléfonos de **1–2 GB de RAM** y medir cuánto tarda en pasar por Bluetooth.
 2. **Revisión por hablantes nativos** de la interfaz en los 23 idiomas que no son español ni inglés; primero las frases de clave y copia (`h1`, `hp`, `h2`, `e1`, `e2`). Los textos nuevos de idioma y copia (`nm`, `lg`, `cl`, `cc`, `e3`, `ks`, `ot`, `h3`, `fi`, `nc` en `src/ui.js`) también son de IA.
-3. **Licencias**: elegir, para cada uno de los 24 idiomas, una traducción que se pueda redistribuir.
+3. **Licencias**: elegir, para cada uno de los 25 idiomas, una traducción que se pueda redistribuir.
 4. **Auditoría externa** del cifrado y del modelo de amenazas.
 5. **Decidir el origen**: cómo llega la primera copia a cada país (ver [AMENAZAS.md](AMENAZAS.md)).
 6. **Programa congelado**: desde ahora, cada cambio en `src/app.js`, `src/app.css` o `src/argon2.js` añade su versión a `versiones.json` en el mismo commit (`node versiones.js --añadir`); `npm test` falla si falta. Ninguna versión se borra nunca: las copias repartidas dependen de la lista. Si una versión resulta tener un fallo, se le pone un aviso en vez de quitarla.
@@ -162,7 +164,7 @@ La carpeta de fuentes lleva los zips USFM de eBible.org (`engfbv_usfm.zip`, `arb
   lib/lineas.js     lee «un versículo por línea» (ebible-corpus) y detecta lo que falta
   lib/csv.js        lee CSV de scrollmapper
   lib/nombres.js    nombres de los 66 libros en 12 idiomas
-  traducciones.js   las 24 traducciones elegidas y su licencia
+  traducciones.js   las 25 traducciones elegidas y su licencia
   generar-todos.js  genera un archivo con todas las traducciones
   lib/paquete.js    reparte en bloques, comprime (LZMA o zlib), cifra y ensambla
   lib/nucleo.js     carga en Node el mismo código de cifrado que usa la app

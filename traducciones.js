@@ -26,6 +26,8 @@ module.exports = [
     acerca: 'Hindi Standard Bible 2017. © Bridge Connectivity Solutions. Licencia CC BY-SA 4.0: puedes copiarla y repartirla citando la fuente y con la misma licencia.' },
   { id: 'bn',  nombre: 'বাংলা IRV', fuente: 'benirv_usfm.zip', formato: 'zip',
     acerca: 'Bengali Indian Revised Version. © Bridge Connectivity Solutions Pvt. Ltd. Licencia CC BY-SA 4.0: puedes copiarla y repartirla citando la fuente y con la misma licencia.' },
+  { id: 'id',  nombre: 'Alkitab Yang Terbuka (AYT)', fuente: 'indayt_usfm.zip', formato: 'zip',
+    acerca: 'Alkitab Yang Terbuka (AYT). © YLSA-AYT. Uso no comercial y citando la fuente. AVISO: su licencia es ambigua (dice a la vez «compartible» y «sin obras derivadas»); confirmar con YLSA (ylsa@sabda.org) antes de repartir.' },
   { id: 'vi',  nombre: 'Thiên Ban Kinh Thánh Hiện Đại', fuente: 'vieovcb_usfm.zip', formato: 'zip',
     acerca: 'Thiên Ban Kinh Thánh Hiện Đại™ (Open Vietnamese Contemporary Bible™). Copyright © 1982, 1987, 1994, 2005, 2015 by Biblica, Inc. Licencia CC BY-SA 4.0: puedes copiarla y repartirla citando a Biblica y con la misma licencia (open.bible). Original work by Biblica, Inc., available free of charge from www.biblica.com and open.bible. Cambios respecto al original (obra derivada; por eso se ha quitado la marca registrada de Biblica, como pide la licencia): el texto se ha pasado a otro formato, comprimido y cifrado; se han omitido las notas. No se ha cambiado ninguna palabra del texto bíblico.' },
   { id: 'my',  nombre: 'ဗမာ ကျမ်းစာ (Common Language Bible)', fuente: 'mya_usfm.zip', formato: 'zip',
