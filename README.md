@@ -1,6 +1,6 @@
 # ZION · Semilla
 
-Un solo archivo HTML que se abre como un bloc de notas corriente y lleva dentro la Biblia en 34 idiomas, cifrada, para leerla sin conexión y pasarla de mano en mano.
+Un solo archivo HTML que se abre como un bloc de notas corriente y lleva dentro la Biblia en 35 idiomas, cifrada, para leerla sin conexión y pasarla de mano en mano.
 
 Objetivo de ZION: que alguien en un país con censura pueda **tener**, **leer** y **pasar** la Biblia con el menor riesgo posible. El nombre ZION es el del proyecto; no aparece en ningún archivo que se reparte.
 
@@ -78,7 +78,7 @@ Con 18 idiomas en un archivo (27,7 MB; con francés, portugués y coreano serán
 
 Para probar un teléfono sin llevar ninguna Biblia: `node movil/generar-prueba-grande.js` genera `dist/prueba-grande.html`, del mismo tamaño y con el mismo descompresor.
 
-## Traducciones incluidas (34 idiomas)
+## Traducciones incluidas (35 idiomas)
 
 `node generar-todos.js <carpeta de fuentes> --clave "<clave de 16 caracteres o más>"` genera **un solo archivo** con todas las filas de [traducciones.js](traducciones.js) (`dist/notas.html`, 27,7 MB con 18 idiomas y unos 32 MB con los 21, estimado; con zlib serían ~38 MB). `--solo es,ar` deja solo esas; `--ui` elige el idioma de la portada. Una copia con uno o dos idiomas pesa 2–4 MB.
 Solo entran obras de dominio público o con licencia que permite repartirlas (CC BY-SA, CC BY-NC); se prefieren las traducciones modernas; las antiguas de dominio público solo donde no hay una moderna abierta. Cada archivo lleva su licencia dentro («Acerca de»).
@@ -120,8 +120,9 @@ La carpeta de fuentes lleva los zips USFM de eBible.org (`engfbv_usfm.zip`, `arb
 | thr | Rana tharu, Nuevo Testamento (2024, escritura devanagari; solo NT: 27 libros) | CC BY-SA 4.0 (The Word for the World International y Rana Tharu Translation Samithi, Khatima, Uttarakhand; indicar los cambios). Edición hecha para los rana tharu de la India | USFM eBible.org (`thr`) |
 | mni | Meitei, Nuevo Testamento (ANOUBA WAREPNABA, 2022, escritura romana; solo NT: 27 libros) | CC BY 4.0 (The Word for the World International; indicar los cambios). Es la primera traducción meitei en alfabeto romano; no está en escritura bengalí ni en meitei mayek | USFM eBible.org (`mni`) |
 | ne | Biblica Open Nepali Contemporary Version (2024) | CC BY-SA 4.0 | USFM eBible.org (`npioncb`) |
+| ta | Biblica Open Tamil Contemporary Version (2022) | CC BY-SA 4.0 | USFM eBible.org (`tamtcv`) |
 
-**Criterio.** Se prefieren traducciones modernas y abiertas a las de dominio público, que son muy arcaicas. Las de Biblica (chino, persa, vietnamita, hausa, árabe, kurdo, urdu, suajili, oromo, chhattisgarhi, nepalí) son «contemporáneas» (lectura natural, no literal) y exigen su aviso de copyright, que va en el «Acerca de». Como cada copia es una obra derivada (cambio de formato, cifrado, sin notas), la licencia de Biblica obliga a quitar la marca registrada, indicar los cambios y citar «Original work by Biblica, Inc., available free of charge from www.biblica.com and open.bible»; así va en todos. El ruso usa la Russian Open Bible, que es una revisión moderna de la Sinodal (no una traducción independiente); la NRT de Biblica sería más contemporánea y está pendiente de permiso. Los textos antiguos que ya no se usan (CUV 1919, persa antiguo, vietnamita 1934) siguen en el historial de git.
+**Criterio.** Se prefieren traducciones modernas y abiertas a las de dominio público, que son muy arcaicas. Las de Biblica (chino, persa, vietnamita, hausa, árabe, kurdo, urdu, suajili, oromo, chhattisgarhi, nepalí, tamil) son «contemporáneas» (lectura natural, no literal) y exigen su aviso de copyright, que va en el «Acerca de». Como cada copia es una obra derivada (cambio de formato, cifrado, sin notas), la licencia de Biblica obliga a quitar la marca registrada, indicar los cambios y citar «Original work by Biblica, Inc., available free of charge from www.biblica.com and open.bible»; así va en todos. El ruso usa la Russian Open Bible, que es una revisión moderna de la Sinodal (no una traducción independiente); la NRT de Biblica sería más contemporánea y está pendiente de permiso. Los textos antiguos que ya no se usan (CUV 1919, persa antiguo, vietnamita 1934) siguen en el historial de git.
 
 **Notas sobre licencias** (lo que aclararía una confirmación expresa de cada titular):
 - **Indonesio (AYT):** licencia leída en eBible (2024): permite adaptar en cualquier formato sin uso comercial. Contacto: YLSA (ylsa@sabda.org); no hace falta confirmación para repartir. Se incluye por la presión que sufren los conversos (Aceh, Java Occidental), aunque la Biblia se venda legalmente.
@@ -155,7 +156,7 @@ La carpeta de fuentes lleva los zips USFM de eBible.org (`engfbv_usfm.zip`, `arb
 
 1. **Probarlo en teléfonos reales**, sobre todo Android antiguos. La clave se deriva con Argon2id en WebAssembly: un navegador que no lo permita dentro del archivo (`'wasm-unsafe-eval'`) no podrá abrirlo nunca, y quien lo intente creerá que la clave está mal. Comprobado solo en Chrome 157 (Android 10); faltan Brave, Samsung Internet, Firefox, navegadores antiguos e iPhone. abrir el archivo desde el gestor de archivos, desde WhatsApp y desde Telegram; que la clave abra; que «Enviar» funcione por Bluetooth. No sé todavía si todos los navegadores móviles permiten descifrar en un archivo abierto de esa forma. Con los 18 idiomas (~28 MB): probar en teléfonos de **1–2 GB de RAM** y medir cuánto tarda en pasar por Bluetooth.
 2. **Revisión por hablantes nativos** de la interfaz en los 23 idiomas que no son español ni inglés; primero las frases de clave y copia (`h1`, `hp`, `h2`, `e1`, `e2`). Los textos nuevos de idioma y copia (`nm`, `lg`, `cl`, `cc`, `e3`, `ks`, `ot`, `h3`, `fi`, `nc` en `src/ui.js`) también son de IA.
-3. **Licencias**: elegir, para cada uno de los 34 idiomas, una traducción que se pueda redistribuir.
+3. **Licencias**: elegir, para cada uno de los 35 idiomas, una traducción que se pueda redistribuir.
 4. **Auditoría externa** del cifrado y del modelo de amenazas.
 5. **Decidir el origen**: cómo llega la primera copia a cada país (ver [AMENAZAS.md](AMENAZAS.md)).
 6. **Programa congelado**: desde ahora, cada cambio en `src/app.js`, `src/app.css` o `src/argon2.js` añade su versión a `versiones.json` en el mismo commit (`node versiones.js --añadir`); `npm test` falla si falta. Ninguna versión se borra nunca: las copias repartidas dependen de la lista. Si una versión resulta tener un fallo, se le pone un aviso en vez de quitarla.
@@ -175,7 +176,7 @@ La carpeta de fuentes lleva los zips USFM de eBible.org (`engfbv_usfm.zip`, `arb
   lib/lineas.js     lee «un versículo por línea» (ebible-corpus) y detecta lo que falta
   lib/csv.js        lee CSV de scrollmapper
   lib/nombres.js    nombres de los 66 libros en 12 idiomas
-  traducciones.js   las 34 traducciones elegidas y su licencia
+  traducciones.js   las 35 traducciones elegidas y su licencia
   generar-todos.js  genera un archivo con todas las traducciones
   lib/paquete.js    reparte en bloques, comprime (LZMA o zlib), cifra y ensambla
   lib/nucleo.js     carga en Node el mismo código de cifrado que usa la app
