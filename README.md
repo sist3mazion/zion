@@ -1,6 +1,6 @@
 # ZION · Semilla
 
-Un solo archivo HTML que se abre como un bloc de notas corriente y lleva dentro la Biblia en 37 idiomas, cifrada, para leerla sin conexión y pasarla de mano en mano.
+Un solo archivo HTML que se abre como un bloc de notas corriente y lleva dentro la Biblia en 38 idiomas, cifrada, para leerla sin conexión y pasarla de mano en mano.
 
 Objetivo de ZION: que alguien en un país con censura pueda **tener**, **leer** y **pasar** la Biblia con el menor riesgo posible. El nombre ZION es el del proyecto; no aparece en ningún archivo que se reparte.
 
@@ -78,7 +78,7 @@ Con 18 idiomas en un archivo (27,7 MB; con francés, portugués y coreano serán
 
 Para probar un teléfono sin llevar ninguna Biblia: `node movil/generar-prueba-grande.js` genera `dist/prueba-grande.html`, del mismo tamaño y con el mismo descompresor.
 
-## Traducciones incluidas (37 idiomas)
+## Traducciones incluidas (38 idiomas)
 
 `node generar-todos.js <carpeta de fuentes> --clave "<clave de 16 caracteres o más>"` genera **un solo archivo** con todas las filas de [traducciones.js](traducciones.js) (`dist/notas.html`, 27,7 MB con 18 idiomas y unos 32 MB con los 21, estimado; con zlib serían ~38 MB). `--solo es,ar` deja solo esas; `--ui` elige el idioma de la portada. Una copia con uno o dos idiomas pesa 2–4 MB.
 Solo entran obras de dominio público o con licencia que permite repartirlas (CC BY-SA, CC BY-NC); se prefieren las traducciones modernas; las antiguas de dominio público solo donde no hay una moderna abierta. Cada archivo lleva su licencia dentro («Acerca de»).
@@ -123,12 +123,14 @@ La carpeta de fuentes lleva los zips USFM de eBible.org (`engfbv_usfm.zip`, `arb
 | ta | Biblica Open Tamil Contemporary Version (2022) | CC BY-SA 4.0 | USFM eBible.org (`tamtcv`) |
 | te | Biblica Open Telugu Contemporary Version (2024) | CC BY-SA 4.0 | USFM eBible.org (`telotsa`) |
 | kn | Biblica Open Kannada Contemporary Version (2022) | CC BY-SA 4.0 | USFM eBible.org (`kanokcv`) |
+| am | Amárico, Nuevo Testamento (Revised Amharic Bible 1962/2003; solo NT: 27 libros) | © United Bible Societies; «con permiso de la Sociedad Bíblica de Etiopía»: uso no comercial con el aviso completo; cifrar y comprimir se tratan como cambio técnico de formato (`permiso: 'formato'`) | USFM eBible.org (`amh`) |
 
 **Criterio.** Se prefieren traducciones modernas y abiertas a las de dominio público, que son muy arcaicas. Las de Biblica (chino, persa, vietnamita, hausa, árabe, kurdo, urdu, suajili, oromo, chhattisgarhi, nepalí, tamil, telugu, canarés) son «contemporáneas» (lectura natural, no literal) y exigen su aviso de copyright, que va en el «Acerca de». Como cada copia es una obra derivada (cambio de formato, cifrado, sin notas), la licencia de Biblica obliga a quitar la marca registrada, indicar los cambios y citar «Original work by Biblica, Inc., available free of charge from www.biblica.com and open.bible»; así va en todos. El ruso usa la Russian Open Bible, que es una revisión moderna de la Sinodal (no una traducción independiente); la NRT de Biblica sería más contemporánea y está pendiente de permiso. Los textos antiguos que ya no se usan (CUV 1919, persa antiguo, vietnamita 1934) siguen en el historial de git.
 
 **Notas sobre licencias** (lo que aclararía una confirmación expresa de cada titular):
 - **Indonesio (AYT):** licencia leída en eBible (2024): permite adaptar en cualquier formato sin uso comercial. Contacto: YLSA (ylsa@sabda.org); no hace falta confirmación para repartir. Se incluye por la presión que sufren los conversos (Aceh, Java Occidental), aunque la Biblia se venda legalmente.
 - **Español (VBL) y árabe (NAV):** eBible los publica hoy como CC BY-SA 4.0 (la VBL, con permiso expreso de «revisiones y adaptaciones razonables»). Fuentes antiguas (Biblearc, open.bible, un prefacio de 2022) la dan como BY-ND: pedir confirmación escrita a Free Bible Ministry (info@freebibleministry.org) y a Biblica.
+- **Amárico (am):** no hay Biblia completa abierta en amárico. eBible solo publica el Nuevo Testamento de 1962/2003 (Sociedades Bíblicas), con permiso de uso no comercial y aviso íntegro, pero sin licencia abierta que cubra cifrarlo y empaquetarlo. Se usa con `permiso: 'formato'` acogiéndose al uso no comercial con el aviso íntegro; el permiso expreso para cifrarlo y empaquetarlo no existe, así que conviene pedir confirmación escrita a la Sociedad Bíblica de Etiopía. La Biblica NASV (2001) es de derechos reservados.
 - **Árabe tunecino (aeb):** CC BY-NC-ND 4.0 de United Bible Societies, con `permiso: 'formato'` (se reparte; cifrar y comprimir se tratan como cambio técnico de formato). Una confirmación expresa de UBS sería deseable, no es imprescindible. Es solo el Nuevo Testamento (`soloNT: true`).
 - **Azerí (az):** CC BY-NC-ND con permiso expreso de cambio de formato (marca `permiso: 'formato'`, no se bloquea). Pedir confirmación a Bible Society of Azerbaijan / Institute for Bible Translation de que cubre omitir notas e introducciones, cifrar y repartir copias con clave distinta.
 - **Turco (YTC), somalí (SIM) y tibetano (NTB):** son CC BY-ND / BY-NC-ND. Se usan con `permiso: 'formato'` (ya salen en copias): la licencia permite redistribuir en cualquier formato sin cambiar palabras ni puntuación y el cifrado y la compresión se tratan como cambio técnico de formato. El responsable del proyecto pide igualmente la confirmación expresa: que cubre pasar el texto a datos comprimidos y cifrados, omitir notas e introducciones, y repartir copias con clave distinta. Alternativa limpia para el turco: `turobt` (Biblica, CC BY-SA, solo Nuevo Testamento).
@@ -158,7 +160,7 @@ La carpeta de fuentes lleva los zips USFM de eBible.org (`engfbv_usfm.zip`, `arb
 
 1. **Probarlo en teléfonos reales**, sobre todo Android antiguos. La clave se deriva con Argon2id en WebAssembly: un navegador que no lo permita dentro del archivo (`'wasm-unsafe-eval'`) no podrá abrirlo nunca, y quien lo intente creerá que la clave está mal. Comprobado solo en Chrome 157 (Android 10); faltan Brave, Samsung Internet, Firefox, navegadores antiguos e iPhone. abrir el archivo desde el gestor de archivos, desde WhatsApp y desde Telegram; que la clave abra; que «Enviar» funcione por Bluetooth. No sé todavía si todos los navegadores móviles permiten descifrar en un archivo abierto de esa forma. Con los 18 idiomas (~28 MB): probar en teléfonos de **1–2 GB de RAM** y medir cuánto tarda en pasar por Bluetooth.
 2. **Revisión por hablantes nativos** de la interfaz en los 23 idiomas que no son español ni inglés; primero las frases de clave y copia (`h1`, `hp`, `h2`, `e1`, `e2`). Los textos nuevos de idioma y copia (`nm`, `lg`, `cl`, `cc`, `e3`, `ks`, `ot`, `h3`, `fi`, `nc` en `src/ui.js`) también son de IA.
-3. **Licencias**: elegir, para cada uno de los 37 idiomas, una traducción que se pueda redistribuir.
+3. **Licencias**: elegir, para cada uno de los 38 idiomas, una traducción que se pueda redistribuir.
 4. **Auditoría externa** del cifrado y del modelo de amenazas.
 5. **Decidir el origen**: cómo llega la primera copia a cada país (ver [AMENAZAS.md](AMENAZAS.md)).
 6. **Programa congelado**: desde ahora, cada cambio en `src/app.js`, `src/app.css` o `src/argon2.js` añade su versión a `versiones.json` en el mismo commit (`node versiones.js --añadir`); `npm test` falla si falta. Ninguna versión se borra nunca: las copias repartidas dependen de la lista. Si una versión resulta tener un fallo, se le pone un aviso en vez de quitarla.
@@ -178,7 +180,7 @@ La carpeta de fuentes lleva los zips USFM de eBible.org (`engfbv_usfm.zip`, `arb
   lib/lineas.js     lee «un versículo por línea» (ebible-corpus) y detecta lo que falta
   lib/csv.js        lee CSV de scrollmapper
   lib/nombres.js    nombres de los 66 libros en 12 idiomas
-  traducciones.js   las 37 traducciones elegidas y su licencia
+  traducciones.js   las 38 traducciones elegidas y su licencia
   generar-todos.js  genera un archivo con todas las traducciones
   lib/paquete.js    reparte en bloques, comprime (LZMA o zlib), cifra y ensambla
   lib/nucleo.js     carga en Node el mismo código de cifrado que usa la app
