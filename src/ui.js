@@ -281,5 +281,18 @@ module.exports = {
       hp: 'ཁ་ཕྱེ་བར། ཟིན་བྲིས་ཀྱི་འཚོལ་སྒམ་དུ་གསང་ཨང་བྲིས་ནས་ Enter གནོན། ཁ་རྒྱག་པར། ✕ དང་། ཕྱིར་ལོག ཡང་ན་ཉེར་སྤྱོད་གཞན་ལ་བརྗེ།',
       lg: 'སྐད་ཡིག', cl: 'འདྲ་བཤུས་ནང་གི་སྐད་ཡིག', cc: 'ཟིན་བྲིས་ཀྱི་སྐད་ཡིག', e3: 'ཉུང་མཐར་སྐད་ཡིག་གཅིག་འདེམས།'
     }
+  },
+  sw: {
+    nm: 'Kiswahili',
+    dir: 'ltr',
+    c: { t: 'Madokezo', s: 'Tafuta', e: 'Hakuna madokezo', z: 'Hakuna matokeo', n: 'Dokezo jipya', d: 'Futa', b: 'Rudi', p: 'Andika hapa…', f: 'madokezo' },
+    r: {
+      bk: 'Rudi', pv: 'Iliyotangulia', nx: 'Inayofuata', f: 'Ukubwa wa herufi', th: 'Mandhari', cp: 'Toa nakala', ab: 'Kuhusu', x: 'Funga', s: 'Tafuta', m: 'Zaidi', z: 'Hakuna matokeo',
+      k1: 'Nenosiri jipya', k2: 'Rudia nenosiri', fn: 'Jina la faili', mk: 'Tengeneza nakala', e1: 'Angalau herufi 16', e2: 'Manenosiri hayalingani', ks: 'Nenosiri linalopendekezwa', ot: 'Lingine', h3: 'Nakala moja kwa kila mtu. Anapaswa kuliandika nenosiri kwenye karatasi, kamwe si kwenye dokezo: likipotea, haliwezi kurejeshwa.', fi: 'Ili kufunga: ✕, Rudi, au badili programu; pia hujifunga yenyewe baada ya dakika moja bila kugusa skrini. Weka nenosiri kwenye karatasi, kamwe si kwenye dokezo.', nc: 'Faili hii haiunganishi na chochote wala haitumi data.',
+      h1: 'Tengeneza nakala kwa mtu mwingine. Itakuwa na nenosiri lake lenyewe na itakuwa tofauti na yako. Mwambie nenosiri ana kwa ana, kamwe si kwa ujumbe.',
+      h2: 'Nakala iko tayari. Ipitishe kwa Bluetooth, kadi ya kumbukumbu au kebo.', sd: 'Tuma', sv: 'Hifadhi', ok: 'Imekamilika',
+      hp: 'Ili kufungua: andika nenosiri kwenye kisanduku cha kutafuta madokezo kisha bonyeza Enter. Ili kufunga: ✕, Rudi, au badili programu.',
+      lg: 'Lugha', cl: 'Lugha katika nakala', cc: 'Lugha ya madokezo', e3: 'Chagua angalau lugha moja'
+    }
   }
 };
