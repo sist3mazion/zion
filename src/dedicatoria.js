@@ -27,4 +27,5 @@ module.exports = {
   fr: ["DÉDIÉ À :","À ceux qui ont marché avant nous, laissant une lumière dans les ténèbres.","À ceux qui cherchent encore, sans savoir vraiment ce dont ils ont besoin.","À *Jésus*, qui, en ressuscitant, a ouvert le chemin de la vie éternelle pour que personne ne soit laissé de côté. Ce n'est pas par nos mérites, mais par les siens."],
   pt: ["DEDICADO A:","Àqueles que caminharam antes, deixando luz na escuridão.","Àqueles que ainda procuram sem saber realmente do que precisam.","A *Jesus*, que, ao ressuscitar, abriu o caminho para a vida eterna, para que ninguém ficasse de fora. Não foi pelos nossos méritos, mas pelos dele."],
   ko: ["헌정:","먼저 걸어간 이들, 어둠 속에 빛을 남기고 간 이들에게.","자신에게 정말 필요한 것이 무엇인지 알지 못한 채 아직도 찾고 있는 이들에게.","부활하심으로 영생의 길을 열어, 아무도 소외되지 않게 하신 *예수님*께. 우리의 공로가 아니라 예수님의 공로로 된 것입니다."],
+  sw: ["IMEWEKWA WAKFU KWA:","Kwa wale waliotangulia kutembea, wakiacha mwanga gizani.","Kwa wale ambao bado wanatafuta bila kujua hasa wanachohitaji.","Kwa *Yesu*, ambaye kwa kufufuka kwake alifungua njia ya uzima wa milele ili hakuna mtu aachwe nje. Haikuwa kwa sifa zetu, bali kwa zake."],
 };
