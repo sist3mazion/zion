@@ -69,10 +69,12 @@ async function main() {
       const falta = faltantes(libros, fs.readFileSync(path.join(dir, 'eng.vrs'), 'utf8'), NOMBRES.en);
       if (falta.length) aviso = ' (' + falta.length + ' tramos sin texto: ' + falta.slice(0, 4).join('; ') + (falta.length > 4 ? '…' : '') + ')' + aviso;
     }
-    lista.push({ libros, idioma: t.id, nombre: t.nombre, acerca });
+    lista.push({ libros, idioma: t.id, nombre: t.nombre, acerca, permiso: t.permiso });
     console.log(t.id.padEnd(4), String(libros.length).padStart(2) + ' libros' + aviso);
   }
   if (!lista.length) throw new Error('Ninguna traducción coincide con --solo');
+  const pend = lista.filter(t => t.permiso === 'pendiente').map(t => t.idioma);
+  if (pend.length) console.log('AVISO: permiso pendiente en ' + pend.join(', ') + ': van en el maestro, pero la app no los deja pasar en una copia.');
   const r = await construir({ traducciones: lista, clave, ui: o.ui });
   const out = path.join(salida, (UI[r.ui] || UI.en).c.f + '.html');
   fs.writeFileSync(out, r.html);

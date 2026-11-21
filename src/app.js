@@ -852,7 +852,8 @@ function copy() {
     box = el('fieldset', 'ck', el('legend', null, R.cl));
     x.t.forEach(function (t, i) {
       var c = el('input'), n = el('span', null, lname(x, t)), l = el('label', null, c, n);
-      c.type = 'checkbox'; c.checked = i === S.ti; n.dir = t.d;
+      c.type = 'checkbox'; c.checked = i === S.ti && !t.p; n.dir = t.d;
+      if (t.p) { c.disabled = true; l.style.opacity = '.5'; }   // permiso del titular pendiente: no sale en copias
       c.onchange = follow;
       cs.push(c); box.appendChild(l);
     });
@@ -870,7 +871,7 @@ function copy() {
     // a weak passphrase can be guessed offline without limit: 16 characters at least (spaces count)
     if (Array.from(fold(p)).length < 16) { msg.textContent = R.e1; return; }   // a key of digits counts its digits only
     if (a.i.value !== b.i.value) { msg.textContent = R.e2; return; }
-    for (i = 0; i < x.t.length; i++) if (!cs.length || cs[i].checked) keep.push(i);
+    for (i = 0; i < x.t.length; i++) if (!x.t[i].p && (!cs.length || cs[i].checked)) keep.push(i);
     if (!keep.length) { msg.textContent = R.e3; return; }
     msg.textContent = ''; go.disabled = true; mk = true;
     try {
