@@ -857,6 +857,18 @@ function copy() {
       c.onchange = follow;
       cs.push(c); box.appendChild(l);
     });
+    // marcar / desmarcar todo (los textos con permiso pendiente quedan siempre fuera)
+    var tg = el('button', 'sb tg', ''), pick = function () { return cs.filter(function (c) { return !c.disabled; }); };
+    var sync = function () { tg.textContent = pick().every(function (c) { return c.checked; }) ? R.cn || '\u2610' : R.ca || '\u2611'; };
+    tg.type = 'button';
+    tg.onclick = function () {
+      var on = pick(), v = !on.every(function (c) { return c.checked; });
+      on.forEach(function (c) { c.checked = v; });
+      sync(); follow();
+    };
+    cs.forEach(function (c) { var f0 = c.onchange; c.onchange = function () { f0(); sync(); }; });
+    sync();
+    box.insertBefore(tg, box.children[1]);
   }
   // language of the notes in the copy
   if (codes.length > 1) {
