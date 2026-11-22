@@ -130,7 +130,7 @@ test('texto de derecha a izquierda y cifras propias', async () => {
 });
 
 test('idioma sin interfaz propia: cae a inglés y lo dice', async () => {
-  const r = await hacer({ idioma: 'am' });
+  const r = await hacer({ idioma: 'ce' });
   assert.equal(r.ui, 'en');
   assert.equal(partes(r.html).title, 'Notes');
 });
