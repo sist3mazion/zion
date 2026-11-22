@@ -333,5 +333,135 @@ module.exports = {
       hp: 'ଖୋଲିବାକୁ: ନୋଟ୍ ଖୋଜା ବାକ୍ସରେ ପାସୱାର୍ଡ ଲେଖି Enter ଦବାନ୍ତୁ। ବନ୍ଦ କରିବାକୁ: ✕, ପଛକୁ, କିମ୍ବା ଅନ୍ୟ ଆପ୍‌କୁ ଯାଆନ୍ତୁ।',
       lg: 'ଭାଷା', cl: 'କପିରେ ଥିବା ଭାଷା', cc: 'ନୋଟ୍‌ର ଭାଷା', e3: 'ଅତି କମରେ ଗୋଟିଏ ଭାଷା ବାଛନ୍ତୁ', ca: 'ସମସ୍ତ ବାଛନ୍ତୁ', cn: 'ସମସ୍ତ ହଟାନ୍ତୁ'
     }
+  },
+  az: {
+    nm: 'Azərbaycan',
+    dir: 'ltr',
+    c: { t: 'Qeydlər', s: 'Axtar', e: 'Hələ qeyd yoxdur', z: 'Nəticə yoxdur', n: 'Yeni qeyd', d: 'Sil', b: 'Geri', p: 'Buraya yazın…', f: 'qeydler' },
+    r: {
+      bk: 'Geri', pv: 'Əvvəlki', nx: 'Növbəti', f: 'Mətn ölçüsü', th: 'Görünüş', cp: 'Nüsxə ötür',
+      ab: 'Haqqında', x: 'Bağla', s: 'Axtar', m: 'Daha çox', z: 'Nəticə yoxdur', k1: 'Yeni şifrə',
+      k2: 'Şifrəni təkrarlayın', fn: 'Fayl adı', mk: 'Nüsxə yarat', e1: 'Ən azı 16 simvol', e2: 'Şifrələr uyğun gəlmir', ks: 'Təklif olunan şifrə',
+      ot: 'Başqası', h3: 'Hər adama bir nüsxə. Şifrəni heç vaxt qeyddə deyil, kağıza yazmalıdırlar: itsə, bərpa edilə bilməz.', fi: 'Bağlamaq üçün: ✕, Geri və ya tətbiqləri dəyişin; ekrana toxunmadan bir dəqiqə keçdikdə özü də bağlanır. Şifrəni heç vaxt qeyddə deyil, kağıza saxlayın.', nc: 'Bu fayl heç nəyə qoşulmur və heç bir məlumat göndərmir.', h1: 'Başqa biri üçün nüsxə yaradın. Onun öz şifrəsi olur və sizinkindən fərqlidir. Şifrəni mesajla deyil, şəxsən deyin.', h2: 'Nüsxə hazırdır. Bluetooth, kart və ya kabel ilə ötürün.',
+      sd: 'Göndər', sv: 'Yadda saxla', ok: 'Hazırdır', hp: 'Açmaq üçün: şifrəni qeydlər axtarış qutusuna yazın və Enter basın. Bağlamaq üçün: ✕, Geri və ya tətbiqləri dəyişin.', lg: 'Dil', cl: 'Nüsxədəki dillər',
+      cc: 'Qeydlərin dili', e3: 'Ən azı bir dil seçin', ca: 'Hamısını seç', cn: 'Hamısını təmizlə'
+    }
+  },
+  ne: {
+    nm: 'नेपाली',
+    dir: 'ltr',
+    c: { t: 'नोटहरू', s: 'खोज्नुहोस्', e: 'अझै कुनै नोट छैन', z: 'कुनै नतिजा फेला परेन', n: 'नयाँ नोट', d: 'मेटाउनुहोस्', b: 'पछाडि', p: 'यहाँ लेख्नुहोस्…', f: 'notes' },
+    r: {
+      bk: 'पछाडि', pv: 'अघिल्लो', nx: 'अर्को', f: 'अक्षरको आकार', th: 'थिम', cp: 'प्रतिलिपि पठाउनुहोस्',
+      ab: 'बारेमा', x: 'बन्द गर्नुहोस्', s: 'खोज्नुहोस्', m: 'थप', z: 'कुनै नतिजा फेला परेन', k1: 'नयाँ पासवर्ड',
+      k2: 'पासवर्ड फेरि लेख्नुहोस्', fn: 'फाइलको नाम', mk: 'प्रतिलिपि बनाउनुहोस्', e1: 'कम्तीमा 16 अक्षर', e2: 'पासवर्ड मिलेन', ks: 'सुझाइएको पासवर्ड',
+      ot: 'अर्को', h3: 'प्रति व्यक्ति एक प्रतिलिपि। पासवर्ड नोटमा कहिल्यै नलेखी कागजमा लेख्नुपर्छ: हराएमा यो फिर्ता ल्याउन सकिँदैन।', fi: 'बन्द गर्न: ✕, पछाडि, वा एपहरू बदल्नुहोस्; स्क्रिन नछोई एक मिनेट बितेपछि यो आफैँ पनि बन्द हुन्छ। पासवर्ड नोटमा कहिल्यै नराखी कागजमा राख्नुहोस्।', nc: 'यो फाइल कुनै कुरामा जोडिँदैन र कुनै डेटा पठाउँदैन।', h1: 'अरू कसैका लागि प्रतिलिपि बनाउनुहोस्। यसको आफ्नै पासवर्ड हुन्छ र तपाईंकोभन्दा फरक हुन्छ। पासवर्ड म्यासेजमा होइन, भेटेरै भन्नुहोस्।', h2: 'प्रतिलिपि तयार छ। Bluetooth, कार्ड वा केबलबाट पठाउनुहोस्।',
+      sd: 'पठाउनुहोस्', sv: 'सेभ गर्नुहोस्', ok: 'सम्पन्न', hp: 'खोल्न: नोट खोज बाकसमा पासवर्ड टाइप गरी Enter थिच्नुहोस्। बन्द गर्न: ✕, पछाडि, वा एपहरू बदल्नुहोस्।', lg: 'भाषा', cl: 'प्रतिलिपिमा भएका भाषाहरू',
+      cc: 'नोटहरूको भाषा', e3: 'कम्तीमा एउटा भाषा छान्नुहोस्', ca: 'सबै छान्नुहोस्', cn: 'सबै हटाउनुहोस्'
+    }
+  },
+  ta: {
+    nm: 'தமிழ்',
+    dir: 'ltr',
+    c: { t: 'குறிப்புகள்', s: 'தேடு', e: 'குறிப்புகள் இல்லை', z: 'முடிவுகள் இல்லை', n: 'புதிய குறிப்பு', d: 'நீக்கு', b: 'பின்', p: 'இங்கே எழுதுங்கள்…', f: 'குறிப்புகள்' },
+    r: {
+      bk: 'பின்', pv: 'முந்தையது', nx: 'அடுத்தது', f: 'எழுத்து அளவு', th: 'தீம்', cp: 'நகலை வழங்கு',
+      ab: 'பற்றி', x: 'மூடு', s: 'தேடு', m: 'மேலும்', z: 'முடிவுகள் இல்லை', k1: 'புதிய கடவுச்சொல்',
+      k2: 'கடவுச்சொல்லை மீண்டும் உள்ளிடவும்', fn: 'கோப்பின் பெயர்', mk: 'நகலை உருவாக்கு', e1: 'குறைந்தது 16 எழுத்துகள்', e2: 'கடவுச்சொற்கள் பொருந்தவில்லை', ks: 'பரிந்துரைக்கப்பட்ட கடவுச்சொல்',
+      ot: 'வேறொன்று', h3: 'ஒவ்வொருவருக்கும் ஒரு நகல். கடவுச்சொல்லை அவர் காகிதத்தில் எழுதி வைக்க வேண்டும், குறிப்பில் ஒருபோதும் வேண்டாம்: தொலைந்தால் மீட்க முடியாது.', fi: 'மூட: ✕, பின் அழுத்தவும் அல்லது வேறு பயன்பாட்டுக்கு மாறவும்; திரையைத் தொடாமல் ஒரு நிமிடம் ஆனாலும் தானாக மூடிவிடும். கடவுச்சொல்லை காகிதத்தில் வைத்திருங்கள், குறிப்பில் ஒருபோதும் வேண்டாம்.', nc: 'இந்தக் கோப்பு எதனுடனும் இணைவதில்லை, தரவையும் அனுப்புவதில்லை.', h1: 'வேறொருவருக்கு நகலை உருவாக்குங்கள். அதற்கு தனிக் கடவுச்சொல் இருக்கும்; அது உங்களுடையதிலிருந்து வேறுபட்டிருக்கும். கடவுச்சொல்லை நேரில் சொல்லுங்கள், செய்தியில் ஒருபோதும் வேண்டாம்.', h2: 'நகல் தயார். புளூடூத், கார்டு அல்லது கேபிள் மூலம் கொடுங்கள்.',
+      sd: 'அனுப்பு', sv: 'சேமி', ok: 'முடிந்தது', hp: 'திறக்க: குறிப்புகளின் தேடல் பெட்டியில் கடவுச்சொல்லை எழுதி Enter அழுத்தவும். மூட: ✕, பின் அழுத்தவும் அல்லது வேறு பயன்பாட்டுக்கு மாறவும்.', lg: 'மொழி', cl: 'நகலில் உள்ள மொழிகள்',
+      cc: 'குறிப்புகளின் மொழி', e3: 'குறைந்தது ஒரு மொழியைத் தேர்ந்தெடுக்கவும்', ca: 'அனைத்தையும் தேர்ந்தெடு', cn: 'தேர்வை நீக்கு'
+    }
+  },
+  te: {
+    nm: 'తెలుగు',
+    dir: 'ltr',
+    c: { t: 'గమనికలు', s: 'వెతకండి', e: 'ఇంకా గమనికలు లేవు', z: 'ఫలితాలు లేవు', n: 'కొత్త గమనిక', d: 'తొలగించు', b: 'వెనుకకు', p: 'ఇక్కడ రాయండి…', f: 'గమనికలు' },
+    r: {
+      bk: 'వెనుకకు', pv: 'మునుపటి', nx: 'తదుపరి', f: 'అక్షర పరిమాణం', th: 'రూపం', cp: 'కాపీని పంచుకోండి',
+      ab: 'గురించి', x: 'మూసివేయి', s: 'వెతకండి', m: 'మరిన్ని', z: 'ఫలితాలు లేవు', k1: 'కొత్త పాస్‌వర్డ్',
+      k2: 'పాస్‌వర్డ్‌ను మళ్లీ నమోదు చేయండి', fn: 'ఫైల్ పేరు', mk: 'కాపీని తయారు చేయండి', e1: 'కనీసం 16 అక్షరాలు', e2: 'పాస్‌వర్డ్‌లు సరిపోలడం లేదు', ks: 'సూచించిన పాస్‌వర్డ్',
+      ot: 'మరొకటి', h3: 'ప్రతి వ్యక్తికి ఒక కాపీ మాత్రమే. వారు పాస్‌వర్డ్‌ను కాగితంపై రాయాలి, గమనికలో ఎప్పుడూ రాయకూడదు: అది పోతే, తిరిగి పొందడం సాధ్యం కాదు.', fi: 'మూసివేయడానికి: ✕ నొక్కండి, వెనుకకు వెళ్లండి లేదా యాప్‌ల మధ్య మారండి; స్క్రీన్‌ను ఒక నిమిషం పాటు తాకకపోతే అది స్వయంగా కూడా మూసుకుపోతుంది. పాస్‌వర్డ్‌ను కాగితంపై భద్రపరచండి, గమనికలో ఎప్పుడూ రాయకండి.', nc: 'ఈ ఫైల్ దేనికీ కనెక్ట్ అవదు, ఎలాంటి డేటానూ పంపదు.', h1: 'వేరొకరి కోసం ఒక కాపీని తయారు చేయండి. దానికి ప్రత్యేకమైన పాస్‌వర్డ్ ఉంటుంది, అది మీ పాస్‌వర్డ్‌కు భిన్నంగా ఉంటుంది. ఆ పాస్‌వర్డ్‌ను వారికి స్వయంగా కలసి చెప్పండి, సందేశంలో ఎప్పుడూ పంపవద్దు.', h2: 'కాపీ సిద్ధంగా ఉంది. Bluetooth, కార్డ్ లేదా కేబుల్ ద్వారా పంపండి.',
+      sd: 'పంపండి', sv: 'సేవ్ చేయండి', ok: 'పూర్తయింది', hp: 'తెరవడానికి: గమనికల శోధన పెట్టెలో పాస్‌వర్డ్‌ను టైప్ చేసి Enter నొక్కండి. మూసివేయడానికి: ✕ నొక్కండి, వెనుకకు వెళ్లండి లేదా యాప్‌ల మధ్య మారండి.', lg: 'భాష', cl: 'కాపీలోని భాషలు',
+      cc: 'గమనికల భాష', e3: 'కనీసం ఒక భాషను ఎంచుకోండి', ca: 'అన్నీ ఎంచుకోండి', cn: 'అన్ని ఎంపికలను తీసివేయండి'
+    }
+  },
+  kn: {
+    nm: 'ಕನ್ನಡ',
+    dir: 'ltr',
+    c: { t: 'ಟಿಪ್ಪಣಿಗಳು', s: 'ಹುಡುಕಿ', e: 'ಇನ್ನೂ ಯಾವುದೇ ಟಿಪ್ಪಣಿಗಳಿಲ್ಲ', z: 'ಯಾವುದೇ ಫಲಿತಾಂಶಗಳಿಲ್ಲ', n: 'ಹೊಸ ಟಿಪ್ಪಣಿ', d: 'ಅಳಿಸಿ', b: 'ಹಿಂದಕ್ಕೆ', p: 'ಇಲ್ಲಿ ಬರೆಯಿರಿ…', f: 'tippanigalu' },
+    r: {
+      bk: 'ಹಿಂದಕ್ಕೆ', pv: 'ಹಿಂದಿನದು', nx: 'ಮುಂದಿನದು', f: 'ಅಕ್ಷರದ ಗಾತ್ರ', th: 'ಥೀಮ್', cp: 'ಪ್ರತಿಯನ್ನು ನೀಡಿ',
+      ab: 'ಕುರಿತು', x: 'ಮುಚ್ಚಿ', s: 'ಹುಡುಕಿ', m: 'ಇನ್ನಷ್ಟು', z: 'ಯಾವುದೇ ಫಲಿತಾಂಶಗಳಿಲ್ಲ', k1: 'ಹೊಸ ಪಾಸ್‌ವರ್ಡ್',
+      k2: 'ಪಾಸ್‌ವರ್ಡ್ ಮತ್ತೆ ನಮೂದಿಸಿ', fn: 'ಫೈಲ್ ಹೆಸರು', mk: 'ಪ್ರತಿ ಮಾಡಿ', e1: 'ಕನಿಷ್ಠ 16 ಅಕ್ಷರಗಳು', e2: 'ಪಾಸ್‌ವರ್ಡ್‌ಗಳು ಹೊಂದಿಕೆಯಾಗುತ್ತಿಲ್ಲ', ks: 'ಸೂಚಿಸಿದ ಪಾಸ್‌ವರ್ಡ್',
+      ot: 'ಮತ್ತೊಂದು', h3: 'ಪ್ರತಿಯೊಬ್ಬರಿಗೂ ಒಂದು ಪ್ರತಿ. ಪಾಸ್‌ವರ್ಡ್ ಅನ್ನು ಟಿಪ್ಪಣಿಯಲ್ಲಿ ಎಂದಿಗೂ ಬರೆಯದೆ ಕಾಗದದಲ್ಲಿ ಬರೆಯಬೇಕು: ಕಳೆದುಹೋದರೆ ಅದನ್ನು ಮರಳಿ ಪಡೆಯಲಾಗುವುದಿಲ್ಲ.', fi: 'ಮುಚ್ಚಲು: ✕, ಹಿಂದಕ್ಕೆ ಅಥವಾ ಆ್ಯಪ್‌ಗಳನ್ನು ಬದಲಾಯಿಸಿ; ಸ್ಕ್ರೀನ್ ಮುಟ್ಟದೆ ಒಂದು ನಿಮಿಷ ಕಳೆದರೆ ತಾನಾಗಿಯೇ ಮುಚ್ಚುತ್ತದೆ. ಪಾಸ್‌ವರ್ಡ್ ಅನ್ನು ಟಿಪ್ಪಣಿಯಲ್ಲಿ ಅಲ್ಲದೆ ಕಾಗದದಲ್ಲಿ ಇಡಿ.', nc: 'ಈ ಫೈಲ್ ಯಾವುದಕ್ಕೂ ಸಂಪರ್ಕಿಸುವುದಿಲ್ಲ ಮತ್ತು ಯಾವುದೇ ಡೇಟಾವನ್ನು ಕಳುಹಿಸುವುದಿಲ್ಲ.', h1: 'ಬೇರೆಯವರಿಗಾಗಿ ಒಂದು ಪ್ರತಿ ಮಾಡಿ. ಅದಕ್ಕೆ ತನ್ನದೇ ಆದ ಪಾಸ್‌ವರ್ಡ್ ಇರುತ್ತದೆ ಮತ್ತು ನಿಮ್ಮದಕ್ಕಿಂತ ಭಿನ್ನವಾಗಿರುತ್ತದೆ. ಪಾಸ್‌ವರ್ಡ್ ಅನ್ನು ಸಂದೇಶದಲ್ಲಿ ಅಲ್ಲ, ಖುದ್ದಾಗಿ ಹೇಳಿ.', h2: 'ಪ್ರತಿ ಸಿದ್ಧವಾಗಿದೆ. Bluetooth, ಕಾರ್ಡ್ ಅಥವಾ ಕೇಬಲ್ ಮೂಲಕ ನೀಡಿ.',
+      sd: 'ಕಳುಹಿಸಿ', sv: 'ಉಳಿಸಿ', ok: 'ಮುಗಿದಿದೆ', hp: 'ತೆರೆಯಲು: ಟಿಪ್ಪಣಿಗಳ ಹುಡುಕಾಟ ಬಾಕ್ಸ್‌ನಲ್ಲಿ ಪಾಸ್‌ವರ್ಡ್ ಟೈಪ್ ಮಾಡಿ Enter ಒತ್ತಿರಿ. ಮುಚ್ಚಲು: ✕, ಹಿಂದಕ್ಕೆ ಅಥವಾ ಆ್ಯಪ್‌ಗಳನ್ನು ಬದಲಾಯಿಸಿ.', lg: 'ಭಾಷೆ', cl: 'ಪ್ರತಿಯಲ್ಲಿರುವ ಭಾಷೆಗಳು',
+      cc: 'ಟಿಪ್ಪಣಿಗಳ ಭಾಷೆ', e3: 'ಕನಿಷ್ಠ ಒಂದು ಭಾಷೆಯನ್ನು ಆಯ್ಕೆಮಾಡಿ', ca: 'ಎಲ್ಲವನ್ನೂ ಆಯ್ಕೆಮಾಡಿ', cn: 'ಎಲ್ಲವನ್ನೂ ತೆರವುಗೊಳಿಸಿ'
+    }
+  },
+  am: {
+    nm: 'አማርኛ',
+    dir: 'ltr',
+    c: { t: 'ማስታወሻዎች', s: 'ፈልግ', e: 'እስካሁን ምንም ማስታወሻ የለም', z: 'ምንም ውጤት የለም', n: 'አዲስ ማስታወሻ', d: 'ሰርዝ', b: 'ተመለስ', p: 'እዚህ ይጻፉ…', f: 'ማስታወሻዎች' },
+    r: {
+      bk: 'ተመለስ', pv: 'ያለፈው', nx: 'ቀጣይ', f: 'የጽሑፍ መጠን', th: 'ገጽታ', cp: 'ቅጂ አጋራ',
+      ab: 'ስለ', x: 'ዝጋ', s: 'ፈልግ', m: 'ተጨማሪ', z: 'ምንም ውጤት የለም', k1: 'አዲስ የይለፍ ቃል',
+      k2: 'የይለፍ ቃሉን እንደገና ያስገቡ', fn: 'የፋይል ስም', mk: 'ቅጂ ፍጠር', e1: 'ቢያንስ 16 ቁምፊዎች', e2: 'የይለፍ ቃሎቹ አይዛመዱም', ks: 'የተጠቆመ የይለፍ ቃል',
+      ot: 'ሌላ', h3: 'ለእያንዳንዱ ሰው አንድ ቅጂ። የይለፍ ቃሉን በወረቀት ላይ መጻፍ አለባቸው፣ በማስታወሻ ውስጥ ፈጽሞ መጻፍ የለባቸውም፤ ከጠፋ መልሶ ማግኘት አይቻልም።', fi: 'ለመዝጋት: ✕ ይጫኑ፣ ወደ ኋላ ይመለሱ ወይም መተግበሪያዎችን ይቀይሩ፤ ማያ ገጹን ለአንድ ደቂቃ ካልነኩት በራሱ ይዘጋል። የይለፍ ቃሉን በወረቀት ላይ ያስቀምጡ፣ በማስታወሻ ውስጥ ፈጽሞ አይጻፉት።', nc: 'ይህ ፋይል ከምንም ጋር አይገናኝም፣ ምንም ዓይነት ውሂብም አይልክም።', h1: 'ለሌላ ሰው ቅጂ ይፍጠሩ። የራሱ የይለፍ ቃል ይኖረዋል፣ ከእርስዎም ይለያል። የይለፍ ቃሉን በአካል ተገናኝተው ይንገሯቸው፣ በመልዕክት ፈጽሞ አይላኩት።', h2: 'ቅጂው ዝግጁ ነው። Bluetooth፣ ካርድ ወይም ገመድ በመጠቀም ያስተላልፉት።',
+      sd: 'ላክ', sv: 'አስቀምጥ', ok: 'ተጠናቋል', hp: 'ለመክፈት: የይለፍ ቃሉን በማስታወሻዎች ፍለጋ ሳጥን ውስጥ ይጻፉና Enter ይጫኑ። ለመዝጋት: ✕ ይጫኑ፣ ወደ ኋላ ይመለሱ ወይም መተግበሪያዎችን ይቀይሩ።', lg: 'ቋንቋ', cl: 'በቅጂው ውስጥ ያሉ ቋንቋዎች',
+      cc: 'የማስታወሻዎች ቋንቋ', e3: 'ቢያንስ አንድ ቋንቋ ይምረጡ', ca: 'ሁሉንም ምረጥ', cn: 'ሁሉንም ምርጫዎች አጽዳ'
+    }
+  },
+  tk: {
+    nm: 'Türkmen',
+    dir: 'ltr',
+    c: { t: 'Bellikler', s: 'Gözle', e: 'Heniz bellik ýok', z: 'Netije ýok', n: 'Täze bellik', d: 'Poz', b: 'Yza', p: 'Şu ýere ýazyň…', f: 'bellikler' },
+    r: {
+      bk: 'Yza', pv: 'Öňki', nx: 'Indiki', f: 'Harp ölçegi', th: 'Tema', cp: 'Nusga ber',
+      ab: 'Barada', x: 'Ýap', s: 'Gözle', m: 'Has köp', z: 'Netije ýok', k1: 'Täze parol',
+      k2: 'Paroly gaýtalaň', fn: 'Faýlyň ady', mk: 'Nusga döret', e1: 'Iň az 16 belgi', e2: 'Parollar gabat gelmeýär', ks: 'Teklip edilýän parol',
+      ot: 'Başga', h3: 'Her adama bir nusga. Parolyny kagyza ýazsyn, hiç haçan bellige däl: ýitirse, dikeltmek mümkin däl.', fi: 'Ýapmak üçin: ✕, Yza basyň ýa-da başga programma geçiň; ekrana bir minut degilmese, özi hem ýapylýar. Paroly kagyzda saklaň, hiç haçan bellikde däl.', nc: 'Bu faýl hiç zada birigenok we maglumat ibermeýär.', h1: 'Başga adam üçin nusga dörediň. Onuň öz paroly bolar we siziňkiden tapawutly bolar. Paroly göni aýdyň, hiç haçan habarda däl.', h2: 'Nusga taýýar. Ony Bluetooth, kart ýa-da kabel arkaly geçiriň.',
+      sd: 'Iber', sv: 'Ýatda sakla', ok: 'Taýýar', hp: 'Açmak üçin: paroly belliklerde gözleg gutusyna ýazyp Enter basyň. Ýapmak üçin: ✕, Yza basyň ýa-da başga programma geçiň.', lg: 'Dil', cl: 'Nusgadaky diller',
+      cc: 'Belliklerin dili', e3: 'Iň az bir dil saýlaň', ca: 'Hemmesini saýla', cn: 'Saýlawy ýok et'
+    }
+  },
+  uz: {
+    nm: 'Oʻzbek',
+    dir: 'ltr',
+    c: { t: 'Qaydlar', s: 'Qidirish', e: 'Hali qaydlar yoʻq', z: 'Natija topilmadi', n: 'Yangi qayd', d: 'Oʻchirish', b: 'Orqaga', p: 'Shu yerga yozing…', f: 'qaydlar' },
+    r: {
+      bk: 'Orqaga', pv: 'Oldingi', nx: 'Keyingi', f: 'Matn oʻlchami', th: 'Mavzu', cp: 'Nusxa uzatish',
+      ab: 'Haqida', x: 'Yopish', s: 'Qidirish', m: 'Yana', z: 'Natija topilmadi', k1: 'Yangi parol',
+      k2: 'Parolni qaytaring', fn: 'Fayl nomi', mk: 'Nusxa yaratish', e1: 'Kamida 16 ta belgi', e2: 'Parollar mos kelmadi', ks: 'Tavsiya etilgan parol',
+      ot: 'Boshqasi', h3: 'Har bir kishiga bitta nusxa. Parolni hech qachon qaydda emas, qogʻozga yozish kerak: yoʻqolsa, uni tiklab boʻlmaydi.', fi: 'Yopish uchun: ✕, Orqaga yoki ilovalarni almashtiring; ekranga tegmasdan bir daqiqa oʻtsa, oʻzi ham yopiladi. Parolni qaydda emas, qogʻozda saqlang.', nc: 'Bu fayl hech narsaga ulanmaydi va hech qanday maʼlumot yubormaydi.', h1: 'Boshqa birov uchun nusxa yarating. Uning oʻz paroli boʻladi va siznikidan farq qiladi. Parolni xabarda emas, shaxsan ayting.', h2: 'Nusxa tayyor. Bluetooth, karta yoki kabel orqali uzating.',
+      sd: 'Yuborish', sv: 'Saqlash', ok: 'Tayyor', hp: 'Ochish uchun: parolni qaydlar qidiruv maydoniga yozing va Enter bosing. Yopish uchun: ✕, Orqaga yoki ilovalarni almashtiring.', lg: 'Til', cl: 'Nusxadagi tillar',
+      cc: 'Qaydlar tili', e3: 'Kamida bitta tilni tanlang', ca: 'Barchasini tanlash', cn: 'Barchasini tozalash'
+    }
+  },
+  tg: {
+    nm: 'Тоҷикӣ',
+    dir: 'ltr',
+    c: { t: 'Ёддоштҳо', s: 'Ҷустуҷӯ', e: 'Ҳоло ягон ёддошт нест', z: 'Натиҷае нест', n: 'Ёддошти нав', d: 'Нест кардан', b: 'Бозгашт', p: 'Ин ҷо нависед…', f: 'ёддоштҳо' },
+    r: {
+      bk: 'Бозгашт', pv: 'Қаблӣ', nx: 'Навбатӣ', f: 'Андозаи матн', th: 'Мавзӯъ', cp: 'Нусхаро гузаштан',
+      ab: 'Дар бораи', x: 'Пӯшидан', s: 'Ҷустуҷӯ', m: 'Бештар', z: 'Натиҷае нест', k1: 'Пароли нав',
+      k2: 'Паролро такрор кунед', fn: 'Номи файл', mk: 'Нусха сохтан', e1: 'Ҳадди ақал 16 аломат', e2: 'Паролҳо мувофиқат намекунанд', ks: 'Пароли пешниҳодшуда',
+      ot: 'Дигар', h3: 'Як нусха барои ҳар шахс. Онҳо бояд паролро дар коғаз нависанд, ҳеҷ гоҳ дар ёддошт не: агар гум шавад, барқарор кардан ғайриимкон аст.', fi: 'Барои пӯшидан: ✕, Бозгашт ё иваз кардани барномаҳо; пас аз як дақиқа бе ламс кардани экран худ пӯшида мешавад. Паролро дар коғаз нигоҳ доред, ҳеҷ гоҳ дар ёддошт не.', nc: 'Ин файл ба ҳеҷ чиз пайваст намешавад ва ягон маълумот намефиристад.', h1: 'Барои каси дигар нусха созед. Он пароли худро мегирад ва аз шумо фарқ мекунад. Паролро шахсан гӯед, ҳеҷ гоҳ дар паём не.', h2: 'Нусха тайёр. Бо Bluetooth, корт ё кабел гузаронед.',
+      sd: 'Фиристодан', sv: 'Захира кардан', ok: 'Тайёр', hp: 'Барои кушодан: паролро дар қуттии ҷустуҷӯи ёддоштҳо нависед ва Enter пахш кунед. Барои пӯшидан: ✕, Бозгашт ё иваз кардани барномаҳо.', lg: 'Забон', cl: 'Забонҳо дар нусха',
+      cc: 'Забони ёддоштҳо', e3: 'Ҳадди ақал як забонро интихоб кунед', ca: 'Ҳамаро интихоб кардан', cn: 'Ҳамаро тоза кардан'
+    }
+  },
+  ms: {
+    nm: 'Bahasa Melayu',
+    dir: 'ltr',
+    c: { t: 'Nota', s: 'Cari', e: 'Belum ada nota', z: 'Tiada hasil', n: 'Nota baharu', d: 'Padam', b: 'Kembali', p: 'Tulis di sini…', f: 'nota' },
+    r: {
+      bk: 'Kembali', pv: 'Sebelumnya', nx: 'Seterusnya', f: 'Saiz teks', th: 'Tema', cp: 'Beri salinan',
+      ab: 'Perihal', x: 'Tutup', s: 'Cari', m: 'Lagi', z: 'Tiada hasil', k1: 'Kata laluan baharu',
+      k2: 'Ulang kata laluan', fn: 'Nama fail', mk: 'Buat salinan', e1: 'Sekurang-kurangnya 16 aksara', e2: 'Kata laluan tidak sepadan', ks: 'Kata laluan yang dicadangkan',
+      ot: 'Lain', h3: 'Satu salinan untuk setiap orang. Hendaklah dia menulis kata laluan di atas kertas, jangan sekali-kali dalam nota: jika hilang, tidak dapat dipulihkan.', fi: 'Untuk menutup: ✕, Kembali atau tukar aplikasi; ia juga tertutup sendiri selepas seminit tanpa sentuhan pada skrin. Simpan kata laluan di atas kertas, jangan sekali-kali dalam nota.', nc: 'Fail ini tidak bersambung ke mana-mana dan tidak menghantar data.', h1: 'Buat salinan untuk orang lain. Ia mempunyai kata laluan sendiri dan berbeza daripada milik anda. Beritahu kata laluan secara bersemuka, jangan sekali-kali melalui mesej.', h2: 'Salinan sedia. Berikan melalui Bluetooth, kad atau kabel.',
+      sd: 'Hantar', sv: 'Simpan', ok: 'Selesai', hp: 'Untuk membuka: taip kata laluan dalam kotak carian nota dan tekan Enter. Untuk menutup: ✕, Kembali atau tukar aplikasi.', lg: 'Bahasa', cl: 'Bahasa dalam salinan',
+      cc: 'Bahasa nota', e3: 'Pilih sekurang-kurangnya satu bahasa', ca: 'Pilih semua', cn: 'Kosongkan semua'
+    }
   }
 };
