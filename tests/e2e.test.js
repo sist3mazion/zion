@@ -142,11 +142,17 @@ test('navegador', { skip: !pw && 'Playwright no está instalado' }, async t => {
 
   await t.test('pasar una copia: clave nueva, bytes nuevos, mismo programa', async () => {
     await p.click('.bar button[aria-label="Más"]'); await p.click('.it:has-text("Pasar una copia")');
-    await p.fill('.fm label >> nth=0 >> input', 'corta'); await p.fill('.fm label >> nth=1 >> input', 'corta'); await p.click('.pb');
-    assert.equal(await p.textContent('.er'), 'Mínimo 16 caracteres');
-    await p.fill('.fm label >> nth=0 >> input', CLAVE2); await p.fill('.fm label >> nth=1 >> input', CLAVE2 + 'x'); await p.click('.pb');
-    assert.equal(await p.textContent('.er'), 'Las claves no coinciden');
-    await p.fill('.fm label >> nth=1 >> input', CLAVE2); await p.fill('.fm label >> nth=2 >> input', 'apuntes');
+    // la clave la pone siempre la app: 20 cifras al azar; no hay campo para inventarla
+    assert.equal(await p.locator('.fm input[type=password]').count(), 1, 'solo el campo para repetirla');
+    const k1 = await p.textContent('.ks .kv');
+    assert.match(k1, /^\d{4}( \d{4}){4}$/);
+    await p.click('.ks .sb');
+    const CLAVE2 = await p.textContent('.ks .kv');
+    assert.notEqual(CLAVE2, k1, '«Otra» da otra clave');
+    await p.fill('.fm label >> nth=0 >> input', k1); await p.click('.pb');
+    assert.equal(await p.textContent('.er'), 'Las claves no coinciden', 'la clave anterior ya no vale');
+    await p.fill('.fm label >> nth=0 >> input', CLAVE2.replace(/ /g, ''));          // sin espacios también vale
+    await p.fill('.fm label >> nth=1 >> input', 'apuntes');
     await p.click('.pb'); await p.waitForSelector('.fm .sb');
     const [bajada] = await Promise.all([p.waitForEvent('download'), p.click('.fm button:has-text("Guardar")')]);
     assert.equal(bajada.suggestedFilename(), 'apuntes.html');
