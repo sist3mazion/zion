@@ -12,7 +12,7 @@ La persona que **lleva** el archivo en su teléfono, en un lugar donde tener una
 | Alguien busca palabras religiosas dentro del archivo | **Sí** | El texto, los nombres de los libros y los menús del lector van cifrados. En claro solo hay palabras de una app de notas |
 | Un programa compara el archivo con una lista de archivos prohibidos (por huella) | **Sí** | Cada copia tiene sal, cifrado y tamaño distintos: no hay dos iguales |
 | Se vigila el tráfico de red del teléfono | **Sí** | El archivo no hace ninguna conexión, y prohíbe al navegador hacerlas |
-| Te sorprenden leyendo | **En parte** | ✕, apagar la pantalla o cambiar de aplicación devuelven a las notas en el acto (Atrás solo retrocede un nivel), tras 30 segundos sin tocar la pantalla vuelve solo, y agitar o girar bruscamente el móvil lo cierra al instante. No evita que hayan visto la pantalla |
+| Te sorprenden leyendo | **En parte** | ✕, apagar la pantalla o cambiar de aplicación devuelven a las notas en el acto (Atrás solo retrocede un nivel), y tras 30 segundos sin tocar la pantalla vuelve solo. Agitar el móvil no lo cierra: se probó, pero los navegadores no dan el sensor de movimiento a un archivo abierto desde otra app. No evita que hayan visto la pantalla ni que te quiten el móvil abierto antes de esos 30 segundos |
 | Un analista con tiempo examina el archivo sin la clave | **En parte** | No puede leer el contenido ni saber qué es. Sí ve que el archivo contiene un bloque cifrado grande y un programa que descifra (sin comentarios, pero con los nombres de las funciones del navegador y de Argon2id) |
 
 ## De qué NO protege
@@ -95,4 +95,6 @@ Cómo llega la primera copia a un país es el punto más delicado y no lo resuel
 | Samsung de gama de entrada, Android 10, Chrome 157, 4 GB | Desde WhatsApp | `movil/generar-prueba-grande.js` (25 MB, sin Biblia, mismo tamaño y descompresor que el archivo de 18 idiomas): abre. Carga 1,2 s; clave y descifrado 0,24 s; descomprimir 16,8 MB de texto birmano de una vez 0,69 s |
 | Dos teléfonos Android 10, 4 GB, 8 núcleos, Chrome 157 | Desde WhatsApp | Página de prueba de la clave (sin Biblia): Argon2id con 64 MiB 0,7 s (PBKDF2 con 1 000 000 de rondas, 0,36 s); con 128 MiB, 1,4 s. WebAssembly permitido con la política del archivo y resultado idéntico a la referencia en C |
 
-Sin probar: **teléfonos con 1–2 GB de RAM** (frecuentes en las zonas de destino), el archivo real de 18 idiomas en un teléfono (solo la página de prueba del mismo tamaño), otros fabricantes, abrir desde el gestor de archivos o Telegram, iPhone.
+Sin probar: **teléfonos con 1–2 GB de RAM** (frecuentes en las zonas de destino), el archivo real de 18 idiomas en un teléfono (solo la página de prueba del mismo tamaño), otros fabricantes, abrir desde Telegram.
+
+**iPhone no sirve.** La vista previa de WhatsApp, Archivos o Mail no ejecuta el programa, y Safari ya no abre archivos HTML guardados en el móvil. Probado en un iPhone 13: no abre. Por ahora, solo Android y ordenador (Windows, Linux).
