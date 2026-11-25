@@ -819,7 +819,7 @@ function field(label, type, value) {
   l.i = i;
   return l;
 }
-// suggested key: 20 random digits in groups of four (10^20, 66 bits). Every keyboard has digits and every
+// the key of every copy: 20 random digits in groups of four (10^20, 66 bits). Every keyboard has digits and every
 // language can say them; fold() takes them from any script, with or without the spaces.
 function suggest() {
   var s = '', r;
@@ -832,12 +832,13 @@ function suggest() {
   return s;
 }
 function copy() {
-  var x = S.x, a = field(R.k1, 'password'), b = field(R.k2, 'password'), f = field(R.fn, 'text', U.f), msg = el('p', 'er');
+  var x = S.x, b = field(R.k2, 'password'), f = field(R.fn, 'text', U.f), msg = el('p', 'er');
   var go = el('button', 'pb', R.mk), cs = [], box = null, sel = null, nf = U.f, codes = Object.keys(x.u), touched = false;
-  // the key comes ready: seen only here, never stored; the person may ask for another or type their own
-  var kv = el('p', 'kv'), ot = el('button', 'sb', R.ot), kb = el('div', 'ks', el('span', null, R.ks), kv, ot);
-  function fill() { var k = suggest(); kv.textContent = k; kv.hidden = false; a.i.value = b.i.value = k; msg.textContent = ''; }
-  a.i.oninput = b.i.oninput = function () { kv.hidden = a.i.value !== kv.textContent || b.i.value !== kv.textContent; };
+  // the key is always made here, never invented: a verse or a date is guessed offline in seconds, 20 random digits are not.
+  // Seen only on this screen, never stored; typing it back proves it was written down before the copy is made.
+  var key = '', kv = el('p', 'kv'), ot = el('button', 'sb', R.ot), kb = el('div', 'ks', el('span', null, R.k1), kv, ot);
+  function fill() { key = suggest(); kv.textContent = key; b.i.value = ''; msg.textContent = ''; }
+  b.i.setAttribute('inputmode', 'numeric');
   ot.type = 'button'; ot.onclick = fill; kv.dir = 'ltr';
   fill();
   go.type = 'button';
@@ -881,10 +882,9 @@ function copy() {
     follow();
   }
   go.onclick = async function () {
-    var s = S, p = a.i.value.trim(), keep = [], m, parts, html, at, cov = sel ? sel.value : LANG, u = x.u[cov] || { c: U }, name, i, same = cov === LANG;
-    // a weak passphrase can be guessed offline without limit: 16 characters at least (spaces count)
-    if (Array.from(fold(p)).length < 16) { msg.textContent = R.e1; return; }   // a key of digits counts its digits only
-    if (a.i.value !== b.i.value) { msg.textContent = R.e2; return; }
+    var s = S, p = key, keep = [], m, parts, html, at, cov = sel ? sel.value : LANG, u = x.u[cov] || { c: U }, name, i, same = cov === LANG;
+    // typed back with any digits, spaces or none: fold() makes both the same
+    if (fold(b.i.value) !== fold(key)) { msg.textContent = R.e2; return; }
     for (i = 0; i < x.t.length; i++) if (!x.t[i].p && (!cs.length || cs[i].checked)) keep.push(i);
     if (!keep.length) { msg.textContent = R.e3; return; }
     msg.textContent = ''; go.disabled = true; mk = true;
@@ -906,8 +906,7 @@ function copy() {
   set({ t: 'copy' }); ttl.textContent = R.cp;
   // the last sentence of h1 (the passphrase rule) goes on its own line, in bold
   var h = /^([\s\S]*?[.!?\u3002\u0964\u06d4\u0f0d\u104b])\s*([^.!?\u3002\u0964\u06d4\u0f0d\u104b]+[.!?\u3002\u0964\u06d4\u0f0d\u104b]?)$/.exec(R.h1.trim());
-  a.appendChild(el('p', 'hi', R.e1));
-  put(el('div', 'fm', h ? el('p', null, h[1]) : null, el('p', 'wn', h ? h[2] : R.h1), el('p', 'wn', R.h3), kb, a, b, f, box, sel ? el('label', null, R.cc, sel) : null, msg, go));
+  put(el('div', 'fm', h ? el('p', null, h[1]) : null, el('p', 'wn', h ? h[2] : R.h1), el('p', 'wn', R.h3), kb, b, f, box, sel ? el('label', null, R.cc, sel) : null, msg, go));
 }
 function ready(blob, name) {
   var file = null, can = false, box = el('div', 'fm', el('p', null, R.h2)), b;
