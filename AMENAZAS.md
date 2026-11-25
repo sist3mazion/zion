@@ -12,7 +12,7 @@ La persona que **lleva** el archivo en su teléfono, en un lugar donde tener una
 | Alguien busca palabras religiosas dentro del archivo | **Sí** | El texto, los nombres de los libros y los menús del lector van cifrados. En claro solo hay palabras de una app de notas |
 | Un programa compara el archivo con una lista de archivos prohibidos (por huella) | **Sí** | Cada copia tiene sal, cifrado y tamaño distintos: no hay dos iguales |
 | Se vigila el tráfico de red del teléfono | **Sí** | El archivo no hace ninguna conexión, y prohíbe al navegador hacerlas |
-| Te sorprenden leyendo | **En parte** | ✕, Atrás o cambiar de aplicación devuelven a las notas en el acto, y tras un minuto sin tocar la pantalla vuelve solo. No evita que hayan visto la pantalla |
+| Te sorprenden leyendo | **En parte** | ✕, apagar la pantalla o cambiar de aplicación devuelven a las notas en el acto (Atrás solo retrocede un nivel), tras 30 segundos sin tocar la pantalla vuelve solo, y agitar o girar bruscamente el móvil lo cierra al instante. No evita que hayan visto la pantalla |
 | Un analista con tiempo examina el archivo sin la clave | **En parte** | No puede leer el contenido ni saber qué es. Sí ve que el archivo contiene un bloque cifrado grande y un programa que descifra (sin comentarios, pero con los nombres de las funciones del navegador y de Argon2id) |
 
 ## De qué NO protege
