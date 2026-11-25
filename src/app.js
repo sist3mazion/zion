@@ -445,7 +445,7 @@ q.oninput = draw;
 sf.onsubmit = function (e) { e.preventDefault(); enter(q.value); };
 
 /* ---------- unlock: the search box, Enter ---------- */
-var pc = null, raw = null, busy = false, away = false, S = null, R = null, hold = false, idleT = 0, mk = false, askedM = false;
+var pc = null, raw = null, busy = false, away = false, S = null, R = null, hold = false, idleT = 0, mk = false;
 async function enter(v) {
   var r = null;
   v = v.trim();
@@ -455,8 +455,6 @@ async function enter(v) {
   // a key attempt leaves nothing on screen, right or wrong: not in the box, not in the recent-apps picture
   q.value = ''; draw(); q.blur();
   busy = true; away = false;
-  // iPhone asks once for the motion sensor (shake / twist to close); it must be asked inside the key press
-  if (!askedM && W.DeviceMotionEvent && typeof DeviceMotionEvent.requestPermission === 'function') { askedM = true; DeviceMotionEvent.requestPermission().catch(function () { }); }
   try {
     if (!raw) raw = D.getElementById('d').textContent;
     r = await open(v, raw);
@@ -947,15 +945,6 @@ D.addEventListener('visibilitychange', function () { if (!D.hidden) return; if (
 W.addEventListener('blur', function () { if (busy) away = true; if (S && !hold) lock(); });
 W.addEventListener('pagehide', function () { if (busy) away = true; if (S) lock(true); });
 D.addEventListener('keydown', function (e) { if (e.key === 'Escape') { if (busy) away = true; if (S) lock(); } idle(); });
-// a shake or a sharp twist closes the reader at once (the phone snatched from the hand); never while making a copy.
-// Thresholds: 20 m/s2 of acceleration without gravity (~2 g) or 450 degrees/s of rotation; walking and turning pages stay far below.
-W.addEventListener('devicemotion', function (e) {
-  if (!S || hold || mk) return;
-  var a = e.acceleration, g = e.accelerationIncludingGravity, r = e.rotationRate, m = 0;
-  if (a && a.x !== null) m = Math.sqrt(a.x * a.x + a.y * a.y + a.z * a.z);
-  else if (g && g.x !== null) m = Math.abs(Math.sqrt(g.x * g.x + g.y * g.y + g.z * g.z) - 9.81);
-  if (m > 20 || (r && Math.max(Math.abs(r.alpha || 0), Math.abs(r.beta || 0), Math.abs(r.gamma || 0)) > 450)) lock();
-});
 ['pointerdown', 'touchstart', 'scroll'].forEach(function (n) { rd.addEventListener(n, idle, { capture: true, passive: true }); });
 
 rd.hidden = true;
