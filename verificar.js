@@ -26,7 +26,8 @@ async function main() {
   if (v.aviso) console.log('! Aviso de esta versión: ' + v.aviso);
   if (r.invitacion) {
     console.log('  Es una invitación (envío a distancia): no lleva contenido, solo textos en ' + Object.keys(JSON.parse(r.piezas.ui)).length + ' idiomas.');
-    if (!r.distintos.length) console.log('✔ Sus textos son exactamente los de este repositorio.');
+    if (r.anterior) console.log('✔ Sus textos son exactamente los de una versión anterior. Funciona, pero las invitaciones nuevas son más fáciles de usar: mejor mandar una nueva.');
+    else if (!r.distintos.length) console.log('✔ Sus textos son exactamente los de este repositorio.');
     else console.log('! Textos distintos de los de este repositorio en: ' + r.distintos.join(', ') + '. Pueden ser de otra versión o estar cambiados: léelos antes de pasarla (una invitación con otras instrucciones es una trampa).');
     return;
   }
