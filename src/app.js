@@ -130,7 +130,7 @@ async function fkey(ks) {
 var CL = 130, SMAX = (10n ** 130n) >> 304n;
 function big(a) { var h = '0x0', i; for (i = 0; i < a.length; i++) h += (a[i] < 16 ? '0' : '') + a[i].toString(16); return BigInt(h); }
 function bytes(n, len) { var a = new Uint8Array(len), i; for (i = len - 1; i >= 0; i--) { a[i] = Number(n & 255n); n >>= 8n; } return a; }
-async function sum(b) { return new Uint8Array(await crypto.subtle.digest('SHA-256', cat(INFO, b))).subarray(0, 4); }
+async function sum(b, l) { return new Uint8Array(await crypto.subtle.digest('SHA-256', cat(l || INFO, b))).subarray(0, 4); }
 /* a language code of two or three letters a-z as a number (base 27; 0: none), and back */
 function lnum(l) {
   var m = /^([a-z]{2,3})(?![a-z])/.exec(String(l || '').toLowerCase()), n = 0, i;
@@ -178,6 +178,129 @@ async function unpack(msg) {
     ok.push({ salt: b.slice(0, 16), pk: pk, l: lstr(b[48] << 8 | b[49]) });
   }
   return ok.length === 1 ? ok[0] : null;
+}
+
+/* Short messages between two people who have the file: CPace (draft-irtf-cfrg-cpace-21, with the RFC Editor), X25519 and
+   SHA-512, initiator-responder, no party identities, CI = 'nt2', a new random sid for every conversation. Both type a number
+   agreed in person or by voice (6 digits or more: the PRS). It never travels: whoever does not know it gets one guess per
+   conversation and cannot test guesses offline. From ISK come a key for each direction (HKDF-SHA256 to AES-256-GCM, not
+   extractable) and the tag of the acceptance (the key confirmation of the draft: mac_key = H('CPaceMac' | sid | ISK),
+   Tb = HMAC-SHA512(mac_key, lv_cat(Yb, ADb)), its first 32 bytes). Blocks, in base64 without '=':
+     start    A to B   sid(16) | Ya(32) | check(4)                       70 characters
+     accept   B to A   Yb(32) | Tb(32)                                   86 characters
+     message  both     iv(12) | AES-GCM(v(1) | n(1) | text(400))       574 characters
+   A writes first, once Tb proves the same ISK; B writes once A's first message has opened: no text goes out before the
+   other side has proved it holds the same key. Nothing comes from the key of the file. ya waits for the acceptance and yb
+   goes at once; the keys of the directions die with the conversation. Checked against the official test vectors of the
+   draft (tests/mensajes.test.js). */
+var CPD = te.encode('CPace255'), CI2 = te.encode('nt2'), INF2 = CI2, P25 = (1n << 255n) - 19n, MSG = 400, SL = 70, AL = 86, ML = 574;
+function sha512(b) { return crypto.subtle.digest('SHA-512', b).then(function (h) { return new Uint8Array(h); }); }
+/* prepend_len and lv_cat (lvc) of the draft: the length in LEB128, then the bytes */
+function lenp(d) { var o = [], n = d.length; do { o.push(n < 128 ? n : (n & 127) | 128); n >>>= 7; } while (n); return cat(new Uint8Array(o), d); }
+function lvc() { var a = [], i; for (i = 0; i < arguments.length; i++) a.push(lenp(arguments[i])); return cat.apply(null, a); }
+/* field elements of curve25519, little-endian as in RFC 7748 */
+function fle(b) { var n = 0n, i; for (i = b.length - 1; i >= 0; i--) n = (n << 8n) | BigInt(b[i]); return n; }
+function fen(n) { var a = new Uint8Array(32), i; for (i = 0; i < 32; i++) { a[i] = Number(n & 255n); n >>= 8n; } return a; }
+function finv(x) { var r = 1n, e = P25 - 2n; x %= P25; while (e > 0n) { if (e & 1n) r = r * x % P25; x = x * x % P25; e >>= 1n; } return r; }
+/* calculate_generator: SHA-512 of generator_string(DSI, PRS, CI, sid, 128), its first 32 bytes as a u coordinate
+   (decodeUCoordinate), then map_to_curve_elligator2 of RFC 9380 (the one in noble-curves), keeping only u */
+async function cgen(prs, ci, sid) {
+  var h = await sha512(lvc(CPD, prs, new Uint8Array(Math.max(0, 128 - 1 - lenp(prs).length - lenp(CPD).length)), ci, sid)), u, m;
+  h[31] &= 127; u = fle(h.subarray(0, 32)) % P25; h.fill(0);
+  m = X2._map_to_curve_elligator2_curve25519(u);
+  return fen(m.xMn * finv(m.xMd) % P25);
+}
+/* scalar_mult_vfy is X25519: a low-order point gives all zeros, noble-curves throws, and that is the abort of the draft */
+function cmul(s, p) { return X2.x25519.scalarMult(s, p); }
+/* ISK = H(lv_cat(DSI | '_ISK', sid, K) | transcript_ir(Ya, ADa, Yb, ADb)). K is wiped */
+async function cisk(sid, k, ya, ada, yb, adb) {
+  try { return await sha512(cat(lvc(cat(CPD, te.encode('_ISK')), sid, k), lvc(ya, ada), lvc(yb, adb))); } finally { k.fill(0); }
+}
+/* from ISK: the key of each direction (a: from A, b: from B) and the tag of the acceptance. ISK is wiped */
+async function csess(isk, sid, yb) {
+  var mk = await sha512(cat(te.encode('CPaceMac'), sid, isk)), o = {}, h, b;
+  function dk(l) { return crypto.subtle.deriveKey({ name: 'HKDF', hash: 'SHA-256', salt: sid, info: te.encode(l) }, b, { name: 'AES-GCM', length: 256 }, false, ['encrypt', 'decrypt']); }
+  try {
+    h = await crypto.subtle.importKey('raw', mk, { name: 'HMAC', hash: 'SHA-512' }, false, ['sign']);
+    o.tb = new Uint8Array(await crypto.subtle.sign('HMAC', h, lvc(yb, NONE))).slice(0, 32);
+    b = await crypto.subtle.importKey('raw', isk, 'HKDF', false, ['deriveKey']);
+    o.a = await dk('nt2 a'); o.b = await dk('nt2 b');
+  } finally { mk.fill(0); isk.fill(0); }
+  return o;
+}
+function b64u(a) { return b64e(a).replace(/=+$/, ''); }
+function u64(s) { while (s.length % 4) s += '='; return b64d(s); }
+/* a start that arrived whole? (the check only catches a bad copy: who sent it is proved by the acceptance) */
+async function cok(st) {
+  var s;
+  if (st.length !== 52) return false;
+  s = await sum(st.subarray(0, 48), INF2);
+  return s[0] === st[48] && s[1] === st[49] && s[2] === st[50] && s[3] === st[51];
+}
+/* A: the start. The caller keeps ya until the acceptance arrives */
+async function cstart(pin) {
+  var sid = rand(16), ya = rand(32), g = await cgen(te.encode(fold(pin)), CI2, sid), b;
+  try { b = cat(sid, cmul(ya, g)); } finally { g.fill(0); }
+  return { sid: sid, ya: ya, Ya: b.slice(16), b: cat(b, await sum(b, INF2)) };
+}
+/* B: accepting a start with the number; yb and K go at once. null: not a whole start, or a low-order point */
+async function caccept(pin, st) {
+  var sid, Ya, yb, g, Yb, k, s;
+  if (!(await cok(st))) return null;
+  sid = st.slice(0, 16); Ya = st.slice(16, 48); yb = rand(32);
+  g = await cgen(te.encode(fold(pin)), CI2, sid);
+  try { Yb = cmul(yb, g); k = cmul(yb, Ya); } catch (e) { return null; } finally { g.fill(0); yb.fill(0); }
+  s = await csess(await cisk(sid, k, Ya, NONE, Yb, NONE), sid, Yb);
+  return { sid: sid, keys: s, b: cat(Yb, s.tb) };
+}
+/* A: an acceptance gives the keys only if its tag proves the same ISK (same number, same start); otherwise null */
+async function cfinish(ya, sid, Ya, ac) {
+  var Yb, k, s, d = 0, i;
+  if (ac.length !== 64) return null;
+  Yb = ac.slice(0, 32);
+  try { k = cmul(ya, Yb); } catch (e) { return null; }
+  s = await csess(await cisk(sid, k, Ya, NONE, Yb, NONE), sid, Yb);
+  for (i = 0; i < 32; i++) d |= s.tb[i] ^ ac[32 + i];
+  return d ? null : s;
+}
+/* a message: version 1, its number in the conversation (one byte), the text in UTF-16 (200 units) and zeros after it,
+   so every message has the same size. The additional data is the sid: a message only opens in its own conversation */
+async function cseal(key, sid, n, text) {
+  var p = new Uint8Array(2 + MSG), iv = rand(12), i, c;
+  p[0] = 1; p[1] = n & 255;
+  for (i = 0; i < text.length && i < MSG / 2; i++) { c = text.charCodeAt(i); p[2 + 2 * i] = c & 255; p[3 + 2 * i] = c >> 8; }
+  try { return cat(iv, new Uint8Array(await crypto.subtle.encrypt({ name: 'AES-GCM', iv: iv, additionalData: sid }, key, p))); } finally { p.fill(0); }
+}
+async function copen(key, sid, b) {
+  var p, s = '', n, i, j;
+  if (b.length !== 30 + MSG) return null;
+  try { p = new Uint8Array(await crypto.subtle.decrypt({ name: 'AES-GCM', iv: b.subarray(0, 12), additionalData: sid }, key, b.subarray(12))); } catch (e) { return null; }
+  if (p[0] !== 1) { p.fill(0); return null; }
+  for (j = MSG / 2; j > 0 && !(p[2 * j] | p[2 * j + 1]); j--);
+  for (i = 0; i < j; i++) s += String.fromCharCode(p[2 + 2 * i] | p[3 + 2 * i] << 8);
+  n = p[1]; p.fill(0);
+  return { n: n, t: s };
+}
+/* A pasted message -> the blocks in it by kind, as base64 strings. Between the pieces of a block only spaces, line breaks and
+   the invisible marks chat apps add; a time, a name or other words next to it do not spoil it. Whether one is valid is
+   for whoever opens it to say */
+function grab(msg) {
+  var parts = String(msg).match(/[A-Za-z0-9+\/]+|[^A-Za-z0-9+\/]+/g) || [], runs = [], g = [], o = { s: [], a: [], m: [] }, seen = {}, i, j, n, d;
+  for (i = 0; i < parts.length; i++) {
+    if (/^[A-Za-z0-9+\/]/.test(parts[i])) g.push(parts[i]);
+    else if (!/^[\s\u061c\u180e\u200b-\u200f\u202a-\u202e\u2060-\u2064\u2066-\u2069\ufeff]+$/.test(parts[i])) { runs.push(g); g = []; }
+  }
+  runs.push(g);
+  for (i = 0; i < runs.length; i++) {
+    for (j = 0; j < runs[i].length; j++) {
+      for (d = '', n = j; n < runs[i].length && d.length < ML; n++) {
+        d += runs[i][n];
+        if (seen[d]) continue;
+        if (d.length === SL) { seen[d] = 1; o.s.push(d); } else if (d.length === AL) { seen[d] = 1; o.a.push(d); } else if (d.length === ML) { seen[d] = 1; o.m.push(d); }
+      }
+    }
+  }
+  return o;
 }
 
 /* raw inflate (RFC 1951), used only where the native stream is missing */
@@ -455,7 +578,7 @@ var IC = {
   x: 'M6 6l12 12M18 6L6 18', search: 'M11 4a7 7 0 1 0 0 14a7 7 0 0 0 0-14zM20 20l-4-4',
   trash: 'M5 7h14M10 7V5h4v2M7 7l1 12h8l1-12', more: 'M5 12h.01M12 12h.01M19 12h.01',
   share: 'M12 15V4M8 8l4-4 4 4M5 14v5h14v-5', down: 'M12 4v11M8 11l4 4 4-4M5 14v5h14v-5', info: 'M12 11v6M12 7.5v.01M12 3a9 9 0 1 0 0 18a9 9 0 0 0 0-18z',
-  moon: 'M20 14.5A8 8 0 0 1 9.5 4a8 8 0 1 0 10.5 10.5z',
+  moon: 'M20 14.5A8 8 0 0 1 9.5 4a8 8 0 1 0 10.5 10.5z', msg: 'M4 5h16v11H10l-4 4v-4H4z',
   globe: 'M12 3a9 9 0 1 0 0 18a9 9 0 0 0 0-18zM3 12h18M12 3c3 3 3 15 0 18M12 3c-3 3-3 15 0 18'
 };
 function ic(n) {
@@ -609,7 +732,7 @@ function num(x) {
 function put(node) { wipe(pg); pg.appendChild(node); pg.scrollTop = 0; }
 function set(v) {
   if (v.t === 'books' || v.t === 'chap' || v.t === 'text') S.pv = v;
-  S.v = v; hold = false; mn.hidden = true; pn.hidden = v.t !== 'text'; bkb.hidden = v.t === 'books'; sb.hidden = v.t === 'copy' || v.t === 'about'; S.tok++;   // search is hidden here: on the copy form it would throw away the typed key
+  S.v = v; hold = false; mn.hidden = true; pn.hidden = v.t !== 'text'; bkb.hidden = v.t === 'books'; sb.hidden = v.t === 'copy' || v.t === 'about' || v.t === 'msg'; S.tok++;   // search is hidden here: on these forms it would throw away what is typed
 }
 function item(icon, label, fn) {
   var b = el('button', 'it', ic(icon), el('span', null, label));
@@ -658,7 +781,7 @@ async function start(r) {
   pn = el('div', 'pn', btn('rb fl', 'back', R.pv, function () { step(-1); }), rg, btn('rb fl', 'next', R.nx, function () { step(1); }));
   mn = el('div', 'mn',
     el('div', 'fr', el('span', null, R.f), btn('ib', 'minus', R.f + ' -', function () { size(-2); }), btn('ib', 'plus', R.f + ' +', function () { size(2); })),
-    item('moon', R.th, flip), x.t.length > 1 ? item('globe', R.lg, langs) : null, item('share', R.cp, pass), item('down', R.rc, mine), item('info', R.ab, about));
+    item('moon', R.th, flip), x.t.length > 1 ? item('globe', R.lg, langs) : null, item('share', R.cp, pass), item('down', R.rc, mine), item('msg', R.ms, chat), item('info', R.ab, about));
   mn.hidden = true;
   bkb = btn('ib fl', 'back', R.bk, function () { if (S && S.v.t !== 'books') rBack(); });
   rd.appendChild(el('div', 'bar', btn('ib', 'x', R.x, function () { lock(); }), bkb, ttl,
@@ -675,7 +798,8 @@ async function start(r) {
   // nothing read yet since the file was opened: a short notice above the books; nothing is stored for it
   S.fi = !c;
   pn.dir = S.m.d;
-  if (pos && S.m.b[pos.b]) text(pos.b, pos.c); else books();
+  // a conversation going on: straight to it (the person is coming back from the chat with a block copied)
+  if (alive()) chat(); else if (pos && S.m.b[pos.b]) text(pos.b, pos.c); else books();
 }
 
 /* name of a text in the language lists: the language itself; the version (it is in About) only if two texts share a language */
@@ -1108,11 +1232,12 @@ function far() {
 }
 /* the invitation: this same program with no texts inside, only what the other person needs to make a code. It speaks the
    language of the phone that opens it, so it carries its few texts in every language this file has */
+var IVR = ['k1', 'k2', 'e2', 'mc', 'em', 'ok', 'bk', 'sd', 'cy', 'h7'];   // the texts of the reader it needs (lib/paquete.js: DEL_LECTOR)
 function invite() {
-  var x = S.x, u = {}, k, r;
+  var x = S.x, u = {}, k, r, i;
   for (k in x.u) {
     r = x.u[k].r;
-    if (x.u[k].i && r) u[k] = Object.assign({ dir: x.u[k].dir }, x.u[k].i, { k1: r.k1, k2: r.k2, ot: r.ot, e2: r.e2, mc: r.mc, sd: r.sd, cy: r.cy, h7: r.h7 });
+    if (x.u[k].i && r) { u[k] = Object.assign({ dir: x.u[k].dir }, x.u[k].i); for (i = 0; i < IVR.length; i++) u[k][IVR[i]] = r[IVR[i]]; }
   }
   ready(new Blob([page(true, LANG, null, '', JSON.stringify(u).replace(/</g, '\\u003c'))], { type: 'text/html' }), R.vn + '.html', R.h4);
 }
@@ -1134,9 +1259,9 @@ function mine() {
   set({ t: 'copy' }); ttl.textContent = R.rc;
   put(el('div', 'fm', el('p', null, R.h6), b, msg, go));
 }
-/* the code on screen (selectable: it is not a secret), with Send (the share sheet) and Copy */
-function shown(c, T, before) {
-  var w = el('div'), p = el('p', 'cd', c), b, y;
+/* the code on screen (selectable: it is not a secret), with Send (the share sheet) and Copy. cls: 'bl' for a block */
+function shown(c, T, before, cls) {
+  var w = el('div'), p = el('p', 'cd' + (cls ? ' ' + cls : ''), c), b, y;
   p.dir = 'ltr';
   w.appendChild(p);
   if (navigator.share) {
@@ -1187,6 +1312,129 @@ function brief() {
   hold = true;
   W.addEventListener('focus', back); rd.addEventListener('pointerdown', back, true);
 }
+/* ---------- messages: one conversation at a time, only in memory, 15 minutes at most ----------
+   The conversation outlives the reader (copying a block from the chat closes it) but never the page. Its keys are in memory
+   and not extractable; ya is sealed with a random key of its own until the acceptance. The key of the file only opens the
+   door to this screen, and nothing is written anywhere. The 15 minutes count from the start (or the acceptance) and never
+   grow; the browser may freeze timers in the background, so every use checks the clock too */
+var CV = null, CVT = 0, TTL = 15 * 60000, DG = { ar: 0x660, fa: 0x6f0, my: 0x1040 };
+function hangup() { clearTimeout(CVT); CV = null; }
+function alive() { if (CV && Date.now() >= CV.end) hangup(); return CV; }
+function conv(r, sid, st, out) {
+  hangup();
+  CV = { r: r, sid: sid, st: st, out: out, end: Date.now() + TTL, ns: 0, seen: {} };
+  CVT = setTimeout(function () { hangup(); if (S && S.v.t === 'msg') chat(); }, TTL);
+  return CV;
+}
+// numbers in the digits the texts of the reader use (where they have their own)
+function dig(n) { var z = DG[rd.lang]; n = String(n); return z ? n.replace(/[0-9]/g, function (c) { return String.fromCharCode(z + +c); }) : n; }
+function left(c) { return R.tm.replace('%', dig(Math.max(1, Math.ceil((c.end - Date.now()) / 60000)))); }
+/* what a pasted message holds for the conversation: a start (none open), the acceptance (A waiting) or messages */
+async function hear(v) {
+  var c = alive(), p = grab(v), got = [], i, b, r, ya;
+  if (!c) {
+    for (i = 0; i < p.s.length; i++) { b = u64(p.s[i]); if (await cok(b)) got.push(b); }
+    return got.length === 1 ? { s: got[0] } : null;
+  }
+  if (c.st === 'w') {
+    for (i = 0; i < p.a.length && CV === c; i++) {
+      ya = await unseal(c.w, c.ya, 'y');
+      try { r = await cfinish(ya, c.sid, c.Ya, u64(p.a[i])); } finally { ya.fill(0); }
+      if (r && CV === c) { c.ks = r.a; c.kr = r.b; c.st = 'o'; c.ya = c.w = c.out = null; return { a: 1 }; }
+    }
+    return null;
+  }
+  for (i = 0; i < p.m.length && CV === c; i++) {
+    r = await copen(c.kr, c.sid, u64(p.m[i]));
+    if (r) { r.old = !!c.seen[r.n]; c.seen[r.n] = 1; got.push(r); }
+  }
+  if (!got.length || CV !== c) return null;
+  if (c.st === 'k') { c.st = 'o'; c.out = null; }     // A's first message: from now on B may write
+  got.sort(function (x, y) { return x.n - y.n; });
+  return { m: got };
+}
+function said(m) { var p = el('p', null, m.t); p.dir = 'auto'; return el('div', 'mg', el('b', null, '#' + dig(m.n + 1), m.old ? el('i', null, ' ' + R.rd) : null), p); }
+/* the screen. got: the messages that have just opened; draft: what was being written */
+function chat(got, draft) {
+  var c = alive(), w = el('div', 'fm'), ta = plain(el('textarea')), er = el('p', 'er'), pb = null, n = 0, st = null, pin, go, cm, cnt, sl, end;
+  set({ t: 'msg' }); ttl.textContent = R.ms;
+  ta.placeholder = R.pb; ta.rows = 3; ta.dir = 'ltr';
+  async function look() {
+    var k = ++n, v = ta.value, r = null;
+    try { if (v.trim()) r = await hear(v); } catch (e) { r = null; }
+    if (k !== n || !S || S.v.t !== 'msg') return;              // a newer paste is being read, or the reader closed
+    if (r && (r.a || r.m)) return chat(r.m, cm ? cm.value : '');
+    st = r && r.s ? r.s : null;
+    er.textContent = r || !v.trim() ? '' : R.e5;
+    if (go) go.textContent = st ? R.ac : R.em;
+  }
+  ta.oninput = later(look, 300);
+  if (navigator.clipboard && navigator.clipboard.readText) {
+    pb = el('button', 'sb', R.pe); pb.type = 'button';
+    // the browser may ask before it lets the page read the clipboard: that is not leaving the app (only while it asks)
+    pb.onclick = function () {
+      hold = true;
+      navigator.clipboard.readText().then(function (t) { ta.value = t; look(); }, function () { ta.focus(); }).then(function () { hold = false; });
+    };
+  }
+  if (!c) {
+    // no conversation: the agreed number, then Start, or Accept if what was pasted is a start
+    pin = field(R.pn, 'password'); pin.i.setAttribute('inputmode', 'numeric');
+    go = el('button', 'pb', R.em); go.type = 'button';
+    go.onclick = async function () {
+      var v = pin.i.value.trim(), s, r = null, a;
+      if (Array.from(fold(v)).length < 6) { er.textContent = R.e6; return; }
+      // something pasted that is not (yet) read as a start: read it now; if it is not one, say so and start nothing
+      if (ta.value.trim() && !st) { await look(); if (!st) return; }
+      s = st;
+      go.disabled = true; er.textContent = '';
+      try {
+        if (s) {
+          r = await caccept(v, s);
+          if (r) { c = conv('b', r.sid, 'k', b64u(r.b)); c.ks = r.keys.b; c.kr = r.keys.a; }
+        } else {
+          r = await cstart(v);
+          a = await crypto.subtle.generateKey({ name: 'AES-GCM', length: 256 }, false, ['encrypt', 'decrypt']);
+          c = conv('a', r.sid, 'w', b64u(r.b)); c.Ya = r.Ya; c.w = a; c.ya = await seal(a, r.ya, 'y'); r.ya.fill(0);
+        }
+      } catch (e) { r = null; }
+      v = ''; pin.i.value = '';
+      if (!S || S.v.t !== 'msg') return;
+      if (!r) { go.disabled = false; er.textContent = R.e5; return; }
+      chat();
+    };
+    w.appendChild(el('div', null, el('p', null, R.h8), pin, ta, pb, er, go));
+  } else {
+    w.appendChild(el('p', 'hi', left(c)));
+    // still waiting for the other side: the block to send (again, if needed)
+    if (c.st !== 'o') w.appendChild(el('div', null, shown(c.out, R, brief, 'bl'), el('p', 'wn', R.h9)));
+    w.appendChild(el('div', null, ta, pb, er));
+    (got || []).forEach(function (m) { w.appendChild(said(m)); });
+    if (c.st === 'o') {
+      cm = plain(el('textarea')); cm.placeholder = R.wr; cm.maxLength = MSG / 2; cm.rows = 3; cm.dir = 'auto'; cm.value = draft || '';
+      cnt = el('span', 'cn', dig(MSG / 2 - cm.value.length));
+      cm.oninput = function () { cnt.textContent = dig(MSG / 2 - cm.value.length); };
+      sl = el('button', 'pb', R.sl); sl.type = 'button';
+      sl.onclick = async function () {
+        var k = alive(), b = null, ok;
+        if (k !== c || k.st !== 'o' || k.ns > 255) return chat();
+        sl.disabled = true;
+        try { b = await cseal(k.ks, k.sid, k.ns, cm.value); } catch (e) { b = null; }
+        if (!S || S.v.t !== 'msg') return;
+        if (!b || CV !== k) return chat();
+        k.ns++;
+        ok = el('button', 'sb', R.ok); ok.type = 'button'; ok.onclick = function () { chat(); };
+        put(el('div', 'fm', shown(b64u(b), R, brief, 'bl'), el('p', 'wn', R.h9), ok));
+      };
+      w.appendChild(el('div', null, cm, cnt, sl));
+    }
+    end = el('button', 'sb', R.te); end.type = 'button';
+    end.onclick = function () { hangup(); chat(); };
+    w.appendChild(end);
+  }
+  put(w);
+}
+
 function about() {
   set({ t: 'about' }); ttl.textContent = R.ab;
   put(el('div', 'ab', el('h3', null, S.m.n), S.m.a ? el('p', null, S.m.a) : null, el('p', 'nt', R.hp + '\n' + R.nc)));
@@ -1198,30 +1446,77 @@ D.addEventListener('visibilitychange', function () { if (!D.hidden) return; if (
 W.addEventListener('blur', function () { if (busy) away = true; if (S && !hold) lock(); });
 W.addEventListener('pagehide', function () { if (busy) away = true; if (S) lock(true); });
 D.addEventListener('keydown', function (e) { if (e.key === 'Escape') { if (busy) away = true; if (S) lock(); } idle(); });
-['pointerdown', 'touchstart', 'scroll'].forEach(function (n) { rd.addEventListener(n, idle, { capture: true, passive: true }); });
+['pointerdown', 'touchstart', 'scroll', 'input'].forEach(function (n) { rd.addEventListener(n, idle, { capture: true, passive: true }); });
 
-/* ---------- the invitation: a file with no texts inside; the other person makes their code here ---------- */
+/* ---------- the invitation: a file with no texts inside; the other person makes their code here ----------
+   Four steps, one thing each. 1: paper and something to write with (no key exists until Start). 2: the key, in five big rows,
+   to write down. 3: the key leaves the screen and is typed from the paper, so what gets checked is the paper, not the screen;
+   the digits show as they are typed, in groups. Checked only at the end: a key that does not match goes back to step 2 with
+   the groups that differ marked and the field empty (no trying digits until it matches). 4: the code.
+   Leaving the page hides everything (the recent-apps picture must not show it). Back within ITL: the same key. Later, or
+   if the browser dropped it, it is gone and the person is told to cross it out: the key never changes without saying so.
+   If the code cannot be made (too little memory), the same key stays. The time is checked on coming back, not left to a timer
+   (a page in the background may not run). The field is plain text: a password field may be offered to the browser's store. */
+var ITL = 2 * 60000;
+function group(i) {
+  var v = i.value, p = i.selectionEnd == null ? v.length : i.selectionEnd, d = [], n = 0, j = 0, s = '', q = 0;
+  Array.from(v).forEach(function (c) { if (/\p{Nd}/u.test(c)) { if (j < p) n++; d.push(c); } j += c.length; });
+  d.slice(0, 20).forEach(function (c, k) { if (k && k % 4 === 0) s += ' '; s += c; if (k < n) q = s.length; });
+  if (s !== v) { i.value = s; try { i.setSelectionRange(q, q); } catch (e) { } }
+}
 function invitation() {
   var lg = phone(function (c) { return !!U[c]; }) || (U[LANG] ? LANG : U.en ? 'en' : Object.keys(U)[0]), T = U[lg];
-  var w = el('div', 'iv fm'), k = keybox(T), msg = el('p', 'er'), go = el('button', 'pb', T.mc), done = false;
+  var w = el('div', 'iv fm'), key = '', bad = [], at = '', gone = 0, tm = 0;
   D.documentElement.lang = lg; D.documentElement.dir = T.dir === 'rtl' ? 'rtl' : 'ltr';
-  k.msg = msg; go.type = 'button';
-  function first() { done = false; wipe(w); k.fill(); go.disabled = false; w.appendChild(el('div', null, el('p', null, T.a), k.box, el('p', 'wn', T.b), k.field, msg, go)); }
-  go.onclick = async function () {
-    var v, c = null;
-    if (!k.ok()) { msg.textContent = T.e2; return; }
-    v = k.key; done = true; go.disabled = true; k.hide(); wipe(w);     // the key leaves the screen at once
-    try { c = await code(v, tongue()); } catch (e) { c = null; }
-    v = '';
-    if (!c) { first(); return; }
-    w.appendChild(el('div', null, shown(c, T), el('p', 'wn', T.h7), el('p', null, T.c)));
-  };
-  // leaving the page hides the key (the recent-apps picture must not show it); back here, there is a new one to write down
-  function away() { if (!done) k.hide(); }
-  function back() { if (!done && !k.key && !D.hidden) k.fill(); }
-  W.addEventListener('blur', away); W.addEventListener('pagehide', away); W.addEventListener('focus', back);
+  function bt(cls, t, fn) { var b = el('button', cls, t); b.type = 'button'; b.onclick = fn; return b; }
+  function show() { wipe(w); for (var i = 0; i < arguments.length; i++) if (arguments[i]) w.appendChild(arguments[i]); }
+  function start(m) {
+    at = 'go'; key = ''; bad = [];
+    show(m ? el('p', 'er', m) : null, el('p', null, T.a), el('p', 'wn', T.d), bt('pb', T.em, function () { key = suggest(); bad = []; see(); }));
+  }
+  function see(m) {
+    var g = el('div', 'kg');
+    at = 'see'; g.dir = 'ltr';
+    key.split(' ').forEach(function (p, i) { g.appendChild(el('span', bad.indexOf(i) < 0 ? null : 'no', p)); });
+    show(m ? el('p', 'er', m) : null, el('p', 'kl', T.k1), g, el('p', 'wn', T.b), bt('pb', T.ok, function () { type(); }));
+  }
+  function type(m) {
+    var f = field(T.k2, 'text'), i = f.i, go = bt('pb', T.mc, make);
+    at = 'type';
+    i.className = 'kt'; i.dir = 'ltr'; i.autocomplete = 'off'; i.spellcheck = false;
+    i.setAttribute('inputmode', 'numeric'); i.setAttribute('autocorrect', 'off'); i.setAttribute('autocapitalize', 'off'); i.setAttribute('enterkeyhint', 'done');
+    i.oninput = function () { group(i); };
+    i.onkeydown = function (e) { if (e.key === 'Enter') { e.preventDefault(); make(); } };
+    show(f, el('p', 'er', m || ''), go, bt('sb', T.bk, function () { bad = []; see(); }));
+    i.focus();
+    async function make() {
+      var v = fold(i.value), k = fold(key), c = null, b;
+      if (at !== 'type') return;
+      if (!v) { i.focus(); return; }
+      i.value = '';
+      if (v !== k) { bad = [0, 1, 2, 3, 4].filter(function (g) { return v.slice(4 * g, 4 * g + 4) !== k.slice(4 * g, 4 * g + 4); }); see(T.e2); return; }
+      at = 'busy'; b = el('button', 'pb', T.mc + '\u2026'); b.disabled = true; show(b);
+      try { c = await code(key, tongue()); } catch (e) { c = null; }
+      v = k = '';
+      if (!c) { type(T.f); return; }
+      key = ''; at = 'done';
+      show(shown(c, T), el('p', 'wn', T.h7), el('p', null, T.c));
+    }
+  }
+  function away() {
+    if (at !== 'see' && at !== 'type') return;
+    if (!gone) { gone = Date.now(); clearTimeout(tm); tm = setTimeout(function () { key = ''; }, ITL); }
+    wipe(w);
+  }
+  function back() {
+    if (!gone || D.hidden) return;
+    var late = !key || Date.now() - gone > ITL;
+    clearTimeout(tm); gone = 0;
+    if (late) start(T.e); else if (at === 'see') see(); else type();
+  }
+  W.addEventListener('blur', away); W.addEventListener('pagehide', away); W.addEventListener('focus', back); W.addEventListener('pageshow', back);
   D.addEventListener('visibilitychange', function () { if (D.hidden) away(); else back(); });
-  first();
+  start();
   D.body.appendChild(el('div', 'app', w));
 }
 

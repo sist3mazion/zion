@@ -26,9 +26,17 @@ module.exports = {
       h4: 'Lista. Mándala por el mismo chat de WhatsApp o Signal.',
       h5: 'Si la otra persona aún no tiene este archivo, mándale primero una invitación. Después pega aquí el mensaje con el código que te devuelva (cópialo antes de abrir este archivo: al cambiar de app se cierra). Todo por el mismo chat de WhatsApp o Signal.',
       h6: 'Escribe tu clave para crear un código. Mándalo por el mismo chat a quien te vaya a pasar la copia: la abrirás con esta misma clave.',
-      h7: 'Manda este código por el mismo chat. Cuando te llegue el archivo, ábrelo, escribe tu clave en Buscar y pulsa Intro.'
+      h7: 'Manda este código por el mismo chat. Cuando te llegue el archivo, ábrelo, escribe tu clave en Buscar y pulsa Intro.',
+      ms: 'Mensajes', pn: 'Número acordado', em: 'Empezar', ac: 'Aceptar', pb: 'Pega aquí lo que te llegue', wr: 'Escribe tu mensaje', sl: 'Sellar',
+      tm: 'Quedan % min', te: 'Terminar', rd: 'ya leído', e6: 'El número debe tener al menos 6 cifras',
+      h8: 'Mensajes cortos que se borran a los 15 minutos. Antes, acuerda con la otra persona un número de 6 cifras, en persona o por llamada, nunca por el chat. En el chat, activa los mensajes temporales.',
+      h9: 'Mándalo por el mismo chat y pega aquí lo que te conteste.',
+      e5: 'No abre: no es de esta conversación, ha caducado o el número no coincide.'
     },
-    i: { a: 'Alguien quiere mandarte un archivo que solo tú podrás abrir. Para eso necesitas una clave: la crea esta página y no sale de tu teléfono.', b: 'Apúntala en papel, nunca en una nota ni en el chat. Si sales de esta página, la clave cambia.', c: 'Después, borra esta invitación.' }
+    i: { a: 'Alguien quiere mandarte un archivo que solo tú podrás abrir. Para eso necesitas una clave: la crea esta página y no sale de tu teléfono.', b: 'Apúntala en el papel. Nunca en el teléfono: ni en una nota, ni en una captura, ni en el chat.', c: 'Después, borra esta invitación.',
+         d: 'Necesitas papel y algo para escribir: vas a apuntar una clave que te hará falta cada vez que abras el archivo. Si ahora no los tienes, vuelve más tarde.',
+         e: 'Has estado demasiado tiempo fuera de esta página y esa clave ya no vale. Táchala del papel y empieza otra vez.',
+         f: 'No se ha podido crear el código. Cierra otras aplicaciones y vuelve a intentarlo.' }
   },
   en: {
     nm: 'English',
@@ -45,9 +53,17 @@ module.exports = {
       h4: 'Ready. Send it through the same WhatsApp or Signal chat.',
       h5: 'If the other person does not have this file yet, send them an invitation first. Then paste here the message with the code they send back (copy it before opening this file: switching apps closes it). Everything through the same WhatsApp or Signal chat.',
       h6: 'Type your passphrase to make a code. Send it through the same chat to the person who will pass you the copy: you will open it with this same passphrase.',
-      h7: 'Send this code through the same chat. When the file arrives, open it, type your passphrase in Search and press Enter.'
+      h7: 'Send this code through the same chat. When the file arrives, open it, type your passphrase in Search and press Enter.',
+      ms: 'Messages', pn: 'Agreed number', em: 'Start', ac: 'Accept', pb: 'Paste here what you receive', wr: 'Write your message', sl: 'Seal',
+      tm: '% min left', te: 'End', rd: 'already read', e6: 'The number must have at least 6 digits',
+      h8: 'Short messages that are erased after 15 minutes. First agree on a 6-digit number with the other person, in person or by phone call, never in the chat. In the chat, turn on disappearing messages.',
+      h9: 'Send it through the same chat and paste the reply here.',
+      e5: 'It does not open: it is not from this conversation, it has expired or the number does not match.'
     },
-    i: { a: 'Someone wants to send you a file that only you will be able to open. For that you need a passphrase: this page makes it, and it never leaves your phone.', b: 'Write it on paper, never in a note or in the chat. If you leave this page, the passphrase changes.', c: 'Afterwards, delete this invitation.' }
+    i: { a: 'Someone wants to send you a file that only you will be able to open. For that you need a passphrase: this page makes it, and it never leaves your phone.', b: 'Write it on the paper. Never on the phone: not in a note, a screenshot or the chat.', c: 'Afterwards, delete this invitation.',
+         d: 'You need paper and something to write with: you will write down a passphrase that you will need every time you open the file. If you do not have them now, come back later.',
+         e: 'You were away from this page for too long and that passphrase is no longer valid. Cross it out on the paper and start again.',
+         f: 'The code could not be made. Close other apps and try again.' }
   },
   fr: {
     nm: 'Français',
@@ -64,9 +80,17 @@ module.exports = {
       h4: 'Prête. Envoyez-la par la même discussion WhatsApp ou Signal.',
       h5: 'Si l’autre personne n’a pas encore ce fichier, envoyez-lui d’abord une invitation. Ensuite, collez ici le message avec le code qu’elle vous renvoie (copiez-le avant d’ouvrir ce fichier : changer d’application le ferme). Tout par la même discussion WhatsApp ou Signal.',
       h6: 'Tapez votre phrase secrète pour créer un code. Envoyez-le par la même discussion à la personne qui va vous transmettre la copie : vous l’ouvrirez avec cette même phrase secrète.',
-      h7: 'Envoyez ce code par la même discussion. Quand le fichier arrive, ouvrez-le, tapez votre phrase secrète dans Rechercher et appuyez sur Entrée.'
+      h7: 'Envoyez ce code par la même discussion. Quand le fichier arrive, ouvrez-le, tapez votre phrase secrète dans Rechercher et appuyez sur Entrée.',
+      ms: 'Messages', pn: 'Nombre convenu', em: 'Commencer', ac: 'Accepter', pb: 'Collez ici ce que vous recevez', wr: 'Écrivez votre message', sl: 'Sceller',
+      tm: 'Il reste % min', te: 'Terminer', rd: 'déjà lu', e6: 'Le nombre doit avoir au moins 6 chiffres',
+      h8: 'Messages courts effacés au bout de 15 minutes. Convenez d’abord avec l’autre personne d’un nombre de 6 chiffres, en personne ou par appel, jamais dans la discussion. Dans la discussion, activez les messages éphémères.',
+      h9: 'Envoyez-le par la même discussion et collez ici la réponse.',
+      e5: 'Impossible d’ouvrir : ce n’est pas cette conversation, elle a expiré ou le nombre ne correspond pas.'
     },
-    i: { a: 'Quelqu’un veut vous envoyer un fichier que vous seul pourrez ouvrir. Pour cela, il vous faut une phrase secrète : cette page la crée et elle ne quitte jamais votre téléphone.', b: 'Notez-la sur papier, jamais dans une note ni dans la discussion. Si vous quittez cette page, la phrase secrète change.', c: 'Ensuite, supprimez cette invitation.' }
+    i: { a: 'Quelqu’un veut vous envoyer un fichier que vous seul pourrez ouvrir. Pour cela, il vous faut une phrase secrète : cette page la crée et elle ne quitte jamais votre téléphone.', b: 'Notez-la sur le papier. Jamais dans le téléphone : ni dans une note, ni dans une capture d’écran, ni dans la discussion.', c: 'Ensuite, supprimez cette invitation.',
+         d: 'Il vous faut du papier et de quoi écrire : vous allez noter une phrase secrète dont vous aurez besoin chaque fois que vous ouvrirez le fichier. Si vous ne les avez pas maintenant, revenez plus tard.',
+         e: 'Vous avez quitté cette page trop longtemps et cette phrase secrète ne sert plus. Barrez-la sur le papier et recommencez.',
+         f: 'Impossible de créer le code. Fermez d’autres applications et réessayez.' }
   },
   pt: {
     nm: 'Português',
@@ -83,9 +107,17 @@ module.exports = {
       h4: 'Pronto. Envie pela mesma conversa do WhatsApp ou Signal.',
       h5: 'Se a outra pessoa ainda não tem este arquivo, envie primeiro um convite. Depois cole aqui a mensagem com o código que ela devolver (copie-a antes de abrir este arquivo: ao trocar de aplicativo, ele se fecha). Tudo pela mesma conversa do WhatsApp ou Signal.',
       h6: 'Digite sua senha para criar um código. Envie-o pela mesma conversa para quem vai lhe passar a cópia: você a abrirá com esta mesma senha.',
-      h7: 'Envie este código pela mesma conversa. Quando o arquivo chegar, abra-o, digite sua senha em Buscar e toque em Enter.'
+      h7: 'Envie este código pela mesma conversa. Quando o arquivo chegar, abra-o, digite sua senha em Buscar e toque em Enter.',
+      ms: 'Mensagens', pn: 'Número combinado', em: 'Começar', ac: 'Aceitar', pb: 'Cole aqui o que receber', wr: 'Escreva sua mensagem', sl: 'Selar',
+      tm: 'Restam % min', te: 'Terminar', rd: 'já lida', e6: 'O número deve ter pelo menos 6 algarismos',
+      h8: 'Mensagens curtas que se apagam após 15 minutos. Antes, combine com a outra pessoa um número de 6 algarismos, pessoalmente ou por chamada, nunca pela conversa. Na conversa, ative as mensagens temporárias.',
+      h9: 'Envie pela mesma conversa e cole aqui a resposta.',
+      e5: 'Não abre: não é desta conversa, expirou ou o número não coincide.'
     },
-    i: { a: 'Alguém quer enviar a você um arquivo que só você poderá abrir. Para isso, você precisa de uma senha: esta página a cria, e ela não sai do seu telefone.', b: 'Anote-a em papel, nunca numa nota nem na conversa. Se você sair desta página, a senha muda.', c: 'Depois, apague este convite.' }
+    i: { a: 'Alguém quer enviar a você um arquivo que só você poderá abrir. Para isso, você precisa de uma senha: esta página a cria, e ela não sai do seu telefone.', b: 'Anote-a no papel. Nunca no telefone: nem numa nota, nem numa captura de tela, nem na conversa.', c: 'Depois, apague este convite.',
+         d: 'Você precisa de papel e algo para escrever: vai anotar uma senha que será necessária toda vez que abrir o arquivo. Se não tiver agora, volte mais tarde.',
+         e: 'Você ficou fora desta página por tempo demais e essa senha não vale mais. Risque-a no papel e comece de novo.',
+         f: 'Não foi possível criar o código. Feche outros aplicativos e tente novamente.' }
   },
   ru: {
     nm: 'Русский',
@@ -102,9 +134,17 @@ module.exports = {
       h4: 'Готово. Отправьте через тот же чат WhatsApp или Signal.',
       h5: 'Если у другого человека ещё нет этого файла, сначала отправьте ему приглашение. Затем вставьте сюда сообщение с кодом, который он пришлёт в ответ (скопируйте его до того, как откроете этот файл: при переключении приложений он закрывается). Всё — через один и тот же чат WhatsApp или Signal.',
       h6: 'Введите свой пароль, чтобы создать код. Отправьте его через тот же чат тому, кто передаст вам копию: вы откроете её этим же паролем.',
-      h7: 'Отправьте этот код через тот же чат. Когда придёт файл, откройте его, введите пароль в поле «Поиск» и нажмите Enter.'
+      h7: 'Отправьте этот код через тот же чат. Когда придёт файл, откройте его, введите пароль в поле «Поиск» и нажмите Enter.',
+      ms: 'Сообщения', pn: 'Условленное число', em: 'Начать', ac: 'Принять', pb: 'Вставьте сюда то, что получили', wr: 'Напишите сообщение', sl: 'Запечатать',
+      tm: 'Осталось % мин', te: 'Завершить', rd: 'уже прочитано', e6: 'В числе должно быть не меньше 6 цифр',
+      h8: 'Короткие сообщения, которые стираются через 15 минут. Сначала договоритесь с другим человеком о числе из 6 цифр — лично или по звонку, но никогда не в чате. В чате включите исчезающие сообщения.',
+      h9: 'Отправьте через тот же чат, а ответ вставьте сюда.',
+      e5: 'Не открывается: это не из этого разговора, время вышло или число не совпадает.'
     },
-    i: { a: 'Кто-то хочет отправить вам файл, который сможете открыть только вы. Для этого нужен пароль: его создаёт эта страница, и он не покидает ваш телефон.', b: 'Запишите его на бумаге, никогда не в заметке и не в чате. Если вы уйдёте с этой страницы, пароль изменится.', c: 'После этого удалите это приглашение.' }
+    i: { a: 'Кто-то хочет отправить вам файл, который сможете открыть только вы. Для этого нужен пароль: его создаёт эта страница, и он не покидает ваш телефон.', b: 'Запишите его на бумаге. Никогда не в телефоне: ни в заметке, ни на снимке экрана, ни в чате.', c: 'После этого удалите это приглашение.',
+         d: 'Вам понадобятся бумага и ручка: вы запишете пароль, который будет нужен каждый раз, когда вы открываете файл. Если сейчас их нет под рукой, вернитесь позже.',
+         e: 'Вы слишком долго были вне этой страницы, и этот пароль больше не действует. Зачеркните его на бумаге и начните заново.',
+         f: 'Не удалось создать код. Закройте другие приложения и попробуйте снова.' }
   },
   ar: {
     nm: 'العربية',
@@ -121,9 +161,17 @@ module.exports = {
       h4: 'جاهزة. أرسلها عبر المحادثة نفسها في واتساب أو سيجنال.',
       h5: 'إذا لم يكن لدى الشخص الآخر هذا الملف بعد، فأرسل له دعوة أولًا. ثم الصق هنا الرسالة التي فيها الرمز الذي يرسله إليك (انسخها قبل فتح هذا الملف: يُغلق عند الانتقال إلى تطبيق آخر). كل شيء عبر المحادثة نفسها في واتساب أو سيجنال.',
       h6: 'اكتب كلمة السر الخاصة بك لإنشاء رمز. أرسله عبر المحادثة نفسها إلى من سيعطيك النسخة: ستفتحها بكلمة السر نفسها.',
-      h7: 'أرسل هذا الرمز عبر المحادثة نفسها. عندما يصلك الملف، افتحه واكتب كلمة السر في «بحث» واضغط Enter.'
+      h7: 'أرسل هذا الرمز عبر المحادثة نفسها. عندما يصلك الملف، افتحه واكتب كلمة السر في «بحث» واضغط Enter.',
+      ms: 'الرسائل', pn: 'الرقم المتفق عليه', em: 'بدء', ac: 'قبول', pb: 'الصق هنا ما يصلك', wr: 'اكتب رسالتك', sl: 'ختم',
+      tm: 'بقي % دقيقة', te: 'إنهاء', rd: 'قُرئت من قبل', e6: 'يجب أن يتكون الرقم من ٦ خانات على الأقل',
+      h8: 'رسائل قصيرة تُمحى بعد ١٥ دقيقة. اتفق أولًا مع الشخص الآخر على رقم من ٦ خانات، وجهًا لوجه أو باتصال هاتفي، وليس في المحادثة أبدًا. وفي المحادثة، فعّل الرسائل المؤقتة.',
+      h9: 'أرسله عبر المحادثة نفسها، ثم الصق الرد هنا.',
+      e5: 'لا يُفتح: ليس من هذه المحادثة، أو انتهت مدته، أو الرقم غير مطابق.'
     },
-    i: { a: 'شخص ما يريد أن يرسل إليك ملفًا لا يستطيع فتحه أحد غيرك. لذلك تحتاج إلى كلمة سر: تُنشئها هذه الصفحة، ولا تخرج من هاتفك.', b: 'اكتبها على ورقة، لا في ملاحظة ولا في المحادثة أبدًا. إذا غادرت هذه الصفحة، تتغير كلمة السر.', c: 'بعد ذلك، احذف هذه الدعوة.' }
+    i: { a: 'شخص ما يريد أن يرسل إليك ملفًا لا يستطيع فتحه أحد غيرك. لذلك تحتاج إلى كلمة سر: تُنشئها هذه الصفحة، ولا تخرج من هاتفك.', b: 'اكتبها على الورقة. لا تحفظها في الهاتف أبدًا: لا في ملاحظة، ولا في لقطة شاشة، ولا في المحادثة.', c: 'بعد ذلك، احذف هذه الدعوة.',
+         d: 'تحتاج إلى ورقة وقلم: ستكتب كلمة سر ستحتاج إليها في كل مرة تفتح فيها الملف. إذا لم يكونا معك الآن، فعد لاحقًا.',
+         e: 'بقيت خارج هذه الصفحة وقتًا طويلًا، ولم تعد كلمة السر هذه صالحة. اشطبها على الورقة وابدأ من جديد.',
+         f: 'تعذّر إنشاء الرمز. أغلق التطبيقات الأخرى وحاول مرة أخرى.' }
   },
   fa: {
     nm: 'فارسی',
@@ -140,9 +188,17 @@ module.exports = {
       h4: 'آماده است. آن را از همان گفتگوی واتس‌اپ یا سیگنال بفرستید.',
       h5: 'اگر طرف مقابل هنوز این فایل را ندارد، اول برایش یک دعوت‌نامه بفرستید. بعد پیامی را که کدِ او در آن است اینجا بچسبانید (پیش از باز کردن این فایل کپی‌اش کنید: با رفتن به برنامهٔ دیگر بسته می‌شود). همه چیز از همان گفتگوی واتس‌اپ یا سیگنال.',
       h6: 'رمز خود را بنویسید تا یک کد ساخته شود. آن را از همان گفتگو برای کسی بفرستید که نسخه را به شما می‌دهد: آن را با همین رمز باز خواهید کرد.',
-      h7: 'این کد را از همان گفتگو بفرستید. وقتی فایل رسید، آن را باز کنید، رمز را در «جستجو» بنویسید و Enter را بزنید.'
+      h7: 'این کد را از همان گفتگو بفرستید. وقتی فایل رسید، آن را باز کنید، رمز را در «جستجو» بنویسید و Enter را بزنید.',
+      ms: 'پیام‌ها', pn: 'عدد توافق‌شده', em: 'شروع', ac: 'پذیرفتن', pb: 'آنچه به دستتان می‌رسد اینجا بچسبانید', wr: 'پیامتان را بنویسید', sl: 'مهر کردن',
+      tm: '% دقیقه مانده', te: 'پایان دادن', rd: 'قبلاً خوانده شده', e6: 'عدد باید دست‌کم ۶ رقم داشته باشد',
+      h8: 'پیام‌های کوتاهی که پس از ۱۵ دقیقه پاک می‌شوند. اول با طرف مقابل، حضوری یا با تماس تلفنی، روی یک عدد ۶ رقمی توافق کنید؛ هرگز در گفتگو. در گفتگو، پیام‌های ناپدیدشونده را روشن کنید.',
+      h9: 'آن را از همان گفتگو بفرستید و پاسخ را اینجا بچسبانید.',
+      e5: 'باز نمی‌شود: از این گفتگو نیست، مهلتش تمام شده یا عدد مطابقت ندارد.'
     },
-    i: { a: 'کسی می‌خواهد فایلی برایتان بفرستد که فقط شما می‌توانید بازش کنید. برای این کار یک رمز لازم دارید: این صفحه آن را می‌سازد و از گوشی شما بیرون نمی‌رود.', b: 'آن را روی کاغذ بنویسید، هرگز در یادداشت یا در گفتگو. اگر از این صفحه بیرون بروید، رمز عوض می‌شود.', c: 'بعد از آن، این دعوت‌نامه را پاک کنید.' }
+    i: { a: 'کسی می‌خواهد فایلی برایتان بفرستد که فقط شما می‌توانید بازش کنید. برای این کار یک رمز لازم دارید: این صفحه آن را می‌سازد و از گوشی شما بیرون نمی‌رود.', b: 'آن را روی کاغذ بنویسید. هرگز در گوشی نگه ندارید: نه در یادداشت، نه در اسکرین‌شات، نه در گفتگو.', c: 'بعد از آن، این دعوت‌نامه را پاک کنید.',
+         d: 'به کاغذ و قلم نیاز دارید: رمزی را می‌نویسید که هر بار برای باز کردن فایل به آن نیاز دارید. اگر الان ندارید، بعداً برگردید.',
+         e: 'مدت زیادی از این صفحه بیرون بودید و این رمز دیگر اعتبار ندارد. آن را روی کاغذ خط بزنید و دوباره شروع کنید.',
+         f: 'ساختن کد ممکن نشد. برنامه‌های دیگر را ببندید و دوباره امتحان کنید.' }
   },
   zh: {
     nm: '中文',
@@ -159,9 +215,17 @@ module.exports = {
       h4: '已就绪。请通过同一个 WhatsApp 或 Signal 聊天发送。',
       h5: '如果对方还没有这个文件，请先给他发一份邀请。然后把他回复的带代码的消息粘贴到这里（请在打开这个文件之前复制：切换应用时它会关闭）。所有内容都通过同一个 WhatsApp 或 Signal 聊天发送。',
       h6: '输入你的密码来生成代码。通过同一个聊天把它发给要给你副本的人：你将用这个密码打开副本。',
-      h7: '通过同一个聊天发送这个代码。收到文件后，打开它，在“搜索”框中输入你的密码并按回车。'
+      h7: '通过同一个聊天发送这个代码。收到文件后，打开它，在“搜索”框中输入你的密码并按回车。',
+      ms: '消息', pn: '约定的数字', em: '开始', ac: '接受', pb: '把收到的内容粘贴到这里', wr: '写下你的消息', sl: '密封',
+      tm: '还剩 % 分钟', te: '结束', rd: '已读过', e6: '数字至少要有 6 位',
+      h8: '短消息，15 分钟后清除。请先与对方当面或通过电话约定一个 6 位数字，绝不要在聊天中约定。在聊天中，请开启限时消息。',
+      h9: '请通过同一个聊天发送，然后把回复粘贴到这里。',
+      e5: '打不开：不属于这次对话、已过期，或数字不一致。'
     },
-    i: { a: '有人想给你发送一个只有你能打开的文件。为此你需要一个密码：它由本页面生成，不会离开你的手机。', b: '把它写在纸上，绝不要写在备忘录或聊天里。如果离开本页面，密码会改变。', c: '之后，请删除这份邀请。' }
+    i: { a: '有人想给你发送一个只有你能打开的文件。为此你需要一个密码：它由本页面生成，不会离开你的手机。', b: '把它写在纸上。绝不要存在手机里：不要写进备忘录，不要截图，也不要发到聊天里。', c: '之后，请删除这份邀请。',
+         d: '你需要纸和笔：你要抄下一个密码，以后每次打开文件都要用到它。如果现在手边没有，请稍后再来。',
+         e: '你离开本页面太久了，这个密码已经作废。请在纸上把它划掉，然后重新开始。',
+         f: '无法生成代码。请关闭其他应用后再试一次。' }
   },
   id: {
     nm: 'Bahasa Indonesia',
@@ -178,9 +242,17 @@ module.exports = {
       h4: 'Siap. Kirim lewat obrolan WhatsApp atau Signal yang sama.',
       h5: 'Jika orang itu belum punya berkas ini, kirimi dia undangan dulu. Lalu tempel di sini pesan berisi kode yang ia kirim balik (salin sebelum membuka berkas ini: berkas ini tertutup saat berpindah aplikasi). Semuanya lewat obrolan WhatsApp atau Signal yang sama.',
       h6: 'Ketik kata sandi Anda untuk membuat kode. Kirim lewat obrolan yang sama kepada orang yang akan memberi Anda salinan: Anda akan membukanya dengan kata sandi yang sama ini.',
-      h7: 'Kirim kode ini lewat obrolan yang sama. Saat berkas tiba, buka, ketik kata sandi Anda di Cari, lalu tekan Enter.'
+      h7: 'Kirim kode ini lewat obrolan yang sama. Saat berkas tiba, buka, ketik kata sandi Anda di Cari, lalu tekan Enter.',
+      ms: 'Pesan', pn: 'Angka yang disepakati', em: 'Mulai', ac: 'Terima', pb: 'Tempel di sini apa yang Anda terima', wr: 'Tulis pesan Anda', sl: 'Segel',
+      tm: 'Tersisa % menit', te: 'Akhiri', rd: 'sudah dibaca', e6: 'Angka harus minimal 6 digit',
+      h8: 'Pesan singkat yang terhapus setelah 15 menit. Sebelumnya, sepakati angka 6 digit dengan orang itu secara langsung atau lewat telepon, jangan pernah lewat obrolan. Di obrolan, aktifkan pesan sementara.',
+      h9: 'Kirim lewat obrolan yang sama, lalu tempel balasannya di sini.',
+      e5: 'Tidak bisa dibuka: bukan dari percakapan ini, sudah kedaluwarsa, atau angkanya tidak cocok.'
     },
-    i: { a: 'Seseorang ingin mengirimi Anda berkas yang hanya bisa Anda buka. Untuk itu Anda perlu kata sandi: halaman ini membuatnya, dan kata sandi itu tidak pernah keluar dari ponsel Anda.', b: 'Tulis di kertas, jangan pernah di catatan atau di obrolan. Jika Anda meninggalkan halaman ini, kata sandinya berubah.', c: 'Setelah itu, hapus undangan ini.' }
+    i: { a: 'Seseorang ingin mengirimi Anda berkas yang hanya bisa Anda buka. Untuk itu Anda perlu kata sandi: halaman ini membuatnya, dan kata sandi itu tidak pernah keluar dari ponsel Anda.', b: 'Tulis di kertas. Jangan pernah di ponsel: tidak di catatan, tidak di tangkapan layar, tidak di obrolan.', c: 'Setelah itu, hapus undangan ini.',
+         d: 'Anda perlu kertas dan alat tulis: Anda akan mencatat kata sandi yang diperlukan setiap kali membuka berkas. Jika sekarang tidak ada, kembalilah nanti.',
+         e: 'Anda terlalu lama meninggalkan halaman ini dan kata sandi itu tidak berlaku lagi. Coret di kertas dan mulai lagi.',
+         f: 'Kode tidak dapat dibuat. Tutup aplikasi lain dan coba lagi.' }
   },
   vi: {
     nm: 'Tiếng Việt',
@@ -197,9 +269,17 @@ module.exports = {
       h4: 'Đã sẵn sàng. Hãy gửi qua cùng cuộc trò chuyện WhatsApp hoặc Signal.',
       h5: 'Nếu người kia chưa có tệp này, hãy gửi cho họ một lời mời trước. Sau đó dán vào đây tin nhắn có mã họ gửi lại (hãy sao chép trước khi mở tệp này: khi chuyển ứng dụng, tệp sẽ đóng). Mọi thứ đều qua cùng một cuộc trò chuyện WhatsApp hoặc Signal.',
       h6: 'Nhập mật khẩu của bạn để tạo mã. Gửi mã qua cùng cuộc trò chuyện cho người sẽ chuyển bản sao cho bạn: bạn sẽ mở bản sao bằng chính mật khẩu này.',
-      h7: 'Gửi mã này qua cùng cuộc trò chuyện. Khi tệp đến, hãy mở tệp, nhập mật khẩu vào ô Tìm kiếm rồi nhấn Enter.'
+      h7: 'Gửi mã này qua cùng cuộc trò chuyện. Khi tệp đến, hãy mở tệp, nhập mật khẩu vào ô Tìm kiếm rồi nhấn Enter.',
+      ms: 'Tin nhắn', pn: 'Số đã thỏa thuận', em: 'Bắt đầu', ac: 'Chấp nhận', pb: 'Dán vào đây những gì bạn nhận được', wr: 'Viết tin nhắn của bạn', sl: 'Niêm phong',
+      tm: 'Còn % phút', te: 'Kết thúc', rd: 'đã đọc', e6: 'Số phải có ít nhất 6 chữ số',
+      h8: 'Tin nhắn ngắn, tự xóa sau 15 phút. Trước tiên, hãy thỏa thuận với người kia một số gồm 6 chữ số, gặp trực tiếp hoặc qua cuộc gọi, tuyệt đối không qua cuộc trò chuyện. Trong cuộc trò chuyện, hãy bật tin nhắn tự hủy.',
+      h9: 'Hãy gửi qua cùng cuộc trò chuyện, rồi dán câu trả lời vào đây.',
+      e5: 'Không mở được: không thuộc cuộc trò chuyện này, đã hết hạn hoặc số không khớp.'
     },
-    i: { a: 'Có người muốn gửi cho bạn một tệp mà chỉ bạn mới mở được. Vì vậy bạn cần một mật khẩu: trang này tạo ra nó và nó không rời khỏi điện thoại của bạn.', b: 'Hãy ghi ra giấy, đừng bao giờ ghi vào ghi chú hay cuộc trò chuyện. Nếu bạn rời trang này, mật khẩu sẽ thay đổi.', c: 'Sau đó, hãy xóa lời mời này.' }
+    i: { a: 'Có người muốn gửi cho bạn một tệp mà chỉ bạn mới mở được. Vì vậy bạn cần một mật khẩu: trang này tạo ra nó và nó không rời khỏi điện thoại của bạn.', b: 'Hãy ghi ra giấy. Đừng bao giờ lưu trong điện thoại: không ghi chú, không chụp màn hình, không gửi vào cuộc trò chuyện.', c: 'Sau đó, hãy xóa lời mời này.',
+         d: 'Bạn cần giấy và bút: bạn sẽ ghi lại một mật khẩu cần dùng mỗi lần mở tệp. Nếu bây giờ chưa có, hãy quay lại sau.',
+         e: 'Bạn đã rời trang này quá lâu nên mật khẩu đó không còn dùng được. Hãy gạch nó trên giấy và bắt đầu lại.',
+         f: 'Không tạo được mã. Hãy đóng các ứng dụng khác rồi thử lại.' }
   },
   my: {
     nm: 'မြန်မာ',
@@ -216,9 +296,17 @@ module.exports = {
       h4: 'အသင့်ဖြစ်ပါပြီ။ WhatsApp သို့မဟုတ် Signal ရှိ တူညီသော ချက်မှ ပို့ပါ။',
       h5: 'တစ်ဖက်လူထံတွင် ဤဖိုင် မရှိသေးလျှင် ဖိတ်စာကို အရင်ပို့ပါ။ ထို့နောက် သူပြန်ပို့သော ကုဒ်ပါ မက်ဆေ့ချ်ကို ဤနေရာတွင် ကူးထည့်ပါ (ဤဖိုင်ကို မဖွင့်မီ ကူးယူထားပါ - အက်ပ်ပြောင်းလျှင် ပိတ်သွားပါသည်)။ အားလုံးကို WhatsApp သို့မဟုတ် Signal ရှိ တူညီသော ချက်မှသာ ပို့ပါ။',
       h6: 'ကုဒ်တစ်ခု ပြုလုပ်ရန် သင့်စကားဝှက်ကို ရိုက်ထည့်ပါ။ သင့်ထံ မိတ္တူပေးမည့်သူထံ တူညီသော ချက်မှ ပို့ပါ - ထိုမိတ္တူကို ဤစကားဝှက်ဖြင့်ပင် ဖွင့်ရပါမည်။',
-      h7: 'ဤကုဒ်ကို တူညီသော ချက်မှ ပို့ပါ။ ဖိုင်ရောက်လာသောအခါ ဖွင့်ပြီး ရှာဖွေရေးအကွက်တွင် သင့်စကားဝှက်ကို ရိုက်ထည့်ကာ Enter နှိပ်ပါ။'
+      h7: 'ဤကုဒ်ကို တူညီသော ချက်မှ ပို့ပါ။ ဖိုင်ရောက်လာသောအခါ ဖွင့်ပြီး ရှာဖွေရေးအကွက်တွင် သင့်စကားဝှက်ကို ရိုက်ထည့်ကာ Enter နှိပ်ပါ။',
+      ms: 'မက်ဆေ့ချ်များ', pn: 'သဘောတူထားသော နံပါတ်', em: 'စတင်ရန်', ac: 'လက်ခံရန်', pb: 'ရရှိသည့်အရာကို ဤနေရာတွင် ကူးထည့်ပါ', wr: 'သင့်မက်ဆေ့ချ်ကို ရေးပါ', sl: 'တံဆိပ်ခတ်ရန်',
+      tm: '% မိနစ် ကျန်သည်', te: 'အဆုံးသတ်ရန်', rd: 'ဖတ်ပြီးသား', e6: 'နံပါတ်တွင် အနည်းဆုံး ဂဏန်း ၆ လုံး ရှိရမည်',
+      h8: '၁၅ မိနစ်အကြာတွင် ပျက်သွားမည့် စာတိုများ။ ဦးစွာ အခြားသူနှင့် ဂဏန်း ၆ လုံးပါ နံပါတ်တစ်ခုကို လူချင်းတွေ့၍ သို့မဟုတ် ဖုန်းခေါ်၍ သဘောတူပါ၊ ချက်ထဲတွင် ဘယ်တော့မှ မပြောပါနှင့်။ ချက်တွင် ယာယီမက်ဆေ့ချ်များကို ဖွင့်ထားပါ။',
+      h9: 'တူညီသော ချက်မှ ပို့ပြီး ပြန်စာကို ဤနေရာတွင် ကူးထည့်ပါ။',
+      e5: 'ဖွင့်မရပါ- ဤစကားဝိုင်းမှ မဟုတ်ပါ၊ သက်တမ်းကုန်သွားပြီ သို့မဟုတ် နံပါတ် မကိုက်ညီပါ။'
     },
-    i: { a: 'တစ်စုံတစ်ယောက်က သင်တစ်ဦးတည်းသာ ဖွင့်နိုင်မည့် ဖိုင်တစ်ခုကို ပို့လိုပါသည်။ ထို့အတွက် စကားဝှက်တစ်ခု လိုအပ်ပါသည် - ဤစာမျက်နှာက ပြုလုပ်ပေးပြီး သင့်ဖုန်းမှ ထွက်မသွားပါ။', b: 'စာရွက်ပေါ်တွင် ရေးထားပါ၊ မှတ်စု သို့မဟုတ် ချက်ထဲတွင် ဘယ်တော့မှ မရေးပါနှင့်။ ဤစာမျက်နှာမှ ထွက်သွားလျှင် စကားဝှက် ပြောင်းသွားပါမည်။', c: 'ပြီးလျှင် ဤဖိတ်စာကို ဖျက်ပါ။' }
+    i: { a: 'တစ်စုံတစ်ယောက်က သင်တစ်ဦးတည်းသာ ဖွင့်နိုင်မည့် ဖိုင်တစ်ခုကို ပို့လိုပါသည်။ ထို့အတွက် စကားဝှက်တစ်ခု လိုအပ်ပါသည် - ဤစာမျက်နှာက ပြုလုပ်ပေးပြီး သင့်ဖုန်းမှ ထွက်မသွားပါ။', b: 'စာရွက်ပေါ်တွင် ရေးပါ။ ဖုန်းထဲတွင် ဘယ်တော့မှ မသိမ်းပါနှင့် - မှတ်စု၊ ဖန်သားပြင်ဓာတ်ပုံ၊ ချက် တစ်ခုမှ မသုံးပါနှင့်။', c: 'ပြီးလျှင် ဤဖိတ်စာကို ဖျက်ပါ။',
+         d: 'စာရွက်နှင့် ဘောပင် လိုအပ်ပါသည် - ဖိုင်ကို ဖွင့်တိုင်း လိုအပ်မည့် စကားဝှက်ကို ချရေးရပါမည်။ ယခု မရှိလျှင် နောက်မှ ပြန်လာပါ။',
+         e: 'ဤစာမျက်နှာမှ အကြာကြီး ထွက်နေခဲ့သဖြင့် ထိုစကားဝှက်ကို မသုံးနိုင်တော့ပါ။ စာရွက်ပေါ်တွင် ခြစ်ပစ်ပြီး အစမှ ပြန်စပါ။',
+         f: 'ကုဒ် ပြုလုပ်၍ မရပါ။ အခြားအက်ပ်များကို ပိတ်ပြီး ထပ်ကြိုးစားပါ။' }
   },
   tr: {
     nm: 'Türkçe',
@@ -235,9 +323,17 @@ module.exports = {
       h4: 'Hazır. Aynı WhatsApp veya Signal sohbetinden gönderin.',
       h5: 'Karşınızdaki kişide bu dosya henüz yoksa önce ona bir davet gönderin. Sonra size geri gönderdiği kodun olduğu mesajı buraya yapıştırın (bu dosyayı açmadan önce kopyalayın: uygulama değiştirince kapanır). Her şey aynı WhatsApp veya Signal sohbetinden.',
       h6: 'Kod oluşturmak için parolanızı yazın. Kodu, size kopyayı verecek kişiye aynı sohbetten gönderin: kopyayı bu aynı parolayla açacaksınız.',
-      h7: 'Bu kodu aynı sohbetten gönderin. Dosya gelince açın, parolanızı Ara kutusuna yazıp Enter’a basın.'
+      h7: 'Bu kodu aynı sohbetten gönderin. Dosya gelince açın, parolanızı Ara kutusuna yazıp Enter’a basın.',
+      ms: 'Mesajlar', pn: 'Kararlaştırılan sayı', em: 'Başla', ac: 'Kabul et', pb: 'Gelen şeyi buraya yapıştırın', wr: 'Mesajınızı yazın', sl: 'Mühürle',
+      tm: '% dk kaldı', te: 'Bitir', rd: 'zaten okundu', e6: 'Sayı en az 6 haneli olmalı',
+      h8: '15 dakika sonra silinen kısa mesajlar. Önce karşı tarafla yüz yüze ya da telefonla 6 haneli bir sayı belirleyin; asla sohbette değil. Sohbette süreli mesajları açın.',
+      h9: 'Aynı sohbetten gönderin ve cevabı buraya yapıştırın.',
+      e5: 'Açılmıyor: bu sohbete ait değil, süresi doldu ya da sayı uyuşmuyor.'
     },
-    i: { a: 'Biri size yalnızca sizin açabileceğiniz bir dosya göndermek istiyor. Bunun için bir parolaya ihtiyacınız var: bu sayfa onu oluşturur ve parola telefonunuzdan dışarı çıkmaz.', b: 'Kâğıda yazın; asla bir notta ya da sohbette değil. Bu sayfadan çıkarsanız parola değişir.', c: 'Sonra bu daveti silin.' }
+    i: { a: 'Biri size yalnızca sizin açabileceğiniz bir dosya göndermek istiyor. Bunun için bir parolaya ihtiyacınız var: bu sayfa onu oluşturur ve parola telefonunuzdan dışarı çıkmaz.', b: 'Kâğıda yazın. Asla telefonda tutmayın: ne bir notta, ne ekran görüntüsünde, ne de sohbette.', c: 'Sonra bu daveti silin.',
+         d: 'Kâğıt ve kaleme ihtiyacınız var: dosyayı her açtığınızda gerekecek bir parolayı yazacaksınız. Şu an yanınızda yoksa daha sonra gelin.',
+         e: 'Bu sayfadan çok uzun süre uzak kaldınız ve o parola artık geçerli değil. Kâğıtta üstünü çizin ve baştan başlayın.',
+         f: 'Kod oluşturulamadı. Diğer uygulamaları kapatıp tekrar deneyin.' }
   },
   hi: {
     nm: 'हिन्दी',
@@ -254,9 +350,17 @@ module.exports = {
       h4: 'तैयार है। इसे उसी WhatsApp या Signal चैट से भेजें।',
       h5: 'अगर दूसरे व्यक्ति के पास यह फ़ाइल अभी नहीं है, तो पहले उसे एक निमंत्रण भेजें। फिर वह जो कोड वापस भेजे, वह संदेश यहाँ चिपकाएँ (इस फ़ाइल को खोलने से पहले उसे कॉपी करें: ऐप बदलने पर यह बंद हो जाती है)। सब कुछ उसी WhatsApp या Signal चैट से।',
       h6: 'कोड बनाने के लिए अपना पासवर्ड लिखें। इसे उसी चैट से उस व्यक्ति को भेजें जो आपको प्रति देगा: आप उसे इसी पासवर्ड से खोलेंगे।',
-      h7: 'यह कोड उसी चैट से भेजें। फ़ाइल आने पर उसे खोलें, अपना पासवर्ड खोज बॉक्स में लिखें और Enter दबाएँ।'
+      h7: 'यह कोड उसी चैट से भेजें। फ़ाइल आने पर उसे खोलें, अपना पासवर्ड खोज बॉक्स में लिखें और Enter दबाएँ।',
+      ms: 'संदेश', pn: 'तय की गई संख्या', em: 'शुरू करें', ac: 'स्वीकार करें', pb: 'जो मिले उसे यहाँ चिपकाएँ', wr: 'अपना संदेश लिखें', sl: 'सील करें',
+      tm: '% मिनट बाकी', te: 'समाप्त करें', rd: 'पहले पढ़ा जा चुका', e6: 'संख्या में कम से कम 6 अंक होने चाहिए',
+      h8: 'छोटे संदेश जो 15 मिनट बाद मिट जाते हैं। पहले दूसरे व्यक्ति के साथ आमने-सामने या फ़ोन कॉल पर 6 अंकों की एक संख्या तय करें, चैट में कभी नहीं। चैट में गायब होने वाले संदेश चालू करें।',
+      h9: 'इसे उसी चैट से भेजें और जवाब यहाँ चिपकाएँ।',
+      e5: 'नहीं खुला: यह इस बातचीत का नहीं है, समय खत्म हो गया है या संख्या मेल नहीं खाती।'
     },
-    i: { a: 'कोई आपको ऐसी फ़ाइल भेजना चाहता है जिसे केवल आप खोल पाएँगे। इसके लिए आपको एक पासवर्ड चाहिए: यह पेज उसे बनाता है और वह आपके फ़ोन से बाहर नहीं जाता।', b: 'इसे कागज़ पर लिखें, कभी किसी नोट या चैट में नहीं। अगर आप यह पेज छोड़ते हैं, तो पासवर्ड बदल जाता है।', c: 'इसके बाद यह निमंत्रण मिटा दें।' }
+    i: { a: 'कोई आपको ऐसी फ़ाइल भेजना चाहता है जिसे केवल आप खोल पाएँगे। इसके लिए आपको एक पासवर्ड चाहिए: यह पेज उसे बनाता है और वह आपके फ़ोन से बाहर नहीं जाता।', b: 'इसे कागज़ पर लिखें। फ़ोन में कभी नहीं: न किसी नोट में, न स्क्रीनशॉट में, न चैट में।', c: 'इसके बाद यह निमंत्रण मिटा दें।',
+         d: 'आपको कागज़ और पेन चाहिए: आप एक पासवर्ड लिखेंगे जो हर बार फ़ाइल खोलने पर चाहिए होगा। अगर अभी पास नहीं हैं, तो बाद में आएँ।',
+         e: 'आप इस पेज से बहुत देर तक बाहर रहे, इसलिए वह पासवर्ड अब काम नहीं करेगा। कागज़ पर उसे काट दें और फिर से शुरू करें।',
+         f: 'कोड नहीं बन पाया। दूसरे ऐप बंद करके फिर से कोशिश करें।' }
   },
   ko: {
     nm: '한국어',
@@ -273,9 +377,17 @@ module.exports = {
       h4: '준비되었습니다. 같은 WhatsApp 또는 Signal 채팅으로 보내세요.',
       h5: '상대방에게 아직 이 파일이 없다면 먼저 초대장을 보내세요. 그런 다음 상대방이 보내온 코드가 있는 메시지를 여기에 붙여 넣으세요(이 파일을 열기 전에 복사하세요: 앱을 전환하면 닫힙니다). 모든 것은 같은 WhatsApp 또는 Signal 채팅으로 주고받으세요.',
       h6: '코드를 만들려면 내 암호를 입력하세요. 사본을 전해 줄 사람에게 같은 채팅으로 보내세요. 사본은 이 암호로 열게 됩니다.',
-      h7: '이 코드를 같은 채팅으로 보내세요. 파일이 오면 열어서 검색에 암호를 입력하고 Enter를 누르세요.'
+      h7: '이 코드를 같은 채팅으로 보내세요. 파일이 오면 열어서 검색에 암호를 입력하고 Enter를 누르세요.',
+      ms: '메시지', pn: '약속한 숫자', em: '시작', ac: '수락', pb: '받은 내용을 여기에 붙여넣으세요', wr: '메시지를 쓰세요', sl: '봉인하기',
+      tm: '%분 남음', te: '종료', rd: '이미 읽음', e6: '숫자는 6자리 이상이어야 합니다',
+      h8: '15분 뒤에 지워지는 짧은 메시지입니다. 먼저 상대방과 직접 만나거나 전화로 6자리 숫자를 정하세요. 채팅으로는 절대 정하지 마세요. 채팅에서는 사라지는 메시지를 켜세요.',
+      h9: '같은 채팅으로 보내고 답장을 여기에 붙여넣으세요.',
+      e5: '열 수 없습니다: 이 대화의 것이 아니거나, 만료되었거나, 숫자가 맞지 않습니다.'
     },
-    i: { a: '누군가 당신만 열 수 있는 파일을 보내려고 합니다. 이를 위해 암호가 필요합니다. 암호는 이 페이지가 만들며 휴대폰 밖으로 나가지 않습니다.', b: '종이에 적으세요. 메모나 채팅에는 절대 적지 마세요. 이 페이지를 벗어나면 암호가 바뀝니다.', c: '그다음 이 초대장을 삭제하세요.' }
+    i: { a: '누군가 당신만 열 수 있는 파일을 보내려고 합니다. 이를 위해 암호가 필요합니다. 암호는 이 페이지가 만들며 휴대폰 밖으로 나가지 않습니다.', b: '종이에 적으세요. 휴대폰에는 절대 저장하지 마세요. 메모에도, 스크린숏에도, 채팅에도 안 됩니다.', c: '그다음 이 초대장을 삭제하세요.',
+         d: '종이와 펜이 필요합니다. 파일을 열 때마다 필요한 암호를 적게 됩니다. 지금 없으면 나중에 다시 오세요.',
+         e: '이 페이지를 너무 오래 떠나 있어서 그 암호는 더 이상 쓸 수 없습니다. 종이에 적은 것에 줄을 긋고 처음부터 다시 시작하세요.',
+         f: '코드를 만들 수 없습니다. 다른 앱을 닫고 다시 시도하세요.' }
   },
   bn: {
     nm: 'বাংলা',
@@ -292,9 +404,17 @@ module.exports = {
       h4: 'প্রস্তুত। একই WhatsApp বা Signal চ্যাট দিয়ে পাঠান।',
       h5: 'অন্যজনের কাছে যদি এখনও এই ফাইলটি না থাকে, আগে তাকে একটি আমন্ত্রণ পাঠান। তারপর সে যে কোড ফেরত পাঠাবে, সেই বার্তাটি এখানে পেস্ট করুন (এই ফাইলটি খোলার আগে কপি করে নিন: অ্যাপ বদলালে এটি বন্ধ হয়ে যায়)। সবকিছু একই WhatsApp বা Signal চ্যাট দিয়ে।',
       h6: 'একটি কোড তৈরি করতে আপনার পাসওয়ার্ড লিখুন। যে আপনাকে কপি দেবে, তাকে একই চ্যাট দিয়ে এটি পাঠান: আপনি এই একই পাসওয়ার্ড দিয়ে কপিটি খুলবেন।',
-      h7: 'এই কোডটি একই চ্যাট দিয়ে পাঠান। ফাইলটি এলে খুলুন, সার্চ বক্সে আপনার পাসওয়ার্ড লিখে Enter চাপুন।'
+      h7: 'এই কোডটি একই চ্যাট দিয়ে পাঠান। ফাইলটি এলে খুলুন, সার্চ বক্সে আপনার পাসওয়ার্ড লিখে Enter চাপুন।',
+      ms: 'বার্তা', pn: 'ঠিক করা সংখ্যা', em: 'শুরু করুন', ac: 'গ্রহণ করুন', pb: 'যা পান তা এখানে পেস্ট করুন', wr: 'আপনার বার্তা লিখুন', sl: 'সিল করুন',
+      tm: '% মিনিট বাকি', te: 'শেষ করুন', rd: 'আগেই পড়া হয়েছে', e6: 'সংখ্যায় কমপক্ষে 6টি অঙ্ক থাকতে হবে',
+      h8: 'ছোট বার্তা, 15 মিনিট পরে মুছে যায়। আগে অন্য ব্যক্তির সঙ্গে সামনাসামনি বা ফোন কলে 6 অঙ্কের একটি সংখ্যা ঠিক করুন, কখনো চ্যাটে নয়। চ্যাটে অদৃশ্য বার্তা চালু করুন।',
+      h9: 'একই চ্যাট দিয়ে পাঠান এবং উত্তরটি এখানে পেস্ট করুন।',
+      e5: 'খোলা যাচ্ছে না: এটি এই কথোপকথনের নয়, মেয়াদ শেষ হয়েছে বা সংখ্যাটি মিলছে না।'
     },
-    i: { a: 'কেউ আপনাকে এমন একটি ফাইল পাঠাতে চায় যা শুধু আপনিই খুলতে পারবেন। এর জন্য একটি পাসওয়ার্ড দরকার: এই পাতা সেটি তৈরি করে, এবং সেটি আপনার ফোনের বাইরে যায় না।', b: 'এটি কাগজে লিখে রাখুন, কখনও কোনো নোটে বা চ্যাটে নয়। এই পাতা ছেড়ে গেলে পাসওয়ার্ড বদলে যাবে।', c: 'এরপর এই আমন্ত্রণটি মুছে ফেলুন।' }
+    i: { a: 'কেউ আপনাকে এমন একটি ফাইল পাঠাতে চায় যা শুধু আপনিই খুলতে পারবেন। এর জন্য একটি পাসওয়ার্ড দরকার: এই পাতা সেটি তৈরি করে, এবং সেটি আপনার ফোনের বাইরে যায় না।', b: 'এটি কাগজে লিখুন। কখনও ফোনে নয়: নোটে নয়, স্ক্রিনশটে নয়, চ্যাটেও নয়।', c: 'এরপর এই আমন্ত্রণটি মুছে ফেলুন।',
+         d: 'আপনার কাগজ আর কলম লাগবে: আপনি একটি পাসওয়ার্ড লিখে রাখবেন, যা প্রতিবার ফাইল খুলতে লাগবে। এখন হাতের কাছে না থাকলে পরে আসুন।',
+         e: 'আপনি অনেকক্ষণ এই পাতার বাইরে ছিলেন, তাই সেই পাসওয়ার্ড আর চলবে না। কাগজে সেটি কেটে দিন এবং আবার শুরু করুন।',
+         f: 'কোড তৈরি করা গেল না। অন্য অ্যাপ বন্ধ করে আবার চেষ্টা করুন।' }
   },
   ha: {
     nm: 'Hausa',
@@ -311,9 +431,17 @@ module.exports = {
       h4: 'Ya shirya. Aika shi ta wannan hira ɗaya ta WhatsApp ko Signal.',
       h5: 'Idan ɗayan mutumin bai da wannan fayil tukuna, ka fara aika masa gayyata. Sannan ka liƙa a nan saƙon da ke ɗauke da lambar da ya mayar maka (ka kwafe shi kafin ka buɗe wannan fayil: yana rufewa idan ka koma wata manhaja). Komai ta wannan hira ɗaya ta WhatsApp ko Signal.',
       h6: 'Rubuta kalmar sirrinka don yin lamba. Aika ta wannan hira ɗaya ga wanda zai ba ka kwafin: za ka buɗe shi da wannan kalmar sirri.',
-      h7: 'Aika wannan lambar ta wannan hira ɗaya. Idan fayil ɗin ya iso, buɗe shi, rubuta kalmar sirrinka a akwatin nema, sannan ka danna Enter.'
+      h7: 'Aika wannan lambar ta wannan hira ɗaya. Idan fayil ɗin ya iso, buɗe shi, rubuta kalmar sirrinka a akwatin nema, sannan ka danna Enter.',
+      ms: 'Saƙonni', pn: 'Lambar da aka amince', em: 'Fara', ac: 'Karɓa', pb: 'Liƙa abin da ka karɓa a nan', wr: 'Rubuta saƙonka', sl: 'Sa hatimi',
+      tm: 'Saura minti %', te: 'Kammala', rd: 'an riga an karanta', e6: 'Lambar dole ta kasance aƙalla lambobi 6',
+      h8: 'Gajerun saƙonni da ke gogewa bayan minti 15. Da farko, ku amince da ɗayan mutumin a kan lamba mai lambobi 6, ido da ido ko ta kiran waya, kada ta hira ko kaɗan. A cikin hirar, kunna saƙonni masu ɓacewa.',
+      h9: 'Aika shi ta wannan hira ɗaya, sannan ka liƙa amsar a nan.',
+      e5: 'Bai buɗe ba: ba na wannan hirar ba ne, lokacinsa ya ƙare, ko lambar ba ta dace ba.'
     },
-    i: { a: 'Wani yana so ya aiko maka da fayil wanda kai kaɗai za ka iya buɗewa. Saboda haka kana buƙatar kalmar sirri: wannan shafin ne yake yin ta, kuma ba ta fita daga wayarka.', b: 'Rubuta ta a takarda, kada ka taɓa rubuta ta a cikin rubutu ko a hira. Idan ka bar wannan shafin, kalmar sirrin za ta canza.', c: 'Bayan haka, goge wannan gayyatar.' }
+    i: { a: 'Wani yana so ya aiko maka da fayil wanda kai kaɗai za ka iya buɗewa. Saboda haka kana buƙatar kalmar sirri: wannan shafin ne yake yin ta, kuma ba ta fita daga wayarka.', b: 'Rubuta ta a takarda. Kada ka taɓa ajiye ta a waya: ba a rubutu ba, ba a hoton allon waya ba, ba a hira ba.', c: 'Bayan haka, goge wannan gayyatar.',
+         d: 'Kana buƙatar takarda da alƙalami: za ka rubuta kalmar sirri da za ka buƙata duk lokacin da ka buɗe fayil ɗin. Idan ba ka da su yanzu, ka dawo daga baya.',
+         e: 'Ka daɗe ba ka cikin wannan shafin, saboda haka kalmar sirrin nan ba ta aiki yanzu. Ka ja layi a kanta a takarda ka sake farawa.',
+         f: 'Ba a iya yin lambar ba. Rufe sauran manhajoji ka sake gwadawa.' }
   },
   ckb: {
     nm: 'کوردی',
@@ -330,9 +458,17 @@ module.exports = {
       h4: 'ئامادەیە. لە هەمان چاتی WhatsApp یان Signal بینێرە.',
       h5: 'ئەگەر کەسەکەی تر هێشتا ئەم فایلەی نییە، سەرەتا بانگهێشتێکی بۆ بنێرە. پاشان ئەو نامەیە لێرە بلکێنە کە کۆدەکەی تێدایە و بۆت دەگەڕێنێتەوە (پێش کردنەوەی ئەم فایلە لەبەری بگرەوە: کە بەرنامە دەگۆڕیت دادەخرێت). هەموو شتێک لە هەمان چاتی WhatsApp یان Signal.',
       h6: 'وشەی نهێنیی خۆت بنووسە بۆ دروستکردنی کۆدێک. لە هەمان چاتەوە بۆ ئەو کەسەی بنێرە کە کۆپییەکەت پێ دەدات: بە هەمان وشەی نهێنی دەیکەیتەوە.',
-      h7: 'ئەم کۆدە لە هەمان چاتەوە بنێرە. کاتێک فایلەکە گەیشت، بیکەرەوە، وشەی نهێنییەکەت لە سندووقی گەڕان بنووسە و Enter دابگرە.'
+      h7: 'ئەم کۆدە لە هەمان چاتەوە بنێرە. کاتێک فایلەکە گەیشت، بیکەرەوە، وشەی نهێنییەکەت لە سندووقی گەڕان بنووسە و Enter دابگرە.',
+      ms: 'نامەکان', pn: 'ژمارەی ڕێککەوتوو', em: 'دەستپێکردن', ac: 'وەرگرتن', pb: 'ئەوەی پێت دەگات لێرە بلکێنە', wr: 'نامەکەت بنووسە', sl: 'مۆرکردن',
+      tm: '% خولەک ماوە', te: 'کۆتاییپێهێنان', rd: 'پێشتر خوێندراوەتەوە', e6: 'ژمارەکە دەبێت لانیکەم 6 ڕەقەمی هەبێت',
+      h8: 'نامەی کورت کە دوای 15 خولەک دەسڕدرێنەوە. سەرەتا لەگەڵ کەسەکەی تر، ڕووبەڕوو یان بە پەیوەندی تەلەفۆنی، لەسەر ژمارەیەکی 6 ڕەقەمی ڕێکبکەون؛ هەرگیز لە چاتدا نا. لە چاتدا نامە کاتییەکان چالاک بکە.',
+      h9: 'لە هەمان چاتەوە بینێرە و وەڵامەکە لێرە بلکێنە.',
+      e5: 'ناکرێتەوە: هی ئەم گفتوگۆیە نییە، کاتی بەسەرچووە یان ژمارەکە ناگونجێت.'
     },
-    i: { a: 'کەسێک دەیەوێت فایلێکت بۆ بنێرێت کە تەنها تۆ دەتوانیت بیکەیتەوە. بۆ ئەمە پێویستت بە وشەی نهێنییە: ئەم پەڕەیە دروستی دەکات و لە مۆبایلەکەت دەرناچێت.', b: 'لەسەر کاغەز بینووسە، هەرگیز لە تێبینی یان چاتدا نا. ئەگەر ئەم پەڕەیە جێبهێڵیت، وشەی نهێنییەکە دەگۆڕێت.', c: 'دواتر ئەم بانگهێشتە بسڕەوە.' }
+    i: { a: 'کەسێک دەیەوێت فایلێکت بۆ بنێرێت کە تەنها تۆ دەتوانیت بیکەیتەوە. بۆ ئەمە پێویستت بە وشەی نهێنییە: ئەم پەڕەیە دروستی دەکات و لە مۆبایلەکەت دەرناچێت.', b: 'لەسەر کاغەزەکە بینووسە. هەرگیز لە مۆبایلدا نا: نە لە تێبینی، نە لە وێنەی شاشە، نە لە چات.', c: 'دواتر ئەم بانگهێشتە بسڕەوە.',
+         d: 'پێویستت بە کاغەز و پێنووسە: وشەیەکی نهێنی دەنووسیت کە هەموو جارێک بۆ کردنەوەی فایلەکە پێویستە. ئەگەر ئێستا نیتە، دواتر بگەڕێوە.',
+         e: 'زۆر کات لەم پەڕەیە دەرچوویت و ئەو وشە نهێنییە ئیتر بەکار نایەت. لەسەر کاغەزەکە هێڵی بەسەردا بهێنە و دووبارە دەست پێبکەوە.',
+         f: 'نەتوانرا کۆدەکە دروست بکرێت. بەرنامەکانی تر دابخە و دووبارە هەوڵ بدەوە.' }
   },
   ug: {
     nm: 'ئۇيغۇرچە',
@@ -349,9 +485,17 @@ module.exports = {
       h4: 'تەييار. ئۇنى ئوخشاش WhatsApp ياكى Signal سۆھبىتى ئارقىلىق ئەۋەتىڭ.',
       h5: 'ئەگەر قارشى تەرەپتە بۇ ھۆججەت تېخى بولمىسا، ئاۋۋال ئۇنىڭغا بىر تەكلىپنامە ئەۋەتىڭ. ئاندىن ئۇ قايتۇرۇپ ئەۋەتكەن كودى بار ئۇچۇرنى بۇ يەرگە چاپلاڭ (بۇ ھۆججەتنى ئېچىشتىن بۇرۇن كۆچۈرۈۋېلىڭ: ئەپ ئالماشتۇرسىڭىز ئۇ تاقىلىدۇ). ھەممىسى ئوخشاش WhatsApp ياكى Signal سۆھبىتى ئارقىلىق.',
       h6: 'كود ياساش ئۈچۈن پارولىڭىزنى يېزىڭ. ئۇنى سىزگە كۆچۈرمە بېرىدىغان ئادەمگە ئوخشاش سۆھبەت ئارقىلىق ئەۋەتىڭ: كۆچۈرمىنى مۇشۇ پارول بىلەن ئاچىسىز.',
-      h7: 'بۇ كودنى ئوخشاش سۆھبەت ئارقىلىق ئەۋەتىڭ. ھۆججەت كەلگەندە ئۇنى ئېچىپ، پارولىڭىزنى ئىزدەش رامكىسىغا يېزىپ Enter نى بېسىڭ.'
+      h7: 'بۇ كودنى ئوخشاش سۆھبەت ئارقىلىق ئەۋەتىڭ. ھۆججەت كەلگەندە ئۇنى ئېچىپ، پارولىڭىزنى ئىزدەش رامكىسىغا يېزىپ Enter نى بېسىڭ.',
+      ms: 'ئۇچۇرلار', pn: 'كېلىشىلگەن سان', em: 'باشلاش', ac: 'قوبۇل قىلىش', pb: 'تاپشۇرۇۋالغىنىڭىزنى بۇ يەرگە چاپلاڭ', wr: 'ئۇچۇرىڭىزنى يېزىڭ', sl: 'پېچەتلەش',
+      tm: '% مىنۇت قالدى', te: 'ئاخىرلاشتۇرۇش', rd: 'ئوقۇلغان', e6: 'سان كەم دېگەندە 6 خانىلىق بولۇشى كېرەك',
+      h8: '15 مىنۇتتىن كېيىن ئۆچۈرۈلىدىغان قىسقا ئۇچۇرلار. ئالدى بىلەن قارشى تەرەپ بىلەن يۈز تۇرانە ياكى تېلېفوندا 6 خانىلىق بىر سان كېلىشىۋېلىڭ، ھەرگىز سۆھبەتتە ئەمەس. سۆھبەتتە ۋاقىتلىق ئۇچۇرنى ئېچىڭ.',
+      h9: 'ئوخشاش سۆھبەت ئارقىلىق ئەۋەتىڭ ۋە جاۋابىنى بۇ يەرگە چاپلاڭ.',
+      e5: 'ئېچىلمىدى: بۇ سۆھبەتكە تەۋە ئەمەس، ۋاقتى ئۆتكەن ياكى سان ماس كەلمەيدۇ.'
     },
-    i: { a: 'بىرەيلەن سىزگە پەقەت سىزلا ئاچالايدىغان بىر ھۆججەت ئەۋەتمەكچى. بۇنىڭ ئۈچۈن سىزگە بىر پارول كېرەك: ئۇنى بۇ بەت ياسايدۇ، ئۇ تېلېفونىڭىزدىن سىرتقا چىقمايدۇ.', b: 'ئۇنى قەغەزگە يېزىڭ، ھەرگىز خاتىرە ياكى سۆھبەتكە يازماڭ. بۇ بەتتىن ئايرىلسىڭىز، پارول ئۆزگىرىدۇ.', c: 'ئاندىن بۇ تەكلىپنامىنى ئۆچۈرۈڭ.' }
+    i: { a: 'بىرەيلەن سىزگە پەقەت سىزلا ئاچالايدىغان بىر ھۆججەت ئەۋەتمەكچى. بۇنىڭ ئۈچۈن سىزگە بىر پارول كېرەك: ئۇنى بۇ بەت ياسايدۇ، ئۇ تېلېفونىڭىزدىن سىرتقا چىقمايدۇ.', b: 'ئۇنى قەغەزگە يېزىڭ. ھەرگىز تېلېفوندا ساقلىماڭ: خاتىرىدىمۇ، ئېكران سۈرىتىدىمۇ، سۆھبەتتىمۇ ياق.', c: 'ئاندىن بۇ تەكلىپنامىنى ئۆچۈرۈڭ.',
+         d: 'سىزگە قەغەز ۋە قەلەم كېرەك: ھۆججەتنى ھەر قېتىم ئاچقاندا كېرەك بولىدىغان بىر پارولنى يېزىۋالىسىز. ھازىر بولمىسا، كېيىن قايتىپ كېلىڭ.',
+         e: 'بۇ بەتتىن بەك ئۇزۇن ئايرىلىپ قالدىڭىز، شۇڭا ئۇ پارول ئەمدى كۈچكە ئىگە ئەمەس. قەغەزدىكىنى سىزىپ تاشلاپ، قايتا باشلاڭ.',
+         f: 'كودنى ياسىغىلى بولمىدى. باشقا ئەپلەرنى تاقاپ قايتا سىناڭ.' }
   },
   ur: {
     nm: 'اردو',
@@ -368,9 +512,17 @@ module.exports = {
       h4: 'تیار ہے۔ اسے اسی WhatsApp یا Signal چیٹ سے بھیجیں۔',
       h5: 'اگر دوسرے شخص کے پاس ابھی یہ فائل نہیں ہے تو پہلے اسے ایک دعوت نامہ بھیجیں۔ پھر وہ جو کوڈ واپس بھیجے، وہ پیغام یہاں پیسٹ کریں (یہ فائل کھولنے سے پہلے اسے کاپی کر لیں: ایپ بدلنے پر یہ بند ہو جاتی ہے)۔ سب کچھ اسی WhatsApp یا Signal چیٹ سے۔',
       h6: 'کوڈ بنانے کے لیے اپنا پاس ورڈ لکھیں۔ اسے اسی چیٹ سے اس شخص کو بھیجیں جو آپ کو کاپی دے گا: آپ اسے اسی پاس ورڈ سے کھولیں گے۔',
-      h7: 'یہ کوڈ اسی چیٹ سے بھیجیں۔ جب فائل آ جائے تو اسے کھولیں، اپنا پاس ورڈ تلاش کے خانے میں لکھیں اور Enter دبائیں۔'
+      h7: 'یہ کوڈ اسی چیٹ سے بھیجیں۔ جب فائل آ جائے تو اسے کھولیں، اپنا پاس ورڈ تلاش کے خانے میں لکھیں اور Enter دبائیں۔',
+      ms: 'پیغامات', pn: 'طے شدہ نمبر', em: 'شروع کریں', ac: 'قبول کریں', pb: 'جو ملے اسے یہاں پیسٹ کریں', wr: 'اپنا پیغام لکھیں', sl: 'مہر لگائیں',
+      tm: '% منٹ باقی', te: 'ختم کریں', rd: 'پہلے پڑھا جا چکا', e6: 'نمبر کم از کم 6 ہندسوں کا ہونا چاہیے',
+      h8: 'مختصر پیغامات جو 15 منٹ بعد مٹ جاتے ہیں۔ پہلے دوسرے شخص کے ساتھ آمنے سامنے یا فون کال پر 6 ہندسوں کا ایک نمبر طے کریں، چیٹ میں کبھی نہیں۔ چیٹ میں غائب ہونے والے پیغامات آن کریں۔',
+      h9: 'اسے اسی چیٹ سے بھیجیں اور جواب یہاں پیسٹ کریں۔',
+      e5: 'نہیں کھلا: یہ اس گفتگو کا نہیں، وقت ختم ہو چکا ہے یا نمبر نہیں ملتا۔'
     },
-    i: { a: 'کوئی آپ کو ایسی فائل بھیجنا چاہتا ہے جسے صرف آپ کھول سکیں گے۔ اس کے لیے آپ کو ایک پاس ورڈ چاہیے: یہ صفحہ اسے بناتا ہے اور یہ آپ کے فون سے باہر نہیں جاتا۔', b: 'اسے کاغذ پر لکھیں، کبھی کسی نوٹ یا چیٹ میں نہیں۔ اگر آپ یہ صفحہ چھوڑ دیں تو پاس ورڈ بدل جاتا ہے۔', c: 'اس کے بعد یہ دعوت نامہ مٹا دیں۔' }
+    i: { a: 'کوئی آپ کو ایسی فائل بھیجنا چاہتا ہے جسے صرف آپ کھول سکیں گے۔ اس کے لیے آپ کو ایک پاس ورڈ چاہیے: یہ صفحہ اسے بناتا ہے اور یہ آپ کے فون سے باہر نہیں جاتا۔', b: 'اسے کاغذ پر لکھیں۔ فون میں کبھی نہیں: نہ کسی نوٹ میں، نہ اسکرین شاٹ میں، نہ چیٹ میں۔', c: 'اس کے بعد یہ دعوت نامہ مٹا دیں۔',
+         d: 'آپ کو کاغذ اور قلم کی ضرورت ہے: آپ ایک پاس ورڈ لکھیں گے جو ہر بار فائل کھولنے کے لیے چاہیے ہوگا۔ اگر ابھی پاس نہیں ہیں تو بعد میں آئیں۔',
+         e: 'آپ بہت دیر تک اس صفحے سے باہر رہے، اس لیے وہ پاس ورڈ اب کام نہیں کرے گا۔ کاغذ پر اسے کاٹ دیں اور دوبارہ شروع کریں۔',
+         f: 'کوڈ نہیں بن سکا۔ دوسری ایپس بند کر کے دوبارہ کوشش کریں۔' }
   },
   so: {
     nm: 'Soomaali',
@@ -387,9 +539,17 @@ module.exports = {
       h4: 'Waa diyaar. Ku dir isla sheekada WhatsApp ama Signal.',
       h5: 'Haddii qofka kale aanu weli haysan faylkan, marka hore u dir casuumad. Kadib halkan ku dheji fariinta uu ku jiro koodka uu kuu soo celiyo (koobiyee ka hor intaadan furin faylkan: way xirmaysaa marka aad app beddesho). Wax walba isla sheekada WhatsApp ama Signal.',
       h6: 'Qor erayga sirta ah si aad kood u samayso. U dir isla sheekada qofka ku siin doona nuqulka: waxaad ku furi doontaa isla erayga sirta ah.',
-      h7: 'Koodkan ku dir isla sheekada. Marka faylku yimaado, fur, ku qor erayga sirta ah sanduuqa raadinta oo riix Enter.'
+      h7: 'Koodkan ku dir isla sheekada. Marka faylku yimaado, fur, ku qor erayga sirta ah sanduuqa raadinta oo riix Enter.',
+      ms: 'Fariimaha', pn: 'Lambarka la isku raacay', em: 'Bilow', ac: 'Aqbal', pb: 'Halkan ku dheji waxa kuu yimaada', wr: 'Qor fariintaada', sl: 'Shaabadee',
+      tm: '% daqiiqo ayaa hadhay', te: 'Dhammee', rd: 'hore ayaa loo akhriyay', e6: 'Lambarku waa inuu lahaadaa ugu yaraan 6 god',
+      h8: 'Fariimo gaagaaban oo la tirtiro 15 daqiiqo kadib. Marka hore, qofka kale kula heshiiya lambar 6 god ah, fool ka fool ama wac taleefan, weligiin ha ku samaynina sheekada. Sheekada, shid fariimaha lumaya.',
+      h9: 'Ku dir isla sheekada, kadibna jawaabta halkan ku dheji.',
+      e5: 'Ma furmayo: kama aha sheekadan, wakhtigiisii wuu dhacay ama lambarku isma laha.'
     },
-    i: { a: 'Qof ayaa doonaya inuu kuu soo diro fayl adiga keliya furi kara. Taas awgeed waxaad u baahan tahay eray sir ah: boggan ayaa sameeya, mana ka baxo taleefankaaga.', b: 'Ku qor warqad, weligaa ha ku qorin qoraal ama sheeko. Haddii aad ka baxdo boggan, erayga sirta ahi wuu is beddelaa.', c: 'Kadib tirtir casuumaddan.' }
+    i: { a: 'Qof ayaa doonaya inuu kuu soo diro fayl adiga keliya furi kara. Taas awgeed waxaad u baahan tahay eray sir ah: boggan ayaa sameeya, mana ka baxo taleefankaaga.', b: 'Ku qor warqadda. Weligaa ha ku kaydin taleefanka: qoraal, sawir shaashadeed iyo sheeko midna.', c: 'Kadib tirtir casuumaddan.',
+         d: 'Waxaad u baahan tahay warqad iyo qalin: waxaad qori doontaa eray sir ah oo aad u baahan doonto mar kasta oo aad furto faylka. Haddii aadan hadda haysan, dib u soo laabo.',
+         e: 'Muddo dheer ayaad ka maqnayd boggan, sidaas darteed erayga sirta ah ma shaqaynayo. Warqadda ka xarriiq oo dib u bilow.',
+         f: 'Koodka lama samayn karin. Xir barnaamijyada kale oo isku day mar kale.' }
   },
   bo: {
     nm: 'བོད་ཡིག',
@@ -406,9 +566,17 @@ module.exports = {
       h4: 'གྲ་སྒྲིག་ཡོད། WhatsApp ཡང་ན་ Signal གྱི་གླེང་མོལ་དེ་ཉིད་བརྒྱུད་ནས་གཏོང་།',
       h5: 'མི་གཞན་དེར་ཡིག་ཆ་འདི་ད་དུང་མེད་ན། སྔོན་ལ་མགྲོན་འབོད་ཅིག་གཏོང་། དེ་རྗེས་ཁོང་གིས་ཕྱིར་བསྐུར་བའི་ཨང་རྟགས་ཡོད་པའི་འཕྲིན་དེ་འདིར་སྦྱོར། (ཡིག་ཆ་འདི་ཁ་མ་ཕྱེ་གོང་དུ་བཤུ་དགོས། ཉེར་སྤྱོད་བརྗེ་ན་ཁ་རྒྱག་གི་རེད།) ཚང་མ་ WhatsApp ཡང་ན་ Signal གྱི་གླེང་མོལ་དེ་ཉིད་བརྒྱུད་ནས།',
       h6: 'ཨང་རྟགས་ཤིག་བཟོ་བར་ཁྱེད་ཀྱི་གསང་ཨང་བྲིས། ཁྱེད་ལ་འདྲ་བཤུས་སྤྲོད་མཁན་དེར་གླེང་མོལ་དེ་ཉིད་བརྒྱུད་ནས་གཏོང་། འདྲ་བཤུས་དེ་གསང་ཨང་འདི་ཉིད་ཀྱིས་ཁ་ཕྱེ་དགོས།',
-      h7: 'ཨང་རྟགས་འདི་གླེང་མོལ་དེ་ཉིད་བརྒྱུད་ནས་གཏོང་། ཡིག་ཆ་འབྱོར་དུས་ཁ་ཕྱེ་ནས། འཚོལ་སྒམ་དུ་གསང་ཨང་བྲིས་ནས་ Enter གནོན།'
+      h7: 'ཨང་རྟགས་འདི་གླེང་མོལ་དེ་ཉིད་བརྒྱུད་ནས་གཏོང་། ཡིག་ཆ་འབྱོར་དུས་ཁ་ཕྱེ་ནས། འཚོལ་སྒམ་དུ་གསང་ཨང་བྲིས་ནས་ Enter གནོན།',
+      ms: 'འཕྲིན་ཡིག', pn: 'གྲོས་མཐུན་བྱས་པའི་ཨང་གྲངས', em: 'འགོ་འཛུགས', ac: 'ངོས་ལེན', pb: 'ཐོབ་པ་དེ་འདིར་སྦྱོར་རོགས', wr: 'ཁྱེད་ཀྱི་འཕྲིན་ཡིག་འབྲི་རོགས', sl: 'ཐམ་ག་རྒྱག',
+      tm: 'སྐར་མ་ % ལྷག་ཡོད', te: 'མཇུག་སྒྲིལ', rd: 'སྔོན་ལ་ཀློག་ཟིན', e6: 'ཨང་གྲངས་ལ་ཉུང་མཐར་ཨང་ 6 དགོས',
+      h8: 'སྐར་མ་ 15 རྗེས་སུ་བསུབ་པའི་འཕྲིན་ཡིག་ཐུང་ངུ། སྔོན་ལ་མི་གཞན་དང་ཐད་ཀར་རམ་ཁ་པར་བརྒྱུད་ནས་ཨང་ 6 ཡོད་པའི་ཨང་གྲངས་ཤིག་གྲོས་མཐུན་བྱོས། གླེང་མོལ་ནང་ནམ་ཡང་མ་བྱེད། གླེང་མོལ་ནང་གནས་སྐབས་ཀྱི་འཕྲིན་ཡིག་ཁ་ཕྱེ་རོགས།',
+      h9: 'གླེང་མོལ་དེ་ཉིད་བརྒྱུད་ནས་གཏོང་ཞིང་ལན་འདིར་སྦྱོར་རོགས།',
+      e5: 'ཁ་ཕྱེ་མ་ཐུབ། གླེང་མོལ་འདི་ཡི་མིན་པ། དུས་ཚོད་ཡོལ་བ། ཡང་ན་ཨང་གྲངས་མི་མཐུན།'
     },
-    i: { a: 'མི་ཞིག་གིས་ཁྱེད་རང་ཁོ་ནས་ཁ་ཕྱེ་ཐུབ་པའི་ཡིག་ཆ་ཞིག་གཏོང་འདོད་ཡོད། དེའི་ཆེད་དུ་གསང་ཨང་ཞིག་དགོས། ཤོག་ངོས་འདིས་བཟོ་གི་ཡོད་ལ། ཁྱེད་ཀྱི་ཁ་པར་ནས་ཕྱི་ལ་མི་འགྲོ།', b: 'ཤོག་བུའི་སྟེང་དུ་འབྲི། ཟིན་བྲིས་སམ་གླེང་མོལ་ནང་ནམ་ཡང་མ་འབྲི། ཤོག་ངོས་འདི་ནས་ཕྱིར་ཐོན་ན་གསང་ཨང་འགྱུར་གྱི་རེད།', c: 'དེ་རྗེས་མགྲོན་འབོད་འདི་སུབ།' }
+    i: { a: 'མི་ཞིག་གིས་ཁྱེད་རང་ཁོ་ནས་ཁ་ཕྱེ་ཐུབ་པའི་ཡིག་ཆ་ཞིག་གཏོང་འདོད་ཡོད། དེའི་ཆེད་དུ་གསང་ཨང་ཞིག་དགོས། ཤོག་ངོས་འདིས་བཟོ་གི་ཡོད་ལ། ཁྱེད་ཀྱི་ཁ་པར་ནས་ཕྱི་ལ་མི་འགྲོ།', b: 'ཤོག་བུའི་སྟེང་དུ་འབྲི། ཁ་པར་ནང་ནམ་ཡང་མ་ཉར། ཟིན་བྲིས་དང་། གསལ་ངོས་ཀྱི་པར། གླེང་མོལ་གང་དུའང་མ་འཇོག།', c: 'དེ་རྗེས་མགྲོན་འབོད་འདི་སུབ།',
+         d: 'ཤོག་བུ་དང་སྨྱུ་གུ་དགོས། ཡིག་ཆ་ཁ་ཕྱེ་རེས་ལ་དགོས་པའི་གསང་ཨང་ཞིག་འབྲི་དགོས། ད་ལྟ་མེད་ན་རྗེས་སུ་ཡོང་།',
+         e: 'ཤོག་ངོས་འདི་ནས་དུས་ཡུན་རིང་པོ་ཕྱིར་ཐོན་པས་གསང་ཨང་དེ་ད་ནི་མི་འཐུས། ཤོག་བུའི་སྟེང་གི་དེ་བསུབས་ནས་ཡང་བསྐྱར་འགོ་འཛུགས།',
+         f: 'ཨང་རྟགས་བཟོ་མ་ཐུབ། མཉེན་ཆས་གཞན་དག་ཁ་རྒྱོབ་ནས་ཡང་བསྐྱར་ཚོད་ལྟ་བྱེད།' }
   },
   sw: {
     nm: 'Kiswahili',
@@ -425,9 +593,17 @@ module.exports = {
       h4: 'Iko tayari. Itume kupitia gumzo lilelile la WhatsApp au Signal.',
       h5: 'Ikiwa mtu huyo bado hana faili hili, kwanza mtumie mwaliko. Kisha bandika hapa ujumbe wenye msimbo atakaokurudishia (unakili kabla ya kufungua faili hili: linajifunga ukibadilisha programu). Kila kitu kupitia gumzo lilelile la WhatsApp au Signal.',
       h6: 'Andika nenosiri lako ili kutengeneza msimbo. Utume kupitia gumzo lilelile kwa mtu atakayekupa nakala: utaifungua kwa nenosiri hili hili.',
-      h7: 'Tuma msimbo huu kupitia gumzo lilelile. Faili likifika, lifungue, andika nenosiri lako kwenye Tafuta kisha bonyeza Enter.'
+      h7: 'Tuma msimbo huu kupitia gumzo lilelile. Faili likifika, lifungue, andika nenosiri lako kwenye Tafuta kisha bonyeza Enter.',
+      ms: 'Ujumbe', pn: 'Namba mliyokubaliana', em: 'Anza', ac: 'Kubali', pb: 'Bandika hapa unachopokea', wr: 'Andika ujumbe wako', sl: 'Piga muhuri',
+      tm: 'Zimebaki dakika %', te: 'Maliza', rd: 'tayari umesomwa', e6: 'Namba lazima iwe na angalau tarakimu 6',
+      h8: 'Ujumbe mfupi unaofutika baada ya dakika 15. Kwanza, kubalianeni na mtu mwingine namba ya tarakimu 6, ana kwa ana au kwa simu, kamwe si kwenye gumzo. Kwenye gumzo, washa ujumbe unaopotea.',
+      h9: 'Utume kupitia gumzo lilelile, kisha bandika jibu hapa.',
+      e5: 'Haufunguki: si wa mazungumzo haya, muda wake umekwisha au namba hailingani.'
     },
-    i: { a: 'Mtu fulani anataka kukutumia faili ambalo wewe tu utaweza kulifungua. Kwa hiyo unahitaji nenosiri: ukurasa huu unalitengeneza, nalo halitoki kwenye simu yako.', b: 'Liandike kwenye karatasi, kamwe si kwenye dokezo wala kwenye gumzo. Ukitoka kwenye ukurasa huu, nenosiri hubadilika.', c: 'Baadaye, futa mwaliko huu.' }
+    i: { a: 'Mtu fulani anataka kukutumia faili ambalo wewe tu utaweza kulifungua. Kwa hiyo unahitaji nenosiri: ukurasa huu unalitengeneza, nalo halitoki kwenye simu yako.', b: 'Liandike kwenye karatasi. Kamwe usiliweke kwenye simu: si kwenye dokezo, si kwenye picha ya skrini, si kwenye gumzo.', c: 'Baadaye, futa mwaliko huu.',
+         d: 'Unahitaji karatasi na kalamu: utaandika nenosiri utakalohitaji kila mara unapofungua faili. Kama huna sasa, rudi baadaye.',
+         e: 'Umekaa nje ya ukurasa huu kwa muda mrefu mno, na nenosiri hilo halifai tena. Lipige mstari kwenye karatasi kisha uanze upya.',
+         f: 'Msimbo haukuweza kutengenezwa. Funga programu nyingine kisha ujaribu tena.' }
   },
   hne: {
     nm: 'छत्तीसगढ़ी',
@@ -444,9 +620,17 @@ module.exports = {
       h4: 'तैयार है। इसे उसी WhatsApp या Signal चैट से भेजें।',
       h5: 'अगर दूसरे व्यक्ति के पास यह फ़ाइल अभी नहीं है, तो पहले उसे एक निमंत्रण भेजें। फिर वह जो कोड वापस भेजे, वह संदेश यहाँ चिपकाएँ (इस फ़ाइल को खोलने से पहले उसे कॉपी करें: ऐप बदलने पर यह बंद हो जाती है)। सब कुछ उसी WhatsApp या Signal चैट से।',
       h6: 'कोड बनाने के लिए अपना पासवर्ड लिखें। इसे उसी चैट से उस व्यक्ति को भेजें जो आपको प्रति देगा: आप उसे इसी पासवर्ड से खोलेंगे।',
-      h7: 'यह कोड उसी चैट से भेजें। फ़ाइल आने पर उसे खोलें, अपना पासवर्ड खोज बॉक्स में लिखें और Enter दबाएँ।'
+      h7: 'यह कोड उसी चैट से भेजें। फ़ाइल आने पर उसे खोलें, अपना पासवर्ड खोज बॉक्स में लिखें और Enter दबाएँ।',
+      ms: 'संदेश', pn: 'तय की गई संख्या', em: 'शुरू करें', ac: 'स्वीकार करें', pb: 'जो मिले उसे यहाँ चिपकाएँ', wr: 'अपना संदेश लिखें', sl: 'सील करें',
+      tm: '% मिनट बाकी', te: 'समाप्त करें', rd: 'पहले पढ़ा जा चुका', e6: 'संख्या में कम से कम 6 अंक होने चाहिए',
+      h8: 'छोटे संदेश जो 15 मिनट बाद मिट जाते हैं। पहले दूसरे व्यक्ति के साथ आमने-सामने या फ़ोन कॉल पर 6 अंकों की एक संख्या तय करें, चैट में कभी नहीं। चैट में गायब होने वाले संदेश चालू करें।',
+      h9: 'इसे उसी चैट से भेजें और जवाब यहाँ चिपकाएँ।',
+      e5: 'नहीं खुला: यह इस बातचीत का नहीं है, समय खत्म हो गया है या संख्या मेल नहीं खाती।'
     },
-    i: { a: 'कोई आपको ऐसी फ़ाइल भेजना चाहता है जिसे केवल आप खोल पाएँगे। इसके लिए आपको एक पासवर्ड चाहिए: यह पेज उसे बनाता है और वह आपके फ़ोन से बाहर नहीं जाता।', b: 'इसे कागज़ पर लिखें, कभी किसी नोट या चैट में नहीं। अगर आप यह पेज छोड़ते हैं, तो पासवर्ड बदल जाता है।', c: 'इसके बाद यह निमंत्रण मिटा दें।' }
+    i: { a: 'कोई आपको ऐसी फ़ाइल भेजना चाहता है जिसे केवल आप खोल पाएँगे। इसके लिए आपको एक पासवर्ड चाहिए: यह पेज उसे बनाता है और वह आपके फ़ोन से बाहर नहीं जाता।', b: 'इसे कागज़ पर लिखें। फ़ोन में कभी नहीं: न किसी नोट में, न स्क्रीनशॉट में, न चैट में।', c: 'इसके बाद यह निमंत्रण मिटा दें।',
+         d: 'आपको कागज़ और पेन चाहिए: आप एक पासवर्ड लिखेंगे जो हर बार फ़ाइल खोलने पर चाहिए होगा। अगर अभी पास नहीं हैं, तो बाद में आएँ।',
+         e: 'आप इस पेज से बहुत देर तक बाहर रहे, इसलिए वह पासवर्ड अब काम नहीं करेगा। कागज़ पर उसे काट दें और फिर से शुरू करें।',
+         f: 'कोड नहीं बन पाया। दूसरे ऐप बंद करके फिर से कोशिश करें।' }
   },
   om: {
     nm: 'Afaan Oromoo',
@@ -463,9 +647,17 @@ module.exports = {
       h4: 'Qophaa’eera. Haasaa WhatsApp ykn Signal sanuma keessaan ergi.',
       h5: 'Namni kaan faayila kana amma iyyuu yoo hin qabaatin, dursa affeerraa itti ergi. Sana booda ergaa koodii inni siif deebisu qabu as maxxansi (faayila kana banuu kee dura kooppii godhi: appii yoo jijjiirte ni cufama). Hundi isaa haasaa WhatsApp ykn Signal sanuma keessaan.',
       h6: 'Koodii uumuuf jecha icciitii kee barreessi. Nama garagalcha siif kennuuf haasaa sanuma keessaan ergi: jecha icciitii kanaan banta.',
-      h7: 'Koodii kana haasaa sanuma keessaan ergi. Faayilli yoo dhufe, bani, jecha icciitii kee saanduqa barbaachaa keessatti barreessii Enter tuqi.'
+      h7: 'Koodii kana haasaa sanuma keessaan ergi. Faayilli yoo dhufe, bani, jecha icciitii kee saanduqa barbaachaa keessatti barreessii Enter tuqi.',
+      ms: 'Ergaawwan', pn: 'Lakkoofsa walii galtan', em: 'Jalqabi', ac: 'Fudhadhu', pb: 'Waan siif dhufe as maxxansi', wr: 'Ergaa kee barreessi', sl: 'Chaappessi',
+      tm: 'Daqiiqaan % hafe', te: 'Xumuri', rd: 'duraan dubbifameera', e6: 'Lakkoofsi yoo xiqqaate dijiitii 6 qabaachuu qaba',
+      h8: 'Ergaawwan gaggabaaboo daqiiqaa 15 booda haqaman. Dura nama kaan waliin fuula fuulatti ykn bilbilaan lakkoofsa dijiitii 6 qabu irratti waliigalaa; haasaa keessatti gonkumaa miti. Haasaa keessatti ergaawwan badan banaa.',
+      h9: 'Haasaa sanuma keessaan ergi, deebii isaa as maxxansi.',
+      e5: 'Hin banamu: kan haasaa kanaa miti, yeroon isaa darbeera ykn lakkoofsi wal hin simu.'
     },
-    i: { a: 'Namni tokko faayila ati qofti banuu dandeessu siif erguu barbaada. Kanaaf jecha icciitii si barbaachisa: fuulli kun ni uuma, bilbila kee irraa hin ba’u.', b: 'Waraqaa irratti barreessi; yaadannoo ykn haasaa keessatti gonkumaa hin barreessin. Fuula kana yoo dhiifte, jechi icciitii ni jijjiirama.', c: 'Sana booda affeerraa kana haqi.' }
+    i: { a: 'Namni tokko faayila ati qofti banuu dandeessu siif erguu barbaada. Kanaaf jecha icciitii si barbaachisa: fuulli kun ni uuma, bilbila kee irraa hin ba’u.', b: 'Waraqaa irratti barreessi. Gonkumaa bilbila keessa hin kuusin: yaadannoo, suuraa iskiriinii fi haasaa keessattis miti.', c: 'Sana booda affeerraa kana haqi.',
+         d: 'Waraqaa fi qalama si barbaachisa: jecha icciitii yeroo faayila bantu hunda si barbaachisu ni barreessita. Amma yoo hin qabaatin, booda deebi’i.',
+         e: 'Fuula kana irraa yeroo dheeraaf baatee turte, kanaaf jechi icciitii sun hin hojjetu. Waraqaa irratti sarariitii irra deebi’ii jalqabi.',
+         f: 'Koodiin uumamuu hin dandeenye. Appiiwwan biroo cufii irra deebi’ii yaali.' }
   },
   or: {
     nm: 'ଓଡ଼ିଆ',
@@ -482,9 +674,17 @@ module.exports = {
       h4: 'ପ୍ରସ୍ତୁତ। ସେହି ସମାନ WhatsApp କିମ୍ବା Signal ଚାଟ୍ ଦ୍ୱାରା ପଠାନ୍ତୁ।',
       h5: 'ଯଦି ଅନ୍ୟ ବ୍ୟକ୍ତିଙ୍କ ପାଖରେ ଏହି ଫାଇଲ୍ ଏପର୍ଯ୍ୟନ୍ତ ନାହିଁ, ପ୍ରଥମେ ତାଙ୍କୁ ଏକ ନିମନ୍ତ୍ରଣ ପଠାନ୍ତୁ। ତାପରେ ସେ ଫେରାଇ ପଠାଉଥିବା କୋଡ୍ ଥିବା ମେସେଜ୍ ଏଠାରେ ପେଷ୍ଟ କରନ୍ତୁ (ଏହି ଫାଇଲ୍ ଖୋଲିବା ପୂର୍ବରୁ କପି କରିନିଅନ୍ତୁ: ଆପ୍ ବଦଳାଇଲେ ଏହା ବନ୍ଦ ହୋଇଯାଏ)। ସବୁକିଛି ସେହି ସମାନ WhatsApp କିମ୍ବା Signal ଚାଟ୍ ଦ୍ୱାରା।',
       h6: 'ଏକ କୋଡ୍ ତିଆରି କରିବାକୁ ଆପଣଙ୍କ ପାସୱାର୍ଡ ଲେଖନ୍ତୁ। ଯିଏ ଆପଣଙ୍କୁ କପି ଦେବେ, ତାଙ୍କୁ ସେହି ଚାଟ୍ ଦ୍ୱାରା ପଠାନ୍ତୁ: ଆପଣ ଏହି ସମାନ ପାସୱାର୍ଡରେ କପିଟି ଖୋଲିବେ।',
-      h7: 'ଏହି କୋଡ୍ ସେହି ଚାଟ୍ ଦ୍ୱାରା ପଠାନ୍ତୁ। ଫାଇଲ୍ ଆସିଲେ ଖୋଲନ୍ତୁ, ଖୋଜା ବାକ୍ସରେ ଆପଣଙ୍କ ପାସୱାର୍ଡ ଲେଖି Enter ଦବାନ୍ତୁ।'
+      h7: 'ଏହି କୋଡ୍ ସେହି ଚାଟ୍ ଦ୍ୱାରା ପଠାନ୍ତୁ। ଫାଇଲ୍ ଆସିଲେ ଖୋଲନ୍ତୁ, ଖୋଜା ବାକ୍ସରେ ଆପଣଙ୍କ ପାସୱାର୍ଡ ଲେଖି Enter ଦବାନ୍ତୁ।',
+      ms: 'ବାର୍ତ୍ତା', pn: 'ସ୍ଥିର କରାଯାଇଥିବା ସଂଖ୍ୟା', em: 'ଆରମ୍ଭ କରନ୍ତୁ', ac: 'ଗ୍ରହଣ କରନ୍ତୁ', pb: 'ଯାହା ପାଇଲେ ତାହା ଏଠାରେ ପେଷ୍ଟ କରନ୍ତୁ', wr: 'ଆପଣଙ୍କ ବାର୍ତ୍ତା ଲେଖନ୍ତୁ', sl: 'ସିଲ୍ କରନ୍ତୁ',
+      tm: '% ମିନିଟ୍ ବାକି', te: 'ଶେଷ କରନ୍ତୁ', rd: 'ପୂର୍ବରୁ ପଢ଼ାଯାଇଛି', e6: 'ସଂଖ୍ୟାରେ ଅତି କମରେ 6ଟି ଅଙ୍କ ରହିବା ଆବଶ୍ୟକ',
+      h8: 'ଛୋଟ ବାର୍ତ୍ତା ଯାହା 15 ମିନିଟ୍ ପରେ ଲିଭିଯାଏ। ପ୍ରଥମେ ଅନ୍ୟ ବ୍ୟକ୍ତିଙ୍କ ସହ ସାମ୍ନାସାମ୍ନି କିମ୍ବା ଫୋନ୍ କଲ୍‌ରେ 6 ଅଙ୍କର ଏକ ସଂଖ୍ୟା ସ୍ଥିର କରନ୍ତୁ, ଚାଟ୍‌ରେ କଦାପି ନୁହେଁ। ଚାଟ୍‌ରେ ଅଦୃଶ୍ୟ ବାର୍ତ୍ତା ଚାଲୁ କରନ୍ତୁ।',
+      h9: 'ସେହି ସମାନ ଚାଟ୍ ଦ୍ୱାରା ପଠାନ୍ତୁ ଏବଂ ଉତ୍ତରଟି ଏଠାରେ ପେଷ୍ଟ କରନ୍ତୁ।',
+      e5: 'ଖୋଲୁନାହିଁ: ଏହା ଏହି କଥାବାର୍ତ୍ତାର ନୁହେଁ, ସମୟ ସରିଯାଇଛି କିମ୍ବା ସଂଖ୍ୟା ମେଳ ଖାଉନାହିଁ।'
     },
-    i: { a: 'କେହି ଜଣେ ଆପଣଙ୍କୁ ଏପରି ଏକ ଫାଇଲ୍ ପଠାଇବାକୁ ଚାହାଁନ୍ତି ଯାହା କେବଳ ଆପଣ ଖୋଲିପାରିବେ। ସେଥିପାଇଁ ଏକ ପାସୱାର୍ଡ ଦରକାର: ଏହି ପୃଷ୍ଠା ଏହାକୁ ତିଆରି କରେ, ଏବଂ ଏହା ଆପଣଙ୍କ ଫୋନ୍ ବାହାରକୁ ଯାଏ ନାହିଁ।', b: 'ଏହାକୁ କାଗଜରେ ଲେଖନ୍ତୁ, କେବେ ବି ନୋଟ୍ କିମ୍ବା ଚାଟ୍‌ରେ ନୁହେଁ। ଏହି ପୃଷ୍ଠା ଛାଡ଼ିଲେ ପାସୱାର୍ଡ ବଦଳିଯିବ।', c: 'ତାପରେ ଏହି ନିମନ୍ତ୍ରଣ ଡିଲିଟ୍ କରନ୍ତୁ।' }
+    i: { a: 'କେହି ଜଣେ ଆପଣଙ୍କୁ ଏପରି ଏକ ଫାଇଲ୍ ପଠାଇବାକୁ ଚାହାଁନ୍ତି ଯାହା କେବଳ ଆପଣ ଖୋଲିପାରିବେ। ସେଥିପାଇଁ ଏକ ପାସୱାର୍ଡ ଦରକାର: ଏହି ପୃଷ୍ଠା ଏହାକୁ ତିଆରି କରେ, ଏବଂ ଏହା ଆପଣଙ୍କ ଫୋନ୍ ବାହାରକୁ ଯାଏ ନାହିଁ।', b: 'ଏହାକୁ କାଗଜରେ ଲେଖନ୍ତୁ। ଫୋନ୍‌ରେ କେବେ ବି ନୁହେଁ: ନୋଟ୍‌ରେ ନୁହେଁ, ସ୍କ୍ରିନସଟ୍‌ରେ ନୁହେଁ, ଚାଟ୍‌ରେ ବି ନୁହେଁ।', c: 'ତାପରେ ଏହି ନିମନ୍ତ୍ରଣ ଡିଲିଟ୍ କରନ୍ତୁ।',
+         d: 'ଆପଣଙ୍କୁ କାଗଜ ଓ କଲମ ଦରକାର: ଆପଣ ଏକ ପାସୱାର୍ଡ ଲେଖିବେ, ଯାହା ପ୍ରତିଥର ଫାଇଲ୍ ଖୋଲିବାକୁ ଦରକାର ହେବ। ଏବେ ପାଖରେ ନଥିଲେ ପରେ ଆସନ୍ତୁ।',
+         e: 'ଆପଣ ବହୁତ ସମୟ ଏହି ପୃଷ୍ଠାରୁ ବାହାରେ ଥିଲେ, ତେଣୁ ସେହି ପାସୱାର୍ଡ ଆଉ କାମ କରିବ ନାହିଁ। କାଗଜରେ ତାହାକୁ କାଟି ଦିଅନ୍ତୁ ଏବଂ ପୁଣି ଆରମ୍ଭ କରନ୍ତୁ।',
+         f: 'କୋଡ୍ ତିଆରି ହୋଇପାରିଲା ନାହିଁ। ଅନ୍ୟ ଆପ୍ ବନ୍ଦ କରି ପୁଣି ଚେଷ୍ଟା କରନ୍ତୁ।' }
   },
   az: {
     nm: 'Azərbaycan',
@@ -501,9 +701,17 @@ module.exports = {
       h4: 'Hazırdır. Eyni WhatsApp və ya Signal söhbəti ilə göndərin.',
       h5: 'Qarşı tərəfdə bu fayl hələ yoxdursa, əvvəlcə ona dəvət göndərin. Sonra onun geri göndərdiyi kodun olduğu mesajı bura yapışdırın (bu faylı açmazdan əvvəl kopyalayın: tətbiqi dəyişəndə bağlanır). Hər şey eyni WhatsApp və ya Signal söhbəti ilə.',
       h6: 'Kod yaratmaq üçün şifrənizi yazın. Onu sizə nüsxə verəcək şəxsə eyni söhbətlə göndərin: nüsxəni bu eyni şifrə ilə açacaqsınız.',
-      h7: 'Bu kodu eyni söhbətlə göndərin. Fayl gələndə onu açın, şifrənizi Axtar xanasına yazın və Enter basın.'
+      h7: 'Bu kodu eyni söhbətlə göndərin. Fayl gələndə onu açın, şifrənizi Axtar xanasına yazın və Enter basın.',
+      ms: 'Mesajlar', pn: 'Razılaşdırılmış nömrə', em: 'Başla', ac: 'Qəbul et', pb: 'Aldığınızı bura yapışdırın', wr: 'Mesajınızı yazın', sl: 'Möhürlə',
+      tm: '% dəq qalıb', te: 'Bitir', rd: 'artıq oxunub', e6: 'Nömrə ən azı 6 rəqəmdən ibarət olmalıdır',
+      h8: '15 dəqiqədən sonra silinən qısa mesajlar. Əvvəlcə qarşı tərəflə üz-üzə və ya telefonla 6 rəqəmli bir nömrə barədə razılaşın, heç vaxt söhbətdə yox. Söhbətdə müvəqqəti mesajları aktiv edin.',
+      h9: 'Eyni söhbət ilə göndərin və cavabı bura yapışdırın.',
+      e5: 'Açılmır: bu söhbətə aid deyil, vaxtı keçib və ya nömrə uyğun gəlmir.'
     },
-    i: { a: 'Kimsə sizə yalnız sizin aça biləcəyiniz bir fayl göndərmək istəyir. Bunun üçün şifrə lazımdır: onu bu səhifə yaradır və o, telefonunuzdan kənara çıxmır.', b: 'Onu kağıza yazın, heç vaxt qeyddə və ya söhbətdə yox. Bu səhifədən çıxsanız, şifrə dəyişir.', c: 'Sonra bu dəvəti silin.' }
+    i: { a: 'Kimsə sizə yalnız sizin aça biləcəyiniz bir fayl göndərmək istəyir. Bunun üçün şifrə lazımdır: onu bu səhifə yaradır və o, telefonunuzdan kənara çıxmır.', b: 'Onu kağıza yazın. Heç vaxt telefonda saxlamayın: nə qeyddə, nə ekran şəklində, nə də söhbətdə.', c: 'Sonra bu dəvəti silin.',
+         d: 'Sizə kağız və qələm lazımdır: faylı hər dəfə açanda lazım olacaq bir şifrə yazacaqsınız. İndi yanınızda yoxdursa, sonra qayıdın.',
+         e: 'Bu səhifədən çox uzun müddət kənarda qaldınız və o şifrə artıq keçərli deyil. Kağızda onun üstündən xətt çəkin və yenidən başlayın.',
+         f: 'Kodu yaratmaq mümkün olmadı. Digər tətbiqləri bağlayın və yenidən cəhd edin.' }
   },
   ne: {
     nm: 'नेपाली',
@@ -520,9 +728,17 @@ module.exports = {
       h4: 'तयार छ। उही WhatsApp वा Signal च्याटबाट पठाउनुहोस्।',
       h5: 'अर्को व्यक्तिसँग यो फाइल अझै छैन भने, पहिले उहाँलाई एउटा निम्तो पठाउनुहोस्। त्यसपछि उहाँले फर्काएको कोड भएको सन्देश यहाँ टाँस्नुहोस् (यो फाइल खोल्नुअघि कपी गर्नुहोस्: एप बदल्दा यो बन्द हुन्छ)। सबै कुरा उही WhatsApp वा Signal च्याटबाट।',
       h6: 'कोड बनाउन आफ्नो पासवर्ड लेख्नुहोस्। तपाईंलाई प्रतिलिपि दिने व्यक्तिलाई उही च्याटबाट पठाउनुहोस्: तपाईं त्यसलाई यही पासवर्डले खोल्नुहुनेछ।',
-      h7: 'यो कोड उही च्याटबाट पठाउनुहोस्। फाइल आएपछि खोल्नुहोस्, खोज बाकसमा आफ्नो पासवर्ड टाइप गरी Enter थिच्नुहोस्।'
+      h7: 'यो कोड उही च्याटबाट पठाउनुहोस्। फाइल आएपछि खोल्नुहोस्, खोज बाकसमा आफ्नो पासवर्ड टाइप गरी Enter थिच्नुहोस्।',
+      ms: 'सन्देशहरू', pn: 'तय गरिएको संख्या', em: 'सुरु गर्नुहोस्', ac: 'स्वीकार गर्नुहोस्', pb: 'आएको कुरा यहाँ टाँस्नुहोस्', wr: 'आफ्नो सन्देश लेख्नुहोस्', sl: 'सिल गर्नुहोस्',
+      tm: '% मिनेट बाँकी', te: 'अन्त्य गर्नुहोस्', rd: 'पहिले नै पढिएको', e6: 'संख्यामा कम्तीमा 6 अङ्क हुनुपर्छ',
+      h8: '15 मिनेटपछि मेटिने छोटा सन्देशहरू। पहिले अर्को व्यक्तिसँग आमनेसामने वा फोन कलमा 6 अङ्कको एउटा संख्या तय गर्नुहोस्, च्याटमा कहिल्यै होइन। च्याटमा हराउने सन्देशहरू सक्रिय गर्नुहोस्।',
+      h9: 'उही च्याटबाट पठाउनुहोस् र जवाफ यहाँ टाँस्नुहोस्।',
+      e5: 'खुलेन: यो यस कुराकानीको होइन, समय सकियो वा संख्या मिलेन।'
     },
-    i: { a: 'कसैले तपाईंलाई तपाईंले मात्र खोल्न सक्ने एउटा फाइल पठाउन चाहन्छ। त्यसका लागि एउटा पासवर्ड चाहिन्छ: यो पृष्ठले बनाउँछ, र यो तपाईंको फोनबाट बाहिर जाँदैन।', b: 'यसलाई कागजमा लेख्नुहोस्, कहिल्यै नोट वा च्याटमा होइन। यो पृष्ठ छोड्नुभयो भने पासवर्ड बदलिन्छ।', c: 'त्यसपछि यो निम्तो मेटाउनुहोस्।' }
+    i: { a: 'कसैले तपाईंलाई तपाईंले मात्र खोल्न सक्ने एउटा फाइल पठाउन चाहन्छ। त्यसका लागि एउटा पासवर्ड चाहिन्छ: यो पृष्ठले बनाउँछ, र यो तपाईंको फोनबाट बाहिर जाँदैन।', b: 'यसलाई कागजमा लेख्नुहोस्। फोनमा कहिल्यै होइन: न नोटमा, न स्क्रिनसटमा, न च्याटमा।', c: 'त्यसपछि यो निम्तो मेटाउनुहोस्।',
+         d: 'तपाईंलाई कागज र कलम चाहिन्छ: तपाईंले एउटा पासवर्ड लेख्नुहुनेछ, जुन हरेक पटक फाइल खोल्दा चाहिन्छ। अहिले छैन भने पछि आउनुहोस्।',
+         e: 'तपाईं यो पृष्ठबाट धेरै बेर बाहिर हुनुभयो, त्यसैले त्यो पासवर्ड अब चल्दैन। कागजमा त्यसलाई काट्नुहोस् र फेरि सुरु गर्नुहोस्।',
+         f: 'कोड बनाउन सकिएन। अरू एप बन्द गरेर फेरि प्रयास गर्नुहोस्।' }
   },
   ta: {
     nm: 'தமிழ்',
@@ -539,9 +755,17 @@ module.exports = {
       h4: 'தயார். அதே WhatsApp அல்லது Signal அரட்டை வழியாக அனுப்பவும்.',
       h5: 'மற்றவரிடம் இந்தக் கோப்பு இன்னும் இல்லையென்றால், முதலில் அவருக்கு ஒரு அழைப்பை அனுப்பவும். பிறகு அவர் திருப்பி அனுப்பும் குறியீடு உள்ள செய்தியை இங்கே ஒட்டவும் (இந்தக் கோப்பைத் திறப்பதற்கு முன் அதை நகலெடுக்கவும்: செயலியை மாற்றினால் இது மூடிவிடும்). எல்லாமே அதே WhatsApp அல்லது Signal அரட்டை வழியாக.',
       h6: 'குறியீட்டை உருவாக்க உங்கள் கடவுச்சொல்லை உள்ளிடவும். உங்களுக்கு நகலைத் தரப்போகிறவருக்கு அதே அரட்டை வழியாக அனுப்பவும்: அந்த நகலை இதே கடவுச்சொல்லால் திறப்பீர்கள்.',
-      h7: 'இந்தக் குறியீட்டை அதே அரட்டை வழியாக அனுப்பவும். கோப்பு வந்ததும் அதைத் திறந்து, தேடல் பெட்டியில் உங்கள் கடவுச்சொல்லை எழுதி Enter அழுத்தவும்.'
+      h7: 'இந்தக் குறியீட்டை அதே அரட்டை வழியாக அனுப்பவும். கோப்பு வந்ததும் அதைத் திறந்து, தேடல் பெட்டியில் உங்கள் கடவுச்சொல்லை எழுதி Enter அழுத்தவும்.',
+      ms: 'செய்திகள்', pn: 'ஒப்புக்கொண்ட எண்', em: 'தொடங்கு', ac: 'ஏற்றுக்கொள்', pb: 'கிடைத்ததை இங்கே ஒட்டவும்', wr: 'உங்கள் செய்தியை எழுதுங்கள்', sl: 'முத்திரையிடு',
+      tm: '% நிமிடம் மீதம்', te: 'முடி', rd: 'ஏற்கெனவே படித்தது', e6: 'எண்ணில் குறைந்தது 6 இலக்கங்கள் இருக்க வேண்டும்',
+      h8: '15 நிமிடங்களுக்குப் பிறகு அழியும் சிறிய செய்திகள். முதலில் மற்றவருடன் நேரில் அல்லது தொலைபேசி அழைப்பில் 6 இலக்க எண்ணை ஒப்புக்கொள்ளுங்கள், அரட்டையில் ஒருபோதும் வேண்டாம். அரட்டையில் மறையும் செய்திகளை இயக்குங்கள்.',
+      h9: 'அதே அரட்டை வழியாக அனுப்பி, பதிலை இங்கே ஒட்டவும்.',
+      e5: 'திறக்கவில்லை: இது இந்த உரையாடலுக்கு உரியதல்ல, காலாவதியானது அல்லது எண் பொருந்தவில்லை.'
     },
-    i: { a: 'நீங்கள் மட்டுமே திறக்கக்கூடிய ஒரு கோப்பை யாரோ உங்களுக்கு அனுப்ப விரும்புகிறார். அதற்கு ஒரு கடவுச்சொல் தேவை: இந்தப் பக்கம் அதை உருவாக்குகிறது, அது உங்கள் தொலைபேசியை விட்டு வெளியே போவதில்லை.', b: 'அதைக் காகிதத்தில் எழுதுங்கள்; குறிப்பிலோ அரட்டையிலோ ஒருபோதும் எழுதாதீர்கள். இந்தப் பக்கத்தை விட்டு வெளியேறினால் கடவுச்சொல் மாறிவிடும்.', c: 'பிறகு இந்த அழைப்பை நீக்கவும்.' }
+    i: { a: 'நீங்கள் மட்டுமே திறக்கக்கூடிய ஒரு கோப்பை யாரோ உங்களுக்கு அனுப்ப விரும்புகிறார். அதற்கு ஒரு கடவுச்சொல் தேவை: இந்தப் பக்கம் அதை உருவாக்குகிறது, அது உங்கள் தொலைபேசியை விட்டு வெளியே போவதில்லை.', b: 'அதைக் காகிதத்தில் எழுதுங்கள். தொலைபேசியில் ஒருபோதும் வேண்டாம்: குறிப்பிலும், திரைப்பிடிப்பிலும், அரட்டையிலும் வேண்டாம்.', c: 'பிறகு இந்த அழைப்பை நீக்கவும்.',
+         d: 'உங்களுக்குக் காகிதமும் பேனாவும் தேவை: ஒவ்வொரு முறை கோப்பைத் திறக்கும்போதும் தேவைப்படும் ஒரு கடவுச்சொல்லை எழுதி வைப்பீர்கள். இப்போது இல்லையென்றால், பிறகு வாருங்கள்.',
+         e: 'நீங்கள் இந்தப் பக்கத்தை விட்டு நீண்ட நேரம் வெளியே இருந்தீர்கள்; அந்தக் கடவுச்சொல் இனி செல்லாது. காகிதத்தில் அதை அடித்துவிட்டு மீண்டும் தொடங்குங்கள்.',
+         f: 'குறியீட்டை உருவாக்க முடியவில்லை. மற்ற செயலிகளை மூடிவிட்டு மீண்டும் முயலுங்கள்.' }
   },
   te: {
     nm: 'తెలుగు',
@@ -558,9 +782,17 @@ module.exports = {
       h4: 'సిద్ధంగా ఉంది. అదే WhatsApp లేదా Signal చాట్ ద్వారా పంపండి.',
       h5: 'అవతలి వ్యక్తి దగ్గర ఈ ఫైల్ ఇంకా లేకపోతే, ముందుగా వారికి ఒక ఆహ్వానం పంపండి. తర్వాత వారు తిరిగి పంపే కోడ్ ఉన్న సందేశాన్ని ఇక్కడ అతికించండి (ఈ ఫైల్ తెరవడానికి ముందే దాన్ని కాపీ చేయండి: యాప్ మారితే ఇది మూసుకుపోతుంది). అన్నీ అదే WhatsApp లేదా Signal చాట్ ద్వారానే.',
       h6: 'కోడ్ తయారు చేయడానికి మీ పాస్‌వర్డ్ నమోదు చేయండి. మీకు కాపీ ఇచ్చే వ్యక్తికి అదే చాట్ ద్వారా పంపండి: ఆ కాపీని ఇదే పాస్‌వర్డ్‌తో తెరుస్తారు.',
-      h7: 'ఈ కోడ్‌ను అదే చాట్ ద్వారా పంపండి. ఫైల్ వచ్చాక దాన్ని తెరిచి, శోధన పెట్టెలో మీ పాస్‌వర్డ్ టైప్ చేసి Enter నొక్కండి.'
+      h7: 'ఈ కోడ్‌ను అదే చాట్ ద్వారా పంపండి. ఫైల్ వచ్చాక దాన్ని తెరిచి, శోధన పెట్టెలో మీ పాస్‌వర్డ్ టైప్ చేసి Enter నొక్కండి.',
+      ms: 'సందేశాలు', pn: 'అంగీకరించిన సంఖ్య', em: 'ప్రారంభించండి', ac: 'అంగీకరించండి', pb: 'మీకు వచ్చినదాన్ని ఇక్కడ అతికించండి', wr: 'మీ సందేశం రాయండి', sl: 'సీల్ చేయండి',
+      tm: '% నిమిషాలు మిగిలాయి', te: 'ముగించండి', rd: 'ఇప్పటికే చదివారు', e6: 'సంఖ్యలో కనీసం 6 అంకెలు ఉండాలి',
+      h8: '15 నిమిషాల తర్వాత చెరిగిపోయే చిన్న సందేశాలు. ముందుగా అవతలి వ్యక్తితో ప్రత్యక్షంగా లేదా ఫోన్ కాల్‌లో 6 అంకెల సంఖ్యను అంగీకరించండి, చాట్‌లో ఎప్పుడూ వద్దు. చాట్‌లో కనుమరుగయ్యే సందేశాలను ఆన్ చేయండి.',
+      h9: 'అదే చాట్ ద్వారా పంపి, జవాబును ఇక్కడ అతికించండి.',
+      e5: 'తెరుచుకోలేదు: ఇది ఈ సంభాషణది కాదు, గడువు ముగిసింది లేదా సంఖ్య సరిపోలలేదు.'
     },
-    i: { a: 'మీరు మాత్రమే తెరవగలిగే ఒక ఫైల్‌ను ఎవరో మీకు పంపాలనుకుంటున్నారు. దానికి ఒక పాస్‌వర్డ్ అవసరం: ఈ పేజీ దాన్ని తయారు చేస్తుంది, అది మీ ఫోన్ బయటికి వెళ్లదు.', b: 'దాన్ని కాగితంపై రాయండి, ఎప్పుడూ గమనికలో లేదా చాట్‌లో కాదు. ఈ పేజీ నుండి బయటకు వెళ్తే పాస్‌వర్డ్ మారిపోతుంది.', c: 'తర్వాత ఈ ఆహ్వానాన్ని తొలగించండి.' }
+    i: { a: 'మీరు మాత్రమే తెరవగలిగే ఒక ఫైల్‌ను ఎవరో మీకు పంపాలనుకుంటున్నారు. దానికి ఒక పాస్‌వర్డ్ అవసరం: ఈ పేజీ దాన్ని తయారు చేస్తుంది, అది మీ ఫోన్ బయటికి వెళ్లదు.', b: 'దాన్ని కాగితంపై రాయండి. ఫోన్‌లో ఎప్పుడూ వద్దు: గమనికలో వద్దు, స్క్రీన్‌షాట్‌లో వద్దు, చాట్‌లో వద్దు.', c: 'తర్వాత ఈ ఆహ్వానాన్ని తొలగించండి.',
+         d: 'మీకు కాగితం, పెన్ను కావాలి: ఫైల్ తెరిచిన ప్రతిసారీ అవసరమయ్యే ఒక పాస్‌వర్డ్‌ను మీరు రాసుకుంటారు. ఇప్పుడు లేకపోతే, తర్వాత రండి.',
+         e: 'మీరు ఈ పేజీ నుండి చాలాసేపు బయట ఉన్నారు, కాబట్టి ఆ పాస్‌వర్డ్ ఇక పనిచేయదు. కాగితంపై దాన్ని కొట్టివేసి మళ్లీ మొదలుపెట్టండి.',
+         f: 'కోడ్ తయారు చేయలేకపోయాం. ఇతర యాప్‌లను మూసివేసి మళ్లీ ప్రయత్నించండి.' }
   },
   kn: {
     nm: 'ಕನ್ನಡ',
@@ -577,9 +809,17 @@ module.exports = {
       h4: 'ಸಿದ್ಧವಾಗಿದೆ. ಅದೇ WhatsApp ಅಥವಾ Signal ಚಾಟ್ ಮೂಲಕ ಕಳುಹಿಸಿ.',
       h5: 'ಇನ್ನೊಬ್ಬರ ಬಳಿ ಈ ಫೈಲ್ ಇನ್ನೂ ಇಲ್ಲದಿದ್ದರೆ, ಮೊದಲು ಅವರಿಗೆ ಒಂದು ಆಹ್ವಾನ ಕಳುಹಿಸಿ. ನಂತರ ಅವರು ಹಿಂದಿರುಗಿಸುವ ಕೋಡ್ ಇರುವ ಸಂದೇಶವನ್ನು ಇಲ್ಲಿ ಅಂಟಿಸಿ (ಈ ಫೈಲ್ ತೆರೆಯುವ ಮೊದಲೇ ಅದನ್ನು ನಕಲಿಸಿ: ಆ್ಯಪ್ ಬದಲಿಸಿದರೆ ಇದು ಮುಚ್ಚುತ್ತದೆ). ಎಲ್ಲವೂ ಅದೇ WhatsApp ಅಥವಾ Signal ಚಾಟ್ ಮೂಲಕ.',
       h6: 'ಕೋಡ್ ಮಾಡಲು ನಿಮ್ಮ ಪಾಸ್‌ವರ್ಡ್ ನಮೂದಿಸಿ. ನಿಮಗೆ ಪ್ರತಿಯನ್ನು ಕೊಡುವವರಿಗೆ ಅದೇ ಚಾಟ್ ಮೂಲಕ ಕಳುಹಿಸಿ: ಆ ಪ್ರತಿಯನ್ನು ಇದೇ ಪಾಸ್‌ವರ್ಡ್‌ನಿಂದ ತೆರೆಯುತ್ತೀರಿ.',
-      h7: 'ಈ ಕೋಡ್ ಅನ್ನು ಅದೇ ಚಾಟ್ ಮೂಲಕ ಕಳುಹಿಸಿ. ಫೈಲ್ ಬಂದಾಗ ಅದನ್ನು ತೆರೆಯಿರಿ, ಹುಡುಕಾಟ ಬಾಕ್ಸ್‌ನಲ್ಲಿ ನಿಮ್ಮ ಪಾಸ್‌ವರ್ಡ್ ಟೈಪ್ ಮಾಡಿ Enter ಒತ್ತಿರಿ.'
+      h7: 'ಈ ಕೋಡ್ ಅನ್ನು ಅದೇ ಚಾಟ್ ಮೂಲಕ ಕಳುಹಿಸಿ. ಫೈಲ್ ಬಂದಾಗ ಅದನ್ನು ತೆರೆಯಿರಿ, ಹುಡುಕಾಟ ಬಾಕ್ಸ್‌ನಲ್ಲಿ ನಿಮ್ಮ ಪಾಸ್‌ವರ್ಡ್ ಟೈಪ್ ಮಾಡಿ Enter ಒತ್ತಿರಿ.',
+      ms: 'ಸಂದೇಶಗಳು', pn: 'ಒಪ್ಪಿಕೊಂಡ ಸಂಖ್ಯೆ', em: 'ಪ್ರಾರಂಭಿಸಿ', ac: 'ಸ್ವೀಕರಿಸಿ', pb: 'ನಿಮಗೆ ಬಂದದ್ದನ್ನು ಇಲ್ಲಿ ಅಂಟಿಸಿ', wr: 'ನಿಮ್ಮ ಸಂದೇಶ ಬರೆಯಿರಿ', sl: 'ಮುದ್ರೆ ಹಾಕಿ',
+      tm: '% ನಿಮಿಷ ಉಳಿದಿದೆ', te: 'ಮುಗಿಸಿ', rd: 'ಈಗಾಗಲೇ ಓದಲಾಗಿದೆ', e6: 'ಸಂಖ್ಯೆಯಲ್ಲಿ ಕನಿಷ್ಠ 6 ಅಂಕೆಗಳು ಇರಬೇಕು',
+      h8: '15 ನಿಮಿಷಗಳ ನಂತರ ಅಳಿಸಿಹೋಗುವ ಸಣ್ಣ ಸಂದೇಶಗಳು. ಮೊದಲು ಇನ್ನೊಬ್ಬರೊಂದಿಗೆ ಮುಖಾಮುಖಿಯಾಗಿ ಅಥವಾ ಫೋನ್ ಕರೆಯಲ್ಲಿ 6 ಅಂಕೆಗಳ ಸಂಖ್ಯೆಯನ್ನು ಒಪ್ಪಿಕೊಳ್ಳಿ, ಚಾಟ್‌ನಲ್ಲಿ ಎಂದಿಗೂ ಬೇಡ. ಚಾಟ್‌ನಲ್ಲಿ ಮರೆಯಾಗುವ ಸಂದೇಶಗಳನ್ನು ಆನ್ ಮಾಡಿ.',
+      h9: 'ಅದೇ ಚಾಟ್ ಮೂಲಕ ಕಳುಹಿಸಿ, ಉತ್ತರವನ್ನು ಇಲ್ಲಿ ಅಂಟಿಸಿ.',
+      e5: 'ತೆರೆಯುತ್ತಿಲ್ಲ: ಇದು ಈ ಸಂಭಾಷಣೆಯದ್ದಲ್ಲ, ಅವಧಿ ಮುಗಿದಿದೆ ಅಥವಾ ಸಂಖ್ಯೆ ಹೊಂದಿಕೆಯಾಗುತ್ತಿಲ್ಲ.'
     },
-    i: { a: 'ನೀವು ಮಾತ್ರ ತೆರೆಯಬಹುದಾದ ಒಂದು ಫೈಲ್ ಅನ್ನು ಯಾರೋ ನಿಮಗೆ ಕಳುಹಿಸಲು ಬಯಸುತ್ತಾರೆ. ಅದಕ್ಕೆ ಒಂದು ಪಾಸ್‌ವರ್ಡ್ ಬೇಕು: ಈ ಪುಟ ಅದನ್ನು ಮಾಡುತ್ತದೆ, ಮತ್ತು ಅದು ನಿಮ್ಮ ಫೋನ್‌ನಿಂದ ಹೊರಗೆ ಹೋಗುವುದಿಲ್ಲ.', b: 'ಅದನ್ನು ಕಾಗದದ ಮೇಲೆ ಬರೆಯಿರಿ, ಎಂದಿಗೂ ಟಿಪ್ಪಣಿಯಲ್ಲಿ ಅಥವಾ ಚಾಟ್‌ನಲ್ಲಿ ಅಲ್ಲ. ಈ ಪುಟದಿಂದ ಹೊರಗೆ ಹೋದರೆ ಪಾಸ್‌ವರ್ಡ್ ಬದಲಾಗುತ್ತದೆ.', c: 'ನಂತರ ಈ ಆಹ್ವಾನವನ್ನು ಅಳಿಸಿ.' }
+    i: { a: 'ನೀವು ಮಾತ್ರ ತೆರೆಯಬಹುದಾದ ಒಂದು ಫೈಲ್ ಅನ್ನು ಯಾರೋ ನಿಮಗೆ ಕಳುಹಿಸಲು ಬಯಸುತ್ತಾರೆ. ಅದಕ್ಕೆ ಒಂದು ಪಾಸ್‌ವರ್ಡ್ ಬೇಕು: ಈ ಪುಟ ಅದನ್ನು ಮಾಡುತ್ತದೆ, ಮತ್ತು ಅದು ನಿಮ್ಮ ಫೋನ್‌ನಿಂದ ಹೊರಗೆ ಹೋಗುವುದಿಲ್ಲ.', b: 'ಅದನ್ನು ಕಾಗದದ ಮೇಲೆ ಬರೆಯಿರಿ. ಫೋನ್‌ನಲ್ಲಿ ಎಂದಿಗೂ ಬೇಡ: ಟಿಪ್ಪಣಿಯಲ್ಲಿ ಬೇಡ, ಸ್ಕ್ರೀನ್‌ಶಾಟ್‌ನಲ್ಲಿ ಬೇಡ, ಚಾಟ್‌ನಲ್ಲಿ ಬೇಡ.', c: 'ನಂತರ ಈ ಆಹ್ವಾನವನ್ನು ಅಳಿಸಿ.',
+         d: 'ನಿಮಗೆ ಕಾಗದ ಮತ್ತು ಪೆನ್ನು ಬೇಕು: ಪ್ರತಿ ಬಾರಿ ಫೈಲ್ ತೆರೆಯಲು ಬೇಕಾಗುವ ಒಂದು ಪಾಸ್‌ವರ್ಡ್ ಅನ್ನು ನೀವು ಬರೆದುಕೊಳ್ಳುತ್ತೀರಿ. ಈಗ ಇಲ್ಲದಿದ್ದರೆ, ನಂತರ ಬನ್ನಿ.',
+         e: 'ನೀವು ಈ ಪುಟದಿಂದ ತುಂಬಾ ಹೊತ್ತು ಹೊರಗಿದ್ದಿರಿ, ಆದ್ದರಿಂದ ಆ ಪಾಸ್‌ವರ್ಡ್ ಇನ್ನು ಕೆಲಸ ಮಾಡುವುದಿಲ್ಲ. ಕಾಗದದಲ್ಲಿ ಅದನ್ನು ಹೊಡೆದುಹಾಕಿ ಮತ್ತೆ ಪ್ರಾರಂಭಿಸಿ.',
+         f: 'ಕೋಡ್ ಮಾಡಲು ಆಗಲಿಲ್ಲ. ಬೇರೆ ಆ್ಯಪ್‌ಗಳನ್ನು ಮುಚ್ಚಿ ಮತ್ತೆ ಪ್ರಯತ್ನಿಸಿ.' }
   },
   am: {
     nm: 'አማርኛ',
@@ -596,9 +836,17 @@ module.exports = {
       h4: 'ዝግጁ ነው። በዚያው የWhatsApp ወይም የSignal ውይይት ይላኩት።',
       h5: 'ሌላው ሰው ይህ ፋይል ገና ከሌለው፣ መጀመሪያ ግብዣ ይላኩለት። ከዚያ እሱ መልሶ የሚልከውን ኮድ ያለበትን መልዕክት እዚህ ይለጥፉ (ይህን ፋይል ከመክፈትዎ በፊት ይቅዱት፤ መተግበሪያ ሲቀይሩ ይዘጋል)። ሁሉም ነገር በዚያው የWhatsApp ወይም የSignal ውይይት።',
       h6: 'ኮድ ለመፍጠር የይለፍ ቃልዎን ያስገቡ። ቅጂውን ለሚሰጥዎ ሰው በዚያው ውይይት ይላኩት፤ ቅጂውን በዚሁ የይለፍ ቃል ይከፍቱታል።',
-      h7: 'ይህን ኮድ በዚያው ውይይት ይላኩ። ፋይሉ ሲደርስ ይክፈቱት፣ የይለፍ ቃልዎን በፍለጋ ሳጥን ውስጥ ይጻፉና Enter ይጫኑ።'
+      h7: 'ይህን ኮድ በዚያው ውይይት ይላኩ። ፋይሉ ሲደርስ ይክፈቱት፣ የይለፍ ቃልዎን በፍለጋ ሳጥን ውስጥ ይጻፉና Enter ይጫኑ።',
+      ms: 'መልእክቶች', pn: 'የተስማማችሁበት ቁጥር', em: 'ጀምር', ac: 'ተቀበል', pb: 'የደረሰዎትን እዚህ ይለጥፉ', wr: 'መልእክትዎን ይጻፉ', sl: 'አሽግ',
+      tm: '% ደቂቃ ቀርቷል', te: 'ጨርስ', rd: 'ቀድሞ ተነቧል', e6: 'ቁጥሩ ቢያንስ 6 አሃዞች ሊኖሩት ይገባል',
+      h8: 'ከ15 ደቂቃ በኋላ የሚጠፉ አጫጭር መልእክቶች። መጀመሪያ ከሌላው ሰው ጋር ፊት ለፊት ወይም በስልክ ጥሪ ባለ 6 አሃዝ ቁጥር ይስማሙ፤ በውይይቱ ውስጥ ፈጽሞ አይስማሙ። በውይይቱ ውስጥ የሚጠፉ መልእክቶችን ያብሩ።',
+      h9: 'በዚያው ውይይት ይላኩት፣ መልሱንም እዚህ ይለጥፉ።',
+      e5: 'አይከፈትም፦ የዚህ ውይይት አይደለም፣ ጊዜው አልፏል ወይም ቁጥሩ አይመሳሰልም።'
     },
-    i: { a: 'አንድ ሰው እርስዎ ብቻ መክፈት የሚችሉትን ፋይል ሊልክልዎ ይፈልጋል። ለዚህ የይለፍ ቃል ያስፈልግዎታል፤ ይህ ገጽ ይፈጥረዋል፣ ከስልክዎም አይወጣም።', b: 'በወረቀት ላይ ይጻፉት፤ በማስታወሻ ወይም በውይይት ውስጥ ፈጽሞ አይጻፉት። ከዚህ ገጽ ከወጡ የይለፍ ቃሉ ይቀየራል።', c: 'ከዚያ ይህን ግብዣ ይሰርዙት።' }
+    i: { a: 'አንድ ሰው እርስዎ ብቻ መክፈት የሚችሉትን ፋይል ሊልክልዎ ይፈልጋል። ለዚህ የይለፍ ቃል ያስፈልግዎታል፤ ይህ ገጽ ይፈጥረዋል፣ ከስልክዎም አይወጣም።', b: 'በወረቀቱ ላይ ይጻፉት። በስልክ ውስጥ ፈጽሞ አያስቀምጡት፤ በማስታወሻም፣ በስክሪን ፎቶም፣ በውይይትም አይሆንም።', c: 'ከዚያ ይህን ግብዣ ይሰርዙት።',
+         d: 'ወረቀትና እስክሪብቶ ያስፈልግዎታል፤ ፋይሉን በከፈቱ ቁጥር የሚያስፈልግዎትን የይለፍ ቃል ይጽፋሉ። አሁን ከሌለዎት በኋላ ይመለሱ።',
+         e: 'ከዚህ ገጽ ለረጅም ጊዜ ወጥተው ስለቆዩ ያ የይለፍ ቃል ከእንግዲህ አይሰራም። በወረቀቱ ላይ ሰርዘው እንደገና ይጀምሩ።',
+         f: 'ኮዱን መፍጠር አልተቻለም። ሌሎች መተግበሪያዎችን ዘግተው እንደገና ይሞክሩ።' }
   },
   tk: {
     nm: 'Türkmen',
@@ -615,9 +863,17 @@ module.exports = {
       h4: 'Taýýar. Şol bir WhatsApp ýa-da Signal çaty arkaly iberiň.',
       h5: 'Beýleki adamda bu faýl entek ýok bolsa, ilki oňa çakylyk iberiň. Soňra onuň yzyna iberen kody bolan habaryny şu ýere goýuň (bu faýly açmazdan öň göçürip alyň: programma çalşanyňyzda ýapylýar). Hemme zat şol bir WhatsApp ýa-da Signal çaty arkaly.',
       h6: 'Kod döretmek üçin parolyňyzy ýazyň. Ony size nusga berjek adama şol bir çat arkaly iberiň: nusgany şu parol bilen açarsyňyz.',
-      h7: 'Bu kody şol bir çat arkaly iberiň. Faýl gelende açyň, parolyňyzy «Gözle» gutusyna ýazyp Enter basyň.'
+      h7: 'Bu kody şol bir çat arkaly iberiň. Faýl gelende açyň, parolyňyzy «Gözle» gutusyna ýazyp Enter basyň.',
+      ms: 'Habarlar', pn: 'Ylalaşylan san', em: 'Başla', ac: 'Kabul et', pb: 'Gelen zady şu ýere goýuň', wr: 'Habaryňyzy ýazyň', sl: 'Möhürle',
+      tm: '% min galdy', te: 'Tamamla', rd: 'eýýäm okaldy', e6: 'San iň az 6 sanly bolmaly',
+      h8: '15 minutdan soň pozulýan gysga habarlar. Ilki bilen beýleki adam bilen ýüzbe-ýüz ýa-da telefon arkaly 6 sanly bir san barada ylalaşyň, hiç haçan çatda däl. Çatda wagtlaýyn habarlary açyň.',
+      h9: 'Şol bir çat arkaly iberiň we jogaby şu ýere goýuň.',
+      e5: 'Açylmaýar: bu söhbetdeşlige degişli däl, möhleti geçdi ýa-da san gabat gelmeýär.'
     },
-    i: { a: 'Kimdir biri size diňe siziň açyp biljek faýlyňyzy ibermek isleýär. Munuň üçin parol gerek: ony şu sahypa döredýär we ol telefonyňyzdan daşary çykmaýar.', b: 'Ony kagyza ýazyň, hiç haçan bellikde ýa-da çatda däl. Bu sahypadan çyksaňyz, parol üýtgeýär.', c: 'Soňra bu çakylygy pozuň.' }
+    i: { a: 'Kimdir biri size diňe siziň açyp biljek faýlyňyzy ibermek isleýär. Munuň üçin parol gerek: ony şu sahypa döredýär we ol telefonyňyzdan daşary çykmaýar.', b: 'Ony kagyza ýazyň. Hiç haçan telefonda saklamaň: ne bellikde, ne ekran suratynda, ne-de çatda.', c: 'Soňra bu çakylygy pozuň.',
+         d: 'Size kagyz we ruçka gerek: faýly her gezek açanyňyzda gerek boljak paroly ýazarsyňyz. Häzir ýanyňyzda ýok bolsa, soňra geliň.',
+         e: 'Bu sahypadan gaty uzak wagt daşarda bolduňyz, şonuň üçin ol parol indi ýaramaýar. Kagyzda üstüni çyzyň we täzeden başlaň.',
+         f: 'Kody döredip bolmady. Beýleki programmalary ýapyň we täzeden synanyşyň.' }
   },
   uz: {
     nm: 'Oʻzbek',
@@ -634,9 +890,17 @@ module.exports = {
       h4: 'Tayyor. Xuddi oʻsha WhatsApp yoki Signal suhbati orqali yuboring.',
       h5: 'Agar boshqa odamda bu fayl hali boʻlmasa, avval unga taklifnoma yuboring. Soʻng u qaytarib yuborgan kodi bor xabarni shu yerga qoʻying (bu faylni ochishdan oldin nusxalab oling: ilovani almashtirsangiz yopiladi). Hammasi xuddi oʻsha WhatsApp yoki Signal suhbati orqali.',
       h6: 'Kod yaratish uchun parolingizni yozing. Uni sizga nusxa beradigan odamga oʻsha suhbat orqali yuboring: nusxani shu parol bilan ochasiz.',
-      h7: 'Bu kodni oʻsha suhbat orqali yuboring. Fayl kelganda uni oching, parolingizni «Qidirish» maydoniga yozing va Enter bosing.'
+      h7: 'Bu kodni oʻsha suhbat orqali yuboring. Fayl kelganda uni oching, parolingizni «Qidirish» maydoniga yozing va Enter bosing.',
+      ms: 'Xabarlar', pn: 'Kelishilgan raqam', em: 'Boshlash', ac: 'Qabul qilish', pb: 'Kelgan narsani shu yerga qoʻying', wr: 'Xabaringizni yozing', sl: 'Muhrlash',
+      tm: '% daqiqa qoldi', te: 'Tugatish', rd: 'allaqachon oʻqilgan', e6: 'Raqam kamida 6 xonali boʻlishi kerak',
+      h8: '15 daqiqadan keyin oʻchib ketadigan qisqa xabarlar. Avval boshqa odam bilan yuzma-yuz yoki telefon orqali 6 xonali raqam boʻyicha kelishib oling, hech qachon suhbatda emas. Suhbatda vaqtinchalik xabarlarni yoqing.',
+      h9: 'Xuddi oʻsha suhbat orqali yuboring va javobni shu yerga qoʻying.',
+      e5: 'Ochilmadi: bu suhbatga tegishli emas, muddati oʻtgan yoki raqam mos kelmaydi.'
     },
-    i: { a: 'Kimdir sizga faqat siz ocha oladigan fayl yubormoqchi. Buning uchun parol kerak: uni shu sahifa yaratadi va u telefoningizdan tashqariga chiqmaydi.', b: 'Uni qogʻozga yozing, hech qachon qaydda yoki suhbatda emas. Bu sahifadan chiqsangiz, parol oʻzgaradi.', c: 'Keyin bu taklifnomani oʻchiring.' }
+    i: { a: 'Kimdir sizga faqat siz ocha oladigan fayl yubormoqchi. Buning uchun parol kerak: uni shu sahifa yaratadi va u telefoningizdan tashqariga chiqmaydi.', b: 'Uni qogʻozga yozing. Hech qachon telefonda saqlamang: na qaydda, na ekran rasmida, na suhbatda.', c: 'Keyin bu taklifnomani oʻchiring.',
+         d: 'Sizga qogʻoz va ruchka kerak: faylni har safar ochganingizda kerak boʻladigan parolni yozib olasiz. Hozir yoningizda boʻlmasa, keyinroq qayting.',
+         e: 'Bu sahifadan juda uzoq vaqt chiqib turdingiz, shuning uchun u parol endi yaroqsiz. Qogʻozda ustidan chizib qoʻying va qaytadan boshlang.',
+         f: 'Kodni yaratib boʻlmadi. Boshqa ilovalarni yoping va qayta urinib koʻring.' }
   },
   tg: {
     nm: 'Тоҷикӣ',
@@ -653,9 +917,17 @@ module.exports = {
       h4: 'Тайёр аст. Онро тавассути ҳамон чати WhatsApp ё Signal фиристед.',
       h5: 'Агар шахси дигар ҳанӯз ин файлро надошта бошад, аввал ба ӯ даъватнома фиристед. Сипас паёмеро, ки коди баргардондаи ӯро дорад, ба ин ҷо гузоред (пеш аз кушодани ин файл онро нусхабардорӣ кунед: ҳангоми иваз кардани барнома баста мешавад). Ҳама чиз тавассути ҳамон чати WhatsApp ё Signal.',
       h6: 'Барои сохтани код пароли худро нависед. Онро тавассути ҳамон чат ба касе фиристед, ки ба шумо нусха медиҳад: нусхаро бо ҳамин парол мекушоед.',
-      h7: 'Ин кодро тавассути ҳамон чат фиристед. Вақте ки файл расид, онро кушоед, паролро дар «Ҷустуҷӯ» нависед ва Enter-ро пахш кунед.'
+      h7: 'Ин кодро тавассути ҳамон чат фиристед. Вақте ки файл расид, онро кушоед, паролро дар «Ҷустуҷӯ» нависед ва Enter-ро пахш кунед.',
+      ms: 'Паёмҳо', pn: 'Рақами мувофиқашуда', em: 'Оғоз кардан', ac: 'Қабул кардан', pb: 'Он чиро ки гирифтед, ба ин ҷо гузоред', wr: 'Паёми худро нависед', sl: 'Мӯҳр задан',
+      tm: '% дақиқа монд', te: 'Анҷом додан', rd: 'аллакай хонда шуд', e6: 'Рақам бояд ҳадди ақал 6 адад дошта бошад',
+      h8: 'Паёмҳои кӯтоҳ, ки пас аз 15 дақиқа нест мешаванд. Аввал бо шахси дигар рӯ ба рӯ ё бо занги телефонӣ дар бораи рақами 6-рақама мувофиқа кунед, ҳеҷ гоҳ дар чат не. Дар чат паёмҳои муваққатиро фаъол кунед.',
+      h9: 'Онро тавассути ҳамон чат фиристед ва ҷавобро ба ин ҷо гузоред.',
+      e5: 'Кушода намешавад: аз ин сӯҳбат нест, мӯҳлаташ гузашт ё рақам мувофиқ нест.'
     },
-    i: { a: 'Касе мехоҳад ба шумо файле фиристад, ки танҳо шумо онро кушода метавонед. Барои ин парол лозим аст: онро ҳамин саҳифа месозад ва он аз телефони шумо берун намеравад.', b: 'Онро дар коғаз нависед, ҳеҷ гоҳ дар ёддошт ё чат не. Агар аз ин саҳифа бароед, парол иваз мешавад.', c: 'Баъд ин даъватномаро нест кунед.' }
+    i: { a: 'Касе мехоҳад ба шумо файле фиристад, ки танҳо шумо онро кушода метавонед. Барои ин парол лозим аст: онро ҳамин саҳифа месозад ва он аз телефони шумо берун намеравад.', b: 'Онро дар коғаз нависед. Ҳеҷ гоҳ дар телефон нигоҳ надоред: на дар ёддошт, на дар акси экран, на дар чат.', c: 'Баъд ин даъватномаро нест кунед.',
+         d: 'Ба шумо коғаз ва қалам лозим аст: шумо паролеро менависед, ки ҳар дафъа барои кушодани файл лозим мешавад. Агар ҳозир надошта бошед, баъдтар баргардед.',
+         e: 'Шумо аз ин саҳифа хеле дер берун будед, бинобар ин он парол дигар эътибор надорад. Онро дар коғаз хат занед ва аз нав сар кунед.',
+         f: 'Сохтани код муяссар нашуд. Барномаҳои дигарро пӯшед ва бори дигар кӯшиш кунед.' }
   },
   ms: {
     nm: 'Bahasa Melayu',
@@ -672,8 +944,16 @@ module.exports = {
       h4: 'Sedia. Hantar melalui sembang WhatsApp atau Signal yang sama.',
       h5: 'Jika orang itu belum mempunyai fail ini, hantar jemputan kepadanya dahulu. Kemudian tampal di sini mesej yang mengandungi kod yang dihantarnya semula (salin sebelum membuka fail ini: fail ini tertutup apabila anda bertukar aplikasi). Semuanya melalui sembang WhatsApp atau Signal yang sama.',
       h6: 'Taip kata laluan anda untuk membuat kod. Hantar melalui sembang yang sama kepada orang yang akan memberi anda salinan: anda akan membukanya dengan kata laluan yang sama ini.',
-      h7: 'Hantar kod ini melalui sembang yang sama. Apabila fail tiba, buka, taip kata laluan anda dalam Cari dan tekan Enter.'
+      h7: 'Hantar kod ini melalui sembang yang sama. Apabila fail tiba, buka, taip kata laluan anda dalam Cari dan tekan Enter.',
+      ms: 'Mesej', pn: 'Nombor yang dipersetujui', em: 'Mula', ac: 'Terima', pb: 'Tampal di sini apa yang anda terima', wr: 'Tulis mesej anda', sl: 'Meteraikan',
+      tm: '% minit lagi', te: 'Tamatkan', rd: 'sudah dibaca', e6: 'Nombor mesti sekurang-kurangnya 6 digit',
+      h8: 'Mesej pendek yang terpadam selepas 15 minit. Mula-mula, persetujui nombor 6 digit dengan orang itu secara bersemuka atau melalui panggilan telefon, jangan sekali-kali melalui sembang. Dalam sembang, hidupkan mesej hilang.',
+      h9: 'Hantar melalui sembang yang sama, kemudian tampal balasannya di sini.',
+      e5: 'Tidak terbuka: ia bukan daripada perbualan ini, sudah tamat tempoh atau nombornya tidak sepadan.'
     },
-    i: { a: 'Seseorang mahu menghantar kepada anda fail yang hanya anda boleh buka. Untuk itu anda perlukan kata laluan: halaman ini membuatnya, dan ia tidak keluar dari telefon anda.', b: 'Tulis di atas kertas, jangan sekali-kali dalam nota atau sembang. Jika anda keluar dari halaman ini, kata laluan berubah.', c: 'Selepas itu, padam jemputan ini.' }
+    i: { a: 'Seseorang mahu menghantar kepada anda fail yang hanya anda boleh buka. Untuk itu anda perlukan kata laluan: halaman ini membuatnya, dan ia tidak keluar dari telefon anda.', b: 'Tulis di atas kertas. Jangan sekali-kali simpan dalam telefon: bukan dalam nota, bukan dalam tangkapan skrin, bukan dalam sembang.', c: 'Selepas itu, padam jemputan ini.',
+         d: 'Anda perlukan kertas dan pen: anda akan menulis kata laluan yang diperlukan setiap kali membuka fail. Jika tiada sekarang, kembali nanti.',
+         e: 'Anda terlalu lama meninggalkan halaman ini dan kata laluan itu tidak sah lagi. Coret ia pada kertas dan mula semula.',
+         f: 'Kod tidak dapat dibuat. Tutup aplikasi lain dan cuba lagi.' }
   }
 };
