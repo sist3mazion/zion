@@ -236,31 +236,113 @@ test('navegador', { skip: !pw && 'Playwright no está instalado' }, async t => {
   });
 
   let codigo;
-  await t.test('a distancia: el receptor abre la invitación en su idioma, apunta su clave y crea su código', async () => {
+  await t.test('a distancia: el receptor, en su idioma, paso a paso: papel, clave, comprobarla mirando el papel, código', async () => {
     const q = await abrirFr(invitacion);
     assert.equal(await q.getAttribute('html', 'lang'), 'fr');
+    // 1: papel y algo para escribir; todavía no existe ninguna clave
     assert.match(await q.textContent('.iv'), /Quelqu’un veut vous envoyer un fichier/);
-    const k = await q.textContent('.ks .kv');
-    assert.match(k, /^\d{4}( \d{4}){4}$/);
-    assert.equal(await q.evaluate(() => getComputedStyle(document.querySelector('.ks .kv')).userSelect), 'none');
-    // al salir de la página la clave desaparece (la miniatura de «recientes» no la enseña); al volver hay otra
+    assert.match(await q.textContent('.iv .wn'), /du papier et de quoi écrire/);
+    assert.equal(await q.locator('.iv .kg').count(), 0);
+    await q.click('.iv .pb:has-text("Commencer")');
+    // 2: la clave en cinco filas grandes, sin «Otra», que no se puede seleccionar
+    const filas = await q.locator('.iv .kg span').allTextContents(), clave = filas.join(' ');
+    assert.equal(filas.length, 5); filas.forEach(f => assert.match(f, /^\d{4}$/));
+    assert.equal(await q.locator('.iv button:has-text("Autre")').count(), 0);
+    assert.equal(await q.evaluate(() => getComputedStyle(document.querySelector('.iv .kg')).userSelect), 'none');
+    assert.match(await q.textContent('.iv .wn'), /capture d’écran/);
+    // salir un momento (se apaga la pantalla mientras apunta): fuera no se ve nada; al volver, la misma clave
     await q.evaluate(() => window.dispatchEvent(new Event('blur')));
-    assert.equal(await q.textContent('.ks .kv'), '');
+    assert.equal((await q.locator('.iv').innerText()).trim(), '');
     await q.evaluate(() => window.dispatchEvent(new Event('focus')));
-    const clave = await q.textContent('.ks .kv');
-    assert.match(clave, /^\d{4}( \d{4}){4}$/); assert.notEqual(clave, k);
-    // mal copiada: no avanza
-    await q.fill('.iv input[type=password]', k); await q.click('.iv .pb');
+    assert.deepEqual(await q.locator('.iv .kg span').allTextContents(), filas);
+    // 3: la clave se va de la pantalla y se escribe mirando el papel; se ve lo escrito, agrupado
+    await q.click('.iv .pb:has-text("Terminé")');
+    assert.equal(await q.locator('.iv .kg').count(), 0);
+    assert.equal(await q.evaluate(() => document.activeElement.className), 'kt', 'el campo listo para escribir');
+    assert.deepEqual(await q.evaluate(() => { const i = document.querySelector('.iv input'); return [i.type, i.inputMode, i.autocomplete]; }), ['text', 'numeric', 'off']);
+    await q.type('.iv input', filas[0] + filas[1].slice(0, 2));
+    assert.equal(await q.inputValue('.iv input'), filas[0] + ' ' + filas[1].slice(0, 2));
+    // un papel mal copiado en el tercer grupo: se comprueba al final y vuelve a la clave con ese grupo marcado y el campo vacío
+    const mal = filas.slice(); mal[2] = ((+mal[2][0] + 1) % 10) + mal[2].slice(1);
+    await q.fill('.iv input', mal.join('')); await q.click('.iv .pb:has-text("Créer mon code")');
+    await q.waitForSelector('.iv .kg');
     assert.equal(await q.textContent('.iv .er'), 'Les deux phrases ne correspondent pas');
-    await q.fill('.iv input[type=password]', clave.replace(/ /g, '')); await q.click('.iv .pb');
+    assert.deepEqual(await q.locator('.iv .kg span').allTextContents(), filas, 'la misma clave');
+    assert.deepEqual(await q.locator('.iv .kg span').evaluateAll(s => s.map(x => x.className)), ['', '', 'no', '', '']);
+    await q.click('.iv .pb:has-text("Terminé")');
+    assert.equal(await q.inputValue('.iv input'), '');
+    // «Retour» vuelve a enseñarla
+    await q.click('.iv .sb:has-text("Retour")');
+    assert.deepEqual(await q.locator('.iv .kg span').allTextContents(), filas);
+    await q.click('.iv .pb:has-text("Terminé")');
+    // salir con algo escrito: se borra (la miniatura de «recientes»); la clave sigue siendo la misma
+    await q.fill('.iv input', filas[0]);
+    await q.evaluate(() => window.dispatchEvent(new Event('blur')));
+    assert.equal(await q.locator('.iv input').count(), 0);
+    await q.evaluate(() => window.dispatchEvent(new Event('focus')));
+    assert.equal(await q.inputValue('.iv input'), '');
+    // bien escrita, con cifras árabes y sin espacios, e Intro: el código
+    await q.fill('.iv input', clave.replace(/ /g, '').replace(/\d/g, d => String.fromCharCode(0x660 + +d)));
+    assert.match(await q.inputValue('.iv input'), /^[٠-٩]{4}( [٠-٩]{4}){4}$/);
+    await q.press('.iv input', 'Enter');
     await q.waitForSelector('.iv .cd');
     codigo = await q.textContent('.iv .cd');
     assert.match(codigo, /^\d{5}( \d{5}){25}$/);
-    assert.ok(!(await q.locator('body').innerText()).includes(clave), 'la clave ya no está en pantalla');
+    const todo = await q.locator('body').innerText();
+    assert.ok(!todo.includes(clave) && !todo.includes(clave.replace(/ /g, '\n')), 'la clave ya no está en pantalla');
     assert.match(await q.textContent('.iv'), /Recherch.*supprimez cette invitation/s);
     assert.equal(await q.locator('.iv button:has-text("Copier")').count(), 1);
+    // ya no hay clave: salir y volver no cambia nada
+    await q.evaluate(() => { window.dispatchEvent(new Event('blur')); window.dispatchEvent(new Event('focus')); });
+    assert.equal(await q.textContent('.iv .cd'), codigo);
     clave3 = clave;
     await q.close();
+  });
+
+  await t.test('a distancia: en la invitación, fuera más de 2 minutos la clave ya no vale y se dice; si el cálculo falla, la misma clave', async () => {
+    const q = await abrirFr(invitacion);
+    await q.click('.iv .pb:has-text("Commencer")');
+    const k1 = await q.locator('.iv .kg span').allTextContents();
+    await q.evaluate(() => { window.dispatchEvent(new Event('blur')); const n = Date.now; Date.now = () => n() + 3 * 60000; window.dispatchEvent(new Event('focus')); });
+    assert.match(await q.textContent('.iv .er'), /trop longtemps.*Barrez-la/);
+    assert.equal(await q.locator('.iv .kg').count(), 0);
+    await q.click('.iv .pb:has-text("Commencer")');
+    const k2 = await q.locator('.iv .kg span').allTextContents();
+    assert.notDeepEqual(k2, k1, 'otra clave, y avisando');
+    // lo mismo desde el paso 3
+    await q.click('.iv .pb:has-text("Terminé")');
+    await q.evaluate(() => { window.dispatchEvent(new Event('blur')); const n = Date.now; Date.now = () => n() + 3 * 60000; window.dispatchEvent(new Event('focus')); });
+    assert.match(await q.textContent('.iv .er'), /trop longtemps/);
+    await q.click('.iv .pb:has-text("Commencer")');
+    const k3 = await q.locator('.iv .kg span').allTextContents();
+    // el cálculo falla (como sin memoria): aviso, y la clave es la misma
+    await q.click('.iv .pb:has-text("Terminé")');
+    await q.evaluate(() => { const f = WebAssembly.instantiate; WebAssembly.instantiate = function () { WebAssembly.instantiate = f; return Promise.reject(new RangeError('sin memoria')); }; });
+    await q.fill('.iv input', k3.join(' ')); await q.click('.iv .pb:has-text("Créer mon code")');
+    await q.waitForFunction(() => /code/.test((document.querySelector('.iv .er') || {}).textContent || ''));
+    assert.match(await q.textContent('.iv .er'), /Impossible de créer le code/);
+    await q.click('.iv .sb:has-text("Retour")');
+    assert.deepEqual(await q.locator('.iv .kg span').allTextContents(), k3, 'la misma clave');
+    await q.click('.iv .pb:has-text("Terminé")');
+    await q.fill('.iv input', k3.join('')); await q.click('.iv .pb:has-text("Créer mon code")');
+    await q.waitForSelector('.iv .cd');
+    await q.close();
+  });
+
+  await t.test('una invitación de la versión anterior (25-11-2026) sigue sirviendo: su código y la copia del programa nuevo', async () => {
+    const vieja = path.join(FX, 'invitacion-2026-11-25.html'), v = comprobar(fs.readFileSync(vieja, 'utf8'));
+    assert.equal(v.ok, true); assert.equal(v.invitacion, true); assert.deepEqual(v.distintos, []); assert.equal(v.anterior, '2026-11-26');
+    const q = await abrirFr(vieja);
+    const clave = await q.textContent('.ks .kv');
+    await q.fill('.iv input[type=password]', clave); await q.click('.iv .pb');
+    await q.waitForSelector('.iv .cd');
+    const c = await q.textContent('.iv .cd');
+    await q.close();
+    const r = await pegarYCopiar(c, 'copia-de-vieja.html');
+    const z = await abrirFr(r.copia);
+    await entrar(z, clave);
+    assert.deepEqual(await z.locator('.bk').allTextContents(), ['Génesis', 'Salmos', 'Juan', 'Judas']);
+    await z.close();
   });
 
   await t.test('a distancia: el emisor pega el mensaje y hace la copia; solo la abre la clave del receptor', async () => {
@@ -384,6 +466,96 @@ test('navegador', { skip: !pw && 'Playwright no está instalado' }, async t => {
     await q.click('.bar button[aria-label="Cerrar"]');
     assert.ok(await cerrado(q));
     await q.close();
+  });
+
+  // mensajes entre dos personas: A es el teléfono en español (p, archivo es) y B el teléfono en francés (copia3, clave3)
+  let qa, bloqueA, bloqueB, m1, m2;
+  const pegar = (pg, texto) => pg.fill('.fm textarea >> nth=0', texto);
+  const aviso = pg => pg.waitForFunction(() => document.querySelector('.fm .er').textContent !== '');
+  const NOABRE = 'No abre: no es de esta conversación, ha caducado o el número no coincide.';
+
+  await t.test('mensajes: A empieza con el número acordado; sale el bloque de inicio y aún no hay nada que escribir', async () => {
+    await entrar(p, CLAVE);
+    await p.click('.bar button[aria-label="Más"]'); await p.click('.it:has-text("Mensajes")');
+    assert.equal(await p.textContent('.tt'), 'Mensajes');
+    assert.ok(await p.locator('.bar button[aria-label="Buscar"]').isHidden(), 'aquí no hay búsqueda');
+    await p.fill('.fm input[type=password]', '4821'); await p.click('.fm button:has-text("Empezar")');
+    assert.equal(await p.textContent('.fm .er'), 'El número debe tener al menos 6 cifras');
+    await p.fill('.fm input[type=password]', '482109'); await p.click('.fm button:has-text("Empezar")');
+    await p.waitForSelector('.fm .cd.bl');
+    bloqueA = await p.textContent('.fm .cd.bl');
+    assert.match(bloqueA, /^[A-Za-z0-9+/]{70}$/);
+    assert.equal(await p.textContent('.fm .hi'), 'Quedan 15 min');
+    assert.equal(await p.locator('.fm textarea').count(), 1, 'solo el campo para pegar la respuesta');
+    await p.click('.bar button[aria-label="Cerrar"]');
+  });
+
+  await t.test('mensajes: B pega el inicio (con lo que añade el chat), escribe el mismo número y acepta; aún no escribe', async () => {
+    qa = await abrirFr(copia3);
+    await entrar(qa, clave3);
+    await qa.click('.bar button[aria-label="Plus"]'); await qa.click('.it:has-text("Messages")');
+    await pegar(qa, '[18:09, 26/11/2026] Ana: ' + bloqueA + '\n');
+    await qa.waitForSelector('.fm button:has-text("Accepter")');
+    await qa.fill('.fm input[type=password]', '482 109');                 // con un espacio, el mismo número
+    await qa.click('.fm button:has-text("Accepter")');
+    await qa.waitForSelector('.fm .cd.bl');
+    bloqueB = await qa.textContent('.fm .cd.bl');
+    assert.match(bloqueB, /^[A-Za-z0-9+/]{86}$/);
+    assert.equal(await qa.locator('.fm textarea').count(), 1, 'B no escribe hasta que llegue el primer mensaje de A');
+    await qa.click('.bar button[aria-label="Fermer"]');
+  });
+
+  await t.test('mensajes: A vuelve con la aceptación (el lector abre directamente en Mensajes) y escribe el primero', async () => {
+    await entrar(p, CLAVE);
+    assert.equal(await p.textContent('.tt'), 'Mensajes', 'con una conversación abierta, el lector va a ella');
+    await pegar(p, bloqueB);
+    await p.waitForSelector('.fm textarea >> nth=1');
+    const texto = 'Mañana a las 8, donde siempre. مرحبا 😀';
+    await p.fill('.fm textarea >> nth=1', texto);
+    assert.equal(await p.textContent('.fm .cn'), String(200 - texto.length));
+    await p.click('.fm button:has-text("Sellar")'); await p.waitForSelector('.fm .cd.bl');
+    m1 = await p.textContent('.fm .cd.bl');
+    assert.match(m1, /^[A-Za-z0-9+/]{574}$/);
+    await p.click('.fm button:has-text("Hecho")');
+    await p.click('.bar button[aria-label="Cerrar"]');
+  });
+
+  await t.test('mensajes: B lee y responde; A lo lee, el repetido se marca y su propio mensaje no le abre', async () => {
+    await entrar(qa, clave3);
+    assert.equal(await qa.textContent('.tt'), 'Messages');
+    await pegar(qa, 'Ana: ' + m1);
+    await qa.waitForSelector('.fm .mg');
+    assert.equal(await qa.textContent('.fm .mg p'), 'Mañana a las 8, donde siempre. مرحبا 😀');
+    assert.equal(await qa.textContent('.fm .mg b'), '#1');
+    await qa.fill('.fm textarea >> nth=1', 'D’accord.');
+    await qa.click('.fm button:has-text("Sceller")'); await qa.waitForSelector('.fm .cd.bl');
+    m2 = await qa.textContent('.fm .cd.bl');
+    await qa.click('.fm button:has-text("Terminé")');
+    await qa.click('.bar button[aria-label="Fermer"]');
+    await entrar(p, CLAVE);
+    await pegar(p, m2); await p.waitForSelector('.fm .mg');
+    assert.equal(await p.textContent('.fm .mg p'), 'D’accord.');
+    await pegar(p, m2 + '\n');
+    await p.waitForFunction(() => /ya leído/.test(document.querySelector('.fm .mg b').textContent));
+    await pegar(p, m1); await aviso(p);
+    assert.equal(await p.textContent('.fm .er'), NOABRE);
+  });
+
+  await t.test('mensajes: Terminar lo borra todo, y a los 15 minutos también', async () => {
+    await p.click('.fm button:has-text("Terminar")');
+    assert.equal(await p.locator('.fm input[type=password]').count(), 1, 'vuelve a la pantalla de empezar');
+    await pegar(p, m2); await aviso(p);
+    assert.equal(await p.locator('.fm .mg').count(), 0, 'sin conversación, el mensaje ya no se lee');
+    await p.click('.bar button[aria-label="Cerrar"]');
+    // el otro teléfono, 16 minutos después: no queda conversación
+    await qa.evaluate(() => { const ahora = Date.now; Date.now = () => ahora() + 16 * 60000; });
+    await entrar(qa, clave3);
+    assert.notEqual(await qa.textContent('.tt'), 'Messages', 'caducada: el lector ya no abre en Mensajes');
+    await qa.click('.bar button[aria-label="Plus"]'); await qa.click('.it:has-text("Messages")');
+    assert.equal(await qa.locator('.fm input[type=password]').count(), 1);
+    await pegar(qa, m1); await aviso(qa);
+    assert.equal(await qa.locator('.fm .mg').count(), 0);
+    await qa.close();
   });
 
   await t.test('ni un error, ni un aviso, ni una petición de red en toda la sesión', () => {

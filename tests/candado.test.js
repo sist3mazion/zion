@@ -9,7 +9,7 @@ const fs = require('node:fs');
 const path = require('node:path');
 const nodeCrypto = require('node:crypto');
 const { cargarNucleo, RUTA_X2 } = require('../lib/nucleo');
-const { construir, desmontar, comprobar } = require('../lib/paquete');
+const { construir, desmontar, comprobar, textosInvitacion, DEL_LECTOR, ANTERIORES } = require('../lib/paquete');
 const { leerArchivos } = require('../lib/texto');
 const UI = require('../src/ui');
 
@@ -163,7 +163,8 @@ test('invitación: sus textos (en claro, en los 35 idiomas) no delatan nada y lo
   const ki = Object.keys(UI.es.i).sort();
   for (const [cod, u] of Object.entries(UI)) {
     assert.deepEqual(Object.keys(u.i).sort(), ki, cod);
-    const claro = [u.i.a, u.i.b, u.i.c, u.r.k1, u.r.k2, u.r.ot, u.r.e2, u.r.mc, u.r.sd, u.r.cy, u.r.h7];
+    const o = textosInvitacion(cod), claro = Object.keys(o).filter(k => k !== 'dir').map(k => o[k]);
+    assert.equal(claro.length, ki.length + DEL_LECTOR.length, cod);
     for (const t of claro) {
       assert.ok(typeof t === 'string' && t.length > 0, cod);
       assert.equal(RELIGIOSAS.exec(t), null, cod + ': ' + t);
@@ -176,7 +177,7 @@ test('invitación: mismo programa, sin contenido, auténtica para verificar.js; 
   const { html } = await construir({ libros: libros(), clave: 'clave del que reparte 1', idioma: 'es' });
   const p = desmontar(html), u = {};
   // lo mismo que hace invite() en la app
-  for (const [k, x] of Object.entries(UI)) u[k] = Object.assign({ dir: x.dir }, x.i, { k1: x.r.k1, k2: x.r.k2, ot: x.r.ot, e2: x.r.e2, mc: x.r.mc, sd: x.r.sd, cy: x.r.cy, h7: x.r.h7 });
+  for (const k of Object.keys(UI)) u[k] = textosInvitacion(k);
   const inv = N.assemble({ lang: p.lang, dir: p.dir, title: p.title, csp: p.csp, css: p.css, ui: JSON.stringify(u).replace(/</g, '\\u003c'), blob: '', js: p.js });
   const v = comprobar(inv);
   assert.equal(v.ok, true); assert.equal(v.invitacion, true); assert.deepEqual(v.distintos, []);
@@ -189,4 +190,26 @@ test('invitación: mismo programa, sin contenido, auténtica para verificar.js; 
   assert.equal(comprobar(inv.replace('<script type="application/json" id="u">', '<script type="application/json" id="u">' + JSON.stringify({ es: 'x' }).slice(0, -1) + ',"z":1}<!--')).ok, false);
   // una portada normal con el contenido vaciado no pasa por invitación
   assert.equal(comprobar(html.replace(p.blob, '')).ok, false);
+});
+
+test('invitación: la app y verificar.js llevan los mismos textos; las de la versión anterior siguen valiendo', () => {
+  // invite() en src/app.js toma del lector exactamente DEL_LECTOR
+  const app = fs.readFileSync(path.join(__dirname, '..', 'src', 'app.js'), 'utf8');
+  assert.deepEqual(JSON.parse(/var IVR = (\[[^\]]*\])/.exec(app)[1].replace(/'/g, '"')), DEL_LECTOR);
+  // los pasos nuevos tienen sus textos en los 35 idiomas, y «Otra» ya no va en la invitación
+  for (const k of Object.keys(UI)) {
+    const o = textosInvitacion(k);
+    for (const t of ['d', 'e', 'f', 'em', 'ok', 'bk']) assert.ok(o[t] && o[t].trim(), k + ': ' + t);
+    assert.equal(o.ot, undefined);
+    assert.notEqual(o.b, ANTERIORES[0].textos[k].b, k + ': b ya no dice que la clave cambia');
+  }
+  // una invitación hecha con el programa del 25-11-2026: auténtica, de una versión anterior
+  const vieja = fs.readFileSync(path.join(__dirname, 'fixtures', 'invitacion-2026-11-25.html'), 'utf8'), v = comprobar(vieja);
+  assert.equal(v.ok, true); assert.equal(v.invitacion, true); assert.deepEqual(v.distintos, []); assert.equal(v.anterior, '2026-11-26');
+  assert.equal(v.version.fecha, '2026-11-25');
+  // con un texto cambiado ya no es de ninguna versión
+  const b = JSON.stringify(ANTERIORES[0].textos.es.b).slice(1, -1);
+  assert.ok(vieja.includes(b));
+  const t2 = comprobar(vieja.replace(b, 'Mándala también por el chat a quien te invitó.'));
+  assert.deepEqual(t2.distintos, ['es']); assert.equal(t2.anterior, '');
 });
