@@ -3,6 +3,8 @@
  * Textos de la interfaz.
  *   c = portada (bloc de notas). Va EN CLARO en el archivo: solo palabras de una app de notas.
  *   r = lector. Va DENTRO del contenido cifrado: no se ve sin la clave.
+ *   i = invitación (envío a distancia). Va EN CLARO, en todos los idiomas, dentro de la invitación, junto con unos
+ *       pocos textos de r (k1, k2, ot, e2, mc, sd, cy, h7): ninguna palabra puede delatar el contenido.
  *
  * Ninguno ha pasado todavía por un hablante nativo. es y en son fiables; el resto son frases
  * cortas traducidas por IA y están PENDIENTES de revisión nativa antes de repartir nada.
@@ -19,8 +21,14 @@ module.exports = {
       h1: 'Crea una copia para otra persona. Llevará su propia clave y será distinta de la tuya. Dile la clave en persona, nunca por mensaje.',
       h2: 'Copia lista. Pásala por Bluetooth, tarjeta o cable.', sd: 'Enviar', sv: 'Guardar', ok: 'Hecho',
       hp: 'Para abrir: escribe la clave en Buscar y pulsa Intro. Se cierra con ✕, al bloquear el móvil, al cambiar de app o tras 30 segundos sin tocar.',
-      lg: 'Idioma', cl: 'Idiomas de la copia', cc: 'Idioma de las notas', e3: 'Elige al menos un idioma', ca: 'Marcar todo', cn: 'Desmarcar todo'
-    }
+      lg: 'Idioma', cl: 'Idiomas de la copia', cc: 'Idioma de las notas', e3: 'Elige al menos un idioma', ca: 'Marcar todo', cn: 'Desmarcar todo',
+      ps: 'En persona', pd: 'A distancia', rc: 'Recibir una copia', iv: 'Crear invitación', vn: 'invitacion', pg: 'Pega aquí el mensaje con su código', pe: 'Pegar', e4: 'No es un código válido', mc: 'Crear mi código', cy: 'Copiar',
+      h4: 'Lista. Mándala por el mismo chat de WhatsApp o Signal.',
+      h5: 'Si la otra persona aún no tiene este archivo, mándale primero una invitación. Después pega aquí el mensaje con el código que te devuelva (cópialo antes de abrir este archivo: al cambiar de app se cierra). Todo por el mismo chat de WhatsApp o Signal.',
+      h6: 'Escribe tu clave para crear un código. Mándalo por el mismo chat a quien te vaya a pasar la copia: la abrirás con esta misma clave.',
+      h7: 'Manda este código por el mismo chat. Cuando te llegue el archivo, ábrelo, escribe tu clave en Buscar y pulsa Intro.'
+    },
+    i: { a: 'Alguien quiere mandarte un archivo que solo tú podrás abrir. Para eso necesitas una clave: la crea esta página y no sale de tu teléfono.', b: 'Apúntala en papel, nunca en una nota ni en el chat. Si sales de esta página, la clave cambia.', c: 'Después, borra esta invitación.' }
   },
   en: {
     nm: 'English',
@@ -32,8 +40,14 @@ module.exports = {
       h1: 'Make a copy for someone else. It gets its own passphrase and is different from yours. Tell them the passphrase in person, never in a message.',
       h2: 'Copy ready. Pass it on by Bluetooth, card or cable.', sd: 'Send', sv: 'Save', ok: 'Done',
       hp: 'To open: type the passphrase in Search and press Enter. It closes with ✕, when you lock the phone or switch apps, or after 30 seconds without a touch.',
-      lg: 'Language', cl: 'Languages in the copy', cc: 'Language of the notes', e3: 'Choose at least one language', ca: 'Select all', cn: 'Clear all'
-    }
+      lg: 'Language', cl: 'Languages in the copy', cc: 'Language of the notes', e3: 'Choose at least one language', ca: 'Select all', cn: 'Clear all',
+      ps: 'In person', pd: 'At a distance', rc: 'Receive a copy', iv: 'Make an invitation', vn: 'invitation', pg: 'Paste the message with their code here', pe: 'Paste', e4: 'This is not a valid code', mc: 'Make my code', cy: 'Copy',
+      h4: 'Ready. Send it through the same WhatsApp or Signal chat.',
+      h5: 'If the other person does not have this file yet, send them an invitation first. Then paste here the message with the code they send back (copy it before opening this file: switching apps closes it). Everything through the same WhatsApp or Signal chat.',
+      h6: 'Type your passphrase to make a code. Send it through the same chat to the person who will pass you the copy: you will open it with this same passphrase.',
+      h7: 'Send this code through the same chat. When the file arrives, open it, type your passphrase in Search and press Enter.'
+    },
+    i: { a: 'Someone wants to send you a file that only you will be able to open. For that you need a passphrase: this page makes it, and it never leaves your phone.', b: 'Write it on paper, never in a note or in the chat. If you leave this page, the passphrase changes.', c: 'Afterwards, delete this invitation.' }
   },
   fr: {
     nm: 'Français',
@@ -45,8 +59,14 @@ module.exports = {
       h1: 'Créez une copie pour quelqu’un d’autre. Elle aura sa propre phrase secrète et sera différente de la vôtre. Donnez la phrase de vive voix, jamais par message.',
       h2: 'Copie prête. Transmettez-la par Bluetooth, carte ou câble.', sd: 'Envoyer', sv: 'Enregistrer', ok: 'Terminé',
       hp: 'Pour ouvrir : tapez la phrase secrète dans Rechercher et appuyez sur Entrée. Il se ferme avec ✕, en verrouillant le téléphone, en changeant d’appli ou après 30 secondes sans contact.',
-      lg: 'Langue', cl: 'Langues de la copie', cc: 'Langue des notes', e3: 'Choisissez au moins une langue', ca: 'Tout cocher', cn: 'Tout décocher'
-    }
+      lg: 'Langue', cl: 'Langues de la copie', cc: 'Langue des notes', e3: 'Choisissez au moins une langue', ca: 'Tout cocher', cn: 'Tout décocher',
+      ps: 'En personne', pd: 'À distance', rc: 'Recevoir une copie', iv: 'Créer une invitation', vn: 'invitation', pg: 'Collez ici le message avec son code', pe: 'Coller', e4: 'Ce n’est pas un code valide', mc: 'Créer mon code', cy: 'Copier',
+      h4: 'Prête. Envoyez-la par la même discussion WhatsApp ou Signal.',
+      h5: 'Si l’autre personne n’a pas encore ce fichier, envoyez-lui d’abord une invitation. Ensuite, collez ici le message avec le code qu’elle vous renvoie (copiez-le avant d’ouvrir ce fichier : changer d’application le ferme). Tout par la même discussion WhatsApp ou Signal.',
+      h6: 'Tapez votre phrase secrète pour créer un code. Envoyez-le par la même discussion à la personne qui va vous transmettre la copie : vous l’ouvrirez avec cette même phrase secrète.',
+      h7: 'Envoyez ce code par la même discussion. Quand le fichier arrive, ouvrez-le, tapez votre phrase secrète dans Rechercher et appuyez sur Entrée.'
+    },
+    i: { a: 'Quelqu’un veut vous envoyer un fichier que vous seul pourrez ouvrir. Pour cela, il vous faut une phrase secrète : cette page la crée et elle ne quitte jamais votre téléphone.', b: 'Notez-la sur papier, jamais dans une note ni dans la discussion. Si vous quittez cette page, la phrase secrète change.', c: 'Ensuite, supprimez cette invitation.' }
   },
   pt: {
     nm: 'Português',
@@ -58,8 +78,14 @@ module.exports = {
       h1: 'Crie uma cópia para outra pessoa. Ela terá a própria senha e será diferente da sua. Diga a senha pessoalmente, nunca por mensagem.',
       h2: 'Cópia pronta. Passe por Bluetooth, cartão ou cabo.', sd: 'Enviar', sv: 'Salvar', ok: 'Concluído',
       hp: 'Para abrir: digite a senha em Buscar e toque em Enter. Fecha com ✕, ao bloquear o celular, trocar de app ou após 30 segundos sem toque.',
-      lg: 'Idioma', cl: 'Idiomas da cópia', cc: 'Idioma das notas', e3: 'Escolha pelo menos um idioma', ca: 'Marcar tudo', cn: 'Desmarcar tudo'
-    }
+      lg: 'Idioma', cl: 'Idiomas da cópia', cc: 'Idioma das notas', e3: 'Escolha pelo menos um idioma', ca: 'Marcar tudo', cn: 'Desmarcar tudo',
+      ps: 'Pessoalmente', pd: 'À distância', rc: 'Receber uma cópia', iv: 'Criar convite', vn: 'convite', pg: 'Cole aqui a mensagem com o código', pe: 'Colar', e4: 'Não é um código válido', mc: 'Criar meu código', cy: 'Copiar',
+      h4: 'Pronto. Envie pela mesma conversa do WhatsApp ou Signal.',
+      h5: 'Se a outra pessoa ainda não tem este arquivo, envie primeiro um convite. Depois cole aqui a mensagem com o código que ela devolver (copie-a antes de abrir este arquivo: ao trocar de aplicativo, ele se fecha). Tudo pela mesma conversa do WhatsApp ou Signal.',
+      h6: 'Digite sua senha para criar um código. Envie-o pela mesma conversa para quem vai lhe passar a cópia: você a abrirá com esta mesma senha.',
+      h7: 'Envie este código pela mesma conversa. Quando o arquivo chegar, abra-o, digite sua senha em Buscar e toque em Enter.'
+    },
+    i: { a: 'Alguém quer enviar a você um arquivo que só você poderá abrir. Para isso, você precisa de uma senha: esta página a cria, e ela não sai do seu telefone.', b: 'Anote-a em papel, nunca numa nota nem na conversa. Se você sair desta página, a senha muda.', c: 'Depois, apague este convite.' }
   },
   ru: {
     nm: 'Русский',
@@ -71,8 +97,14 @@ module.exports = {
       h1: 'Создайте копию для другого человека. У неё будет свой пароль, и она будет отличаться от вашей. Сообщите пароль лично, не в сообщении.',
       h2: 'Копия готова. Передайте её по Bluetooth, на карте памяти или по кабелю.', sd: 'Отправить', sv: 'Сохранить', ok: 'Готово',
       hp: 'Чтобы открыть: введите пароль в поле «Поиск» и нажмите Enter. Закрывается кнопкой ✕, при блокировке телефона, смене приложения или через 30 секунд без касаний.',
-      lg: 'Язык', cl: 'Языки в копии', cc: 'Язык заметок', e3: 'Выберите хотя бы один язык', ca: 'Выбрать все', cn: 'Снять все'
-    }
+      lg: 'Язык', cl: 'Языки в копии', cc: 'Язык заметок', e3: 'Выберите хотя бы один язык', ca: 'Выбрать все', cn: 'Снять все',
+      ps: 'Лично', pd: 'На расстоянии', rc: 'Получить копию', iv: 'Создать приглашение', vn: 'приглашение', pg: 'Вставьте сюда сообщение с кодом', pe: 'Вставить', e4: 'Код недействителен', mc: 'Создать мой код', cy: 'Копировать',
+      h4: 'Готово. Отправьте через тот же чат WhatsApp или Signal.',
+      h5: 'Если у другого человека ещё нет этого файла, сначала отправьте ему приглашение. Затем вставьте сюда сообщение с кодом, который он пришлёт в ответ (скопируйте его до того, как откроете этот файл: при переключении приложений он закрывается). Всё — через один и тот же чат WhatsApp или Signal.',
+      h6: 'Введите свой пароль, чтобы создать код. Отправьте его через тот же чат тому, кто передаст вам копию: вы откроете её этим же паролем.',
+      h7: 'Отправьте этот код через тот же чат. Когда придёт файл, откройте его, введите пароль в поле «Поиск» и нажмите Enter.'
+    },
+    i: { a: 'Кто-то хочет отправить вам файл, который сможете открыть только вы. Для этого нужен пароль: его создаёт эта страница, и он не покидает ваш телефон.', b: 'Запишите его на бумаге, никогда не в заметке и не в чате. Если вы уйдёте с этой страницы, пароль изменится.', c: 'После этого удалите это приглашение.' }
   },
   ar: {
     nm: 'العربية',
@@ -84,8 +116,14 @@ module.exports = {
       h1: 'أنشئ نسخة لشخص آخر. ستكون لها كلمة سر خاصة بها وتختلف عن نسختك. أخبره بكلمة السر وجهًا لوجه، لا في رسالة.',
       h2: 'النسخة جاهزة. أعطها عبر البلوتوث أو بطاقة الذاكرة أو الكابل.', sd: 'إرسال', sv: 'حفظ', ok: 'تم',
       hp: 'للفتح: اكتب كلمة السر في «بحث» واضغط Enter. يُغلق بـ ✕، أو بقفل الهاتف، أو بالانتقال إلى تطبيق آخر، أو بعد ٣٠ ثانية دون لمس.',
-      lg: 'اللغة', cl: 'لغات النسخة', cc: 'لغة الملاحظات', e3: 'اختر لغة واحدة على الأقل', ca: 'تحديد الكل', cn: 'إلغاء تحديد الكل'
-    }
+      lg: 'اللغة', cl: 'لغات النسخة', cc: 'لغة الملاحظات', e3: 'اختر لغة واحدة على الأقل', ca: 'تحديد الكل', cn: 'إلغاء تحديد الكل',
+      ps: 'وجهًا لوجه', pd: 'عن بُعد', rc: 'استلام نسخة', iv: 'إنشاء دعوة', vn: 'دعوة', pg: 'الصق هنا الرسالة التي فيها الرمز', pe: 'لصق', e4: 'هذا ليس رمزًا صالحًا', mc: 'إنشاء رمزي', cy: 'نسخ',
+      h4: 'جاهزة. أرسلها عبر المحادثة نفسها في واتساب أو سيجنال.',
+      h5: 'إذا لم يكن لدى الشخص الآخر هذا الملف بعد، فأرسل له دعوة أولًا. ثم الصق هنا الرسالة التي فيها الرمز الذي يرسله إليك (انسخها قبل فتح هذا الملف: يُغلق عند الانتقال إلى تطبيق آخر). كل شيء عبر المحادثة نفسها في واتساب أو سيجنال.',
+      h6: 'اكتب كلمة السر الخاصة بك لإنشاء رمز. أرسله عبر المحادثة نفسها إلى من سيعطيك النسخة: ستفتحها بكلمة السر نفسها.',
+      h7: 'أرسل هذا الرمز عبر المحادثة نفسها. عندما يصلك الملف، افتحه واكتب كلمة السر في «بحث» واضغط Enter.'
+    },
+    i: { a: 'شخص ما يريد أن يرسل إليك ملفًا لا يستطيع فتحه أحد غيرك. لذلك تحتاج إلى كلمة سر: تُنشئها هذه الصفحة، ولا تخرج من هاتفك.', b: 'اكتبها على ورقة، لا في ملاحظة ولا في المحادثة أبدًا. إذا غادرت هذه الصفحة، تتغير كلمة السر.', c: 'بعد ذلك، احذف هذه الدعوة.' }
   },
   fa: {
     nm: 'فارسی',
@@ -97,8 +135,14 @@ module.exports = {
       h1: 'برای شخص دیگری یک نسخه بسازید. آن نسخه رمز خودش را دارد و با نسخهٔ شما فرق می‌کند. رمز را حضوری بگویید، نه در پیام.',
       h2: 'نسخه آماده است. آن را با بلوتوث، کارت حافظه یا کابل بدهید.', sd: 'ارسال', sv: 'ذخیره', ok: 'انجام شد',
       hp: 'برای باز کردن: رمز را در «جستجو» بنویسید و Enter را بزنید. با ✕، قفل کردن گوشی، رفتن به برنامهٔ دیگر یا پس از ۳۰ ثانیه بدون لمس بسته می‌شود.',
-      lg: 'زبان', cl: 'زبان‌های نسخه', cc: 'زبان یادداشت‌ها', e3: 'دست‌کم یک زبان انتخاب کنید', ca: 'انتخاب همه', cn: 'لغو انتخاب همه'
-    }
+      lg: 'زبان', cl: 'زبان‌های نسخه', cc: 'زبان یادداشت‌ها', e3: 'دست‌کم یک زبان انتخاب کنید', ca: 'انتخاب همه', cn: 'لغو انتخاب همه',
+      ps: 'حضوری', pd: 'از راه دور', rc: 'دریافت یک نسخه', iv: 'ساختن دعوت‌نامه', vn: 'دعوتنامه', pg: 'پیامی را که کد در آن است اینجا بچسبانید', pe: 'چسباندن', e4: 'این کد معتبر نیست', mc: 'ساختن کد من', cy: 'کپی',
+      h4: 'آماده است. آن را از همان گفتگوی واتس‌اپ یا سیگنال بفرستید.',
+      h5: 'اگر طرف مقابل هنوز این فایل را ندارد، اول برایش یک دعوت‌نامه بفرستید. بعد پیامی را که کدِ او در آن است اینجا بچسبانید (پیش از باز کردن این فایل کپی‌اش کنید: با رفتن به برنامهٔ دیگر بسته می‌شود). همه چیز از همان گفتگوی واتس‌اپ یا سیگنال.',
+      h6: 'رمز خود را بنویسید تا یک کد ساخته شود. آن را از همان گفتگو برای کسی بفرستید که نسخه را به شما می‌دهد: آن را با همین رمز باز خواهید کرد.',
+      h7: 'این کد را از همان گفتگو بفرستید. وقتی فایل رسید، آن را باز کنید، رمز را در «جستجو» بنویسید و Enter را بزنید.'
+    },
+    i: { a: 'کسی می‌خواهد فایلی برایتان بفرستد که فقط شما می‌توانید بازش کنید. برای این کار یک رمز لازم دارید: این صفحه آن را می‌سازد و از گوشی شما بیرون نمی‌رود.', b: 'آن را روی کاغذ بنویسید، هرگز در یادداشت یا در گفتگو. اگر از این صفحه بیرون بروید، رمز عوض می‌شود.', c: 'بعد از آن، این دعوت‌نامه را پاک کنید.' }
   },
   zh: {
     nm: '中文',
@@ -110,8 +154,14 @@ module.exports = {
       h1: '为别人生成一份副本。它有自己的密码，和你的这份不同。请当面告诉对方密码，不要用消息发送。',
       h2: '副本已生成。请通过蓝牙、存储卡或数据线传给对方。', sd: '发送', sv: '保存', ok: '完成',
       hp: '打开：在“搜索”框中输入密码并按回车。点 ✕、锁屏、切换应用或 30 秒不触碰，都会关闭。',
-      lg: '语言', cl: '副本包含的语言', cc: '笔记的语言', e3: '请至少选择一种语言', ca: '全选', cn: '全不选'
-    }
+      lg: '语言', cl: '副本包含的语言', cc: '笔记的语言', e3: '请至少选择一种语言', ca: '全选', cn: '全不选',
+      ps: '当面', pd: '远程', rc: '接收副本', iv: '生成邀请', vn: '邀请', pg: '在这里粘贴带有对方代码的消息', pe: '粘贴', e4: '这不是有效的代码', mc: '生成我的代码', cy: '复制',
+      h4: '已就绪。请通过同一个 WhatsApp 或 Signal 聊天发送。',
+      h5: '如果对方还没有这个文件，请先给他发一份邀请。然后把他回复的带代码的消息粘贴到这里（请在打开这个文件之前复制：切换应用时它会关闭）。所有内容都通过同一个 WhatsApp 或 Signal 聊天发送。',
+      h6: '输入你的密码来生成代码。通过同一个聊天把它发给要给你副本的人：你将用这个密码打开副本。',
+      h7: '通过同一个聊天发送这个代码。收到文件后，打开它，在“搜索”框中输入你的密码并按回车。'
+    },
+    i: { a: '有人想给你发送一个只有你能打开的文件。为此你需要一个密码：它由本页面生成，不会离开你的手机。', b: '把它写在纸上，绝不要写在备忘录或聊天里。如果离开本页面，密码会改变。', c: '之后，请删除这份邀请。' }
   },
   id: {
     nm: 'Bahasa Indonesia',
@@ -123,8 +173,14 @@ module.exports = {
       h1: 'Buat salinan untuk orang lain. Salinan itu punya kata sandi sendiri dan berbeda dari milik Anda. Sampaikan kata sandinya secara langsung, jangan lewat pesan.',
       h2: 'Salinan siap. Berikan lewat Bluetooth, kartu memori, atau kabel.', sd: 'Kirim', sv: 'Simpan', ok: 'Selesai',
       hp: 'Untuk membuka: ketik kata sandi di Cari lalu tekan Enter. Tertutup dengan ✕, saat ponsel dikunci, pindah aplikasi, atau setelah 30 detik tanpa disentuh.',
-      lg: 'Bahasa', cl: 'Bahasa dalam salinan', cc: 'Bahasa catatan', e3: 'Pilih setidaknya satu bahasa', ca: 'Pilih semua', cn: 'Batalkan semua'
-    }
+      lg: 'Bahasa', cl: 'Bahasa dalam salinan', cc: 'Bahasa catatan', e3: 'Pilih setidaknya satu bahasa', ca: 'Pilih semua', cn: 'Batalkan semua',
+      ps: 'Bertatap muka', pd: 'Jarak jauh', rc: 'Terima salinan', iv: 'Buat undangan', vn: 'undangan', pg: 'Tempel di sini pesan berisi kodenya', pe: 'Tempel', e4: 'Ini bukan kode yang sah', mc: 'Buat kode saya', cy: 'Salin',
+      h4: 'Siap. Kirim lewat obrolan WhatsApp atau Signal yang sama.',
+      h5: 'Jika orang itu belum punya berkas ini, kirimi dia undangan dulu. Lalu tempel di sini pesan berisi kode yang ia kirim balik (salin sebelum membuka berkas ini: berkas ini tertutup saat berpindah aplikasi). Semuanya lewat obrolan WhatsApp atau Signal yang sama.',
+      h6: 'Ketik kata sandi Anda untuk membuat kode. Kirim lewat obrolan yang sama kepada orang yang akan memberi Anda salinan: Anda akan membukanya dengan kata sandi yang sama ini.',
+      h7: 'Kirim kode ini lewat obrolan yang sama. Saat berkas tiba, buka, ketik kata sandi Anda di Cari, lalu tekan Enter.'
+    },
+    i: { a: 'Seseorang ingin mengirimi Anda berkas yang hanya bisa Anda buka. Untuk itu Anda perlu kata sandi: halaman ini membuatnya, dan kata sandi itu tidak pernah keluar dari ponsel Anda.', b: 'Tulis di kertas, jangan pernah di catatan atau di obrolan. Jika Anda meninggalkan halaman ini, kata sandinya berubah.', c: 'Setelah itu, hapus undangan ini.' }
   },
   vi: {
     nm: 'Tiếng Việt',
@@ -136,8 +192,14 @@ module.exports = {
       h1: 'Tạo một bản sao cho người khác. Bản sao đó có mật khẩu riêng và khác với bản của bạn. Hãy nói mật khẩu trực tiếp, đừng gửi qua tin nhắn.',
       h2: 'Bản sao đã sẵn sàng. Hãy chuyển qua Bluetooth, thẻ nhớ hoặc cáp.', sd: 'Gửi', sv: 'Lưu', ok: 'Xong',
       hp: 'Để mở: nhập mật khẩu vào ô Tìm kiếm rồi nhấn Enter. Đóng bằng ✕, khi khóa điện thoại, chuyển ứng dụng hoặc sau 30 giây không chạm.',
-      lg: 'Ngôn ngữ', cl: 'Ngôn ngữ trong bản sao', cc: 'Ngôn ngữ của ghi chú', e3: 'Hãy chọn ít nhất một ngôn ngữ', ca: 'Chọn tất cả', cn: 'Bỏ chọn tất cả'
-    }
+      lg: 'Ngôn ngữ', cl: 'Ngôn ngữ trong bản sao', cc: 'Ngôn ngữ của ghi chú', e3: 'Hãy chọn ít nhất một ngôn ngữ', ca: 'Chọn tất cả', cn: 'Bỏ chọn tất cả',
+      ps: 'Trực tiếp', pd: 'Từ xa', rc: 'Nhận một bản sao', iv: 'Tạo lời mời', vn: 'lời mời', pg: 'Dán vào đây tin nhắn có mã của họ', pe: 'Dán', e4: 'Đây không phải là mã hợp lệ', mc: 'Tạo mã của tôi', cy: 'Sao chép',
+      h4: 'Đã sẵn sàng. Hãy gửi qua cùng cuộc trò chuyện WhatsApp hoặc Signal.',
+      h5: 'Nếu người kia chưa có tệp này, hãy gửi cho họ một lời mời trước. Sau đó dán vào đây tin nhắn có mã họ gửi lại (hãy sao chép trước khi mở tệp này: khi chuyển ứng dụng, tệp sẽ đóng). Mọi thứ đều qua cùng một cuộc trò chuyện WhatsApp hoặc Signal.',
+      h6: 'Nhập mật khẩu của bạn để tạo mã. Gửi mã qua cùng cuộc trò chuyện cho người sẽ chuyển bản sao cho bạn: bạn sẽ mở bản sao bằng chính mật khẩu này.',
+      h7: 'Gửi mã này qua cùng cuộc trò chuyện. Khi tệp đến, hãy mở tệp, nhập mật khẩu vào ô Tìm kiếm rồi nhấn Enter.'
+    },
+    i: { a: 'Có người muốn gửi cho bạn một tệp mà chỉ bạn mới mở được. Vì vậy bạn cần một mật khẩu: trang này tạo ra nó và nó không rời khỏi điện thoại của bạn.', b: 'Hãy ghi ra giấy, đừng bao giờ ghi vào ghi chú hay cuộc trò chuyện. Nếu bạn rời trang này, mật khẩu sẽ thay đổi.', c: 'Sau đó, hãy xóa lời mời này.' }
   },
   my: {
     nm: 'မြန်မာ',
@@ -149,8 +211,14 @@ module.exports = {
       h1: 'အခြားသူတစ်ဦးအတွက် မိတ္တူတစ်ခု ပြုလုပ်ပါ။ ထိုမိတ္တူတွင် ကိုယ်ပိုင်စကားဝှက် ပါရှိပြီး သင့်မိတ္တူနှင့် မတူပါ။ စကားဝှက်ကို မျက်နှာချင်းဆိုင် ပြောပြပါ၊ မက်ဆေ့ချ်ဖြင့် မပို့ပါနှင့်။',
       h2: 'မိတ္တူ အသင့်ဖြစ်ပါပြီ။ Bluetooth၊ မန်မိုရီကတ် သို့မဟုတ် ကြိုးဖြင့် ပေးပါ။', sd: 'ပို့ရန်', sv: 'သိမ်းရန်', ok: 'ပြီးပါပြီ',
       hp: 'ဖွင့်ရန် - မှတ်စုများ၏ ရှာဖွေရေးအကွက်တွင် စကားဝှက်ကို ရိုက်ထည့်ပြီး Enter နှိပ်ပါ။ ✕ နှိပ်ခြင်း၊ ဖုန်းကို လော့ခ်ချခြင်း၊ အက်ပ်ပြောင်းခြင်း သို့မဟုတ် စက္ကန့် ၃၀ မထိခြင်းဖြင့် ပိတ်သွားပါမည်။',
-      lg: 'ဘာသာစကား', cl: 'မိတ္တူတွင် ပါမည့် ဘာသာစကားများ', cc: 'မှတ်စုများ၏ ဘာသာစကား', e3: 'ဘာသာစကား အနည်းဆုံး တစ်ခု ရွေးပါ', ca: 'အားလုံး ရွေးမည်', cn: 'အားလုံး ပယ်ဖျက်မည်'
-    }
+      lg: 'ဘာသာစကား', cl: 'မိတ္တူတွင် ပါမည့် ဘာသာစကားများ', cc: 'မှတ်စုများ၏ ဘာသာစကား', e3: 'ဘာသာစကား အနည်းဆုံး တစ်ခု ရွေးပါ', ca: 'အားလုံး ရွေးမည်', cn: 'အားလုံး ပယ်ဖျက်မည်',
+      ps: 'မျက်နှာချင်းဆိုင်', pd: 'အဝေးမှ', rc: 'မိတ္တူတစ်ခု လက်ခံရန်', iv: 'ဖိတ်စာ ပြုလုပ်ရန်', vn: 'ဖိတ်စာ', pg: 'ကုဒ်ပါသော မက်ဆေ့ချ်ကို ဤနေရာတွင် ကူးထည့်ပါ', pe: 'ကူးထည့်ရန်', e4: 'မှန်ကန်သော ကုဒ် မဟုတ်ပါ', mc: 'ကျွန်ုပ်၏ကုဒ် ပြုလုပ်ရန်', cy: 'ကူးယူရန်',
+      h4: 'အသင့်ဖြစ်ပါပြီ။ WhatsApp သို့မဟုတ် Signal ရှိ တူညီသော ချက်မှ ပို့ပါ။',
+      h5: 'တစ်ဖက်လူထံတွင် ဤဖိုင် မရှိသေးလျှင် ဖိတ်စာကို အရင်ပို့ပါ။ ထို့နောက် သူပြန်ပို့သော ကုဒ်ပါ မက်ဆေ့ချ်ကို ဤနေရာတွင် ကူးထည့်ပါ (ဤဖိုင်ကို မဖွင့်မီ ကူးယူထားပါ - အက်ပ်ပြောင်းလျှင် ပိတ်သွားပါသည်)။ အားလုံးကို WhatsApp သို့မဟုတ် Signal ရှိ တူညီသော ချက်မှသာ ပို့ပါ။',
+      h6: 'ကုဒ်တစ်ခု ပြုလုပ်ရန် သင့်စကားဝှက်ကို ရိုက်ထည့်ပါ။ သင့်ထံ မိတ္တူပေးမည့်သူထံ တူညီသော ချက်မှ ပို့ပါ - ထိုမိတ္တူကို ဤစကားဝှက်ဖြင့်ပင် ဖွင့်ရပါမည်။',
+      h7: 'ဤကုဒ်ကို တူညီသော ချက်မှ ပို့ပါ။ ဖိုင်ရောက်လာသောအခါ ဖွင့်ပြီး ရှာဖွေရေးအကွက်တွင် သင့်စကားဝှက်ကို ရိုက်ထည့်ကာ Enter နှိပ်ပါ။'
+    },
+    i: { a: 'တစ်စုံတစ်ယောက်က သင်တစ်ဦးတည်းသာ ဖွင့်နိုင်မည့် ဖိုင်တစ်ခုကို ပို့လိုပါသည်။ ထို့အတွက် စကားဝှက်တစ်ခု လိုအပ်ပါသည် - ဤစာမျက်နှာက ပြုလုပ်ပေးပြီး သင့်ဖုန်းမှ ထွက်မသွားပါ။', b: 'စာရွက်ပေါ်တွင် ရေးထားပါ၊ မှတ်စု သို့မဟုတ် ချက်ထဲတွင် ဘယ်တော့မှ မရေးပါနှင့်။ ဤစာမျက်နှာမှ ထွက်သွားလျှင် စကားဝှက် ပြောင်းသွားပါမည်။', c: 'ပြီးလျှင် ဤဖိတ်စာကို ဖျက်ပါ။' }
   },
   tr: {
     nm: 'Türkçe',
@@ -162,8 +230,14 @@ module.exports = {
       h1: 'Başka biri için bir kopya oluşturun. Kopyanın kendi parolası olur ve sizinkinden farklıdır. Parolayı yüz yüze söyleyin, mesajla göndermeyin.',
       h2: 'Kopya hazır. Bluetooth, hafıza kartı veya kabloyla verin.', sd: 'Gönder', sv: 'Kaydet', ok: 'Tamam',
       hp: 'Açmak için: parolayı Ara kutusuna yazıp Enter’a basın. ✕ ile, telefonu kilitleyince, uygulama değiştirince ya da 30 saniye dokunulmayınca kapanır.',
-      lg: 'Dil', cl: 'Kopyadaki diller', cc: 'Notların dili', e3: 'En az bir dil seçin', ca: 'Tümünü seç', cn: 'Seçimi kaldır'
-    }
+      lg: 'Dil', cl: 'Kopyadaki diller', cc: 'Notların dili', e3: 'En az bir dil seçin', ca: 'Tümünü seç', cn: 'Seçimi kaldır',
+      ps: 'Yüz yüze', pd: 'Uzaktan', rc: 'Kopya al', iv: 'Davet oluştur', vn: 'davet', pg: 'Kodun olduğu mesajı buraya yapıştırın', pe: 'Yapıştır', e4: 'Bu geçerli bir kod değil', mc: 'Kodumu oluştur', cy: 'Kopyala',
+      h4: 'Hazır. Aynı WhatsApp veya Signal sohbetinden gönderin.',
+      h5: 'Karşınızdaki kişide bu dosya henüz yoksa önce ona bir davet gönderin. Sonra size geri gönderdiği kodun olduğu mesajı buraya yapıştırın (bu dosyayı açmadan önce kopyalayın: uygulama değiştirince kapanır). Her şey aynı WhatsApp veya Signal sohbetinden.',
+      h6: 'Kod oluşturmak için parolanızı yazın. Kodu, size kopyayı verecek kişiye aynı sohbetten gönderin: kopyayı bu aynı parolayla açacaksınız.',
+      h7: 'Bu kodu aynı sohbetten gönderin. Dosya gelince açın, parolanızı Ara kutusuna yazıp Enter’a basın.'
+    },
+    i: { a: 'Biri size yalnızca sizin açabileceğiniz bir dosya göndermek istiyor. Bunun için bir parolaya ihtiyacınız var: bu sayfa onu oluşturur ve parola telefonunuzdan dışarı çıkmaz.', b: 'Kâğıda yazın; asla bir notta ya da sohbette değil. Bu sayfadan çıkarsanız parola değişir.', c: 'Sonra bu daveti silin.' }
   },
   hi: {
     nm: 'हिन्दी',
@@ -175,8 +249,14 @@ module.exports = {
       h1: 'किसी और के लिए एक प्रति बनाएँ। उसका अपना पासवर्ड होगा और वह आपकी प्रति से अलग होगी। पासवर्ड आमने-सामने बताएँ, संदेश में न भेजें।',
       h2: 'प्रति तैयार है। इसे ब्लूटूथ, मेमोरी कार्ड या केबल से दें।', sd: 'भेजें', sv: 'सहेजें', ok: 'हो गया',
       hp: 'खोलने के लिए: पासवर्ड खोज बॉक्स में लिखें और Enter दबाएँ। ✕ दबाने, फ़ोन लॉक करने, ऐप बदलने या 30 सेकंड तक न छूने पर यह बंद हो जाता है।',
-      lg: 'भाषा', cl: 'प्रति में भाषाएँ', cc: 'नोट्स की भाषा', e3: 'कम से कम एक भाषा चुनें', ca: 'सभी चुनें', cn: 'सभी हटाएँ'
-    }
+      lg: 'भाषा', cl: 'प्रति में भाषाएँ', cc: 'नोट्स की भाषा', e3: 'कम से कम एक भाषा चुनें', ca: 'सभी चुनें', cn: 'सभी हटाएँ',
+      ps: 'आमने-सामने', pd: 'दूर से', rc: 'एक प्रति पाएँ', iv: 'निमंत्रण बनाएँ', vn: 'निमंत्रण', pg: 'कोड वाला संदेश यहाँ चिपकाएँ', pe: 'चिपकाएँ', e4: 'यह मान्य कोड नहीं है', mc: 'मेरा कोड बनाएँ', cy: 'कॉपी करें',
+      h4: 'तैयार है। इसे उसी WhatsApp या Signal चैट से भेजें।',
+      h5: 'अगर दूसरे व्यक्ति के पास यह फ़ाइल अभी नहीं है, तो पहले उसे एक निमंत्रण भेजें। फिर वह जो कोड वापस भेजे, वह संदेश यहाँ चिपकाएँ (इस फ़ाइल को खोलने से पहले उसे कॉपी करें: ऐप बदलने पर यह बंद हो जाती है)। सब कुछ उसी WhatsApp या Signal चैट से।',
+      h6: 'कोड बनाने के लिए अपना पासवर्ड लिखें। इसे उसी चैट से उस व्यक्ति को भेजें जो आपको प्रति देगा: आप उसे इसी पासवर्ड से खोलेंगे।',
+      h7: 'यह कोड उसी चैट से भेजें। फ़ाइल आने पर उसे खोलें, अपना पासवर्ड खोज बॉक्स में लिखें और Enter दबाएँ।'
+    },
+    i: { a: 'कोई आपको ऐसी फ़ाइल भेजना चाहता है जिसे केवल आप खोल पाएँगे। इसके लिए आपको एक पासवर्ड चाहिए: यह पेज उसे बनाता है और वह आपके फ़ोन से बाहर नहीं जाता।', b: 'इसे कागज़ पर लिखें, कभी किसी नोट या चैट में नहीं। अगर आप यह पेज छोड़ते हैं, तो पासवर्ड बदल जाता है।', c: 'इसके बाद यह निमंत्रण मिटा दें।' }
   },
   ko: {
     nm: '한국어',
@@ -188,8 +268,14 @@ module.exports = {
       h1: '다른 사람에게 줄 사본을 만듭니다. 사본은 자체 암호를 가지며 내 파일과 다릅니다. 암호는 메시지로 보내지 말고 직접 만나서 알려 주세요.',
       h2: '사본이 준비되었습니다. 블루투스, 메모리 카드 또는 케이블로 전달하세요.', sd: '보내기', sv: '저장', ok: '완료',
       hp: '열기: 검색에 암호를 입력하고 Enter. ✕, 휴대폰 잠금, 앱 전환, 또는 30초 동안 만지지 않으면 닫힙니다.',
-      lg: '언어', cl: '사본에 넣을 언어', cc: '메모 언어', e3: '언어를 하나 이상 선택하세요', ca: '모두 선택', cn: '모두 해제'
-    }
+      lg: '언어', cl: '사본에 넣을 언어', cc: '메모 언어', e3: '언어를 하나 이상 선택하세요', ca: '모두 선택', cn: '모두 해제',
+      ps: '직접 만나서', pd: '원격으로', rc: '사본 받기', iv: '초대장 만들기', vn: '초대장', pg: '코드가 있는 메시지를 여기에 붙여 넣으세요', pe: '붙여넣기', e4: '올바른 코드가 아닙니다', mc: '내 코드 만들기', cy: '복사',
+      h4: '준비되었습니다. 같은 WhatsApp 또는 Signal 채팅으로 보내세요.',
+      h5: '상대방에게 아직 이 파일이 없다면 먼저 초대장을 보내세요. 그런 다음 상대방이 보내온 코드가 있는 메시지를 여기에 붙여 넣으세요(이 파일을 열기 전에 복사하세요: 앱을 전환하면 닫힙니다). 모든 것은 같은 WhatsApp 또는 Signal 채팅으로 주고받으세요.',
+      h6: '코드를 만들려면 내 암호를 입력하세요. 사본을 전해 줄 사람에게 같은 채팅으로 보내세요. 사본은 이 암호로 열게 됩니다.',
+      h7: '이 코드를 같은 채팅으로 보내세요. 파일이 오면 열어서 검색에 암호를 입력하고 Enter를 누르세요.'
+    },
+    i: { a: '누군가 당신만 열 수 있는 파일을 보내려고 합니다. 이를 위해 암호가 필요합니다. 암호는 이 페이지가 만들며 휴대폰 밖으로 나가지 않습니다.', b: '종이에 적으세요. 메모나 채팅에는 절대 적지 마세요. 이 페이지를 벗어나면 암호가 바뀝니다.', c: '그다음 이 초대장을 삭제하세요.' }
   },
   bn: {
     nm: 'বাংলা',
@@ -201,8 +287,14 @@ module.exports = {
       h1: 'অন্য কারও জন্য একটি কপি তৈরি করুন। কপিটির পাসওয়ার্ড আপনার পাসওয়ার্ড থেকে আলাদা হবে। পাসওয়ার্ডটি সেই ব্যক্তিকে সামনাসামনি বলুন, কখনো মেসেজে পাঠাবেন না।',
       h2: 'কপিটি প্রস্তুত। ব্লুটুথ, মেমোরি কার্ড বা কেবলের মাধ্যমে দিন।', sd: 'পাঠান', sv: 'সংরক্ষণ করুন', ok: 'হয়ে গেছে',
       hp: 'খুলতে: নোটের সার্চ বক্সে পাসওয়ার্ড লিখে Enter চাপুন। ✕ চাপলে, ফোন লক করলে, অ্যাপ বদলালে বা 30 সেকেন্ড না ছুঁলে বন্ধ হয়ে যায়।',
-      lg: 'ভাষা', cl: 'কপিতে যে ভাষাগুলো থাকবে', cc: 'নোটের ভাষা', e3: 'অন্তত একটি ভাষা বেছে নিন', ca: 'সব নির্বাচন করুন', cn: 'সব বাদ দিন'
-    }
+      lg: 'ভাষা', cl: 'কপিতে যে ভাষাগুলো থাকবে', cc: 'নোটের ভাষা', e3: 'অন্তত একটি ভাষা বেছে নিন', ca: 'সব নির্বাচন করুন', cn: 'সব বাদ দিন',
+      ps: 'সামনাসামনি', pd: 'দূর থেকে', rc: 'একটি কপি নিন', iv: 'আমন্ত্রণ তৈরি করুন', vn: 'আমন্ত্রণ', pg: 'কোডসহ বার্তাটি এখানে পেস্ট করুন', pe: 'পেস্ট করুন', e4: 'এটি বৈধ কোড নয়', mc: 'আমার কোড তৈরি করুন', cy: 'কপি করুন',
+      h4: 'প্রস্তুত। একই WhatsApp বা Signal চ্যাট দিয়ে পাঠান।',
+      h5: 'অন্যজনের কাছে যদি এখনও এই ফাইলটি না থাকে, আগে তাকে একটি আমন্ত্রণ পাঠান। তারপর সে যে কোড ফেরত পাঠাবে, সেই বার্তাটি এখানে পেস্ট করুন (এই ফাইলটি খোলার আগে কপি করে নিন: অ্যাপ বদলালে এটি বন্ধ হয়ে যায়)। সবকিছু একই WhatsApp বা Signal চ্যাট দিয়ে।',
+      h6: 'একটি কোড তৈরি করতে আপনার পাসওয়ার্ড লিখুন। যে আপনাকে কপি দেবে, তাকে একই চ্যাট দিয়ে এটি পাঠান: আপনি এই একই পাসওয়ার্ড দিয়ে কপিটি খুলবেন।',
+      h7: 'এই কোডটি একই চ্যাট দিয়ে পাঠান। ফাইলটি এলে খুলুন, সার্চ বক্সে আপনার পাসওয়ার্ড লিখে Enter চাপুন।'
+    },
+    i: { a: 'কেউ আপনাকে এমন একটি ফাইল পাঠাতে চায় যা শুধু আপনিই খুলতে পারবেন। এর জন্য একটি পাসওয়ার্ড দরকার: এই পাতা সেটি তৈরি করে, এবং সেটি আপনার ফোনের বাইরে যায় না।', b: 'এটি কাগজে লিখে রাখুন, কখনও কোনো নোটে বা চ্যাটে নয়। এই পাতা ছেড়ে গেলে পাসওয়ার্ড বদলে যাবে।', c: 'এরপর এই আমন্ত্রণটি মুছে ফেলুন।' }
   },
   ha: {
     nm: 'Hausa',
@@ -214,8 +306,14 @@ module.exports = {
       h1: 'Yi kwafi don wani mutum. Kwafin zai sami kalmar sirri ta kansa, wadda ta bambanta da kalmar sirrinka. Ka faɗa wa mutumin kalmar sirrin ido da ido; kada ka taɓa aika ta a saƙo.',
       h2: 'Kwafin ya shirya. Ba da shi ta Bluetooth, katin ma’ajiya ko kebul.', sd: 'Aika', sv: 'Ajiye', ok: 'An gama',
       hp: 'Don buɗewa: rubuta kalmar sirri a akwatin nema na rubuce-rubuce, sannan ka danna Enter. Yana rufewa da ✕, idan ka kulle waya, ka koma wata manhaja, ko bayan daƙiƙa 30 ba tare da taɓawa ba.',
-      lg: 'Harshe', cl: 'Harsunan da ke cikin kwafin', cc: 'Harshen rubuce-rubuce', e3: 'Zaɓi aƙalla harshe ɗaya', ca: 'Zaɓi duka', cn: 'Cire duka'
-    }
+      lg: 'Harshe', cl: 'Harsunan da ke cikin kwafin', cc: 'Harshen rubuce-rubuce', e3: 'Zaɓi aƙalla harshe ɗaya', ca: 'Zaɓi duka', cn: 'Cire duka',
+      ps: 'Ido da ido', pd: 'Daga nesa', rc: 'Karɓi kwafi', iv: 'Yi gayyata', vn: 'gayyata', pg: 'Liƙa saƙon da ke ɗauke da lambar a nan', pe: 'Liƙa', e4: 'Wannan ba lamba ce mai inganci ba', mc: 'Yi lambata', cy: 'Kwafa',
+      h4: 'Ya shirya. Aika shi ta wannan hira ɗaya ta WhatsApp ko Signal.',
+      h5: 'Idan ɗayan mutumin bai da wannan fayil tukuna, ka fara aika masa gayyata. Sannan ka liƙa a nan saƙon da ke ɗauke da lambar da ya mayar maka (ka kwafe shi kafin ka buɗe wannan fayil: yana rufewa idan ka koma wata manhaja). Komai ta wannan hira ɗaya ta WhatsApp ko Signal.',
+      h6: 'Rubuta kalmar sirrinka don yin lamba. Aika ta wannan hira ɗaya ga wanda zai ba ka kwafin: za ka buɗe shi da wannan kalmar sirri.',
+      h7: 'Aika wannan lambar ta wannan hira ɗaya. Idan fayil ɗin ya iso, buɗe shi, rubuta kalmar sirrinka a akwatin nema, sannan ka danna Enter.'
+    },
+    i: { a: 'Wani yana so ya aiko maka da fayil wanda kai kaɗai za ka iya buɗewa. Saboda haka kana buƙatar kalmar sirri: wannan shafin ne yake yin ta, kuma ba ta fita daga wayarka.', b: 'Rubuta ta a takarda, kada ka taɓa rubuta ta a cikin rubutu ko a hira. Idan ka bar wannan shafin, kalmar sirrin za ta canza.', c: 'Bayan haka, goge wannan gayyatar.' }
   },
   ckb: {
     nm: 'کوردی',
@@ -227,8 +325,14 @@ module.exports = {
       h1: 'کۆپییەک بۆ کەسێکی تر دروست بکە. وشەی نهێنیی کۆپییەکە جیاواز دەبێت لە وشەی نهێنیی تۆ. وشەی نهێنییەکە ڕووبەڕوو پێی بڵێ، هەرگیز بە پەیام مەینێرە.',
       h2: 'کۆپییەکە ئامادەیە. بە بلووتووس، کارتی بیرگە یان کێبڵ بیدە.', sd: 'ناردن', sv: 'پاشەکەوتکردن', ok: 'تەواو',
       hp: 'بۆ کردنەوە: وشەی نهێنی لە سندووقی گەڕانی تێبینییەکان بنووسە و Enter دابگرە. بە ✕، داخستنی مۆبایل، گۆڕینی ئەپ یان دوای 30 چرکە بێ دەستلێدان دادەخرێت.',
-      lg: 'زمان', cl: 'زمانەکانی ناو کۆپییەکە', cc: 'زمانی تێبینییەکان', e3: 'لانیکەم یەک زمان هەڵبژێرە', ca: 'هەموو هەڵبژێرە', cn: 'هەموو لابە'
-    }
+      lg: 'زمان', cl: 'زمانەکانی ناو کۆپییەکە', cc: 'زمانی تێبینییەکان', e3: 'لانیکەم یەک زمان هەڵبژێرە', ca: 'هەموو هەڵبژێرە', cn: 'هەموو لابە',
+      ps: 'ڕووبەڕوو', pd: 'لە دوورەوە', rc: 'وەرگرتنی کۆپییەک', iv: 'دروستکردنی بانگهێشت', vn: 'بانگهێشت', pg: 'ئەو نامەیەی کۆدەکەی تێدایە لێرە بلکێنە', pe: 'لکاندن', e4: 'ئەمە کۆدێکی دروست نییە', mc: 'دروستکردنی کۆدەکەم', cy: 'لەبەرگرتنەوە',
+      h4: 'ئامادەیە. لە هەمان چاتی WhatsApp یان Signal بینێرە.',
+      h5: 'ئەگەر کەسەکەی تر هێشتا ئەم فایلەی نییە، سەرەتا بانگهێشتێکی بۆ بنێرە. پاشان ئەو نامەیە لێرە بلکێنە کە کۆدەکەی تێدایە و بۆت دەگەڕێنێتەوە (پێش کردنەوەی ئەم فایلە لەبەری بگرەوە: کە بەرنامە دەگۆڕیت دادەخرێت). هەموو شتێک لە هەمان چاتی WhatsApp یان Signal.',
+      h6: 'وشەی نهێنیی خۆت بنووسە بۆ دروستکردنی کۆدێک. لە هەمان چاتەوە بۆ ئەو کەسەی بنێرە کە کۆپییەکەت پێ دەدات: بە هەمان وشەی نهێنی دەیکەیتەوە.',
+      h7: 'ئەم کۆدە لە هەمان چاتەوە بنێرە. کاتێک فایلەکە گەیشت، بیکەرەوە، وشەی نهێنییەکەت لە سندووقی گەڕان بنووسە و Enter دابگرە.'
+    },
+    i: { a: 'کەسێک دەیەوێت فایلێکت بۆ بنێرێت کە تەنها تۆ دەتوانیت بیکەیتەوە. بۆ ئەمە پێویستت بە وشەی نهێنییە: ئەم پەڕەیە دروستی دەکات و لە مۆبایلەکەت دەرناچێت.', b: 'لەسەر کاغەز بینووسە، هەرگیز لە تێبینی یان چاتدا نا. ئەگەر ئەم پەڕەیە جێبهێڵیت، وشەی نهێنییەکە دەگۆڕێت.', c: 'دواتر ئەم بانگهێشتە بسڕەوە.' }
   },
   ug: {
     nm: 'ئۇيغۇرچە',
@@ -240,8 +344,14 @@ module.exports = {
       h1: 'باشقا بىرسى ئۈچۈن كۆچۈرمە ياساڭ. ئۇ كۆچۈرمىنىڭ ئۆزىگە خاس پارولى بولىدۇ، بۇ پارول سىزنىڭ پارولىڭىزدىن پەرقلىق بولىدۇ. پارولنى يۈزمۇيۈز ئېيتىڭ، ھەرگىز ئۇچۇر ئارقىلىق ئەۋەتمەڭ.',
       h2: 'كۆچۈرمە تەييار. ئۇنى Bluetooth، ئەستە ساقلاش كارتىسى ياكى سىم ئارقىلىق بېرىڭ.', sd: 'ئەۋەتىش', sv: 'ساقلاش', ok: 'تامام',
       hp: 'ئېچىش ئۈچۈن: پارولنى خاتىرىلەرنىڭ ئىزدەش رامكىسىغا يېزىپ Enter نى بېسىڭ. ✕ بىلەن، تېلېفوننى قۇلۇپلىغاندا، ئەپ ئالماشتۇرغاندا ياكى 30 سېكۇنت تەگمىگەندە تاقىلىدۇ.',
-      lg: 'تىل', cl: 'كۆچۈرمىدىكى تىللار', cc: 'خاتىرىلەرنىڭ تىلى', e3: 'كەم دېگەندە بىر تىل تاللاڭ', ca: 'ھەممىنى تاللا', cn: 'ھەممىنى بىكار قىل'
-    }
+      lg: 'تىل', cl: 'كۆچۈرمىدىكى تىللار', cc: 'خاتىرىلەرنىڭ تىلى', e3: 'كەم دېگەندە بىر تىل تاللاڭ', ca: 'ھەممىنى تاللا', cn: 'ھەممىنى بىكار قىل',
+      ps: 'يۈزمۇيۈز', pd: 'يىراقتىن', rc: 'كۆچۈرمە قوبۇل قىلىش', iv: 'تەكلىپنامە ياساش', vn: 'تەكلىپنامە', pg: 'كودى بار ئۇچۇرنى بۇ يەرگە چاپلاڭ', pe: 'چاپلاش', e4: 'بۇ ئىناۋەتلىك كود ئەمەس', mc: 'كودۇمنى ياساش', cy: 'كۆچۈرۈش',
+      h4: 'تەييار. ئۇنى ئوخشاش WhatsApp ياكى Signal سۆھبىتى ئارقىلىق ئەۋەتىڭ.',
+      h5: 'ئەگەر قارشى تەرەپتە بۇ ھۆججەت تېخى بولمىسا، ئاۋۋال ئۇنىڭغا بىر تەكلىپنامە ئەۋەتىڭ. ئاندىن ئۇ قايتۇرۇپ ئەۋەتكەن كودى بار ئۇچۇرنى بۇ يەرگە چاپلاڭ (بۇ ھۆججەتنى ئېچىشتىن بۇرۇن كۆچۈرۈۋېلىڭ: ئەپ ئالماشتۇرسىڭىز ئۇ تاقىلىدۇ). ھەممىسى ئوخشاش WhatsApp ياكى Signal سۆھبىتى ئارقىلىق.',
+      h6: 'كود ياساش ئۈچۈن پارولىڭىزنى يېزىڭ. ئۇنى سىزگە كۆچۈرمە بېرىدىغان ئادەمگە ئوخشاش سۆھبەت ئارقىلىق ئەۋەتىڭ: كۆچۈرمىنى مۇشۇ پارول بىلەن ئاچىسىز.',
+      h7: 'بۇ كودنى ئوخشاش سۆھبەت ئارقىلىق ئەۋەتىڭ. ھۆججەت كەلگەندە ئۇنى ئېچىپ، پارولىڭىزنى ئىزدەش رامكىسىغا يېزىپ Enter نى بېسىڭ.'
+    },
+    i: { a: 'بىرەيلەن سىزگە پەقەت سىزلا ئاچالايدىغان بىر ھۆججەت ئەۋەتمەكچى. بۇنىڭ ئۈچۈن سىزگە بىر پارول كېرەك: ئۇنى بۇ بەت ياسايدۇ، ئۇ تېلېفونىڭىزدىن سىرتقا چىقمايدۇ.', b: 'ئۇنى قەغەزگە يېزىڭ، ھەرگىز خاتىرە ياكى سۆھبەتكە يازماڭ. بۇ بەتتىن ئايرىلسىڭىز، پارول ئۆزگىرىدۇ.', c: 'ئاندىن بۇ تەكلىپنامىنى ئۆچۈرۈڭ.' }
   },
   ur: {
     nm: 'اردو',
@@ -253,8 +363,14 @@ module.exports = {
       h1: 'کسی اور کے لیے ایک کاپی بنائیں۔ اس کا پاس ورڈ آپ کے پاس ورڈ سے مختلف ہوگا۔ یہ پاس ورڈ اس شخص کو آمنے سامنے بتائیں، کبھی پیغام میں نہ بھیجیں۔',
       h2: 'کاپی تیار ہے۔ اسے بلوٹوتھ، میموری کارڈ یا کیبل سے دیں۔', sd: 'بھیجیں', sv: 'محفوظ کریں', ok: 'ہو گیا',
       hp: 'کھولنے کے لیے: نوٹس کے تلاش کے خانے میں پاس ورڈ لکھیں اور Enter دبائیں۔ ✕، فون لاک کرنے، ایپ بدلنے یا 30 سیکنڈ تک نہ چھونے پر یہ بند ہو جاتی ہے۔',
-      lg: 'زبان', cl: 'کاپی میں شامل زبانیں', cc: 'نوٹس کی زبان', e3: 'کم از کم ایک زبان منتخب کریں', ca: 'سب منتخب کریں', cn: 'سب ہٹائیں'
-    }
+      lg: 'زبان', cl: 'کاپی میں شامل زبانیں', cc: 'نوٹس کی زبان', e3: 'کم از کم ایک زبان منتخب کریں', ca: 'سب منتخب کریں', cn: 'سب ہٹائیں',
+      ps: 'آمنے سامنے', pd: 'دور سے', rc: 'ایک کاپی وصول کریں', iv: 'دعوت نامہ بنائیں', vn: 'دعوت نامہ', pg: 'کوڈ والا پیغام یہاں پیسٹ کریں', pe: 'پیسٹ کریں', e4: 'یہ درست کوڈ نہیں ہے', mc: 'میرا کوڈ بنائیں', cy: 'کاپی کریں',
+      h4: 'تیار ہے۔ اسے اسی WhatsApp یا Signal چیٹ سے بھیجیں۔',
+      h5: 'اگر دوسرے شخص کے پاس ابھی یہ فائل نہیں ہے تو پہلے اسے ایک دعوت نامہ بھیجیں۔ پھر وہ جو کوڈ واپس بھیجے، وہ پیغام یہاں پیسٹ کریں (یہ فائل کھولنے سے پہلے اسے کاپی کر لیں: ایپ بدلنے پر یہ بند ہو جاتی ہے)۔ سب کچھ اسی WhatsApp یا Signal چیٹ سے۔',
+      h6: 'کوڈ بنانے کے لیے اپنا پاس ورڈ لکھیں۔ اسے اسی چیٹ سے اس شخص کو بھیجیں جو آپ کو کاپی دے گا: آپ اسے اسی پاس ورڈ سے کھولیں گے۔',
+      h7: 'یہ کوڈ اسی چیٹ سے بھیجیں۔ جب فائل آ جائے تو اسے کھولیں، اپنا پاس ورڈ تلاش کے خانے میں لکھیں اور Enter دبائیں۔'
+    },
+    i: { a: 'کوئی آپ کو ایسی فائل بھیجنا چاہتا ہے جسے صرف آپ کھول سکیں گے۔ اس کے لیے آپ کو ایک پاس ورڈ چاہیے: یہ صفحہ اسے بناتا ہے اور یہ آپ کے فون سے باہر نہیں جاتا۔', b: 'اسے کاغذ پر لکھیں، کبھی کسی نوٹ یا چیٹ میں نہیں۔ اگر آپ یہ صفحہ چھوڑ دیں تو پاس ورڈ بدل جاتا ہے۔', c: 'اس کے بعد یہ دعوت نامہ مٹا دیں۔' }
   },
   so: {
     nm: 'Soomaali',
@@ -266,8 +382,14 @@ module.exports = {
       h1: 'Nuqul u samee qof kale. Nuqulku wuxuu yeelan doonaa eray sir ah oo u gaar ah, kaas oo ka duwanaan doona eraygaaga sirta ah. Erayga sirta ah qofka fool ka fool ugu sheeg; weligaa farriin ha ugu dirin.',
       h2: 'Nuqulku waa diyaar. Ku sii Bluetooth, kaarka xusuusta ama fiilo.', sd: 'Dir', sv: 'Kaydi', ok: 'Waa dhammaatay',
       hp: 'Si aad u furto: erayga sirta ah ku qor sanduuqa raadinta qoraallada oo riix Enter. Waxaa lagu xiraa ✕, quful taleefanka, beddelka app-ka ama 30 ilbiriqsi oo aan la taaban.',
-      lg: 'Luqad', cl: 'Luqadaha ku jira nuqulka', cc: 'Luqadda qoraallada', e3: 'Dooro ugu yaraan hal luqad', ca: 'Dooro dhammaan', cn: 'Ka saar dhammaan'
-    }
+      lg: 'Luqad', cl: 'Luqadaha ku jira nuqulka', cc: 'Luqadda qoraallada', e3: 'Dooro ugu yaraan hal luqad', ca: 'Dooro dhammaan', cn: 'Ka saar dhammaan',
+      ps: 'Fool ka fool', pd: 'Meel fog', rc: 'Hel nuqul', iv: 'Samee casuumad', vn: 'casuumad', pg: 'Halkan ku dheji fariinta uu koodku ku jiro', pe: 'Dheji', e4: 'Kani ma aha kood sax ah', mc: 'Samee koodkayga', cy: 'Koobiyee',
+      h4: 'Waa diyaar. Ku dir isla sheekada WhatsApp ama Signal.',
+      h5: 'Haddii qofka kale aanu weli haysan faylkan, marka hore u dir casuumad. Kadib halkan ku dheji fariinta uu ku jiro koodka uu kuu soo celiyo (koobiyee ka hor intaadan furin faylkan: way xirmaysaa marka aad app beddesho). Wax walba isla sheekada WhatsApp ama Signal.',
+      h6: 'Qor erayga sirta ah si aad kood u samayso. U dir isla sheekada qofka ku siin doona nuqulka: waxaad ku furi doontaa isla erayga sirta ah.',
+      h7: 'Koodkan ku dir isla sheekada. Marka faylku yimaado, fur, ku qor erayga sirta ah sanduuqa raadinta oo riix Enter.'
+    },
+    i: { a: 'Qof ayaa doonaya inuu kuu soo diro fayl adiga keliya furi kara. Taas awgeed waxaad u baahan tahay eray sir ah: boggan ayaa sameeya, mana ka baxo taleefankaaga.', b: 'Ku qor warqad, weligaa ha ku qorin qoraal ama sheeko. Haddii aad ka baxdo boggan, erayga sirta ahi wuu is beddelaa.', c: 'Kadib tirtir casuumaddan.' }
   },
   bo: {
     nm: 'བོད་ཡིག',
@@ -279,8 +401,14 @@ module.exports = {
       h1: 'མི་གཞན་ཞིག་ལ་འདྲ་བཤུས་ཤིག་བཟོ། དེའི་གསང་ཨང་དེ་ཁྱེད་ཀྱི་གསང་ཨང་དང་མི་འདྲ། གསང་ཨང་ངོ་ཐུག་ནས་ཁ་ཐོག་ཏུ་ཤོད། འཕྲིན་ཐོག་ནམ་ཡང་མ་གཏོང་།',
       h2: 'འདྲ་བཤུས་གྲ་སྒྲིག་ཡོད། Bluetooth དང་། ཁཱཌ། ཡང་ན་སྐུད་པ་བརྒྱུད་ནས་སྤྲོད།', sd: 'གཏོང་བ།', sv: 'ཉར་བ།', ok: 'ཚར་སོང་།',
       hp: 'ཁ་ཕྱེ་བར། ཟིན་བྲིས་ཀྱི་འཚོལ་སྒམ་དུ་གསང་ཨང་བྲིས་ནས་ Enter གནོན། ✕ མནན་པ་དང་། ཁ་པར་ལྡེ་མིག་རྒྱག་པ། ཉེར་སྤྱོད་བརྗེ་བ། ཡང་ན་སྐར་ཆ་ 30 རིང་མ་རེག་ན་ཁ་རྒྱག་གི་རེད།',
-      lg: 'སྐད་ཡིག', cl: 'འདྲ་བཤུས་ནང་གི་སྐད་ཡིག', cc: 'ཟིན་བྲིས་ཀྱི་སྐད་ཡིག', e3: 'ཉུང་མཐར་སྐད་ཡིག་གཅིག་འདེམས།', ca: 'ཀུན་འདེམས།', cn: 'ཀུན་འདོར།'
-    }
+      lg: 'སྐད་ཡིག', cl: 'འདྲ་བཤུས་ནང་གི་སྐད་ཡིག', cc: 'ཟིན་བྲིས་ཀྱི་སྐད་ཡིག', e3: 'ཉུང་མཐར་སྐད་ཡིག་གཅིག་འདེམས།', ca: 'ཀུན་འདེམས།', cn: 'ཀུན་འདོར།',
+      ps: 'ངོ་ཐུག་ནས།', pd: 'ཐག་རིང་ནས།', rc: 'འདྲ་བཤུས་ལེན་པ།', iv: 'མགྲོན་འབོད་བཟོ།', vn: 'མགྲོན་འབོད', pg: 'ཨང་རྟགས་ཡོད་པའི་འཕྲིན་དེ་འདིར་སྦྱོར།', pe: 'སྦྱོར།', e4: 'འདི་ཨང་རྟགས་ཏག་ཏག་མིན།', mc: 'ངའི་ཨང་རྟགས་བཟོ།', cy: 'བཤུ།',
+      h4: 'གྲ་སྒྲིག་ཡོད། WhatsApp ཡང་ན་ Signal གྱི་གླེང་མོལ་དེ་ཉིད་བརྒྱུད་ནས་གཏོང་།',
+      h5: 'མི་གཞན་དེར་ཡིག་ཆ་འདི་ད་དུང་མེད་ན། སྔོན་ལ་མགྲོན་འབོད་ཅིག་གཏོང་། དེ་རྗེས་ཁོང་གིས་ཕྱིར་བསྐུར་བའི་ཨང་རྟགས་ཡོད་པའི་འཕྲིན་དེ་འདིར་སྦྱོར། (ཡིག་ཆ་འདི་ཁ་མ་ཕྱེ་གོང་དུ་བཤུ་དགོས། ཉེར་སྤྱོད་བརྗེ་ན་ཁ་རྒྱག་གི་རེད།) ཚང་མ་ WhatsApp ཡང་ན་ Signal གྱི་གླེང་མོལ་དེ་ཉིད་བརྒྱུད་ནས།',
+      h6: 'ཨང་རྟགས་ཤིག་བཟོ་བར་ཁྱེད་ཀྱི་གསང་ཨང་བྲིས། ཁྱེད་ལ་འདྲ་བཤུས་སྤྲོད་མཁན་དེར་གླེང་མོལ་དེ་ཉིད་བརྒྱུད་ནས་གཏོང་། འདྲ་བཤུས་དེ་གསང་ཨང་འདི་ཉིད་ཀྱིས་ཁ་ཕྱེ་དགོས།',
+      h7: 'ཨང་རྟགས་འདི་གླེང་མོལ་དེ་ཉིད་བརྒྱུད་ནས་གཏོང་། ཡིག་ཆ་འབྱོར་དུས་ཁ་ཕྱེ་ནས། འཚོལ་སྒམ་དུ་གསང་ཨང་བྲིས་ནས་ Enter གནོན།'
+    },
+    i: { a: 'མི་ཞིག་གིས་ཁྱེད་རང་ཁོ་ནས་ཁ་ཕྱེ་ཐུབ་པའི་ཡིག་ཆ་ཞིག་གཏོང་འདོད་ཡོད། དེའི་ཆེད་དུ་གསང་ཨང་ཞིག་དགོས། ཤོག་ངོས་འདིས་བཟོ་གི་ཡོད་ལ། ཁྱེད་ཀྱི་ཁ་པར་ནས་ཕྱི་ལ་མི་འགྲོ།', b: 'ཤོག་བུའི་སྟེང་དུ་འབྲི། ཟིན་བྲིས་སམ་གླེང་མོལ་ནང་ནམ་ཡང་མ་འབྲི། ཤོག་ངོས་འདི་ནས་ཕྱིར་ཐོན་ན་གསང་ཨང་འགྱུར་གྱི་རེད།', c: 'དེ་རྗེས་མགྲོན་འབོད་འདི་སུབ།' }
   },
   sw: {
     nm: 'Kiswahili',
@@ -292,8 +420,14 @@ module.exports = {
       h1: 'Tengeneza nakala kwa mtu mwingine. Itakuwa na nenosiri lake lenyewe na itakuwa tofauti na yako. Mwambie nenosiri ana kwa ana, kamwe si kwa ujumbe.',
       h2: 'Nakala iko tayari. Ipitishe kwa Bluetooth, kadi ya kumbukumbu au kebo.', sd: 'Tuma', sv: 'Hifadhi', ok: 'Imekamilika',
       hp: 'Kufungua: andika nenosiri kwenye Tafuta kisha bonyeza Enter. Hujifunga kwa ✕, ukifunga simu, ukibadili programu au baada ya sekunde 30 bila kuguswa.',
-      lg: 'Lugha', cl: 'Lugha katika nakala', cc: 'Lugha ya madokezo', e3: 'Chagua angalau lugha moja', ca: 'Chagua zote', cn: 'Ondoa zote'
-    }
+      lg: 'Lugha', cl: 'Lugha katika nakala', cc: 'Lugha ya madokezo', e3: 'Chagua angalau lugha moja', ca: 'Chagua zote', cn: 'Ondoa zote',
+      ps: 'Ana kwa ana', pd: 'Kwa mbali', rc: 'Pokea nakala', iv: 'Tengeneza mwaliko', vn: 'mwaliko', pg: 'Bandika hapa ujumbe wenye msimbo wake', pe: 'Bandika', e4: 'Huu si msimbo halali', mc: 'Tengeneza msimbo wangu', cy: 'Nakili',
+      h4: 'Iko tayari. Itume kupitia gumzo lilelile la WhatsApp au Signal.',
+      h5: 'Ikiwa mtu huyo bado hana faili hili, kwanza mtumie mwaliko. Kisha bandika hapa ujumbe wenye msimbo atakaokurudishia (unakili kabla ya kufungua faili hili: linajifunga ukibadilisha programu). Kila kitu kupitia gumzo lilelile la WhatsApp au Signal.',
+      h6: 'Andika nenosiri lako ili kutengeneza msimbo. Utume kupitia gumzo lilelile kwa mtu atakayekupa nakala: utaifungua kwa nenosiri hili hili.',
+      h7: 'Tuma msimbo huu kupitia gumzo lilelile. Faili likifika, lifungue, andika nenosiri lako kwenye Tafuta kisha bonyeza Enter.'
+    },
+    i: { a: 'Mtu fulani anataka kukutumia faili ambalo wewe tu utaweza kulifungua. Kwa hiyo unahitaji nenosiri: ukurasa huu unalitengeneza, nalo halitoki kwenye simu yako.', b: 'Liandike kwenye karatasi, kamwe si kwenye dokezo wala kwenye gumzo. Ukitoka kwenye ukurasa huu, nenosiri hubadilika.', c: 'Baadaye, futa mwaliko huu.' }
   },
   hne: {
     nm: 'छत्तीसगढ़ी',
@@ -305,8 +439,14 @@ module.exports = {
       h1: 'किसी और के लिए एक प्रति बनाएँ। उसका अपना पासवर्ड होगा और वह आपकी प्रति से अलग होगी। पासवर्ड आमने-सामने बताएँ, संदेश में न भेजें।',
       h2: 'प्रति तैयार है। इसे ब्लूटूथ, मेमोरी कार्ड या केबल से दें।', sd: 'भेजें', sv: 'सहेजें', ok: 'हो गया',
       hp: 'खोलने के लिए: पासवर्ड खोज बॉक्स में लिखें और Enter दबाएँ। ✕ दबाने, फ़ोन लॉक करने, ऐप बदलने या 30 सेकंड तक न छूने पर यह बंद हो जाता है।',
-      lg: 'भाषा', cl: 'प्रति में भाषाएँ', cc: 'नोट्स की भाषा', e3: 'कम से कम एक भाषा चुनें', ca: 'सब चुनव', cn: 'सब हटाव'
-    }
+      lg: 'भाषा', cl: 'प्रति में भाषाएँ', cc: 'नोट्स की भाषा', e3: 'कम से कम एक भाषा चुनें', ca: 'सब चुनव', cn: 'सब हटाव',
+      ps: 'आमने-सामने', pd: 'दूर से', rc: 'एक प्रति पाएँ', iv: 'निमंत्रण बनाएँ', vn: 'निमंत्रण', pg: 'कोड वाला संदेश यहाँ चिपकाएँ', pe: 'चिपकाएँ', e4: 'यह मान्य कोड नहीं है', mc: 'मेरा कोड बनाएँ', cy: 'कॉपी करें',
+      h4: 'तैयार है। इसे उसी WhatsApp या Signal चैट से भेजें।',
+      h5: 'अगर दूसरे व्यक्ति के पास यह फ़ाइल अभी नहीं है, तो पहले उसे एक निमंत्रण भेजें। फिर वह जो कोड वापस भेजे, वह संदेश यहाँ चिपकाएँ (इस फ़ाइल को खोलने से पहले उसे कॉपी करें: ऐप बदलने पर यह बंद हो जाती है)। सब कुछ उसी WhatsApp या Signal चैट से।',
+      h6: 'कोड बनाने के लिए अपना पासवर्ड लिखें। इसे उसी चैट से उस व्यक्ति को भेजें जो आपको प्रति देगा: आप उसे इसी पासवर्ड से खोलेंगे।',
+      h7: 'यह कोड उसी चैट से भेजें। फ़ाइल आने पर उसे खोलें, अपना पासवर्ड खोज बॉक्स में लिखें और Enter दबाएँ।'
+    },
+    i: { a: 'कोई आपको ऐसी फ़ाइल भेजना चाहता है जिसे केवल आप खोल पाएँगे। इसके लिए आपको एक पासवर्ड चाहिए: यह पेज उसे बनाता है और वह आपके फ़ोन से बाहर नहीं जाता।', b: 'इसे कागज़ पर लिखें, कभी किसी नोट या चैट में नहीं। अगर आप यह पेज छोड़ते हैं, तो पासवर्ड बदल जाता है।', c: 'इसके बाद यह निमंत्रण मिटा दें।' }
   },
   om: {
     nm: 'Afaan Oromoo',
@@ -318,8 +458,14 @@ module.exports = {
       h1: 'Nama biraaf garagalcha uumi. Jecha icciitii mataa isaa qaba, kan keetiin adda. Jecha icciitii fuula fuulatti itti himi, ergaadhaan gonkumaa.',
       h2: 'Garagalchi qophaa’eera. Bluetooth, kaardii ykn kebiliidhaan kenni.', sd: 'Ergi', sv: 'Olkaa’i', ok: 'Xumurameera',
       hp: 'Banuuf: jecha icciitii saanduqa barbaacha yaadannoo keessatti barreessii Enter tuqi. ✕n, bilbila cufuun, app jijjiiruun ykn sekondii 30 osoo hin tuqin cufama.',
-      lg: 'Afaan', cl: 'Afaanota garagalcha keessaa', cc: 'Afaan yaadannoo', e3: 'Yoo xiqqaate afaan tokko filadhu', ca: 'Hunda filadhu', cn: 'Hunda haqi'
-    }
+      lg: 'Afaan', cl: 'Afaanota garagalcha keessaa', cc: 'Afaan yaadannoo', e3: 'Yoo xiqqaate afaan tokko filadhu', ca: 'Hunda filadhu', cn: 'Hunda haqi',
+      ps: 'Fuulaa fuulatti', pd: 'Fagootti', rc: 'Garagalcha fudhadhu', iv: 'Affeerraa uumi', vn: 'affeerraa', pg: 'Ergaa koodii qabu as maxxansi', pe: 'Maxxansi', e4: 'Kun koodii sirrii miti', mc: 'Koodii koo uumi', cy: 'Kooppii godhi',
+      h4: 'Qophaa’eera. Haasaa WhatsApp ykn Signal sanuma keessaan ergi.',
+      h5: 'Namni kaan faayila kana amma iyyuu yoo hin qabaatin, dursa affeerraa itti ergi. Sana booda ergaa koodii inni siif deebisu qabu as maxxansi (faayila kana banuu kee dura kooppii godhi: appii yoo jijjiirte ni cufama). Hundi isaa haasaa WhatsApp ykn Signal sanuma keessaan.',
+      h6: 'Koodii uumuuf jecha icciitii kee barreessi. Nama garagalcha siif kennuuf haasaa sanuma keessaan ergi: jecha icciitii kanaan banta.',
+      h7: 'Koodii kana haasaa sanuma keessaan ergi. Faayilli yoo dhufe, bani, jecha icciitii kee saanduqa barbaachaa keessatti barreessii Enter tuqi.'
+    },
+    i: { a: 'Namni tokko faayila ati qofti banuu dandeessu siif erguu barbaada. Kanaaf jecha icciitii si barbaachisa: fuulli kun ni uuma, bilbila kee irraa hin ba’u.', b: 'Waraqaa irratti barreessi; yaadannoo ykn haasaa keessatti gonkumaa hin barreessin. Fuula kana yoo dhiifte, jechi icciitii ni jijjiirama.', c: 'Sana booda affeerraa kana haqi.' }
   },
   or: {
     nm: 'ଓଡ଼ିଆ',
@@ -331,8 +477,14 @@ module.exports = {
       h1: 'ଅନ୍ୟ ଜଣଙ୍କ ପାଇଁ ଏକ କପି ତିଆରି କରନ୍ତୁ। ଏହାର ନିଜସ୍ୱ ପାସୱାର୍ଡ ରହିବ ଏବଂ ଆପଣଙ୍କ କପିଠାରୁ ଅଲଗା ହେବ। ପାସୱାର୍ଡ ମୁହାଁମୁହିଁ କୁହନ୍ତୁ, ମେସେଜରେ କେବେ ନୁହେଁ।',
       h2: 'କପି ପ୍ରସ୍ତୁତ। ବ୍ଲୁଟୁଥ୍, ମେମୋରୀ କାର୍ଡ କିମ୍ବା କେବଲ୍ ଦ୍ୱାରା ଦିଅନ୍ତୁ।', sd: 'ପଠାନ୍ତୁ', sv: 'ସଞ୍ଚୟ କରନ୍ତୁ', ok: 'ହୋଇଗଲା',
       hp: 'ଖୋଲିବାକୁ: ନୋଟ୍ ଖୋଜା ବାକ୍ସରେ ପାସୱାର୍ଡ ଲେଖି Enter ଦବାନ୍ତୁ। ✕ ଦବାଇଲେ, ଫୋନ୍ ଲକ୍ କଲେ, ଆପ୍ ବଦଳାଇଲେ କିମ୍ବା 30 ସେକେଣ୍ଡ ନ ଛୁଇଁଲେ ଏହା ବନ୍ଦ ହୋଇଯାଏ।',
-      lg: 'ଭାଷା', cl: 'କପିରେ ଥିବା ଭାଷା', cc: 'ନୋଟ୍‌ର ଭାଷା', e3: 'ଅତି କମରେ ଗୋଟିଏ ଭାଷା ବାଛନ୍ତୁ', ca: 'ସମସ୍ତ ବାଛନ୍ତୁ', cn: 'ସମସ୍ତ ହଟାନ୍ତୁ'
-    }
+      lg: 'ଭାଷା', cl: 'କପିରେ ଥିବା ଭାଷା', cc: 'ନୋଟ୍‌ର ଭାଷା', e3: 'ଅତି କମରେ ଗୋଟିଏ ଭାଷା ବାଛନ୍ତୁ', ca: 'ସମସ୍ତ ବାଛନ୍ତୁ', cn: 'ସମସ୍ତ ହଟାନ୍ତୁ',
+      ps: 'ସାମନାସାମନି', pd: 'ଦୂରରୁ', rc: 'ଏକ କପି ଗ୍ରହଣ କରନ୍ତୁ', iv: 'ନିମନ୍ତ୍ରଣ ତିଆରି କରନ୍ତୁ', vn: 'ନିମନ୍ତ୍ରଣ', pg: 'କୋଡ୍ ଥିବା ମେସେଜ୍ ଏଠାରେ ପେଷ୍ଟ କରନ୍ତୁ', pe: 'ପେଷ୍ଟ କରନ୍ତୁ', e4: 'ଏହା ଏକ ବୈଧ କୋଡ୍ ନୁହେଁ', mc: 'ମୋ କୋଡ୍ ତିଆରି କରନ୍ତୁ', cy: 'କପି କରନ୍ତୁ',
+      h4: 'ପ୍ରସ୍ତୁତ। ସେହି ସମାନ WhatsApp କିମ୍ବା Signal ଚାଟ୍ ଦ୍ୱାରା ପଠାନ୍ତୁ।',
+      h5: 'ଯଦି ଅନ୍ୟ ବ୍ୟକ୍ତିଙ୍କ ପାଖରେ ଏହି ଫାଇଲ୍ ଏପର୍ଯ୍ୟନ୍ତ ନାହିଁ, ପ୍ରଥମେ ତାଙ୍କୁ ଏକ ନିମନ୍ତ୍ରଣ ପଠାନ୍ତୁ। ତାପରେ ସେ ଫେରାଇ ପଠାଉଥିବା କୋଡ୍ ଥିବା ମେସେଜ୍ ଏଠାରେ ପେଷ୍ଟ କରନ୍ତୁ (ଏହି ଫାଇଲ୍ ଖୋଲିବା ପୂର୍ବରୁ କପି କରିନିଅନ୍ତୁ: ଆପ୍ ବଦଳାଇଲେ ଏହା ବନ୍ଦ ହୋଇଯାଏ)। ସବୁକିଛି ସେହି ସମାନ WhatsApp କିମ୍ବା Signal ଚାଟ୍ ଦ୍ୱାରା।',
+      h6: 'ଏକ କୋଡ୍ ତିଆରି କରିବାକୁ ଆପଣଙ୍କ ପାସୱାର୍ଡ ଲେଖନ୍ତୁ। ଯିଏ ଆପଣଙ୍କୁ କପି ଦେବେ, ତାଙ୍କୁ ସେହି ଚାଟ୍ ଦ୍ୱାରା ପଠାନ୍ତୁ: ଆପଣ ଏହି ସମାନ ପାସୱାର୍ଡରେ କପିଟି ଖୋଲିବେ।',
+      h7: 'ଏହି କୋଡ୍ ସେହି ଚାଟ୍ ଦ୍ୱାରା ପଠାନ୍ତୁ। ଫାଇଲ୍ ଆସିଲେ ଖୋଲନ୍ତୁ, ଖୋଜା ବାକ୍ସରେ ଆପଣଙ୍କ ପାସୱାର୍ଡ ଲେଖି Enter ଦବାନ୍ତୁ।'
+    },
+    i: { a: 'କେହି ଜଣେ ଆପଣଙ୍କୁ ଏପରି ଏକ ଫାଇଲ୍ ପଠାଇବାକୁ ଚାହାଁନ୍ତି ଯାହା କେବଳ ଆପଣ ଖୋଲିପାରିବେ। ସେଥିପାଇଁ ଏକ ପାସୱାର୍ଡ ଦରକାର: ଏହି ପୃଷ୍ଠା ଏହାକୁ ତିଆରି କରେ, ଏବଂ ଏହା ଆପଣଙ୍କ ଫୋନ୍ ବାହାରକୁ ଯାଏ ନାହିଁ।', b: 'ଏହାକୁ କାଗଜରେ ଲେଖନ୍ତୁ, କେବେ ବି ନୋଟ୍ କିମ୍ବା ଚାଟ୍‌ରେ ନୁହେଁ। ଏହି ପୃଷ୍ଠା ଛାଡ଼ିଲେ ପାସୱାର୍ଡ ବଦଳିଯିବ।', c: 'ତାପରେ ଏହି ନିମନ୍ତ୍ରଣ ଡିଲିଟ୍ କରନ୍ତୁ।' }
   },
   az: {
     nm: 'Azərbaycan',
@@ -344,8 +496,14 @@ module.exports = {
       k2: 'Şifrəni təkrarlayın', fn: 'Fayl adı', mk: 'Nüsxə yarat', e1: 'Ən azı 16 simvol', e2: 'Şifrələr uyğun gəlmir', ks: 'Təklif olunan şifrə',
       ot: 'Başqası', h3: 'Hər adama bir nüsxə. Şifrəni heç vaxt qeyddə deyil, kağıza yazmalıdırlar: itsə, bərpa edilə bilməz.', fi: '✕ ilə, telefonu kilidləyəndə, tətbiqi dəyişəndə və ya 30 saniyə toxunulmayanda bağlanır. Şifrə kağızda, heç vaxt qeyddə deyil.', nc: 'Bu fayl heç nəyə qoşulmur və heç bir məlumat göndərmir.', h1: 'Başqa biri üçün nüsxə yaradın. Onun öz şifrəsi olur və sizinkindən fərqlidir. Şifrəni mesajla deyil, şəxsən deyin.', h2: 'Nüsxə hazırdır. Bluetooth, kart və ya kabel ilə ötürün.',
       sd: 'Göndər', sv: 'Yadda saxla', ok: 'Hazırdır', hp: 'Açmaq üçün: şifrəni Axtar xanasına yazın və Enter basın. ✕ ilə, telefonu kilidləyəndə, tətbiqi dəyişəndə və ya 30 saniyə toxunulmayanda bağlanır.', lg: 'Dil', cl: 'Nüsxədəki dillər',
-      cc: 'Qeydlərin dili', e3: 'Ən azı bir dil seçin', ca: 'Hamısını seç', cn: 'Hamısını təmizlə'
-    }
+      cc: 'Qeydlərin dili', e3: 'Ən azı bir dil seçin', ca: 'Hamısını seç', cn: 'Hamısını təmizlə',
+      ps: 'Üzbəüz', pd: 'Uzaqdan', rc: 'Nüsxə al', iv: 'Dəvət yarat', vn: 'devet', pg: 'Kodun olduğu mesajı bura yapışdırın', pe: 'Yapışdır', e4: 'Bu etibarlı kod deyil', mc: 'Kodumu yarat', cy: 'Kopyala',
+      h4: 'Hazırdır. Eyni WhatsApp və ya Signal söhbəti ilə göndərin.',
+      h5: 'Qarşı tərəfdə bu fayl hələ yoxdursa, əvvəlcə ona dəvət göndərin. Sonra onun geri göndərdiyi kodun olduğu mesajı bura yapışdırın (bu faylı açmazdan əvvəl kopyalayın: tətbiqi dəyişəndə bağlanır). Hər şey eyni WhatsApp və ya Signal söhbəti ilə.',
+      h6: 'Kod yaratmaq üçün şifrənizi yazın. Onu sizə nüsxə verəcək şəxsə eyni söhbətlə göndərin: nüsxəni bu eyni şifrə ilə açacaqsınız.',
+      h7: 'Bu kodu eyni söhbətlə göndərin. Fayl gələndə onu açın, şifrənizi Axtar xanasına yazın və Enter basın.'
+    },
+    i: { a: 'Kimsə sizə yalnız sizin aça biləcəyiniz bir fayl göndərmək istəyir. Bunun üçün şifrə lazımdır: onu bu səhifə yaradır və o, telefonunuzdan kənara çıxmır.', b: 'Onu kağıza yazın, heç vaxt qeyddə və ya söhbətdə yox. Bu səhifədən çıxsanız, şifrə dəyişir.', c: 'Sonra bu dəvəti silin.' }
   },
   ne: {
     nm: 'नेपाली',
@@ -357,8 +515,14 @@ module.exports = {
       k2: 'पासवर्ड फेरि लेख्नुहोस्', fn: 'फाइलको नाम', mk: 'प्रतिलिपि बनाउनुहोस्', e1: 'कम्तीमा 16 अक्षर', e2: 'पासवर्ड मिलेन', ks: 'सुझाइएको पासवर्ड',
       ot: 'अर्को', h3: 'प्रति व्यक्ति एक प्रतिलिपि। पासवर्ड नोटमा कहिल्यै नलेखी कागजमा लेख्नुपर्छ: हराएमा यो फिर्ता ल्याउन सकिँदैन।', fi: '✕ थिच्दा, फोन लक गर्दा, एप बदल्दा वा 30 सेकेन्ड नछुँदा यो बन्द हुन्छ। पासवर्ड नोटमा कहिल्यै नराखी कागजमा राख्नुहोस्।', nc: 'यो फाइल कुनै कुरामा जोडिँदैन र कुनै डेटा पठाउँदैन।', h1: 'अरू कसैका लागि प्रतिलिपि बनाउनुहोस्। यसको आफ्नै पासवर्ड हुन्छ र तपाईंकोभन्दा फरक हुन्छ। पासवर्ड म्यासेजमा होइन, भेटेरै भन्नुहोस्।', h2: 'प्रतिलिपि तयार छ। Bluetooth, कार्ड वा केबलबाट पठाउनुहोस्।',
       sd: 'पठाउनुहोस्', sv: 'सेभ गर्नुहोस्', ok: 'सम्पन्न', hp: 'खोल्न: नोट खोज बाकसमा पासवर्ड टाइप गरी Enter थिच्नुहोस्। ✕ थिच्दा, फोन लक गर्दा, एप बदल्दा वा 30 सेकेन्ड नछुँदा यो बन्द हुन्छ।', lg: 'भाषा', cl: 'प्रतिलिपिमा भएका भाषाहरू',
-      cc: 'नोटहरूको भाषा', e3: 'कम्तीमा एउटा भाषा छान्नुहोस्', ca: 'सबै छान्नुहोस्', cn: 'सबै हटाउनुहोस्'
-    }
+      cc: 'नोटहरूको भाषा', e3: 'कम्तीमा एउटा भाषा छान्नुहोस्', ca: 'सबै छान्नुहोस्', cn: 'सबै हटाउनुहोस्',
+      ps: 'आमनेसामने', pd: 'टाढाबाट', rc: 'प्रतिलिपि प्राप्त गर्नुहोस्', iv: 'निम्तो बनाउनुहोस्', vn: 'nimto', pg: 'कोड भएको सन्देश यहाँ टाँस्नुहोस्', pe: 'टाँस्नुहोस्', e4: 'यो मान्य कोड होइन', mc: 'मेरो कोड बनाउनुहोस्', cy: 'कपी गर्नुहोस्',
+      h4: 'तयार छ। उही WhatsApp वा Signal च्याटबाट पठाउनुहोस्।',
+      h5: 'अर्को व्यक्तिसँग यो फाइल अझै छैन भने, पहिले उहाँलाई एउटा निम्तो पठाउनुहोस्। त्यसपछि उहाँले फर्काएको कोड भएको सन्देश यहाँ टाँस्नुहोस् (यो फाइल खोल्नुअघि कपी गर्नुहोस्: एप बदल्दा यो बन्द हुन्छ)। सबै कुरा उही WhatsApp वा Signal च्याटबाट।',
+      h6: 'कोड बनाउन आफ्नो पासवर्ड लेख्नुहोस्। तपाईंलाई प्रतिलिपि दिने व्यक्तिलाई उही च्याटबाट पठाउनुहोस्: तपाईं त्यसलाई यही पासवर्डले खोल्नुहुनेछ।',
+      h7: 'यो कोड उही च्याटबाट पठाउनुहोस्। फाइल आएपछि खोल्नुहोस्, खोज बाकसमा आफ्नो पासवर्ड टाइप गरी Enter थिच्नुहोस्।'
+    },
+    i: { a: 'कसैले तपाईंलाई तपाईंले मात्र खोल्न सक्ने एउटा फाइल पठाउन चाहन्छ। त्यसका लागि एउटा पासवर्ड चाहिन्छ: यो पृष्ठले बनाउँछ, र यो तपाईंको फोनबाट बाहिर जाँदैन।', b: 'यसलाई कागजमा लेख्नुहोस्, कहिल्यै नोट वा च्याटमा होइन। यो पृष्ठ छोड्नुभयो भने पासवर्ड बदलिन्छ।', c: 'त्यसपछि यो निम्तो मेटाउनुहोस्।' }
   },
   ta: {
     nm: 'தமிழ்',
@@ -370,8 +534,14 @@ module.exports = {
       k2: 'கடவுச்சொல்லை மீண்டும் உள்ளிடவும்', fn: 'கோப்பின் பெயர்', mk: 'நகலை உருவாக்கு', e1: 'குறைந்தது 16 எழுத்துகள்', e2: 'கடவுச்சொற்கள் பொருந்தவில்லை', ks: 'பரிந்துரைக்கப்பட்ட கடவுச்சொல்',
       ot: 'வேறொன்று', h3: 'ஒவ்வொருவருக்கும் ஒரு நகல். கடவுச்சொல்லை அவர் காகிதத்தில் எழுதி வைக்க வேண்டும், குறிப்பில் ஒருபோதும் வேண்டாம்: தொலைந்தால் மீட்க முடியாது.', fi: '✕ அழுத்தினால், தொலைபேசியைப் பூட்டினால், செயலியை மாற்றினால் அல்லது 30 வினாடி தொடாவிட்டால் மூடிவிடும். கடவுச்சொல்லை காகிதத்தில் வைத்திருங்கள், குறிப்பில் ஒருபோதும் வேண்டாம்.', nc: 'இந்தக் கோப்பு எதனுடனும் இணைவதில்லை, தரவையும் அனுப்புவதில்லை.', h1: 'வேறொருவருக்கு நகலை உருவாக்குங்கள். அதற்கு தனிக் கடவுச்சொல் இருக்கும்; அது உங்களுடையதிலிருந்து வேறுபட்டிருக்கும். கடவுச்சொல்லை நேரில் சொல்லுங்கள், செய்தியில் ஒருபோதும் வேண்டாம்.', h2: 'நகல் தயார். புளூடூத், கார்டு அல்லது கேபிள் மூலம் கொடுங்கள்.',
       sd: 'அனுப்பு', sv: 'சேமி', ok: 'முடிந்தது', hp: 'திறக்க: குறிப்புகளின் தேடல் பெட்டியில் கடவுச்சொல்லை எழுதி Enter அழுத்தவும். ✕ அழுத்தினால், தொலைபேசியைப் பூட்டினால், செயலியை மாற்றினால் அல்லது 30 வினாடி தொடாவிட்டால் மூடிவிடும்.', lg: 'மொழி', cl: 'நகலில் உள்ள மொழிகள்',
-      cc: 'குறிப்புகளின் மொழி', e3: 'குறைந்தது ஒரு மொழியைத் தேர்ந்தெடுக்கவும்', ca: 'அனைத்தையும் தேர்ந்தெடு', cn: 'தேர்வை நீக்கு'
-    }
+      cc: 'குறிப்புகளின் மொழி', e3: 'குறைந்தது ஒரு மொழியைத் தேர்ந்தெடுக்கவும்', ca: 'அனைத்தையும் தேர்ந்தெடு', cn: 'தேர்வை நீக்கு',
+      ps: 'நேரில்', pd: 'தொலைவிலிருந்து', rc: 'நகலைப் பெறு', iv: 'அழைப்பை உருவாக்கு', vn: 'அழைப்பு', pg: 'குறியீடு உள்ள செய்தியை இங்கே ஒட்டவும்', pe: 'ஒட்டு', e4: 'இது சரியான குறியீடு அல்ல', mc: 'என் குறியீட்டை உருவாக்கு', cy: 'நகலெடு',
+      h4: 'தயார். அதே WhatsApp அல்லது Signal அரட்டை வழியாக அனுப்பவும்.',
+      h5: 'மற்றவரிடம் இந்தக் கோப்பு இன்னும் இல்லையென்றால், முதலில் அவருக்கு ஒரு அழைப்பை அனுப்பவும். பிறகு அவர் திருப்பி அனுப்பும் குறியீடு உள்ள செய்தியை இங்கே ஒட்டவும் (இந்தக் கோப்பைத் திறப்பதற்கு முன் அதை நகலெடுக்கவும்: செயலியை மாற்றினால் இது மூடிவிடும்). எல்லாமே அதே WhatsApp அல்லது Signal அரட்டை வழியாக.',
+      h6: 'குறியீட்டை உருவாக்க உங்கள் கடவுச்சொல்லை உள்ளிடவும். உங்களுக்கு நகலைத் தரப்போகிறவருக்கு அதே அரட்டை வழியாக அனுப்பவும்: அந்த நகலை இதே கடவுச்சொல்லால் திறப்பீர்கள்.',
+      h7: 'இந்தக் குறியீட்டை அதே அரட்டை வழியாக அனுப்பவும். கோப்பு வந்ததும் அதைத் திறந்து, தேடல் பெட்டியில் உங்கள் கடவுச்சொல்லை எழுதி Enter அழுத்தவும்.'
+    },
+    i: { a: 'நீங்கள் மட்டுமே திறக்கக்கூடிய ஒரு கோப்பை யாரோ உங்களுக்கு அனுப்ப விரும்புகிறார். அதற்கு ஒரு கடவுச்சொல் தேவை: இந்தப் பக்கம் அதை உருவாக்குகிறது, அது உங்கள் தொலைபேசியை விட்டு வெளியே போவதில்லை.', b: 'அதைக் காகிதத்தில் எழுதுங்கள்; குறிப்பிலோ அரட்டையிலோ ஒருபோதும் எழுதாதீர்கள். இந்தப் பக்கத்தை விட்டு வெளியேறினால் கடவுச்சொல் மாறிவிடும்.', c: 'பிறகு இந்த அழைப்பை நீக்கவும்.' }
   },
   te: {
     nm: 'తెలుగు',
@@ -383,8 +553,14 @@ module.exports = {
       k2: 'పాస్‌వర్డ్‌ను మళ్లీ నమోదు చేయండి', fn: 'ఫైల్ పేరు', mk: 'కాపీని తయారు చేయండి', e1: 'కనీసం 16 అక్షరాలు', e2: 'పాస్‌వర్డ్‌లు సరిపోలడం లేదు', ks: 'సూచించిన పాస్‌వర్డ్',
       ot: 'మరొకటి', h3: 'ప్రతి వ్యక్తికి ఒక కాపీ మాత్రమే. వారు పాస్‌వర్డ్‌ను కాగితంపై రాయాలి, గమనికలో ఎప్పుడూ రాయకూడదు: అది పోతే, తిరిగి పొందడం సాధ్యం కాదు.', fi: '✕ నొక్కినా, ఫోన్ లాక్ చేసినా, యాప్ మార్చినా లేదా 30 సెకన్లు తాకకపోయినా ఇది మూసుకుంటుంది. పాస్‌వర్డ్‌ను కాగితంపై భద్రపరచండి, గమనికలో ఎప్పుడూ రాయకండి.', nc: 'ఈ ఫైల్ దేనికీ కనెక్ట్ అవదు, ఎలాంటి డేటానూ పంపదు.', h1: 'వేరొకరి కోసం ఒక కాపీని తయారు చేయండి. దానికి ప్రత్యేకమైన పాస్‌వర్డ్ ఉంటుంది, అది మీ పాస్‌వర్డ్‌కు భిన్నంగా ఉంటుంది. ఆ పాస్‌వర్డ్‌ను వారికి స్వయంగా కలసి చెప్పండి, సందేశంలో ఎప్పుడూ పంపవద్దు.', h2: 'కాపీ సిద్ధంగా ఉంది. Bluetooth, కార్డ్ లేదా కేబుల్ ద్వారా పంపండి.',
       sd: 'పంపండి', sv: 'సేవ్ చేయండి', ok: 'పూర్తయింది', hp: 'తెరవడానికి: గమనికల శోధన పెట్టెలో పాస్‌వర్డ్‌ను టైప్ చేసి Enter నొక్కండి. ✕ నొక్కినా, ఫోన్ లాక్ చేసినా, యాప్ మార్చినా లేదా 30 సెకన్లు తాకకపోయినా ఇది మూసుకుంటుంది.', lg: 'భాష', cl: 'కాపీలోని భాషలు',
-      cc: 'గమనికల భాష', e3: 'కనీసం ఒక భాషను ఎంచుకోండి', ca: 'అన్నీ ఎంచుకోండి', cn: 'అన్ని ఎంపికలను తీసివేయండి'
-    }
+      cc: 'గమనికల భాష', e3: 'కనీసం ఒక భాషను ఎంచుకోండి', ca: 'అన్నీ ఎంచుకోండి', cn: 'అన్ని ఎంపికలను తీసివేయండి',
+      ps: 'ముఖాముఖి', pd: 'దూరం నుండి', rc: 'కాపీని స్వీకరించండి', iv: 'ఆహ్వానం తయారు చేయండి', vn: 'ఆహ్వానం', pg: 'కోడ్ ఉన్న సందేశాన్ని ఇక్కడ అతికించండి', pe: 'అతికించండి', e4: 'ఇది చెల్లుబాటు అయ్యే కోడ్ కాదు', mc: 'నా కోడ్ తయారు చేయండి', cy: 'కాపీ చేయండి',
+      h4: 'సిద్ధంగా ఉంది. అదే WhatsApp లేదా Signal చాట్ ద్వారా పంపండి.',
+      h5: 'అవతలి వ్యక్తి దగ్గర ఈ ఫైల్ ఇంకా లేకపోతే, ముందుగా వారికి ఒక ఆహ్వానం పంపండి. తర్వాత వారు తిరిగి పంపే కోడ్ ఉన్న సందేశాన్ని ఇక్కడ అతికించండి (ఈ ఫైల్ తెరవడానికి ముందే దాన్ని కాపీ చేయండి: యాప్ మారితే ఇది మూసుకుపోతుంది). అన్నీ అదే WhatsApp లేదా Signal చాట్ ద్వారానే.',
+      h6: 'కోడ్ తయారు చేయడానికి మీ పాస్‌వర్డ్ నమోదు చేయండి. మీకు కాపీ ఇచ్చే వ్యక్తికి అదే చాట్ ద్వారా పంపండి: ఆ కాపీని ఇదే పాస్‌వర్డ్‌తో తెరుస్తారు.',
+      h7: 'ఈ కోడ్‌ను అదే చాట్ ద్వారా పంపండి. ఫైల్ వచ్చాక దాన్ని తెరిచి, శోధన పెట్టెలో మీ పాస్‌వర్డ్ టైప్ చేసి Enter నొక్కండి.'
+    },
+    i: { a: 'మీరు మాత్రమే తెరవగలిగే ఒక ఫైల్‌ను ఎవరో మీకు పంపాలనుకుంటున్నారు. దానికి ఒక పాస్‌వర్డ్ అవసరం: ఈ పేజీ దాన్ని తయారు చేస్తుంది, అది మీ ఫోన్ బయటికి వెళ్లదు.', b: 'దాన్ని కాగితంపై రాయండి, ఎప్పుడూ గమనికలో లేదా చాట్‌లో కాదు. ఈ పేజీ నుండి బయటకు వెళ్తే పాస్‌వర్డ్ మారిపోతుంది.', c: 'తర్వాత ఈ ఆహ్వానాన్ని తొలగించండి.' }
   },
   kn: {
     nm: 'ಕನ್ನಡ',
@@ -396,8 +572,14 @@ module.exports = {
       k2: 'ಪಾಸ್‌ವರ್ಡ್ ಮತ್ತೆ ನಮೂದಿಸಿ', fn: 'ಫೈಲ್ ಹೆಸರು', mk: 'ಪ್ರತಿ ಮಾಡಿ', e1: 'ಕನಿಷ್ಠ 16 ಅಕ್ಷರಗಳು', e2: 'ಪಾಸ್‌ವರ್ಡ್‌ಗಳು ಹೊಂದಿಕೆಯಾಗುತ್ತಿಲ್ಲ', ks: 'ಸೂಚಿಸಿದ ಪಾಸ್‌ವರ್ಡ್',
       ot: 'ಮತ್ತೊಂದು', h3: 'ಪ್ರತಿಯೊಬ್ಬರಿಗೂ ಒಂದು ಪ್ರತಿ. ಪಾಸ್‌ವರ್ಡ್ ಅನ್ನು ಟಿಪ್ಪಣಿಯಲ್ಲಿ ಎಂದಿಗೂ ಬರೆಯದೆ ಕಾಗದದಲ್ಲಿ ಬರೆಯಬೇಕು: ಕಳೆದುಹೋದರೆ ಅದನ್ನು ಮರಳಿ ಪಡೆಯಲಾಗುವುದಿಲ್ಲ.', fi: '✕ ಒತ್ತಿದರೆ, ಫೋನ್ ಲಾಕ್ ಮಾಡಿದರೆ, ಆ್ಯಪ್ ಬದಲಾಯಿಸಿದರೆ ಅಥವಾ 30 ಸೆಕೆಂಡು ಮುಟ್ಟದಿದ್ದರೆ ಇದು ಮುಚ್ಚುತ್ತದೆ. ಪಾಸ್‌ವರ್ಡ್ ಅನ್ನು ಟಿಪ್ಪಣಿಯಲ್ಲಿ ಅಲ್ಲದೆ ಕಾಗದದಲ್ಲಿ ಇಡಿ.', nc: 'ಈ ಫೈಲ್ ಯಾವುದಕ್ಕೂ ಸಂಪರ್ಕಿಸುವುದಿಲ್ಲ ಮತ್ತು ಯಾವುದೇ ಡೇಟಾವನ್ನು ಕಳುಹಿಸುವುದಿಲ್ಲ.', h1: 'ಬೇರೆಯವರಿಗಾಗಿ ಒಂದು ಪ್ರತಿ ಮಾಡಿ. ಅದಕ್ಕೆ ತನ್ನದೇ ಆದ ಪಾಸ್‌ವರ್ಡ್ ಇರುತ್ತದೆ ಮತ್ತು ನಿಮ್ಮದಕ್ಕಿಂತ ಭಿನ್ನವಾಗಿರುತ್ತದೆ. ಪಾಸ್‌ವರ್ಡ್ ಅನ್ನು ಸಂದೇಶದಲ್ಲಿ ಅಲ್ಲ, ಖುದ್ದಾಗಿ ಹೇಳಿ.', h2: 'ಪ್ರತಿ ಸಿದ್ಧವಾಗಿದೆ. Bluetooth, ಕಾರ್ಡ್ ಅಥವಾ ಕೇಬಲ್ ಮೂಲಕ ನೀಡಿ.',
       sd: 'ಕಳುಹಿಸಿ', sv: 'ಉಳಿಸಿ', ok: 'ಮುಗಿದಿದೆ', hp: 'ತೆರೆಯಲು: ಟಿಪ್ಪಣಿಗಳ ಹುಡುಕಾಟ ಬಾಕ್ಸ್‌ನಲ್ಲಿ ಪಾಸ್‌ವರ್ಡ್ ಟೈಪ್ ಮಾಡಿ Enter ಒತ್ತಿರಿ. ✕ ಒತ್ತಿದರೆ, ಫೋನ್ ಲಾಕ್ ಮಾಡಿದರೆ, ಆ್ಯಪ್ ಬದಲಾಯಿಸಿದರೆ ಅಥವಾ 30 ಸೆಕೆಂಡು ಮುಟ್ಟದಿದ್ದರೆ ಇದು ಮುಚ್ಚುತ್ತದೆ.', lg: 'ಭಾಷೆ', cl: 'ಪ್ರತಿಯಲ್ಲಿರುವ ಭಾಷೆಗಳು',
-      cc: 'ಟಿಪ್ಪಣಿಗಳ ಭಾಷೆ', e3: 'ಕನಿಷ್ಠ ಒಂದು ಭಾಷೆಯನ್ನು ಆಯ್ಕೆಮಾಡಿ', ca: 'ಎಲ್ಲವನ್ನೂ ಆಯ್ಕೆಮಾಡಿ', cn: 'ಎಲ್ಲವನ್ನೂ ತೆರವುಗೊಳಿಸಿ'
-    }
+      cc: 'ಟಿಪ್ಪಣಿಗಳ ಭಾಷೆ', e3: 'ಕನಿಷ್ಠ ಒಂದು ಭಾಷೆಯನ್ನು ಆಯ್ಕೆಮಾಡಿ', ca: 'ಎಲ್ಲವನ್ನೂ ಆಯ್ಕೆಮಾಡಿ', cn: 'ಎಲ್ಲವನ್ನೂ ತೆರವುಗೊಳಿಸಿ',
+      ps: 'ಮುಖಾಮುಖಿ', pd: 'ದೂರದಿಂದ', rc: 'ಪ್ರತಿಯನ್ನು ಪಡೆಯಿರಿ', iv: 'ಆಹ್ವಾನ ಮಾಡಿ', vn: 'ahvana', pg: 'ಕೋಡ್ ಇರುವ ಸಂದೇಶವನ್ನು ಇಲ್ಲಿ ಅಂಟಿಸಿ', pe: 'ಅಂಟಿಸಿ', e4: 'ಇದು ಮಾನ್ಯ ಕೋಡ್ ಅಲ್ಲ', mc: 'ನನ್ನ ಕೋಡ್ ಮಾಡಿ', cy: 'ನಕಲಿಸಿ',
+      h4: 'ಸಿದ್ಧವಾಗಿದೆ. ಅದೇ WhatsApp ಅಥವಾ Signal ಚಾಟ್ ಮೂಲಕ ಕಳುಹಿಸಿ.',
+      h5: 'ಇನ್ನೊಬ್ಬರ ಬಳಿ ಈ ಫೈಲ್ ಇನ್ನೂ ಇಲ್ಲದಿದ್ದರೆ, ಮೊದಲು ಅವರಿಗೆ ಒಂದು ಆಹ್ವಾನ ಕಳುಹಿಸಿ. ನಂತರ ಅವರು ಹಿಂದಿರುಗಿಸುವ ಕೋಡ್ ಇರುವ ಸಂದೇಶವನ್ನು ಇಲ್ಲಿ ಅಂಟಿಸಿ (ಈ ಫೈಲ್ ತೆರೆಯುವ ಮೊದಲೇ ಅದನ್ನು ನಕಲಿಸಿ: ಆ್ಯಪ್ ಬದಲಿಸಿದರೆ ಇದು ಮುಚ್ಚುತ್ತದೆ). ಎಲ್ಲವೂ ಅದೇ WhatsApp ಅಥವಾ Signal ಚಾಟ್ ಮೂಲಕ.',
+      h6: 'ಕೋಡ್ ಮಾಡಲು ನಿಮ್ಮ ಪಾಸ್‌ವರ್ಡ್ ನಮೂದಿಸಿ. ನಿಮಗೆ ಪ್ರತಿಯನ್ನು ಕೊಡುವವರಿಗೆ ಅದೇ ಚಾಟ್ ಮೂಲಕ ಕಳುಹಿಸಿ: ಆ ಪ್ರತಿಯನ್ನು ಇದೇ ಪಾಸ್‌ವರ್ಡ್‌ನಿಂದ ತೆರೆಯುತ್ತೀರಿ.',
+      h7: 'ಈ ಕೋಡ್ ಅನ್ನು ಅದೇ ಚಾಟ್ ಮೂಲಕ ಕಳುಹಿಸಿ. ಫೈಲ್ ಬಂದಾಗ ಅದನ್ನು ತೆರೆಯಿರಿ, ಹುಡುಕಾಟ ಬಾಕ್ಸ್‌ನಲ್ಲಿ ನಿಮ್ಮ ಪಾಸ್‌ವರ್ಡ್ ಟೈಪ್ ಮಾಡಿ Enter ಒತ್ತಿರಿ.'
+    },
+    i: { a: 'ನೀವು ಮಾತ್ರ ತೆರೆಯಬಹುದಾದ ಒಂದು ಫೈಲ್ ಅನ್ನು ಯಾರೋ ನಿಮಗೆ ಕಳುಹಿಸಲು ಬಯಸುತ್ತಾರೆ. ಅದಕ್ಕೆ ಒಂದು ಪಾಸ್‌ವರ್ಡ್ ಬೇಕು: ಈ ಪುಟ ಅದನ್ನು ಮಾಡುತ್ತದೆ, ಮತ್ತು ಅದು ನಿಮ್ಮ ಫೋನ್‌ನಿಂದ ಹೊರಗೆ ಹೋಗುವುದಿಲ್ಲ.', b: 'ಅದನ್ನು ಕಾಗದದ ಮೇಲೆ ಬರೆಯಿರಿ, ಎಂದಿಗೂ ಟಿಪ್ಪಣಿಯಲ್ಲಿ ಅಥವಾ ಚಾಟ್‌ನಲ್ಲಿ ಅಲ್ಲ. ಈ ಪುಟದಿಂದ ಹೊರಗೆ ಹೋದರೆ ಪಾಸ್‌ವರ್ಡ್ ಬದಲಾಗುತ್ತದೆ.', c: 'ನಂತರ ಈ ಆಹ್ವಾನವನ್ನು ಅಳಿಸಿ.' }
   },
   am: {
     nm: 'አማርኛ',
@@ -409,8 +591,14 @@ module.exports = {
       k2: 'የይለፍ ቃሉን እንደገና ያስገቡ', fn: 'የፋይል ስም', mk: 'ቅጂ ፍጠር', e1: 'ቢያንስ 16 ቁምፊዎች', e2: 'የይለፍ ቃሎቹ አይዛመዱም', ks: 'የተጠቆመ የይለፍ ቃል',
       ot: 'ሌላ', h3: 'ለእያንዳንዱ ሰው አንድ ቅጂ። የይለፍ ቃሉን በወረቀት ላይ መጻፍ አለባቸው፣ በማስታወሻ ውስጥ ፈጽሞ መጻፍ የለባቸውም፤ ከጠፋ መልሶ ማግኘት አይቻልም።', fi: 'በ✕፣ ስልኩን ሲቆልፉ፣ መተግበሪያ ሲቀይሩ ወይም ለ30 ሰከንድ ካልነኩት ይዘጋል። የይለፍ ቃሉን በወረቀት ላይ ያስቀምጡ፣ በማስታወሻ ውስጥ ፈጽሞ አይጻፉት።', nc: 'ይህ ፋይል ከምንም ጋር አይገናኝም፣ ምንም ዓይነት ውሂብም አይልክም።', h1: 'ለሌላ ሰው ቅጂ ይፍጠሩ። የራሱ የይለፍ ቃል ይኖረዋል፣ ከእርስዎም ይለያል። የይለፍ ቃሉን በአካል ተገናኝተው ይንገሯቸው፣ በመልዕክት ፈጽሞ አይላኩት።', h2: 'ቅጂው ዝግጁ ነው። Bluetooth፣ ካርድ ወይም ገመድ በመጠቀም ያስተላልፉት።',
       sd: 'ላክ', sv: 'አስቀምጥ', ok: 'ተጠናቋል', hp: 'ለመክፈት: የይለፍ ቃሉን በማስታወሻዎች ፍለጋ ሳጥን ውስጥ ይጻፉና Enter ይጫኑ። በ✕፣ ስልኩን ሲቆልፉ፣ መተግበሪያ ሲቀይሩ ወይም ለ30 ሰከንድ ካልነኩት ይዘጋል።', lg: 'ቋንቋ', cl: 'በቅጂው ውስጥ ያሉ ቋንቋዎች',
-      cc: 'የማስታወሻዎች ቋንቋ', e3: 'ቢያንስ አንድ ቋንቋ ይምረጡ', ca: 'ሁሉንም ምረጥ', cn: 'ሁሉንም ምርጫዎች አጽዳ'
-    }
+      cc: 'የማስታወሻዎች ቋንቋ', e3: 'ቢያንስ አንድ ቋንቋ ይምረጡ', ca: 'ሁሉንም ምረጥ', cn: 'ሁሉንም ምርጫዎች አጽዳ',
+      ps: 'በአካል', pd: 'ከርቀት', rc: 'ቅጂ ተቀበል', iv: 'ግብዣ ፍጠር', vn: 'ግብዣ', pg: 'ኮዱ ያለበትን መልዕክት እዚህ ይለጥፉ', pe: 'ለጥፍ', e4: 'ይህ ትክክለኛ ኮድ አይደለም', mc: 'የእኔን ኮድ ፍጠር', cy: 'ቅዳ',
+      h4: 'ዝግጁ ነው። በዚያው የWhatsApp ወይም የSignal ውይይት ይላኩት።',
+      h5: 'ሌላው ሰው ይህ ፋይል ገና ከሌለው፣ መጀመሪያ ግብዣ ይላኩለት። ከዚያ እሱ መልሶ የሚልከውን ኮድ ያለበትን መልዕክት እዚህ ይለጥፉ (ይህን ፋይል ከመክፈትዎ በፊት ይቅዱት፤ መተግበሪያ ሲቀይሩ ይዘጋል)። ሁሉም ነገር በዚያው የWhatsApp ወይም የSignal ውይይት።',
+      h6: 'ኮድ ለመፍጠር የይለፍ ቃልዎን ያስገቡ። ቅጂውን ለሚሰጥዎ ሰው በዚያው ውይይት ይላኩት፤ ቅጂውን በዚሁ የይለፍ ቃል ይከፍቱታል።',
+      h7: 'ይህን ኮድ በዚያው ውይይት ይላኩ። ፋይሉ ሲደርስ ይክፈቱት፣ የይለፍ ቃልዎን በፍለጋ ሳጥን ውስጥ ይጻፉና Enter ይጫኑ።'
+    },
+    i: { a: 'አንድ ሰው እርስዎ ብቻ መክፈት የሚችሉትን ፋይል ሊልክልዎ ይፈልጋል። ለዚህ የይለፍ ቃል ያስፈልግዎታል፤ ይህ ገጽ ይፈጥረዋል፣ ከስልክዎም አይወጣም።', b: 'በወረቀት ላይ ይጻፉት፤ በማስታወሻ ወይም በውይይት ውስጥ ፈጽሞ አይጻፉት። ከዚህ ገጽ ከወጡ የይለፍ ቃሉ ይቀየራል።', c: 'ከዚያ ይህን ግብዣ ይሰርዙት።' }
   },
   tk: {
     nm: 'Türkmen',
@@ -422,8 +610,14 @@ module.exports = {
       k2: 'Paroly gaýtalaň', fn: 'Faýlyň ady', mk: 'Nusga döret', e1: 'Iň az 16 belgi', e2: 'Parollar gabat gelmeýär', ks: 'Teklip edilýän parol',
       ot: 'Başga', h3: 'Her adama bir nusga. Parolyny kagyza ýazsyn, hiç haçan bellige däl: ýitirse, dikeltmek mümkin däl.', fi: '✕ bilen, telefony gulplanyňyzda, programmany çalşanyňyzda ýa-da 30 sekunt degilmese ýapylýar. Parol kagyzda, hiç haçan bellikde däl.', nc: 'Bu faýl hiç zada birigenok we maglumat ibermeýär.', h1: 'Başga adam üçin nusga dörediň. Onuň öz paroly bolar we siziňkiden tapawutly bolar. Paroly göni aýdyň, hiç haçan habarda däl.', h2: 'Nusga taýýar. Ony Bluetooth, kart ýa-da kabel arkaly geçiriň.',
       sd: 'Iber', sv: 'Ýatda sakla', ok: 'Taýýar', hp: 'Açmak üçin: paroly «Gözle» gutusyna ýazyp Enter basyň. ✕ bilen, telefony gulplanyňyzda, programmany çalşanyňyzda ýa-da 30 sekunt degilmese ýapylýar.', lg: 'Dil', cl: 'Nusgadaky diller',
-      cc: 'Belliklerin dili', e3: 'Iň az bir dil saýlaň', ca: 'Hemmesini saýla', cn: 'Saýlawy ýok et'
-    }
+      cc: 'Belliklerin dili', e3: 'Iň az bir dil saýlaň', ca: 'Hemmesini saýla', cn: 'Saýlawy ýok et',
+      ps: 'Ýüzbe-ýüz', pd: 'Uzakdan', rc: 'Nusga al', iv: 'Çakylyk döret', vn: 'cakylyk', pg: 'Kody bolan habary şu ýere goýuň', pe: 'Goý', e4: 'Bu dogry kod däl', mc: 'Kodumy döret', cy: 'Göçür',
+      h4: 'Taýýar. Şol bir WhatsApp ýa-da Signal çaty arkaly iberiň.',
+      h5: 'Beýleki adamda bu faýl entek ýok bolsa, ilki oňa çakylyk iberiň. Soňra onuň yzyna iberen kody bolan habaryny şu ýere goýuň (bu faýly açmazdan öň göçürip alyň: programma çalşanyňyzda ýapylýar). Hemme zat şol bir WhatsApp ýa-da Signal çaty arkaly.',
+      h6: 'Kod döretmek üçin parolyňyzy ýazyň. Ony size nusga berjek adama şol bir çat arkaly iberiň: nusgany şu parol bilen açarsyňyz.',
+      h7: 'Bu kody şol bir çat arkaly iberiň. Faýl gelende açyň, parolyňyzy «Gözle» gutusyna ýazyp Enter basyň.'
+    },
+    i: { a: 'Kimdir biri size diňe siziň açyp biljek faýlyňyzy ibermek isleýär. Munuň üçin parol gerek: ony şu sahypa döredýär we ol telefonyňyzdan daşary çykmaýar.', b: 'Ony kagyza ýazyň, hiç haçan bellikde ýa-da çatda däl. Bu sahypadan çyksaňyz, parol üýtgeýär.', c: 'Soňra bu çakylygy pozuň.' }
   },
   uz: {
     nm: 'Oʻzbek',
@@ -435,8 +629,14 @@ module.exports = {
       k2: 'Parolni qaytaring', fn: 'Fayl nomi', mk: 'Nusxa yaratish', e1: 'Kamida 16 ta belgi', e2: 'Parollar mos kelmadi', ks: 'Tavsiya etilgan parol',
       ot: 'Boshqasi', h3: 'Har bir kishiga bitta nusxa. Parolni hech qachon qaydda emas, qogʻozga yozish kerak: yoʻqolsa, uni tiklab boʻlmaydi.', fi: '✕ bilan, telefonni qulflaganda, ilovani almashtirganda yoki 30 soniya tegilmasa yopiladi. Parol qogʻozda, hech qachon qaydda emas.', nc: 'Bu fayl hech narsaga ulanmaydi va hech qanday maʼlumot yubormaydi.', h1: 'Boshqa birov uchun nusxa yarating. Uning oʻz paroli boʻladi va siznikidan farq qiladi. Parolni xabarda emas, shaxsan ayting.', h2: 'Nusxa tayyor. Bluetooth, karta yoki kabel orqali uzating.',
       sd: 'Yuborish', sv: 'Saqlash', ok: 'Tayyor', hp: 'Ochish uchun: parolni «Qidirish» maydoniga yozing va Enter bosing. ✕ bilan, telefonni qulflaganda, ilovani almashtirganda yoki 30 soniya tegilmasa yopiladi.', lg: 'Til', cl: 'Nusxadagi tillar',
-      cc: 'Qaydlar tili', e3: 'Kamida bitta tilni tanlang', ca: 'Barchasini tanlash', cn: 'Barchasini tozalash'
-    }
+      cc: 'Qaydlar tili', e3: 'Kamida bitta tilni tanlang', ca: 'Barchasini tanlash', cn: 'Barchasini tozalash',
+      ps: 'Yuzma-yuz', pd: 'Masofadan', rc: 'Nusxa olish', iv: 'Taklifnoma yaratish', vn: 'taklifnoma', pg: 'Kodi bor xabarni shu yerga qoʻying', pe: 'Qoʻyish', e4: 'Bu yaroqli kod emas', mc: 'Kodimni yaratish', cy: 'Nusxalash',
+      h4: 'Tayyor. Xuddi oʻsha WhatsApp yoki Signal suhbati orqali yuboring.',
+      h5: 'Agar boshqa odamda bu fayl hali boʻlmasa, avval unga taklifnoma yuboring. Soʻng u qaytarib yuborgan kodi bor xabarni shu yerga qoʻying (bu faylni ochishdan oldin nusxalab oling: ilovani almashtirsangiz yopiladi). Hammasi xuddi oʻsha WhatsApp yoki Signal suhbati orqali.',
+      h6: 'Kod yaratish uchun parolingizni yozing. Uni sizga nusxa beradigan odamga oʻsha suhbat orqali yuboring: nusxani shu parol bilan ochasiz.',
+      h7: 'Bu kodni oʻsha suhbat orqali yuboring. Fayl kelganda uni oching, parolingizni «Qidirish» maydoniga yozing va Enter bosing.'
+    },
+    i: { a: 'Kimdir sizga faqat siz ocha oladigan fayl yubormoqchi. Buning uchun parol kerak: uni shu sahifa yaratadi va u telefoningizdan tashqariga chiqmaydi.', b: 'Uni qogʻozga yozing, hech qachon qaydda yoki suhbatda emas. Bu sahifadan chiqsangiz, parol oʻzgaradi.', c: 'Keyin bu taklifnomani oʻchiring.' }
   },
   tg: {
     nm: 'Тоҷикӣ',
@@ -448,8 +648,14 @@ module.exports = {
       k2: 'Паролро такрор кунед', fn: 'Номи файл', mk: 'Нусха сохтан', e1: 'Ҳадди ақал 16 аломат', e2: 'Паролҳо мувофиқат намекунанд', ks: 'Пароли пешниҳодшуда',
       ot: 'Дигар', h3: 'Як нусха барои ҳар шахс. Онҳо бояд паролро дар коғаз нависанд, ҳеҷ гоҳ дар ёддошт не: агар гум шавад, барқарор кардан ғайриимкон аст.', fi: 'Бо ✕, қулф кардани телефон, иваз кардани барнома ё пас аз 30 сония бе ламс пӯшида мешавад. Парол дар коғаз, ҳеҷ гоҳ дар ёддошт не.', nc: 'Ин файл ба ҳеҷ чиз пайваст намешавад ва ягон маълумот намефиристад.', h1: 'Барои каси дигар нусха созед. Он пароли худро мегирад ва аз шумо фарқ мекунад. Паролро шахсан гӯед, ҳеҷ гоҳ дар паём не.', h2: 'Нусха тайёр. Бо Bluetooth, корт ё кабел гузаронед.',
       sd: 'Фиристодан', sv: 'Захира кардан', ok: 'Тайёр', hp: 'Барои кушодан: паролро дар «Ҷустуҷӯ» нависед ва Enter-ро пахш кунед. Бо ✕, қулф кардани телефон, иваз кардани барнома ё пас аз 30 сония бе ламс пӯшида мешавад.', lg: 'Забон', cl: 'Забонҳо дар нусха',
-      cc: 'Забони ёддоштҳо', e3: 'Ҳадди ақал як забонро интихоб кунед', ca: 'Ҳамаро интихоб кардан', cn: 'Ҳамаро тоза кардан'
-    }
+      cc: 'Забони ёддоштҳо', e3: 'Ҳадди ақал як забонро интихоб кунед', ca: 'Ҳамаро интихоб кардан', cn: 'Ҳамаро тоза кардан',
+      ps: 'Рӯ ба рӯ', pd: 'Аз дур', rc: 'Гирифтани нусха', iv: 'Сохтани даъватнома', vn: 'даъватнома', pg: 'Паёмеро, ки код дорад, ба ин ҷо гузоред', pe: 'Гузоштан', e4: 'Ин коди дуруст нест', mc: 'Сохтани коди ман', cy: 'Нусхабардорӣ',
+      h4: 'Тайёр аст. Онро тавассути ҳамон чати WhatsApp ё Signal фиристед.',
+      h5: 'Агар шахси дигар ҳанӯз ин файлро надошта бошад, аввал ба ӯ даъватнома фиристед. Сипас паёмеро, ки коди баргардондаи ӯро дорад, ба ин ҷо гузоред (пеш аз кушодани ин файл онро нусхабардорӣ кунед: ҳангоми иваз кардани барнома баста мешавад). Ҳама чиз тавассути ҳамон чати WhatsApp ё Signal.',
+      h6: 'Барои сохтани код пароли худро нависед. Онро тавассути ҳамон чат ба касе фиристед, ки ба шумо нусха медиҳад: нусхаро бо ҳамин парол мекушоед.',
+      h7: 'Ин кодро тавассути ҳамон чат фиристед. Вақте ки файл расид, онро кушоед, паролро дар «Ҷустуҷӯ» нависед ва Enter-ро пахш кунед.'
+    },
+    i: { a: 'Касе мехоҳад ба шумо файле фиристад, ки танҳо шумо онро кушода метавонед. Барои ин парол лозим аст: онро ҳамин саҳифа месозад ва он аз телефони шумо берун намеравад.', b: 'Онро дар коғаз нависед, ҳеҷ гоҳ дар ёддошт ё чат не. Агар аз ин саҳифа бароед, парол иваз мешавад.', c: 'Баъд ин даъватномаро нест кунед.' }
   },
   ms: {
     nm: 'Bahasa Melayu',
@@ -461,7 +667,13 @@ module.exports = {
       k2: 'Ulang kata laluan', fn: 'Nama fail', mk: 'Buat salinan', e1: 'Sekurang-kurangnya 16 aksara', e2: 'Kata laluan tidak sepadan', ks: 'Kata laluan yang dicadangkan',
       ot: 'Lain', h3: 'Satu salinan untuk setiap orang. Hendaklah dia menulis kata laluan di atas kertas, jangan sekali-kali dalam nota: jika hilang, tidak dapat dipulihkan.', fi: 'Ia tertutup dengan ✕, apabila telefon dikunci, aplikasi ditukar, atau selepas 30 saat tanpa sentuhan. Kata laluan di atas kertas, bukan dalam nota.', nc: 'Fail ini tidak bersambung ke mana-mana dan tidak menghantar data.', h1: 'Buat salinan untuk orang lain. Ia mempunyai kata laluan sendiri dan berbeza daripada milik anda. Beritahu kata laluan secara bersemuka, jangan sekali-kali melalui mesej.', h2: 'Salinan sedia. Berikan melalui Bluetooth, kad atau kabel.',
       sd: 'Hantar', sv: 'Simpan', ok: 'Selesai', hp: 'Untuk membuka: taip kata laluan dalam Cari dan tekan Enter. Ia tertutup dengan ✕, apabila telefon dikunci, aplikasi ditukar, atau selepas 30 saat tanpa sentuhan.', lg: 'Bahasa', cl: 'Bahasa dalam salinan',
-      cc: 'Bahasa nota', e3: 'Pilih sekurang-kurangnya satu bahasa', ca: 'Pilih semua', cn: 'Kosongkan semua'
-    }
+      cc: 'Bahasa nota', e3: 'Pilih sekurang-kurangnya satu bahasa', ca: 'Pilih semua', cn: 'Kosongkan semua',
+      ps: 'Bersemuka', pd: 'Dari jauh', rc: 'Terima salinan', iv: 'Buat jemputan', vn: 'jemputan', pg: 'Tampal di sini mesej yang mengandungi kodnya', pe: 'Tampal', e4: 'Ini bukan kod yang sah', mc: 'Buat kod saya', cy: 'Salin',
+      h4: 'Sedia. Hantar melalui sembang WhatsApp atau Signal yang sama.',
+      h5: 'Jika orang itu belum mempunyai fail ini, hantar jemputan kepadanya dahulu. Kemudian tampal di sini mesej yang mengandungi kod yang dihantarnya semula (salin sebelum membuka fail ini: fail ini tertutup apabila anda bertukar aplikasi). Semuanya melalui sembang WhatsApp atau Signal yang sama.',
+      h6: 'Taip kata laluan anda untuk membuat kod. Hantar melalui sembang yang sama kepada orang yang akan memberi anda salinan: anda akan membukanya dengan kata laluan yang sama ini.',
+      h7: 'Hantar kod ini melalui sembang yang sama. Apabila fail tiba, buka, taip kata laluan anda dalam Cari dan tekan Enter.'
+    },
+    i: { a: 'Seseorang mahu menghantar kepada anda fail yang hanya anda boleh buka. Untuk itu anda perlukan kata laluan: halaman ini membuatnya, dan ia tidak keluar dari telefon anda.', b: 'Tulis di atas kertas, jangan sekali-kali dalam nota atau sembang. Jika anda keluar dari halaman ini, kata laluan berubah.', c: 'Selepas itu, padam jemputan ini.' }
   }
 };

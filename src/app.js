@@ -32,20 +32,29 @@ var KDF = { m: 65536, t: 3, p: 4 };
 /* the same key from any keyboard: a digit of any script counts as 0-9 (every Unicode series of ten digits
    starts at its zero, so the value is the distance to the start of the run), and a key made only of digits,
    spaces and punctuation keeps just the digits: 4821-0937 = 4821 0937 = 48210937 */
-function fold(pass) {
-  var nd = /\p{Nd}/u, s = pass.normalize('NFC').replace(/\p{Nd}/gu, function (c) {
+function ascii(s) {
+  var nd = /\p{Nd}/u;
+  return s.replace(/\p{Nd}/gu, function (c) {
     var n = c.codePointAt(0), z = n;
     while (nd.test(String.fromCodePoint(z - 1))) z--;
     return String((n - z) % 10);
   });
+}
+function fold(pass) {
+  var s = ascii(pass.normalize('NFC'));
   return /^[0-9\s\p{P}\p{Z}]+$/u.test(s) ? s.replace(/[^0-9]/g, '') : s;
 }
-async function kdf(pass, salt) {
-  var pw = te.encode(fold(pass)), raw = null;
+/* Argon2id of the key: 32 bytes that the caller wipes */
+async function argon(pass, salt) {
+  var pw = te.encode(fold(pass));
   try {
-    raw = await A2.argon2id({ password: pw, salt: salt, parallelism: KDF.p, iterations: KDF.t, memorySize: KDF.m, hashLength: 32, outputType: 'binary' });
-    return await crypto.subtle.importKey('raw', raw, 'AES-GCM', false, ['encrypt', 'decrypt']);
-  } finally { pw.fill(0); if (raw) raw.fill(0); }
+    return await A2.argon2id({ password: pw, salt: salt, parallelism: KDF.p, iterations: KDF.t, memorySize: KDF.m, hashLength: 32, outputType: 'binary' });
+  } finally { pw.fill(0); }
+}
+function aes(raw) { return crypto.subtle.importKey('raw', raw, 'AES-GCM', false, ['encrypt', 'decrypt']); }
+async function kdf(pass, salt) {
+  var raw = await argon(pass, salt);
+  try { return await aes(raw); } finally { raw.fill(0); }
 }
 /* ad: optional additional data, ties a box to its place in the file */
 function gcm(iv, ad) { var p = { name: 'AES-GCM', iv: iv }; if (ad) p.additionalData = te.encode(ad); return p; }
@@ -63,6 +72,112 @@ async function wrap(pass, plain, ad) {
 async function unwrap(pass, blob, ad) {
   var key = await kdf(pass, blob.subarray(0, 16));
   return { key: key, data: await unseal(key, blob.subarray(16), ad) };
+}
+
+/* Copies sent at a distance: HPKE (RFC 9180), mode Base, DHKEM(X25519, HKDF-SHA256), HKDF-SHA256, AES-256-GCM.
+   The receiver's key pair comes from their key: Argon2id(key, salt) -> DeriveKeyPair, so the private key is never kept.
+   The sender seals to the public key with a new ephemeral key for every copy; the key of the file is the output of the
+   HPKE exporter. The curve is noble-curves (X2, src/x25519.js); hashes and AES are WebCrypto. Checked against the official
+   RFC 9180 test vectors (tests/candado.test.js). */
+var NONE = new Uint8Array(0), KID = cat(te.encode('KEM'), new Uint8Array([0, 0x20])), SID = cat(te.encode('HPKE'), new Uint8Array([0, 0x20, 0, 1, 0, 2]));
+var INFO = te.encode('nt1');
+/* HMAC-SHA256. An empty key is the same as 32 zero bytes (HMAC pads every key with zeros), and WebCrypto refuses empty keys */
+async function hmac(k, d) {
+  var key = await crypto.subtle.importKey('raw', k.length ? k : new Uint8Array(32), { name: 'HMAC', hash: 'SHA-256' }, false, ['sign']);
+  return new Uint8Array(await crypto.subtle.sign('HMAC', key, d));
+}
+/* LabeledExtract and LabeledExpand (HKDF with the HPKE labels) */
+function lx(sid, salt, label, ikm) { return hmac(salt, cat(te.encode('HPKE-v1'), sid, te.encode(label), ikm)); }
+async function le(sid, prk, label, info, n) {
+  var li = cat(new Uint8Array([n >> 8, n & 255]), te.encode('HPKE-v1'), sid, te.encode(label), info), out = NONE, t = NONE, i;
+  for (i = 1; out.length < n; i++) { t = await hmac(prk, cat(t, li, new Uint8Array([i]))); out = cat(out, t); }
+  return out.subarray(0, n);
+}
+/* DeriveKeyPair */
+async function dkp(ikm) {
+  var prk = await lx(KID, NONE, 'dkp_prk', ikm), sk = await le(KID, prk, 'sk', NONE, 32);
+  prk.fill(0);
+  return { sk: sk, pk: X2.x25519.getPublicKey(sk) };
+}
+/* ExtractAndExpand of a Diffie-Hellman result. getSharedSecret refuses an all-zero result (a bad point), as RFC 9180 asks */
+async function kem(dh, enc, pkR) {
+  var prk = await lx(KID, NONE, 'eae_prk', dh);
+  try { return await le(KID, prk, 'shared_secret', cat(enc, pkR), 32); } finally { dh.fill(0); prk.fill(0); }
+}
+/* KeySchedule, mode Base (no PSK) */
+async function sched(ss, info) {
+  var c = cat(new Uint8Array([0]), await lx(SID, NONE, 'psk_id_hash', NONE), await lx(SID, NONE, 'info_hash', info)), s = await lx(SID, ss, 'secret', NONE);
+  ss.fill(0);
+  try { return { key: await le(SID, s, 'key', c, 32), nonce: await le(SID, s, 'base_nonce', c, 12), exp: await le(SID, s, 'exp', c, 32) }; } finally { s.fill(0); }
+}
+/* SetupBaseS (ikmE only in tests: otherwise 32 random bytes, which is how RFC 9180 builds GenerateKeyPair) and SetupBaseR */
+async function seal2(pkR, info, ikmE) {
+  var e = await dkp(ikmE || rand(32)), ss;
+  try { ss = await kem(X2.x25519.getSharedSecret(e.sk, pkR), e.pk, pkR); } finally { e.sk.fill(0); }
+  return { enc: e.pk, ks: await sched(ss, info) };
+}
+async function open2(enc, skR, pkR, info) { return sched(await kem(X2.x25519.getSharedSecret(skR, enc), enc, pkR), info); }
+/* the key of the file: Export(exporter_context 'f', 32) */
+async function fkey(ks) {
+  var k = await le(SID, ks.exp, 'sec', te.encode('f'), 32);
+  try { return await aes(k); } finally { k.fill(0); ks.key.fill(0); ks.nonce.fill(0); ks.exp.fill(0); }
+}
+
+/* The receiver's code: 130 digits in groups of five, copied and pasted, never typed.
+   bytes = salt(16) | public key(32) | language of the phone(2) | check(4), the check being the first 4 bytes of
+   SHA-256('nt1' | the rest). Read as one number it is always below 10^130, because the salt, which leads, is drawn
+   below SMAX: no digit is fixed, so nothing in the code marks it. A new salt, so a new code, every time. */
+var CL = 130, SMAX = (10n ** 130n) >> 304n;
+function big(a) { var h = '0x0', i; for (i = 0; i < a.length; i++) h += (a[i] < 16 ? '0' : '') + a[i].toString(16); return BigInt(h); }
+function bytes(n, len) { var a = new Uint8Array(len), i; for (i = len - 1; i >= 0; i--) { a[i] = Number(n & 255n); n >>= 8n; } return a; }
+async function sum(b) { return new Uint8Array(await crypto.subtle.digest('SHA-256', cat(INFO, b))).subarray(0, 4); }
+/* a language code of two or three letters a-z as a number (base 27; 0: none), and back */
+function lnum(l) {
+  var m = /^([a-z]{2,3})(?![a-z])/.exec(String(l || '').toLowerCase()), n = 0, i;
+  if (!m) return 0;
+  for (i = 0; i < 3; i++) n = n * 27 + (i < m[1].length ? m[1].charCodeAt(i) - 96 : 0);
+  return n;
+}
+function lstr(n) {
+  var a = Math.floor(n / 729), b = Math.floor(n / 27) % 27, c = n % 27;
+  return a > 0 && a < 27 && b > 0 ? String.fromCharCode(96 + a, 96 + b) + (c ? String.fromCharCode(96 + c) : '') : '';
+}
+/* the code for a key: Argon2id with a new salt, then the public key of DeriveKeyPair */
+async function code(pass, lang) {
+  var salt, ikm, p, n = lnum(lang), b;
+  do salt = rand(16); while (big(salt) >= SMAX);
+  ikm = await argon(pass, salt);
+  try { p = await dkp(ikm); } finally { ikm.fill(0); }
+  p.sk.fill(0);
+  b = cat(salt, p.pk, new Uint8Array([n >> 8, n & 255]));
+  return String(big(cat(b, await sum(b)))).padStart(CL, '0').replace(/(\d{5})(?=\d)/g, '$1 ');
+}
+/* A pasted message -> { salt, pk, l } or null. Digits of any script count; inside the code only spaces, line breaks and
+   invisible marks (those a chat app adds around text in another direction) may separate the groups. A run of exactly 130
+   digits that starts and ends where a group does and has the right check is a candidate: a time, a date or a phone number
+   next to it does not spoil it. Not exactly one candidate (the same code twice counts once): refused. Never used as a key. */
+async function unpack(msg) {
+  var parts = ascii(String(msg)).match(/[0-9]+|[^0-9]+/g) || [], runs = [], g = [], seen = {}, ok = [], i, j, n, d, b, s, pk;
+  for (i = 0; i < parts.length; i++) {
+    if (/^[0-9]/.test(parts[i])) g.push(parts[i]);
+    else if (!/^[\s\u061c\u180e\u200b-\u200f\u202a-\u202e\u2060-\u2064\u2066-\u2069\ufeff]+$/.test(parts[i])) { runs.push(g); g = []; }
+  }
+  runs.push(g);
+  for (i = 0; i < runs.length; i++) {
+    for (j = 0; j < runs[i].length; j++) {
+      for (d = '', n = j; n < runs[i].length && d.length < CL; n++) d += runs[i][n];
+      if (d.length === CL) seen[d] = 1;
+    }
+  }
+  for (d in seen) {
+    b = bytes(BigInt(d), 54);           // 130 digits are always below 2^432 (54 bytes)
+    s = await sum(b.subarray(0, 50));
+    if (s[0] !== b[50] || s[1] !== b[51] || s[2] !== b[52] || s[3] !== b[53]) continue;
+    pk = b.slice(16, 48);
+    try { X2.x25519.getSharedSecret(rand(32), pk); } catch (e) { continue; }   // a point of small order: not a key
+    ok.push({ salt: b.slice(0, 16), pk: pk, l: lstr(b[48] << 8 | b[49]) });
+  }
+  return ok.length === 1 ? ok[0] : null;
 }
 
 /* raw inflate (RFC 1951), used only where the native stream is missing */
@@ -269,19 +384,36 @@ function b64parts(parts) {
 /* file layout:  salt(16) | box(u32le at, u32le len of the index) | blocks | index | random tail
    box = iv(12) | AES-GCM ciphertext and tag. Additional data: 'h' for the header, 'i' for the index, '<text>.<block>' for a block
    (and 'c' for the reading position, which lives only in memory).
-   index = { v: 2, u: {code: interface texts}, t: [{ l, n, d, g, t, a, dd, b: [[name, block, at, len]], k: [[off, len, 'x'|'z', size]] }] } */
-var HEAD = 52;
+   index = { v: 2, u: {code: interface texts}, t: [{ l, n, d, g, t, a, dd, b: [[name, block, at, len]], k: [[off, len, 'x'|'z', size]] }] }
+   A copy sent at a distance:  salt of the receiver's code(16) | enc(32) | box(header) | ... the same ...
+   with the key of the file from HPKE (fkey). Nothing in clear says which of the two a file is: the key is tried both ways,
+   with a single Argon2id (the salt is in the same place in both). */
+var HEAD = 52, HEAD2 = 84;
 async function open(pass, s) {
-  var r = await unwrap(pass, b64at(s, 0, HEAD), 'h'), v = new DataView(r.data.buffer, r.data.byteOffset, 8);
-  var ix = await unseal(r.key, b64at(s, v.getUint32(0, true), v.getUint32(4, true)), 'i');
-  return { key: r.key, m: JSON.parse(td.decode(ix)) };
+  var top = b64at(s, 0, HEAD2), ikm = await argon(pass, top.subarray(0, 16)), key, h = null, p, v, ix;
+  try {
+    key = await aes(ikm);
+    try { h = await unseal(key, top.subarray(16, HEAD), 'h'); } catch (e) { h = null; }
+    if (!h) {
+      p = await dkp(ikm);
+      try { key = await fkey(await open2(top.slice(16, 48), p.sk, p.pk, INFO)); } finally { p.sk.fill(0); }
+      h = await unseal(key, top.subarray(48, HEAD2), 'h');
+    }
+  } finally { ikm.fill(0); }
+  v = new DataView(h.buffer, h.byteOffset, 8);
+  ix = await unseal(key, b64at(s, v.getUint32(0, true), v.getUint32(4, true)), 'i');
+  return { key: key, m: JSON.parse(td.decode(ix)) };
 }
 /* compressed block j of text i, then its bytes */
 function piece(key, s, m, i, j) { return unseal(key, b64at(s, m.t[i].k[j][0], m.t[i].k[j][1]), i + '.' + j); }
 function inflate(k, p) { return k[2] === 'x' ? unlz(p, LZP, k[3]) : unz(p); }
-/* get(i, j) -> compressed block j of text i. Fills the offsets of m.t[].k and returns the parts of the file */
-async function build(pass, m, get) {
-  var salt = rand(16), key = await kdf(pass, salt), out = [], at = HEAD, i, j, t, b, ix, h = new Uint8Array(8), v = new DataView(h.buffer), z = rand(2);
+/* to: a key, or a code read by unpack() (a copy sent at a distance). get(i, j) -> compressed block j of text i.
+   Fills the offsets of m.t[].k and returns the parts of the file */
+async function build(to, m, get) {
+  var pre, key, out = [], at, i, j, t, b, ix, h = new Uint8Array(8), v = new DataView(h.buffer), z = rand(2), e;
+  if (typeof to === 'string') { pre = rand(16); key = await kdf(to, pre); }
+  else { e = await seal2(to.pk, INFO); pre = cat(to.salt, e.enc); key = await fkey(e.ks); }
+  at = pre.length + 36;
   for (i = 0; i < m.t.length; i++) {
     for (t = m.t[i], j = 0; j < t.k.length; j++) {
       b = await seal(key, await get(i, j), i + '.' + j);
@@ -290,7 +422,7 @@ async function build(pass, m, get) {
   }
   ix = await seal(key, te.encode(JSON.stringify(m)), 'i');
   v.setUint32(0, at, true); v.setUint32(4, ix.length, true);
-  return [salt, await seal(key, h, 'h')].concat(out, [ix, rand(z[0] << 8 | z[1])]);
+  return [pre, await seal(key, h, 'h')].concat(out, [ix, rand(z[0] << 8 | z[1])]);
 }
 
 /* search folding: case, Latin/Hebrew/Arabic marks, Arabic-script letter variants */
@@ -322,7 +454,7 @@ var IC = {
   plus: 'M12 5v14M5 12h14', minus: 'M5 12h14', back: 'M15 5l-7 7 7 7', next: 'M9 5l7 7-7 7',
   x: 'M6 6l12 12M18 6L6 18', search: 'M11 4a7 7 0 1 0 0 14a7 7 0 0 0 0-14zM20 20l-4-4',
   trash: 'M5 7h14M10 7V5h4v2M7 7l1 12h8l1-12', more: 'M5 12h.01M12 12h.01M19 12h.01',
-  share: 'M12 15V4M8 8l4-4 4 4M5 14v5h14v-5', info: 'M12 11v6M12 7.5v.01M12 3a9 9 0 1 0 0 18a9 9 0 0 0 0-18z',
+  share: 'M12 15V4M8 8l4-4 4 4M5 14v5h14v-5', down: 'M12 4v11M8 11l4 4 4-4M5 14v5h14v-5', info: 'M12 11v6M12 7.5v.01M12 3a9 9 0 1 0 0 18a9 9 0 0 0 0-18z',
   moon: 'M20 14.5A8 8 0 0 1 9.5 4a8 8 0 1 0 10.5 10.5z',
   globe: 'M12 3a9 9 0 1 0 0 18a9 9 0 0 0 0-18zM3 12h18M12 3c3 3 3 15 0 18M12 3c-3 3-3 15 0 18'
 };
@@ -526,7 +658,7 @@ async function start(r) {
   pn = el('div', 'pn', btn('rb fl', 'back', R.pv, function () { step(-1); }), rg, btn('rb fl', 'next', R.nx, function () { step(1); }));
   mn = el('div', 'mn',
     el('div', 'fr', el('span', null, R.f), btn('ib', 'minus', R.f + ' -', function () { size(-2); }), btn('ib', 'plus', R.f + ' +', function () { size(2); })),
-    item('moon', R.th, flip), x.t.length > 1 ? item('globe', R.lg, langs) : null, item('share', R.cp, copy), item('info', R.ab, about));
+    item('moon', R.th, flip), x.t.length > 1 ? item('globe', R.lg, langs) : null, item('share', R.cp, pass), item('down', R.rc, mine), item('info', R.ab, about));
   mn.hidden = true;
   bkb = btn('ib fl', 'back', R.bk, function () { if (S && S.v.t !== 'books') rBack(); });
   rd.appendChild(el('div', 'bar', btn('ib', 'x', R.x, function () { lock(); }), bkb, ttl,
@@ -809,7 +941,7 @@ function find() {
   inp.focus();
 }
 
-/* hand a copy on: same content, new key, new bytes */
+/* hand a copy on: in person (a new key, said face to face) or at a distance (to the code the other person sends) */
 function field(label, type, value) {
   var i = plain(el('input')), l = el('label', null, label, i);
   i.type = type; if (value) i.value = value;
@@ -829,17 +961,36 @@ function suggest() {
   }
   return s;
 }
-function copy() {
-  var x = S.x, b = field(R.k2, 'password'), f = field(R.fn, 'text', U.f), msg = el('p', 'er');
-  var go = el('button', 'pb', R.mk), cs = [], box = null, sel = null, nf = U.f, codes = Object.keys(x.u), touched = false;
-  // the key is always made here, never invented: a verse or a date is guessed offline in seconds, 20 random digits are not.
-  // Seen only on this screen, never stored; typing it back proves it was written down before the copy is made.
-  var key = '', kv = el('p', 'kv'), ot = el('button', 'sb', R.ot), kb = el('div', 'ks', el('span', null, R.k1), kv, ot);
-  function fill() { key = suggest(); kv.textContent = key; b.i.value = ''; msg.textContent = ''; }
-  b.i.setAttribute('inputmode', 'numeric');
-  ot.type = 'button'; ot.onclick = fill; kv.dir = 'ltr';
-  fill();
-  go.type = 'button';
+// the language of the phone, for the code (read here, it goes nowhere else)
+function tongue() { return (navigator.languages && navigator.languages[0]) || navigator.language || ''; }
+function pass() {
+  var a = el('button', 'pb', R.ps), b = el('button', 'sb', R.pd);
+  a.type = 'button'; b.type = 'button'; a.onclick = copy; b.onclick = far;
+  set({ t: 'copy' }); ttl.textContent = R.cp;
+  put(el('div', 'fm', a, b));
+}
+/* a new key, always made here, never invented: a verse or a date is guessed offline in seconds, 20 random digits are not.
+   Seen only on this screen, never stored, and not selectable, so it never reaches the clipboard (Android keeps its history).
+   Typing it back proves it was written down. T: the texts (the reader's, or the invitation's) */
+function keybox(T) {
+  var o = { key: '' }, kv = el('p', 'kv'), ot = el('button', 'sb', T.ot);
+  o.field = field(T.k2, 'password');
+  o.fill = function () { o.key = suggest(); kv.textContent = o.key; o.field.i.value = ''; if (o.msg) o.msg.textContent = ''; };
+  o.hide = function () { o.key = ''; kv.textContent = ''; o.field.i.value = ''; };
+  // typed back with any digits, spaces or none: fold() makes both the same
+  o.ok = function () { return !!o.key && fold(o.field.i.value) === fold(o.key); };
+  o.field.i.setAttribute('inputmode', 'numeric');
+  ot.type = 'button'; ot.onclick = o.fill; kv.dir = 'ltr';
+  o.box = el('div', 'ks', el('span', null, T.k1), kv, ot);
+  o.fill();
+  return o;
+}
+var ALIAS = { ms: 'zlm' };   // a phone language whose text goes by another code
+/* what goes in a copy, the same for both ways: which texts, the language of the notes and the name of the file.
+   lg: the language of the other phone (a copy sent at a distance), ticked if this file has it */
+function choose(x, lg) {
+  var f = field(R.fn, 'text', U.f), cs = [], box = null, sel = null, nf = U.f, codes = Object.keys(x.u), touched = false, first = S.ti, i;
+  for (i = 0; lg && i < x.t.length; i++) if (!x.t[i].p && (x.t[i].l === lg || x.t[i].l === ALIAS[lg])) { first = i; break; }
   // the notes language follows the first text ticked, until the person picks one by hand
   function follow() {
     if (!sel || touched) return;
@@ -848,12 +999,12 @@ function copy() {
       return;
     }
   }
-  // which texts go in the copy: only the one being read by default (a lighter, less conspicuous file)
+  // which texts go in the copy: only one by default (a lighter, less conspicuous file)
   if (x.t.length > 1) {
     box = el('fieldset', 'ck', el('legend', null, R.cl));
     x.t.forEach(function (t, i) {
       var c = el('input'), n = el('span', null, lname(x, t)), l = el('label', null, c, n);
-      c.type = 'checkbox'; c.checked = i === S.ti && !t.p; n.dir = t.d;
+      c.type = 'checkbox'; c.checked = i === first && !t.p; n.dir = t.d;
       if (t.p) { c.disabled = true; l.style.opacity = '.5'; }   // permiso del titular pendiente: no sale en copias
       c.onchange = follow;
       cs.push(c); box.appendChild(l);
@@ -873,41 +1024,143 @@ function copy() {
   }
   // language of the notes in the copy
   if (codes.length > 1) {
+    var start = lg && x.u[lg] ? lg : LANG;
     sel = el('select');
-    codes.forEach(function (c) { var o = el('option', null, x.u[c].nm || c); o.value = c; if (c === LANG) o.selected = true; sel.appendChild(o); });
+    codes.forEach(function (c) { var o = el('option', null, x.u[c].nm || c); o.value = c; if (c === start) o.selected = true; sel.appendChild(o); });
     sel.onchange = function () { var v = x.u[sel.value].c.f; if (f.i.value === nf) f.i.value = v; nf = v; };
     sel.addEventListener('change', function () { touched = true; });   // only a real change by the person (not follow())
+    // a copy sent at a distance: the notes go in the language of the other phone, whatever texts are ticked
+    if (start !== LANG) { sel.onchange(); touched = true; }
     follow();
   }
-  go.onclick = async function () {
-    var s = S, p = key, keep = [], m, parts, html, at, cov = sel ? sel.value : LANG, u = x.u[cov] || { c: U }, name, i, same = cov === LANG;
-    // typed back with any digits, spaces or none: fold() makes both the same
-    if (fold(b.i.value) !== fold(key)) { msg.textContent = R.e2; return; }
-    for (i = 0; i < x.t.length; i++) if (!x.t[i].p && (!cs.length || cs[i].checked)) keep.push(i);
-    if (!keep.length) { msg.textContent = R.e3; return; }
-    msg.textContent = ''; go.disabled = true; mk = true;
-    try {
-      m = { v: 2, u: x.u, t: keep.map(function (i) { return Object.assign({}, x.t[i], { k: x.t[i].k.map(function (k) { return k.slice(); }) }); }) };
-      parts = await build(p, m, function (i, j) { return piece(s.k, raw, x, keep[i], j); });
-      html = assemble({
-        lang: same ? D.documentElement.lang : cov, dir: same ? D.documentElement.dir || 'ltr' : u.dir === 'rtl' ? 'rtl' : 'ltr', title: same ? U.t : u.c.t,
-        csp: D.querySelector('meta[http-equiv]').content, css: D.querySelector('style').textContent,
-        ui: same ? D.getElementById('u').textContent : JSON.stringify(u.c).replace(/</g, '\\u003c'), blob: '\u0001', js: SELF
-      });
-      at = html.indexOf('\u0001');
-      parts = [html.slice(0, at)].concat(b64parts(parts), [html.slice(at + 1)]);
-    } catch (e) { go.disabled = false; return; } finally { mk = false; }
-    if (S !== s || s.v.t !== 'copy') return;
-    name = (f.i.value.trim().replace(/\.html?$/i, '').replace(/[\\\/:*?"<>|\u0000-\u001f]/g, '') || u.c.f) + '.html';
-    ready(new Blob(parts, { type: 'text/html' }), name);
+  return {
+    f: f, box: box, sel: sel ? el('label', null, R.cc, sel) : null,
+    keep: function () { var k = [], i; for (i = 0; i < x.t.length; i++) if (!x.t[i].p && (!cs.length || cs[i].checked)) k.push(i); return k; },
+    cov: function () { return sel ? sel.value : LANG; },
+    name: function (u) { return (f.i.value.trim().replace(/\.html?$/i, '').replace(/[\\\/:*?"<>|\u0000-\u001f]/g, '') || u.c.f) + '.html'; }
+  };
+}
+/* a whole file around a blob: the script, the styles and the policy of this one, unchanged */
+function page(same, cov, u, blob, ui) {
+  return assemble({
+    lang: same ? D.documentElement.lang : cov, dir: same ? D.documentElement.dir || 'ltr' : u.dir === 'rtl' ? 'rtl' : 'ltr', title: same ? U.t : u.c.t,
+    csp: D.querySelector('meta[http-equiv]').content, css: D.querySelector('style').textContent,
+    ui: ui || (same ? D.getElementById('u').textContent : JSON.stringify(u.c).replace(/</g, '\\u003c')), blob: blob, js: SELF
+  });
+}
+/* make the copy (to: a new key, or a code) and offer it; h: the text over the buttons */
+async function make(to, c, msg, go, h) {
+  var s = S, x = s.x, keep = c.keep(), cov = c.cov(), u = x.u[cov] || { c: U }, m, parts, html, at;
+  if (!keep.length) { msg.textContent = R.e3; return; }
+  msg.textContent = ''; go.disabled = true; mk = true;
+  try {
+    m = { v: 2, u: x.u, t: keep.map(function (i) { return Object.assign({}, x.t[i], { k: x.t[i].k.map(function (k) { return k.slice(); }) }); }) };
+    parts = await build(to, m, function (i, j) { return piece(s.k, raw, x, keep[i], j); });
+    html = page(cov === LANG, cov, u, '\u0001');
+    at = html.indexOf('\u0001');
+    parts = [html.slice(0, at)].concat(b64parts(parts), [html.slice(at + 1)]);
+  } catch (e) { go.disabled = false; return; } finally { mk = false; }
+  if (S !== s || s.v.t !== 'copy') return;
+  ready(new Blob(parts, { type: 'text/html' }), c.name(u), h);
+}
+function copy() {
+  var x = S.x, msg = el('p', 'er'), go = el('button', 'pb', R.mk), k = keybox(R), c = choose(x, '');
+  k.msg = msg; go.type = 'button';
+  go.onclick = function () {
+    if (!k.ok()) { msg.textContent = R.e2; return; }
+    make(k.key, c, msg, go, R.h2);
   };
   set({ t: 'copy' }); ttl.textContent = R.cp;
   // the last sentence of h1 (the passphrase rule) goes on its own line, in bold
   var h = /^([\s\S]*?[.!?\u3002\u0964\u06d4\u0f0d\u104b])\s*([^.!?\u3002\u0964\u06d4\u0f0d\u104b]+[.!?\u3002\u0964\u06d4\u0f0d\u104b]?)$/.exec(R.h1.trim());
-  put(el('div', 'fm', h ? el('p', null, h[1]) : null, el('p', 'wn', h ? h[2] : R.h1), el('p', 'wn', R.h3), kb, b, f, box, sel ? el('label', null, R.cc, sel) : null, msg, go));
+  put(el('div', 'fm', h ? el('p', null, h[1]) : null, el('p', 'wn', h ? h[2] : R.h1), el('p', 'wn', R.h3), k.box, k.field, c.f, c.box, c.sel, msg, go));
 }
-function ready(blob, name) {
-  var file = null, can = false, box = el('div', 'fm', el('p', null, R.h2)), b;
+/* at a distance: paste the message with the other person's code (copied before opening this: leaving the app closes it).
+   Anything that is not exactly one valid code is refused, never taken as a key. Someone with no copy yet gets an invitation first */
+function far() {
+  var x = S.x, ta = plain(el('textarea')), er = el('p', 'er'), msg = el('p', 'er'), go = el('button', 'pb', R.mk), opt = el('div'), iv = el('button', 'sb', R.iv), pb = null, n = 0;
+  ta.placeholder = R.pg; ta.rows = 4; ta.dir = 'ltr';
+  iv.type = 'button'; go.type = 'button'; iv.onclick = invite;
+  async function read() {
+    var k = ++n, v = ta.value, r = null, c;
+    try { if (v.trim()) r = await unpack(v); } catch (e) { r = null; }
+    if (k !== n || !S || S.v.t !== 'copy') return;          // a newer paste is being read, or the reader closed
+    er.textContent = r || !v.trim() ? '' : R.e4;
+    wipe(opt); opt.hidden = !r;
+    if (!r) return;
+    c = choose(x, r.l);
+    go.disabled = false;
+    go.onclick = function () { make({ salt: r.salt, pk: r.pk }, c, msg, go, R.h4); };
+    opt.appendChild(el('div', null, c.f, c.box, c.sel, msg, go));
+  }
+  if (navigator.clipboard && navigator.clipboard.readText) {
+    pb = el('button', 'sb', R.pe); pb.type = 'button';
+    // the browser may ask before it lets the page read the clipboard: that is not leaving the app (only while it asks)
+    pb.onclick = function () {
+      hold = true;
+      navigator.clipboard.readText().then(function (t) { ta.value = t; read(); }, function () { ta.focus(); }).then(function () { hold = false; });
+    };
+  }
+  ta.oninput = later(read, 300);
+  opt.hidden = true;
+  set({ t: 'copy' }); ttl.textContent = R.pd;
+  put(el('div', 'fm', el('p', null, R.h5), iv, ta, pb, er, opt));
+}
+/* the invitation: this same program with no texts inside, only what the other person needs to make a code. It speaks the
+   language of the phone that opens it, so it carries its few texts in every language this file has */
+function invite() {
+  var x = S.x, u = {}, k, r;
+  for (k in x.u) {
+    r = x.u[k].r;
+    if (x.u[k].i && r) u[k] = Object.assign({ dir: x.u[k].dir }, x.u[k].i, { k1: r.k1, k2: r.k2, ot: r.ot, e2: r.e2, mc: r.mc, sd: r.sd, cy: r.cy, h7: r.h7 });
+  }
+  ready(new Blob([page(true, LANG, null, '', JSON.stringify(u).replace(/</g, '\\u003c'))], { type: 'text/html' }), R.vn + '.html', R.h4);
+}
+/* receive a copy at a distance: a code made from the key this file opens with, so the copy will open with that same key.
+   The key is typed again (it is never kept) and tried on this file first */
+function mine() {
+  var b = field(R.k2, 'password'), msg = el('p', 'er'), go = el('button', 'pb', R.mc);
+  go.type = 'button';
+  go.onclick = async function () {
+    var s = S, v = b.i.value, c = null;
+    msg.textContent = ''; go.disabled = true; mk = true;
+    try { if (Array.from(fold(v.trim())).length >= 16) { await open(v.trim(), raw); c = await code(v.trim(), tongue()); } } catch (e) { c = null; } finally { mk = false; }
+    v = ''; b.i.value = '';
+    if (S !== s || s.v.t !== 'copy') return;
+    go.disabled = false;
+    if (!c) { msg.textContent = R.e2; return; }
+    put(el('div', 'fm', shown(c, R, brief), el('p', 'wn', R.h7)));
+  };
+  set({ t: 'copy' }); ttl.textContent = R.rc;
+  put(el('div', 'fm', el('p', null, R.h6), b, msg, go));
+}
+/* the code on screen (selectable: it is not a secret), with Send (the share sheet) and Copy */
+function shown(c, T, before) {
+  var w = el('div'), p = el('p', 'cd', c), b, y;
+  p.dir = 'ltr';
+  w.appendChild(p);
+  if (navigator.share) {
+    b = el('button', 'pb', T.sd); b.type = 'button';
+    b.onclick = function () { if (before) before(); try { navigator.share({ text: c }).catch(function () { }); } catch (e) { } };
+    w.appendChild(b);
+  }
+  y = el('button', navigator.share ? 'sb' : 'pb', T.cy); y.type = 'button';
+  y.onclick = function () { clip(c, function () { y.textContent = T.cy + ' \u2713'; }); };
+  w.appendChild(y);
+  return w;
+}
+function clip(t, done) {
+  function old() {
+    var a = el('textarea');
+    a.value = t; a.readOnly = true; a.style.position = 'fixed'; a.style.opacity = '0';
+    D.body.appendChild(a); a.select();
+    try { if (D.execCommand('copy')) done(); } catch (e) { }
+    D.body.removeChild(a);
+  }
+  try { navigator.clipboard.writeText(t).then(done, old); } catch (e) { old(); }
+}
+function ready(blob, name, h) {
+  var file = null, can = false, box = el('div', 'fm', el('p', null, h || R.h2)), b;
   try { file = new File([blob], name, { type: 'text/html' }); can = !!(navigator.canShare && navigator.canShare({ files: [file] })); } catch (e) { }
   if (can) {
     b = el('button', 'pb', R.sd); b.type = 'button';
@@ -947,9 +1200,37 @@ W.addEventListener('pagehide', function () { if (busy) away = true; if (S) lock(
 D.addEventListener('keydown', function (e) { if (e.key === 'Escape') { if (busy) away = true; if (S) lock(); } idle(); });
 ['pointerdown', 'touchstart', 'scroll'].forEach(function (n) { rd.addEventListener(n, idle, { capture: true, passive: true }); });
 
+/* ---------- the invitation: a file with no texts inside; the other person makes their code here ---------- */
+function invitation() {
+  var lg = phone(function (c) { return !!U[c]; }) || (U[LANG] ? LANG : U.en ? 'en' : Object.keys(U)[0]), T = U[lg];
+  var w = el('div', 'iv fm'), k = keybox(T), msg = el('p', 'er'), go = el('button', 'pb', T.mc), done = false;
+  D.documentElement.lang = lg; D.documentElement.dir = T.dir === 'rtl' ? 'rtl' : 'ltr';
+  k.msg = msg; go.type = 'button';
+  function first() { done = false; wipe(w); k.fill(); go.disabled = false; w.appendChild(el('div', null, el('p', null, T.a), k.box, el('p', 'wn', T.b), k.field, msg, go)); }
+  go.onclick = async function () {
+    var v, c = null;
+    if (!k.ok()) { msg.textContent = T.e2; return; }
+    v = k.key; done = true; go.disabled = true; k.hide(); wipe(w);     // the key leaves the screen at once
+    try { c = await code(v, tongue()); } catch (e) { c = null; }
+    v = '';
+    if (!c) { first(); return; }
+    w.appendChild(el('div', null, shown(c, T), el('p', 'wn', T.h7), el('p', null, T.c)));
+  };
+  // leaving the page hides the key (the recent-apps picture must not show it); back here, there is a new one to write down
+  function away() { if (!done) k.hide(); }
+  function back() { if (!done && !k.key && !D.hidden) k.fill(); }
+  W.addEventListener('blur', away); W.addEventListener('pagehide', away); W.addEventListener('focus', back);
+  D.addEventListener('visibilitychange', function () { if (D.hidden) away(); else back(); });
+  first();
+  D.body.appendChild(el('div', 'app', w));
+}
+
 rd.hidden = true;
-cv.appendChild(lv); cv.appendChild(fab); cv.appendChild(ev);
-root.appendChild(cv); root.appendChild(rd);
-D.body.appendChild(root);
-draw();
+if (!D.getElementById('d').firstChild) invitation();
+else {
+  cv.appendChild(lv); cv.appendChild(fab); cv.appendChild(ev);
+  root.appendChild(cv); root.appendChild(rd);
+  D.body.appendChild(root);
+  draw();
+}
 })();
