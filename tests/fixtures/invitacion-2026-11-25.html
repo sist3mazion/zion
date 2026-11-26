@@ -1,0 +1,1273 @@
+<!doctype html>
+<html lang="es" dir="ltr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'sha256-0EEZHS0dIeCXi30mkADD5I7EEbiydV/UAVg9LYBlKdk=' 'wasm-unsafe-eval'; style-src 'sha256-1q4ayHfXNhbd2oRlIqAtNuunZ8uIggjJS4uo2NS4Cvg='; base-uri 'none'; form-action 'none'">
+<meta name="referrer" content="no-referrer">
+<title>Notas</title>
+<style>html{--bg:#f5f5f5;--fg:#111111;--mu:#6b6b6b;--ln:#dddddd;--cd:#fff;--ac:#111111;--hl:rgba(0,0,0,.16);--pu:#000;--fs:18px;color-scheme:light}
+@media(prefers-color-scheme:dark){html{--bg:#121212;--fg:#ececec;--mu:#999999;--ln:#2c2c2c;--cd:#1c1c1c;--ac:#f0f0f0;--hl:rgba(255,255,255,.2);--pu:#fff;color-scheme:dark}}
+html.l{--bg:#f5f5f5;--fg:#111111;--mu:#6b6b6b;--ln:#dddddd;--cd:#fff;--ac:#111111;--hl:rgba(0,0,0,.16);--pu:#000;color-scheme:light}
+html.d{--bg:#121212;--fg:#ececec;--mu:#999999;--ln:#2c2c2c;--cd:#1c1c1c;--ac:#f0f0f0;--hl:rgba(255,255,255,.2);--pu:#fff;color-scheme:dark}
+*{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+html,body{height:100%}
+body{margin:0;background:var(--bg);color:var(--fg);font:16px/1.45 system-ui,-apple-system,"Segoe UI",Roboto,"Noto Sans",sans-serif}
+[hidden]{display:none!important}
+button,input,textarea,select{font:inherit;color:inherit}
+button{cursor:pointer}
+.app{max-width:720px;margin:0 auto;height:100%;position:relative}
+.cv,.rd,.lv,.ed{height:100%}
+.i{width:24px;height:24px;fill:none;stroke:currentColor;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round;display:block}
+[dir=rtl] .fl .i{transform:scaleX(-1)}
+.lv{overflow:auto;-webkit-overflow-scrolling:touch}
+.hd{padding:28px 20px 6px}
+.hd h1{margin:0;font-size:30px;font-weight:700;letter-spacing:-.01em}
+.sf{padding:8px 16px 4px;margin:0}
+.sf input,.fv input,.fm input{width:100%;padding:11px 14px;border-radius:12px;border:1px solid var(--ln);background:var(--cd);font-size:16px;outline:0;-webkit-appearance:none;appearance:none}
+.sf input:focus,.fv input:focus,.fm input:focus{border-color:var(--ac)}
+.ls{list-style:none;margin:0;padding:6px 16px 104px}
+.ls li{background:var(--cd);border:1px solid var(--ln);border-radius:14px;padding:12px 14px;margin:8px 0;cursor:pointer}
+.ls b,.ls span,.ls i{display:block;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.ls b{font-size:16px;font-weight:600}
+.ls span{color:var(--mu);font-size:14px;margin-top:2px}
+.ls i{color:var(--mu);font-size:12px;font-style:normal;margin-top:6px}
+.em{color:var(--mu);text-align:center;padding:48px 20px;margin:0}
+.fab{position:absolute;bottom:24px;inset-inline-end:20px;width:56px;height:56px;border-radius:50%;border:0;background:var(--ac);color:#fff;display:flex;align-items:center;justify-content:center;box-shadow:0 6px 18px rgba(0,0,0,.22)}
+html.d .fab,html.d .pb{color:#121212}
+@media(prefers-color-scheme:dark){html:not(.l) .fab,html:not(.l) .pb{color:#121212}}
+.ed,.rd{display:flex;flex-direction:column}
+.bar{display:flex;align-items:center;gap:2px;padding:6px 8px;border-bottom:1px solid var(--ln);flex:none;min-height:54px}
+.gr{flex:1}
+.ib{width:44px;height:44px;border:0;background:none;border-radius:12px;display:flex;align-items:center;justify-content:center;flex:none}
+.ib:active,.tt:active,.it:active{background:var(--ln)}
+.ed textarea{flex:1;width:100%;border:0;outline:0;resize:none;background:none;padding:18px 20px;font-size:var(--fs);line-height:1.6}
+.tt{flex:1;min-width:0;height:44px;border:0;background:none;border-radius:12px;font-size:17px;font-weight:600;text-align:start;padding:0 10px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.pg{flex:1;overflow:auto;-webkit-overflow-scrolling:touch;padding:18px 20px 32px}
+.gd{display:grid;grid-template-columns:repeat(auto-fill,minmax(148px,1fr));gap:8px}
+.gd hr{grid-column:1/-1;width:100%;border:0;border-top:1px solid var(--ln);margin:8px 0}
+.bk,.ch{border:1px solid var(--ln);background:var(--cd);border-radius:12px;font-size:16px}
+.bk{text-align:start;padding:12px 14px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.cg{grid-template-columns:repeat(auto-fill,minmax(54px,1fr))}
+.ch{height:54px;padding:0;font-variant-numeric:tabular-nums}
+.bk:active,.ch:active,.ht:active,.lg .on{border-color:var(--ac)}
+.lg{grid-template-columns:1fr}
+.dd{margin:36px 8px 24px;text-align:center;color:var(--pu);font-size:14px;line-height:1.6}
+.dd h2{font-size:12px;letter-spacing:.12em;font-weight:600;margin:0 0 12px}
+.dd p{margin:0 0 8px}
+.dd b{font-weight:700}
+.tx{font-family:ui-serif,Georgia,"Noto Serif","Times New Roman",serif;font-size:var(--fs);line-height:1.75;max-width:36em;margin:0 auto;overflow-wrap:break-word}
+.tx h2{font-family:system-ui,-apple-system,"Segoe UI",Roboto,"Noto Sans",sans-serif;font-size:1.35em;line-height:1.25;margin:.2em 0 1em;font-weight:700}
+.tx p{margin:0 0 .85em}
+.tx sup{font-family:system-ui,-apple-system,"Segoe UI",Roboto,"Noto Sans",sans-serif;font-size:.58em;font-weight:700;color:var(--ac);margin-inline-end:.3em;line-height:0;vertical-align:super;user-select:none;-webkit-user-select:none}
+.tx .k-s,.tx .k-S,.tx .k-a,.tx .k-r{font-family:system-ui,-apple-system,"Segoe UI",Roboto,"Noto Sans",sans-serif}
+.tx .k-s{font-size:.88em;font-weight:700;margin:1.5em 0 .5em;line-height:1.35}
+.tx .k-S{font-size:.8em;font-weight:700;letter-spacing:.08em;text-transform:uppercase;text-align:center;margin:1.6em 0 .6em;color:var(--mu)}
+.tx .k-a{font-size:.8em;font-weight:700;color:var(--mu);margin:1.2em 0 .3em}
+.tx .k-r{font-size:.72em;color:var(--mu);margin:-.2em 0 .9em;line-height:1.4}
+.tx .k-d{font-style:italic;color:var(--mu);margin-bottom:.6em}
+.tx .k-m{margin-bottom:.85em}
+.tx .k-pi{margin-inline-start:1.4em}
+.tx .k-q1,.tx .k-q2,.tx .k-q3,.tx .k-l1,.tx .k-l2{margin-bottom:0;text-indent:-1.2em}
+.tx .k-q1,.tx .k-l1{padding-inline-start:1.2em}
+.tx .k-q2,.tx .k-l2{padding-inline-start:2.6em}
+.tx .k-q3{padding-inline-start:4em}
+.tx .k-c{text-align:center}
+.tx .k-e{text-align:end}
+.tx .k-b{height:.85em}
+.tx .on{background:var(--hl);border-radius:4px}
+.pn{flex:none;display:flex;justify-content:space-between;align-items:center;padding:6px 14px;border-top:1px solid var(--ln)}
+.pn[hidden]{display:none}
+.rg{width:28px;height:28px;transform:rotate(-90deg);flex:none}
+.rg circle{fill:none;stroke-width:2.5}
+.rk{stroke:var(--ln)}
+.rv{stroke:var(--fg);stroke-dasharray:56.55;stroke-dashoffset:0;animation:rg 30s linear forwards}
+@keyframes rg{to{stroke-dashoffset:56.55}}
+.rb{width:44px;height:44px;border-radius:50%;border:1px solid var(--ln);background:var(--cd);display:flex;align-items:center;justify-content:center}
+.mn{position:absolute;top:56px;inset-inline-end:8px;z-index:5;min-width:236px;background:var(--cd);border:1px solid var(--ln);border-radius:16px;padding:6px;box-shadow:0 12px 32px rgba(0,0,0,.22)}
+.it{display:flex;align-items:center;gap:12px;width:100%;border:0;background:none;border-radius:10px;padding:11px 12px;text-align:start;font-size:16px}
+.fr{display:flex;align-items:center;gap:4px;padding-inline-start:12px}
+.fr span{flex:1}
+.fv input{margin-bottom:12px}
+.pr{display:block;height:2px;width:0;background:var(--ac);border-radius:2px;margin:-4px 0 6px}
+.ht{display:block;width:100%;text-align:start;border:1px solid var(--ln);background:var(--cd);border-radius:12px;padding:10px 14px;margin:8px 0;font-size:15px;line-height:1.5}
+.ht b{display:block;font-size:13px;color:var(--ac);margin-bottom:2px}
+mark{background:var(--hl);color:inherit;border-radius:3px;padding:0 1px}
+.fm{max-width:26em;margin:0 auto}
+.fm label{display:block;font-size:14px;color:var(--mu);margin:14px 0 6px}
+.fm label input{display:block;margin-top:6px;color:var(--fg)}
+.fm select{display:block;width:100%;margin-top:6px;padding:11px 14px;border-radius:12px;border:1px solid var(--ln);background:var(--cd);color:var(--fg);font-size:16px}
+.ck{border:0;padding:0;margin:16px 0 0;min-width:0}
+.ck legend{font-size:14px;color:var(--mu);padding:0;margin-bottom:2px}
+.fm .ck label{display:flex;align-items:center;gap:12px;margin:0;padding:9px 0;color:var(--fg);font-size:16px}
+.fm .ck input{display:block;flex:none;width:20px;height:20px;margin:0;padding:0;accent-color:var(--ac);-webkit-appearance:auto;appearance:auto}
+.fm p{margin:0 0 6px;line-height:1.55}
+.fm p.wn{font-weight:600;border-inline-start:3px solid var(--ac);padding-inline-start:10px;margin:8px 0 10px}
+.fm .hi{font-size:13px;color:var(--mu);margin:6px 0 0}
+.fm .er{color:var(--ac);min-height:1.5em;margin:10px 0 4px;font-size:14px}
+.pb,.sb{display:block;width:100%;border-radius:12px;padding:13px 16px;font-size:16px;font-weight:600;margin:10px 0}
+.pb{border:0;background:var(--ac);color:#fff}
+.sb{border:1px solid var(--ln);background:var(--cd)}
+.ck .tg{width:auto;padding:7px 14px;font-size:14px;font-weight:500;margin:6px 0 4px}
+.pb:disabled{opacity:.5}
+.ab h3{margin:0 0 10px;font-size:20px}
+.ab p{white-space:pre-wrap;line-height:1.6;margin:0 0 16px}
+.ab .nt{color:var(--mu);font-size:14px;border-top:1px solid var(--ln);padding-top:16px}
+.fm .ks{margin:6px 0 4px;padding:10px 14px;border:1px solid var(--ln);border-radius:12px;background:var(--cd);font-size:14px;color:var(--mu)}
+.fm .ks .kv{margin:6px 0 8px;font:600 20px/1.4 ui-monospace,Menlo,Consolas,monospace;letter-spacing:.04em;color:var(--fg);text-align:start;unicode-bidi:isolate;user-select:none;-webkit-user-select:none;-webkit-touch-callout:none}
+.fm .ks .kv[hidden]{display:none}
+.fm .ks .sb{color:var(--fg);margin:0}
+.fi{margin:0 0 16px;padding:12px 14px;border:1px solid var(--ln);border-radius:12px;background:var(--cd);font-size:15px;line-height:1.5}
+.fi p{margin:0 0 10px}
+.fi .sb{display:block;width:auto;margin:0 0 0 auto;margin-inline-start:auto;margin-inline-end:0;padding:6px 16px;border:1px solid var(--ln);border-radius:10px;background:none;color:var(--fg);font:inherit}
+.fm textarea{display:block;width:100%;min-height:7.5em;margin:10px 0 0;padding:11px 14px;border-radius:12px;border:1px solid var(--ln);background:var(--cd);color:var(--fg);font-size:16px;outline:0;resize:vertical;-webkit-appearance:none;appearance:none}
+.fm textarea:focus{border-color:var(--ac)}
+.fm .cd{margin:6px 0 4px;padding:12px 14px;border:1px solid var(--ln);border-radius:12px;background:var(--cd);font:600 17px/1.7 ui-monospace,Menlo,Consolas,monospace;word-spacing:.2em;text-align:left;unicode-bidi:isolate;overflow-wrap:break-word;user-select:all;-webkit-user-select:all}
+.iv{height:100%;overflow:auto;-webkit-overflow-scrolling:touch;padding:28px 20px 40px}
+</style>
+</head>
+<body>
+<script type="application/json" id="u">{"es":{"dir":"ltr","a":"Alguien quiere mandarte un archivo que solo tú podrás abrir. Para eso necesitas una clave: la crea esta página y no sale de tu teléfono.","b":"Apúntala en papel, nunca en una nota ni en el chat. Si sales de esta página, la clave cambia.","c":"Después, borra esta invitación.","k1":"Clave nueva","k2":"Repite la clave","ot":"Otra","e2":"Las claves no coinciden","mc":"Crear mi código","sd":"Enviar","cy":"Copiar","h7":"Manda este código por el mismo chat. Cuando te llegue el archivo, ábrelo, escribe tu clave en Buscar y pulsa Intro."},"en":{"dir":"ltr","a":"Someone wants to send you a file that only you will be able to open. For that you need a passphrase: this page makes it, and it never leaves your phone.","b":"Write it on paper, never in a note or in the chat. If you leave this page, the passphrase changes.","c":"Afterwards, delete this invitation.","k1":"New passphrase","k2":"Repeat the passphrase","ot":"Another","e2":"The passphrases do not match","mc":"Make my code","sd":"Send","cy":"Copy","h7":"Send this code through the same chat. When the file arrives, open it, type your passphrase in Search and press Enter."},"fr":{"dir":"ltr","a":"Quelqu’un veut vous envoyer un fichier que vous seul pourrez ouvrir. Pour cela, il vous faut une phrase secrète : cette page la crée et elle ne quitte jamais votre téléphone.","b":"Notez-la sur papier, jamais dans une note ni dans la discussion. Si vous quittez cette page, la phrase secrète change.","c":"Ensuite, supprimez cette invitation.","k1":"Nouvelle phrase secrète","k2":"Répétez la phrase secrète","ot":"Une autre","e2":"Les deux phrases ne correspondent pas","mc":"Créer mon code","sd":"Envoyer","cy":"Copier","h7":"Envoyez ce code par la même discussion. Quand le fichier arrive, ouvrez-le, tapez votre phrase secrète dans Rechercher et appuyez sur Entrée."},"pt":{"dir":"ltr","a":"Alguém quer enviar a você um arquivo que só você poderá abrir. Para isso, você precisa de uma senha: esta página a cria, e ela não sai do seu telefone.","b":"Anote-a em papel, nunca numa nota nem na conversa. Se você sair desta página, a senha muda.","c":"Depois, apague este convite.","k1":"Nova senha","k2":"Repita a senha","ot":"Outra","e2":"As senhas não coincidem","mc":"Criar meu código","sd":"Enviar","cy":"Copiar","h7":"Envie este código pela mesma conversa. Quando o arquivo chegar, abra-o, digite sua senha em Buscar e toque em Enter."},"ru":{"dir":"ltr","a":"Кто-то хочет отправить вам файл, который сможете открыть только вы. Для этого нужен пароль: его создаёт эта страница, и он не покидает ваш телефон.","b":"Запишите его на бумаге, никогда не в заметке и не в чате. Если вы уйдёте с этой страницы, пароль изменится.","c":"После этого удалите это приглашение.","k1":"Новый пароль","k2":"Повторите пароль","ot":"Другой","e2":"Пароли не совпадают","mc":"Создать мой код","sd":"Отправить","cy":"Копировать","h7":"Отправьте этот код через тот же чат. Когда придёт файл, откройте его, введите пароль в поле «Поиск» и нажмите Enter."},"ar":{"dir":"rtl","a":"شخص ما يريد أن يرسل إليك ملفًا لا يستطيع فتحه أحد غيرك. لذلك تحتاج إلى كلمة سر: تُنشئها هذه الصفحة، ولا تخرج من هاتفك.","b":"اكتبها على ورقة، لا في ملاحظة ولا في المحادثة أبدًا. إذا غادرت هذه الصفحة، تتغير كلمة السر.","c":"بعد ذلك، احذف هذه الدعوة.","k1":"كلمة سر جديدة","k2":"أعد كتابة كلمة السر","ot":"غيرها","e2":"كلمتا السر غير متطابقتين","mc":"إنشاء رمزي","sd":"إرسال","cy":"نسخ","h7":"أرسل هذا الرمز عبر المحادثة نفسها. عندما يصلك الملف، افتحه واكتب كلمة السر في «بحث» واضغط Enter."},"fa":{"dir":"rtl","a":"کسی می‌خواهد فایلی برایتان بفرستد که فقط شما می‌توانید بازش کنید. برای این کار یک رمز لازم دارید: این صفحه آن را می‌سازد و از گوشی شما بیرون نمی‌رود.","b":"آن را روی کاغذ بنویسید، هرگز در یادداشت یا در گفتگو. اگر از این صفحه بیرون بروید، رمز عوض می‌شود.","c":"بعد از آن، این دعوت‌نامه را پاک کنید.","k1":"رمز جدید","k2":"تکرار رمز","ot":"یکی دیگر","e2":"رمزها یکسان نیستند","mc":"ساختن کد من","sd":"ارسال","cy":"کپی","h7":"این کد را از همان گفتگو بفرستید. وقتی فایل رسید، آن را باز کنید، رمز را در «جستجو» بنویسید و Enter را بزنید."},"zh":{"dir":"ltr","a":"有人想给你发送一个只有你能打开的文件。为此你需要一个密码：它由本页面生成，不会离开你的手机。","b":"把它写在纸上，绝不要写在备忘录或聊天里。如果离开本页面，密码会改变。","c":"之后，请删除这份邀请。","k1":"新密码","k2":"再输入一次","ot":"换一个","e2":"两次输入不一致","mc":"生成我的代码","sd":"发送","cy":"复制","h7":"通过同一个聊天发送这个代码。收到文件后，打开它，在“搜索”框中输入你的密码并按回车。"},"id":{"dir":"ltr","a":"Seseorang ingin mengirimi Anda berkas yang hanya bisa Anda buka. Untuk itu Anda perlu kata sandi: halaman ini membuatnya, dan kata sandi itu tidak pernah keluar dari ponsel Anda.","b":"Tulis di kertas, jangan pernah di catatan atau di obrolan. Jika Anda meninggalkan halaman ini, kata sandinya berubah.","c":"Setelah itu, hapus undangan ini.","k1":"Kata sandi baru","k2":"Ulangi kata sandi","ot":"Yang lain","e2":"Kata sandi tidak sama","mc":"Buat kode saya","sd":"Kirim","cy":"Salin","h7":"Kirim kode ini lewat obrolan yang sama. Saat berkas tiba, buka, ketik kata sandi Anda di Cari, lalu tekan Enter."},"vi":{"dir":"ltr","a":"Có người muốn gửi cho bạn một tệp mà chỉ bạn mới mở được. Vì vậy bạn cần một mật khẩu: trang này tạo ra nó và nó không rời khỏi điện thoại của bạn.","b":"Hãy ghi ra giấy, đừng bao giờ ghi vào ghi chú hay cuộc trò chuyện. Nếu bạn rời trang này, mật khẩu sẽ thay đổi.","c":"Sau đó, hãy xóa lời mời này.","k1":"Mật khẩu mới","k2":"Nhập lại mật khẩu","ot":"Mật khẩu khác","e2":"Hai mật khẩu không khớp","mc":"Tạo mã của tôi","sd":"Gửi","cy":"Sao chép","h7":"Gửi mã này qua cùng cuộc trò chuyện. Khi tệp đến, hãy mở tệp, nhập mật khẩu vào ô Tìm kiếm rồi nhấn Enter."},"my":{"dir":"ltr","a":"တစ်စုံတစ်ယောက်က သင်တစ်ဦးတည်းသာ ဖွင့်နိုင်မည့် ဖိုင်တစ်ခုကို ပို့လိုပါသည်။ ထို့အတွက် စကားဝှက်တစ်ခု လိုအပ်ပါသည် - ဤစာမျက်နှာက ပြုလုပ်ပေးပြီး သင့်ဖုန်းမှ ထွက်မသွားပါ။","b":"စာရွက်ပေါ်တွင် ရေးထားပါ၊ မှတ်စု သို့မဟုတ် ချက်ထဲတွင် ဘယ်တော့မှ မရေးပါနှင့်။ ဤစာမျက်နှာမှ ထွက်သွားလျှင် စကားဝှက် ပြောင်းသွားပါမည်။","c":"ပြီးလျှင် ဤဖိတ်စာကို ဖျက်ပါ။","k1":"စကားဝှက်အသစ်","k2":"စကားဝှက်ကို ထပ်ရိုက်ပါ","ot":"နောက်တစ်ခု","e2":"စကားဝှက်နှစ်ခု မတူညီပါ","mc":"ကျွန်ုပ်၏ကုဒ် ပြုလုပ်ရန်","sd":"ပို့ရန်","cy":"ကူးယူရန်","h7":"ဤကုဒ်ကို တူညီသော ချက်မှ ပို့ပါ။ ဖိုင်ရောက်လာသောအခါ ဖွင့်ပြီး ရှာဖွေရေးအကွက်တွင် သင့်စကားဝှက်ကို ရိုက်ထည့်ကာ Enter နှိပ်ပါ။"},"tr":{"dir":"ltr","a":"Biri size yalnızca sizin açabileceğiniz bir dosya göndermek istiyor. Bunun için bir parolaya ihtiyacınız var: bu sayfa onu oluşturur ve parola telefonunuzdan dışarı çıkmaz.","b":"Kâğıda yazın; asla bir notta ya da sohbette değil. Bu sayfadan çıkarsanız parola değişir.","c":"Sonra bu daveti silin.","k1":"Yeni parola","k2":"Parolayı tekrarlayın","ot":"Başka","e2":"Parolalar eşleşmiyor","mc":"Kodumu oluştur","sd":"Gönder","cy":"Kopyala","h7":"Bu kodu aynı sohbetten gönderin. Dosya gelince açın, parolanızı Ara kutusuna yazıp Enter’a basın."},"hi":{"dir":"ltr","a":"कोई आपको ऐसी फ़ाइल भेजना चाहता है जिसे केवल आप खोल पाएँगे। इसके लिए आपको एक पासवर्ड चाहिए: यह पेज उसे बनाता है और वह आपके फ़ोन से बाहर नहीं जाता।","b":"इसे कागज़ पर लिखें, कभी किसी नोट या चैट में नहीं। अगर आप यह पेज छोड़ते हैं, तो पासवर्ड बदल जाता है।","c":"इसके बाद यह निमंत्रण मिटा दें।","k1":"नया पासवर्ड","k2":"पासवर्ड दोबारा लिखें","ot":"दूसरा","e2":"दोनों पासवर्ड एक जैसे नहीं हैं","mc":"मेरा कोड बनाएँ","sd":"भेजें","cy":"कॉपी करें","h7":"यह कोड उसी चैट से भेजें। फ़ाइल आने पर उसे खोलें, अपना पासवर्ड खोज बॉक्स में लिखें और Enter दबाएँ।"},"ko":{"dir":"ltr","a":"누군가 당신만 열 수 있는 파일을 보내려고 합니다. 이를 위해 암호가 필요합니다. 암호는 이 페이지가 만들며 휴대폰 밖으로 나가지 않습니다.","b":"종이에 적으세요. 메모나 채팅에는 절대 적지 마세요. 이 페이지를 벗어나면 암호가 바뀝니다.","c":"그다음 이 초대장을 삭제하세요.","k1":"새 암호","k2":"암호 다시 입력","ot":"다른 암호","e2":"암호가 일치하지 않습니다","mc":"내 코드 만들기","sd":"보내기","cy":"복사","h7":"이 코드를 같은 채팅으로 보내세요. 파일이 오면 열어서 검색에 암호를 입력하고 Enter를 누르세요."},"bn":{"dir":"ltr","a":"কেউ আপনাকে এমন একটি ফাইল পাঠাতে চায় যা শুধু আপনিই খুলতে পারবেন। এর জন্য একটি পাসওয়ার্ড দরকার: এই পাতা সেটি তৈরি করে, এবং সেটি আপনার ফোনের বাইরে যায় না।","b":"এটি কাগজে লিখে রাখুন, কখনও কোনো নোটে বা চ্যাটে নয়। এই পাতা ছেড়ে গেলে পাসওয়ার্ড বদলে যাবে।","c":"এরপর এই আমন্ত্রণটি মুছে ফেলুন।","k1":"নতুন পাসওয়ার্ড","k2":"পাসওয়ার্ড আবার লিখুন","ot":"অন্যটি","e2":"পাসওয়ার্ড দুটি মিলছে না","mc":"আমার কোড তৈরি করুন","sd":"পাঠান","cy":"কপি করুন","h7":"এই কোডটি একই চ্যাট দিয়ে পাঠান। ফাইলটি এলে খুলুন, সার্চ বক্সে আপনার পাসওয়ার্ড লিখে Enter চাপুন।"},"ha":{"dir":"ltr","a":"Wani yana so ya aiko maka da fayil wanda kai kaɗai za ka iya buɗewa. Saboda haka kana buƙatar kalmar sirri: wannan shafin ne yake yin ta, kuma ba ta fita daga wayarka.","b":"Rubuta ta a takarda, kada ka taɓa rubuta ta a cikin rubutu ko a hira. Idan ka bar wannan shafin, kalmar sirrin za ta canza.","c":"Bayan haka, goge wannan gayyatar.","k1":"Sabuwar kalmar sirri","k2":"Maimaita kalmar sirri","ot":"Wata","e2":"Kalmomin sirrin ba su yi daidai ba","mc":"Yi lambata","sd":"Aika","cy":"Kwafa","h7":"Aika wannan lambar ta wannan hira ɗaya. Idan fayil ɗin ya iso, buɗe shi, rubuta kalmar sirrinka a akwatin nema, sannan ka danna Enter."},"ckb":{"dir":"rtl","a":"کەسێک دەیەوێت فایلێکت بۆ بنێرێت کە تەنها تۆ دەتوانیت بیکەیتەوە. بۆ ئەمە پێویستت بە وشەی نهێنییە: ئەم پەڕەیە دروستی دەکات و لە مۆبایلەکەت دەرناچێت.","b":"لەسەر کاغەز بینووسە، هەرگیز لە تێبینی یان چاتدا نا. ئەگەر ئەم پەڕەیە جێبهێڵیت، وشەی نهێنییەکە دەگۆڕێت.","c":"دواتر ئەم بانگهێشتە بسڕەوە.","k1":"وشەی نهێنیی نوێ","k2":"دووبارە وشەی نهێنی بنووسەوە","ot":"یەکێکی تر","e2":"وشە نهێنییەکان وەک یەک نین","mc":"دروستکردنی کۆدەکەم","sd":"ناردن","cy":"لەبەرگرتنەوە","h7":"ئەم کۆدە لە هەمان چاتەوە بنێرە. کاتێک فایلەکە گەیشت، بیکەرەوە، وشەی نهێنییەکەت لە سندووقی گەڕان بنووسە و Enter دابگرە."},"ug":{"dir":"rtl","a":"بىرەيلەن سىزگە پەقەت سىزلا ئاچالايدىغان بىر ھۆججەت ئەۋەتمەكچى. بۇنىڭ ئۈچۈن سىزگە بىر پارول كېرەك: ئۇنى بۇ بەت ياسايدۇ، ئۇ تېلېفونىڭىزدىن سىرتقا چىقمايدۇ.","b":"ئۇنى قەغەزگە يېزىڭ، ھەرگىز خاتىرە ياكى سۆھبەتكە يازماڭ. بۇ بەتتىن ئايرىلسىڭىز، پارول ئۆزگىرىدۇ.","c":"ئاندىن بۇ تەكلىپنامىنى ئۆچۈرۈڭ.","k1":"يېڭى پارول","k2":"پارولنى قايتا كىرگۈزۈڭ","ot":"باشقىسى","e2":"پاروللار ماس كەلمىدى","mc":"كودۇمنى ياساش","sd":"ئەۋەتىش","cy":"كۆچۈرۈش","h7":"بۇ كودنى ئوخشاش سۆھبەت ئارقىلىق ئەۋەتىڭ. ھۆججەت كەلگەندە ئۇنى ئېچىپ، پارولىڭىزنى ئىزدەش رامكىسىغا يېزىپ Enter نى بېسىڭ."},"ur":{"dir":"rtl","a":"کوئی آپ کو ایسی فائل بھیجنا چاہتا ہے جسے صرف آپ کھول سکیں گے۔ اس کے لیے آپ کو ایک پاس ورڈ چاہیے: یہ صفحہ اسے بناتا ہے اور یہ آپ کے فون سے باہر نہیں جاتا۔","b":"اسے کاغذ پر لکھیں، کبھی کسی نوٹ یا چیٹ میں نہیں۔ اگر آپ یہ صفحہ چھوڑ دیں تو پاس ورڈ بدل جاتا ہے۔","c":"اس کے بعد یہ دعوت نامہ مٹا دیں۔","k1":"نیا پاس ورڈ","k2":"پاس ورڈ دوبارہ لکھیں","ot":"کوئی اور","e2":"دونوں پاس ورڈ ایک جیسے نہیں ہیں","mc":"میرا کوڈ بنائیں","sd":"بھیجیں","cy":"کاپی کریں","h7":"یہ کوڈ اسی چیٹ سے بھیجیں۔ جب فائل آ جائے تو اسے کھولیں، اپنا پاس ورڈ تلاش کے خانے میں لکھیں اور Enter دبائیں۔"},"so":{"dir":"ltr","a":"Qof ayaa doonaya inuu kuu soo diro fayl adiga keliya furi kara. Taas awgeed waxaad u baahan tahay eray sir ah: boggan ayaa sameeya, mana ka baxo taleefankaaga.","b":"Ku qor warqad, weligaa ha ku qorin qoraal ama sheeko. Haddii aad ka baxdo boggan, erayga sirta ahi wuu is beddelaa.","c":"Kadib tirtir casuumaddan.","k1":"Eray sir ah oo cusub","k2":"Ku celi erayga sirta ah","ot":"Mid kale","e2":"Erayada sirta ahi isku mid ma aha","mc":"Samee koodkayga","sd":"Dir","cy":"Koobiyee","h7":"Koodkan ku dir isla sheekada. Marka faylku yimaado, fur, ku qor erayga sirta ah sanduuqa raadinta oo riix Enter."},"bo":{"dir":"ltr","a":"མི་ཞིག་གིས་ཁྱེད་རང་ཁོ་ནས་ཁ་ཕྱེ་ཐུབ་པའི་ཡིག་ཆ་ཞིག་གཏོང་འདོད་ཡོད། དེའི་ཆེད་དུ་གསང་ཨང་ཞིག་དགོས། ཤོག་ངོས་འདིས་བཟོ་གི་ཡོད་ལ། ཁྱེད་ཀྱི་ཁ་པར་ནས་ཕྱི་ལ་མི་འགྲོ།","b":"ཤོག་བུའི་སྟེང་དུ་འབྲི། ཟིན་བྲིས་སམ་གླེང་མོལ་ནང་ནམ་ཡང་མ་འབྲི། ཤོག་ངོས་འདི་ནས་ཕྱིར་ཐོན་ན་གསང་ཨང་འགྱུར་གྱི་རེད།","c":"དེ་རྗེས་མགྲོན་འབོད་འདི་སུབ།","k1":"གསང་ཨང་གསར་པ།","k2":"གསང་ཨང་ཡང་བསྐྱར་བྲིས།","ot":"གཞན་ཞིག","e2":"གསང་ཨང་གཉིས་མི་མཐུན།","mc":"ངའི་ཨང་རྟགས་བཟོ།","sd":"གཏོང་བ།","cy":"བཤུ།","h7":"ཨང་རྟགས་འདི་གླེང་མོལ་དེ་ཉིད་བརྒྱུད་ནས་གཏོང་། ཡིག་ཆ་འབྱོར་དུས་ཁ་ཕྱེ་ནས། འཚོལ་སྒམ་དུ་གསང་ཨང་བྲིས་ནས་ Enter གནོན།"},"sw":{"dir":"ltr","a":"Mtu fulani anataka kukutumia faili ambalo wewe tu utaweza kulifungua. Kwa hiyo unahitaji nenosiri: ukurasa huu unalitengeneza, nalo halitoki kwenye simu yako.","b":"Liandike kwenye karatasi, kamwe si kwenye dokezo wala kwenye gumzo. Ukitoka kwenye ukurasa huu, nenosiri hubadilika.","c":"Baadaye, futa mwaliko huu.","k1":"Nenosiri jipya","k2":"Rudia nenosiri","ot":"Lingine","e2":"Manenosiri hayalingani","mc":"Tengeneza msimbo wangu","sd":"Tuma","cy":"Nakili","h7":"Tuma msimbo huu kupitia gumzo lilelile. Faili likifika, lifungue, andika nenosiri lako kwenye Tafuta kisha bonyeza Enter."},"hne":{"dir":"ltr","a":"कोई आपको ऐसी फ़ाइल भेजना चाहता है जिसे केवल आप खोल पाएँगे। इसके लिए आपको एक पासवर्ड चाहिए: यह पेज उसे बनाता है और वह आपके फ़ोन से बाहर नहीं जाता।","b":"इसे कागज़ पर लिखें, कभी किसी नोट या चैट में नहीं। अगर आप यह पेज छोड़ते हैं, तो पासवर्ड बदल जाता है।","c":"इसके बाद यह निमंत्रण मिटा दें।","k1":"नया पासवर्ड","k2":"पासवर्ड दोबारा लिखें","ot":"दूसरा","e2":"दोनों पासवर्ड एक जैसे नहीं हैं","mc":"मेरा कोड बनाएँ","sd":"भेजें","cy":"कॉपी करें","h7":"यह कोड उसी चैट से भेजें। फ़ाइल आने पर उसे खोलें, अपना पासवर्ड खोज बॉक्स में लिखें और Enter दबाएँ।"},"om":{"dir":"ltr","a":"Namni tokko faayila ati qofti banuu dandeessu siif erguu barbaada. Kanaaf jecha icciitii si barbaachisa: fuulli kun ni uuma, bilbila kee irraa hin ba’u.","b":"Waraqaa irratti barreessi; yaadannoo ykn haasaa keessatti gonkumaa hin barreessin. Fuula kana yoo dhiifte, jechi icciitii ni jijjiirama.","c":"Sana booda affeerraa kana haqi.","k1":"Jecha icciitii haaraa","k2":"Jecha icciitii irra deebi’i","ot":"Kan biraa","e2":"Jechoonni icciitii wal hin simne","mc":"Koodii koo uumi","sd":"Ergi","cy":"Kooppii godhi","h7":"Koodii kana haasaa sanuma keessaan ergi. Faayilli yoo dhufe, bani, jecha icciitii kee saanduqa barbaachaa keessatti barreessii Enter tuqi."},"or":{"dir":"ltr","a":"କେହି ଜଣେ ଆପଣଙ୍କୁ ଏପରି ଏକ ଫାଇଲ୍ ପଠାଇବାକୁ ଚାହାଁନ୍ତି ଯାହା କେବଳ ଆପଣ ଖୋଲିପାରିବେ। ସେଥିପାଇଁ ଏକ ପାସୱାର୍ଡ ଦରକାର: ଏହି ପୃଷ୍ଠା ଏହାକୁ ତିଆରି କରେ, ଏବଂ ଏହା ଆପଣଙ୍କ ଫୋନ୍ ବାହାରକୁ ଯାଏ ନାହିଁ।","b":"ଏହାକୁ କାଗଜରେ ଲେଖନ୍ତୁ, କେବେ ବି ନୋଟ୍ କିମ୍ବା ଚାଟ୍‌ରେ ନୁହେଁ। ଏହି ପୃଷ୍ଠା ଛାଡ଼ିଲେ ପାସୱାର୍ଡ ବଦଳିଯିବ।","c":"ତାପରେ ଏହି ନିମନ୍ତ୍ରଣ ଡିଲିଟ୍ କରନ୍ତୁ।","k1":"ନୂଆ ପାସୱାର୍ଡ","k2":"ପାସୱାର୍ଡ ପୁଣି ଲେଖନ୍ତୁ","ot":"ଅନ୍ୟ ଏକ","e2":"ଦୁଇଟି ପାସୱାର୍ଡ ମେଳ ଖାଉନାହିଁ","mc":"ମୋ କୋଡ୍ ତିଆରି କରନ୍ତୁ","sd":"ପଠାନ୍ତୁ","cy":"କପି କରନ୍ତୁ","h7":"ଏହି କୋଡ୍ ସେହି ଚାଟ୍ ଦ୍ୱାରା ପଠାନ୍ତୁ। ଫାଇଲ୍ ଆସିଲେ ଖୋଲନ୍ତୁ, ଖୋଜା ବାକ୍ସରେ ଆପଣଙ୍କ ପାସୱାର୍ଡ ଲେଖି Enter ଦବାନ୍ତୁ।"},"az":{"dir":"ltr","a":"Kimsə sizə yalnız sizin aça biləcəyiniz bir fayl göndərmək istəyir. Bunun üçün şifrə lazımdır: onu bu səhifə yaradır və o, telefonunuzdan kənara çıxmır.","b":"Onu kağıza yazın, heç vaxt qeyddə və ya söhbətdə yox. Bu səhifədən çıxsanız, şifrə dəyişir.","c":"Sonra bu dəvəti silin.","k1":"Yeni şifrə","k2":"Şifrəni təkrarlayın","ot":"Başqası","e2":"Şifrələr uyğun gəlmir","mc":"Kodumu yarat","sd":"Göndər","cy":"Kopyala","h7":"Bu kodu eyni söhbətlə göndərin. Fayl gələndə onu açın, şifrənizi Axtar xanasına yazın və Enter basın."},"ne":{"dir":"ltr","a":"कसैले तपाईंलाई तपाईंले मात्र खोल्न सक्ने एउटा फाइल पठाउन चाहन्छ। त्यसका लागि एउटा पासवर्ड चाहिन्छ: यो पृष्ठले बनाउँछ, र यो तपाईंको फोनबाट बाहिर जाँदैन।","b":"यसलाई कागजमा लेख्नुहोस्, कहिल्यै नोट वा च्याटमा होइन। यो पृष्ठ छोड्नुभयो भने पासवर्ड बदलिन्छ।","c":"त्यसपछि यो निम्तो मेटाउनुहोस्।","k1":"नयाँ पासवर्ड","k2":"पासवर्ड फेरि लेख्नुहोस्","ot":"अर्को","e2":"पासवर्ड मिलेन","mc":"मेरो कोड बनाउनुहोस्","sd":"पठाउनुहोस्","cy":"कपी गर्नुहोस्","h7":"यो कोड उही च्याटबाट पठाउनुहोस्। फाइल आएपछि खोल्नुहोस्, खोज बाकसमा आफ्नो पासवर्ड टाइप गरी Enter थिच्नुहोस्।"},"ta":{"dir":"ltr","a":"நீங்கள் மட்டுமே திறக்கக்கூடிய ஒரு கோப்பை யாரோ உங்களுக்கு அனுப்ப விரும்புகிறார். அதற்கு ஒரு கடவுச்சொல் தேவை: இந்தப் பக்கம் அதை உருவாக்குகிறது, அது உங்கள் தொலைபேசியை விட்டு வெளியே போவதில்லை.","b":"அதைக் காகிதத்தில் எழுதுங்கள்; குறிப்பிலோ அரட்டையிலோ ஒருபோதும் எழுதாதீர்கள். இந்தப் பக்கத்தை விட்டு வெளியேறினால் கடவுச்சொல் மாறிவிடும்.","c":"பிறகு இந்த அழைப்பை நீக்கவும்.","k1":"புதிய கடவுச்சொல்","k2":"கடவுச்சொல்லை மீண்டும் உள்ளிடவும்","ot":"வேறொன்று","e2":"கடவுச்சொற்கள் பொருந்தவில்லை","mc":"என் குறியீட்டை உருவாக்கு","sd":"அனுப்பு","cy":"நகலெடு","h7":"இந்தக் குறியீட்டை அதே அரட்டை வழியாக அனுப்பவும். கோப்பு வந்ததும் அதைத் திறந்து, தேடல் பெட்டியில் உங்கள் கடவுச்சொல்லை எழுதி Enter அழுத்தவும்."},"te":{"dir":"ltr","a":"మీరు మాత్రమే తెరవగలిగే ఒక ఫైల్‌ను ఎవరో మీకు పంపాలనుకుంటున్నారు. దానికి ఒక పాస్‌వర్డ్ అవసరం: ఈ పేజీ దాన్ని తయారు చేస్తుంది, అది మీ ఫోన్ బయటికి వెళ్లదు.","b":"దాన్ని కాగితంపై రాయండి, ఎప్పుడూ గమనికలో లేదా చాట్‌లో కాదు. ఈ పేజీ నుండి బయటకు వెళ్తే పాస్‌వర్డ్ మారిపోతుంది.","c":"తర్వాత ఈ ఆహ్వానాన్ని తొలగించండి.","k1":"కొత్త పాస్‌వర్డ్","k2":"పాస్‌వర్డ్‌ను మళ్లీ నమోదు చేయండి","ot":"మరొకటి","e2":"పాస్‌వర్డ్‌లు సరిపోలడం లేదు","mc":"నా కోడ్ తయారు చేయండి","sd":"పంపండి","cy":"కాపీ చేయండి","h7":"ఈ కోడ్‌ను అదే చాట్ ద్వారా పంపండి. ఫైల్ వచ్చాక దాన్ని తెరిచి, శోధన పెట్టెలో మీ పాస్‌వర్డ్ టైప్ చేసి Enter నొక్కండి."},"kn":{"dir":"ltr","a":"ನೀವು ಮಾತ್ರ ತೆರೆಯಬಹುದಾದ ಒಂದು ಫೈಲ್ ಅನ್ನು ಯಾರೋ ನಿಮಗೆ ಕಳುಹಿಸಲು ಬಯಸುತ್ತಾರೆ. ಅದಕ್ಕೆ ಒಂದು ಪಾಸ್‌ವರ್ಡ್ ಬೇಕು: ಈ ಪುಟ ಅದನ್ನು ಮಾಡುತ್ತದೆ, ಮತ್ತು ಅದು ನಿಮ್ಮ ಫೋನ್‌ನಿಂದ ಹೊರಗೆ ಹೋಗುವುದಿಲ್ಲ.","b":"ಅದನ್ನು ಕಾಗದದ ಮೇಲೆ ಬರೆಯಿರಿ, ಎಂದಿಗೂ ಟಿಪ್ಪಣಿಯಲ್ಲಿ ಅಥವಾ ಚಾಟ್‌ನಲ್ಲಿ ಅಲ್ಲ. ಈ ಪುಟದಿಂದ ಹೊರಗೆ ಹೋದರೆ ಪಾಸ್‌ವರ್ಡ್ ಬದಲಾಗುತ್ತದೆ.","c":"ನಂತರ ಈ ಆಹ್ವಾನವನ್ನು ಅಳಿಸಿ.","k1":"ಹೊಸ ಪಾಸ್‌ವರ್ಡ್","k2":"ಪಾಸ್‌ವರ್ಡ್ ಮತ್ತೆ ನಮೂದಿಸಿ","ot":"ಮತ್ತೊಂದು","e2":"ಪಾಸ್‌ವರ್ಡ್‌ಗಳು ಹೊಂದಿಕೆಯಾಗುತ್ತಿಲ್ಲ","mc":"ನನ್ನ ಕೋಡ್ ಮಾಡಿ","sd":"ಕಳುಹಿಸಿ","cy":"ನಕಲಿಸಿ","h7":"ಈ ಕೋಡ್ ಅನ್ನು ಅದೇ ಚಾಟ್ ಮೂಲಕ ಕಳುಹಿಸಿ. ಫೈಲ್ ಬಂದಾಗ ಅದನ್ನು ತೆರೆಯಿರಿ, ಹುಡುಕಾಟ ಬಾಕ್ಸ್‌ನಲ್ಲಿ ನಿಮ್ಮ ಪಾಸ್‌ವರ್ಡ್ ಟೈಪ್ ಮಾಡಿ Enter ಒತ್ತಿರಿ."},"am":{"dir":"ltr","a":"አንድ ሰው እርስዎ ብቻ መክፈት የሚችሉትን ፋይል ሊልክልዎ ይፈልጋል። ለዚህ የይለፍ ቃል ያስፈልግዎታል፤ ይህ ገጽ ይፈጥረዋል፣ ከስልክዎም አይወጣም።","b":"በወረቀት ላይ ይጻፉት፤ በማስታወሻ ወይም በውይይት ውስጥ ፈጽሞ አይጻፉት። ከዚህ ገጽ ከወጡ የይለፍ ቃሉ ይቀየራል።","c":"ከዚያ ይህን ግብዣ ይሰርዙት።","k1":"አዲስ የይለፍ ቃል","k2":"የይለፍ ቃሉን እንደገና ያስገቡ","ot":"ሌላ","e2":"የይለፍ ቃሎቹ አይዛመዱም","mc":"የእኔን ኮድ ፍጠር","sd":"ላክ","cy":"ቅዳ","h7":"ይህን ኮድ በዚያው ውይይት ይላኩ። ፋይሉ ሲደርስ ይክፈቱት፣ የይለፍ ቃልዎን በፍለጋ ሳጥን ውስጥ ይጻፉና Enter ይጫኑ።"},"tk":{"dir":"ltr","a":"Kimdir biri size diňe siziň açyp biljek faýlyňyzy ibermek isleýär. Munuň üçin parol gerek: ony şu sahypa döredýär we ol telefonyňyzdan daşary çykmaýar.","b":"Ony kagyza ýazyň, hiç haçan bellikde ýa-da çatda däl. Bu sahypadan çyksaňyz, parol üýtgeýär.","c":"Soňra bu çakylygy pozuň.","k1":"Täze parol","k2":"Paroly gaýtalaň","ot":"Başga","e2":"Parollar gabat gelmeýär","mc":"Kodumy döret","sd":"Iber","cy":"Göçür","h7":"Bu kody şol bir çat arkaly iberiň. Faýl gelende açyň, parolyňyzy «Gözle» gutusyna ýazyp Enter basyň."},"uz":{"dir":"ltr","a":"Kimdir sizga faqat siz ocha oladigan fayl yubormoqchi. Buning uchun parol kerak: uni shu sahifa yaratadi va u telefoningizdan tashqariga chiqmaydi.","b":"Uni qogʻozga yozing, hech qachon qaydda yoki suhbatda emas. Bu sahifadan chiqsangiz, parol oʻzgaradi.","c":"Keyin bu taklifnomani oʻchiring.","k1":"Yangi parol","k2":"Parolni qaytaring","ot":"Boshqasi","e2":"Parollar mos kelmadi","mc":"Kodimni yaratish","sd":"Yuborish","cy":"Nusxalash","h7":"Bu kodni oʻsha suhbat orqali yuboring. Fayl kelganda uni oching, parolingizni «Qidirish» maydoniga yozing va Enter bosing."},"tg":{"dir":"ltr","a":"Касе мехоҳад ба шумо файле фиристад, ки танҳо шумо онро кушода метавонед. Барои ин парол лозим аст: онро ҳамин саҳифа месозад ва он аз телефони шумо берун намеравад.","b":"Онро дар коғаз нависед, ҳеҷ гоҳ дар ёддошт ё чат не. Агар аз ин саҳифа бароед, парол иваз мешавад.","c":"Баъд ин даъватномаро нест кунед.","k1":"Пароли нав","k2":"Паролро такрор кунед","ot":"Дигар","e2":"Паролҳо мувофиқат намекунанд","mc":"Сохтани коди ман","sd":"Фиристодан","cy":"Нусхабардорӣ","h7":"Ин кодро тавассути ҳамон чат фиристед. Вақте ки файл расид, онро кушоед, паролро дар «Ҷустуҷӯ» нависед ва Enter-ро пахш кунед."},"ms":{"dir":"ltr","a":"Seseorang mahu menghantar kepada anda fail yang hanya anda boleh buka. Untuk itu anda perlukan kata laluan: halaman ini membuatnya, dan ia tidak keluar dari telefon anda.","b":"Tulis di atas kertas, jangan sekali-kali dalam nota atau sembang. Jika anda keluar dari halaman ini, kata laluan berubah.","c":"Selepas itu, padam jemputan ini.","k1":"Kata laluan baharu","k2":"Ulang kata laluan","ot":"Lain","e2":"Kata laluan tidak sepadan","mc":"Buat kod saya","sd":"Hantar","cy":"Salin","h7":"Hantar kod ini melalui sembang yang sama. Apabila fail tiba, buka, taip kata laluan anda dalam Cari dan tekan Enter."}}</script>
+<script type="application/octet-stream" id="d"></script>
+<script>/* MIT License
+
+Copyright (c) 2020 Dani Biro
+
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all
+copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+SOFTWARE. */
+var A2 = (function () {
+var exports = {}, module = { exports: exports };
+!function(A,I){"object"==typeof exports&&"undefined"!=typeof module?I(exports):"function"==typeof define&&define.amd?define(["exports"],I):I((A="undefined"!=typeof globalThis?globalThis:A||self).hashwasm=A.hashwasm||{})}(this,function(A){"use strict";function I(A,I,i,g){return new(i||(i=Promise))(function(C,B){function Q(A){try{h(g.next(A))}catch(A){B(A)}}function E(A){try{h(g.throw(A))}catch(A){B(A)}}function h(A){var I;A.done?C(A.value):(I=A.value,I instanceof i?I:new i(function(A){A(I)})).then(Q,E)}h((g=g.apply(A,I||[])).next())})}"function"==typeof SuppressedError&&SuppressedError;var i,g={name:"argon2",data:"AGFzbQEAAAABKQVgAX8Bf2AAAX9gEH9/f39/f39/f39/f39/f38AYAR/f39/AGACf38AAwYFAAECAwQFBgEBAoCAAgYIAX8BQYCABAsHUwUGbWVtb3J5AgAPX19zdGFja19wb2ludGVyAwASSGFzaF9TZXRNZW1vcnlTaXplAAAOSGFzaF9HZXRCdWZmZXIAAQ5IYXNoX0NhbGN1bGF0ZQAECsc2BV0DAX8BfgF/QQAhAQJAIABBACkDiIAEIgKnIgNGDQBBACEBAkAgACADayIAQRB2IABB//8DcUEAR2oiAEAAQX9HDQBB/wHADwtBACACIABBEHStfDcDiIAECyABwAt0AwJ/AX4BfwJAQQAoAoCABCIADQBBAD8AQRB0IgE2AoCABAJAQQApA4iABCICpyIDQYCAIEYNAEEAIQBBgIAgIANrIgNBEHYgA0H//wNxQQBHaiIDQABBf0YNAUEAIAIgA0EQdK18NwOIgAQLIAEhAAsgAAvcDgECfiAAIAQpAwAiECAAKQMAIhF8IBFCAYZC/v///x+DIBBC/////w+DfnwiEDcDACAMIBAgDCkDAIVCIIkiEDcDACAIIBAgCCkDACIRfCARQgGGQv7///8fgyAQQv////8Pg358IhA3AwAgBCAQIAQpAwCFQiiJIhA3AwAgACAQIAApAwAiEXwgEEL/////D4MgEUIBhkL+////H4N+fCIQNwMAIAwgECAMKQMAhUIwiSIQNwMAIAggECAIKQMAIhF8IBBC/////w+DIBFCAYZC/v///x+DfnwiEDcDACAEIBAgBCkDAIVCAYk3AwAgASAFKQMAIhAgASkDACIRfCARQgGGQv7///8fgyAQQv////8Pg358IhA3AwAgDSAQIA0pAwCFQiCJIhA3AwAgCSAQIAkpAwAiEXwgEUIBhkL+////H4MgEEL/////D4N+fCIQNwMAIAUgECAFKQMAhUIoiSIQNwMAIAEgECABKQMAIhF8IBBC/////w+DIBFCAYZC/v///x+DfnwiEDcDACANIBAgDSkDAIVCMIkiEDcDACAJIBAgCSkDACIRfCAQQv////8PgyARQgGGQv7///8fg358IhA3AwAgBSAQIAUpAwCFQgGJNwMAIAIgBikDACIQIAIpAwAiEXwgEUIBhkL+////H4MgEEL/////D4N+fCIQNwMAIA4gECAOKQMAhUIgiSIQNwMAIAogECAKKQMAIhF8IBFCAYZC/v///x+DIBBC/////w+DfnwiEDcDACAGIBAgBikDAIVCKIkiEDcDACACIBAgAikDACIRfCAQQv////8PgyARQgGGQv7///8fg358IhA3AwAgDiAQIA4pAwCFQjCJIhA3AwAgCiAQIAopAwAiEXwgEEL/////D4MgEUIBhkL+////H4N+fCIQNwMAIAYgECAGKQMAhUIBiTcDACADIAcpAwAiECADKQMAIhF8IBFCAYZC/v///x+DIBBC/////w+DfnwiEDcDACAPIBAgDykDAIVCIIkiEDcDACALIBAgCykDACIRfCARQgGGQv7///8fgyAQQv////8Pg358IhA3AwAgByAQIAcpAwCFQiiJIhA3AwAgAyAQIAMpAwAiEXwgEEL/////D4MgEUIBhkL+////H4N+fCIQNwMAIA8gECAPKQMAhUIwiSIQNwMAIAsgECALKQMAIhF8IBBC/////w+DIBFCAYZC/v///x+DfnwiEDcDACAHIBAgBykDAIVCAYk3AwAgACAFKQMAIhAgACkDACIRfCARQgGGQv7///8fgyAQQv////8Pg358IhA3AwAgDyAQIA8pAwCFQiCJIhA3AwAgCiAQIAopAwAiEXwgEUIBhkL+////H4MgEEL/////D4N+fCIQNwMAIAUgECAFKQMAhUIoiSIQNwMAIAAgECAAKQMAIhF8IBBC/////w+DIBFCAYZC/v///x+DfnwiEDcDACAPIBAgDykDAIVCMIkiEDcDACAKIBAgCikDACIRfCAQQv////8PgyARQgGGQv7///8fg358IhA3AwAgBSAQIAUpAwCFQgGJNwMAIAEgBikDACIQIAEpAwAiEXwgEUIBhkL+////H4MgEEL/////D4N+fCIQNwMAIAwgECAMKQMAhUIgiSIQNwMAIAsgECALKQMAIhF8IBFCAYZC/v///x+DIBBC/////w+DfnwiEDcDACAGIBAgBikDAIVCKIkiEDcDACABIBAgASkDACIRfCAQQv////8PgyARQgGGQv7///8fg358IhA3AwAgDCAQIAwpAwCFQjCJIhA3AwAgCyAQIAspAwAiEXwgEEL/////D4MgEUIBhkL+////H4N+fCIQNwMAIAYgECAGKQMAhUIBiTcDACACIAcpAwAiECACKQMAIhF8IBFCAYZC/v///x+DIBBC/////w+DfnwiEDcDACANIBAgDSkDAIVCIIkiEDcDACAIIBAgCCkDACIRfCARQgGGQv7///8fgyAQQv////8Pg358IhA3AwAgByAQIAcpAwCFQiiJIhA3AwAgAiAQIAIpAwAiEXwgEEL/////D4MgEUIBhkL+////H4N+fCIQNwMAIA0gECANKQMAhUIwiSIQNwMAIAggECAIKQMAIhF8IBBC/////w+DIBFCAYZC/v///x+DfnwiEDcDACAHIBAgBykDAIVCAYk3AwAgAyAEKQMAIhAgAykDACIRfCARQgGGQv7///8fgyAQQv////8Pg358IhA3AwAgDiAQIA4pAwCFQiCJIhA3AwAgCSAQIAkpAwAiEXwgEUIBhkL+////H4MgEEL/////D4N+fCIQNwMAIAQgECAEKQMAhUIoiSIQNwMAIAMgECADKQMAIhF8IBBC/////w+DIBFCAYZC/v///x+DfnwiEDcDACAOIBAgDikDAIVCMIkiEDcDACAJIBAgCSkDACIRfCAQQv////8PgyARQgGGQv7///8fg358IhA3AwAgBCAQIAQpAwCFQgGJNwMAC+MdAQN/QQAhBEEAIAIpAwAgASkDAIU3A5CABEEAIAIpAwggASkDCIU3A5iABEEAIAIpAxAgASkDEIU3A6CABEEAIAIpAxggASkDGIU3A6iABEEAIAIpAyAgASkDIIU3A7CABEEAIAIpAyggASkDKIU3A7iABEEAIAIpAzAgASkDMIU3A8CABEEAIAIpAzggASkDOIU3A8iABEEAIAIpA0AgASkDQIU3A9CABEEAIAIpA0ggASkDSIU3A9iABEEAIAIpA1AgASkDUIU3A+CABEEAIAIpA1ggASkDWIU3A+iABEEAIAIpA2AgASkDYIU3A/CABEEAIAIpA2ggASkDaIU3A/iABEEAIAIpA3AgASkDcIU3A4CBBEEAIAIpA3ggASkDeIU3A4iBBEEAIAIpA4ABIAEpA4ABhTcDkIEEQQAgAikDiAEgASkDiAGFNwOYgQRBACACKQOQASABKQOQAYU3A6CBBEEAIAIpA5gBIAEpA5gBhTcDqIEEQQAgAikDoAEgASkDoAGFNwOwgQRBACACKQOoASABKQOoAYU3A7iBBEEAIAIpA7ABIAEpA7ABhTcDwIEE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",hash:"2b50b0d6"};class C{constructor(){this.mutex=Promise.resolve()}lock(){let A=()=>{};return this.mutex=this.mutex.then(()=>new Promise(A)),new Promise(I=>{A=I})}dispatch(A){return I(this,void 0,void 0,function*(){const I=yield this.lock();try{return yield Promise.resolve(A())}finally{I()}})}}const B="undefined"!=typeof globalThis?globalThis:"undefined"!=typeof self?self:"undefined"!=typeof window?window:global,Q=null!==(i=B.Buffer)&&void 0!==i?i:null,E=B.TextEncoder?new B.TextEncoder:null;function h(A,I){return(15&A)+(A>>6|A>>3&8)<<4|(15&I)+(I>>6|I>>3&8)}function w(A,I){const i=I.length>>1;for(let g=0;g<i;g++){const i=g<<1;A[g]=h(I.charCodeAt(i),I.charCodeAt(i+1))}}const e="a".charCodeAt(0)-10,t="0".charCodeAt(0);function o(A,I,i){let g=0;for(let C=0;C<i;C++){let i=I[C]>>>4;A[g++]=i>9?i+e:i+t,i=15&I[C],A[g++]=i>9?i+e:i+t}return String.fromCharCode.apply(null,A)}const n=null!==Q?A=>{if("string"==typeof A){const I=Q.from(A,"utf8");return new Uint8Array(I.buffer,I.byteOffset,I.length)}if(Q.isBuffer(A))return new Uint8Array(A.buffer,A.byteOffset,A.length);if(ArrayBuffer.isView(A))return new Uint8Array(A.buffer,A.byteOffset,A.byteLength);throw new Error("Invalid data type!")}:A=>{if("string"==typeof A)return E.encode(A);if(ArrayBuffer.isView(A))return new Uint8Array(A.buffer,A.byteOffset,A.byteLength);throw new Error("Invalid data type!")},f="ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/",r=new Uint8Array(256);for(let A=0;A<64;A++)r[f.charCodeAt(A)]=A;function F(A,I=!0){const i=A.length,g=i%3,C=[],B=i-g;for(let I=0;I<B;I+=3){const i=(A[I]<<16&16711680)+(A[I+1]<<8&65280)+(255&A[I+2]),g=f.charAt(i>>18&63)+f.charAt(i>>12&63)+f.charAt(i>>6&63)+f.charAt(63&i);C.push(g)}if(1===g){const g=A[i-1],B=f.charAt(g>>2),Q=f.charAt(g<<4&63);C.push(`${B}${Q}`),I&&C.push("==")}else if(2===g){const g=(A[i-2]<<8)+A[i-1],B=f.charAt(g>>10),Q=f.charAt(g>>4&63),E=f.charAt(g<<2&63);C.push(`${B}${Q}${E}`),I&&C.push("=")}return C.join("")}function D(A){let I=Math.floor(.75*A.length);const i=A.length;return"="===A[i-1]&&(I-=1,"="===A[i-2]&&(I-=1)),I}function a(A){const I=D(A),i=A.length,g=new Uint8Array(I);let C=0;for(let I=0;I<i;I+=4){const i=r[A.charCodeAt(I)],B=r[A.charCodeAt(I+1)],Q=r[A.charCodeAt(I+2)],E=r[A.charCodeAt(I+3)];g[C]=i<<2|B>>4,C+=1,g[C]=(15&B)<<4|Q>>2,C+=1,g[C]=(3&Q)<<6|63&E,C+=1}return g}const s=16384,U=new C,S=new Map;function c(A,i){return I(this,void 0,void 0,function*(){let g=null,C=null,B=!1;if("undefined"==typeof WebAssembly)throw new Error("WebAssembly is not supported in this environment!");const Q=()=>new DataView(g.exports.memory.buffer).getUint32(g.exports.STATE_SIZE,!0),E=U.dispatch(()=>I(this,void 0,void 0,function*(){if(!S.has(A.name)){const I=a(A.data),i=WebAssembly.compile(I.buffer);S.set(A.name,i)}const I=yield S.get(A.name);g=yield WebAssembly.instantiate(I,{})})),e=(A=null)=>{B=!0,g.exports.Hash_Init(A)},t=A=>{if(!B)throw new Error("update() called before init()");(A=>{let I=0;for(;I<A.length;){const i=A.subarray(I,I+s);I+=i.length,C.set(i),g.exports.Hash_Update(i.length)}})(n(A))},f=new Uint8Array(2*i),r=(A,I=null)=>{if(!B)throw new Error("digest() called before init()");return B=!1,g.exports.Hash_Final(I),"binary"===A?C.slice(0,i):o(f,C,i)},F=A=>"string"==typeof A?A.length<4096:A.byteLength<s;let D=F;switch(A.name){case"argon2":case"scrypt":D=()=>!0;break;case"blake2b":case"blake2s":D=(A,I)=>I<=512&&F(A);break;case"blake3":D=(A,I)=>0===I&&F(A);break;case"xxhash64":case"xxhash3":case"xxhash128":case"crc64":D=()=>!1}return yield(()=>I(this,void 0,void 0,function*(){g||(yield E);const A=g.exports.Hash_GetBuffer(),I=g.exports.memory.buffer;C=new Uint8Array(I,A,s)}))(),{getMemory:()=>C,writeMemory:(A,I=0)=>{C.set(A,I)},getExports:()=>g.exports,setMemorySize:A=>{g.exports.Hash_SetMemorySize(A);const I=g.exports.Hash_GetBuffer(),i=g.exports.memory.buffer;C=new Uint8Array(i,I,A)},init:e,update:t,digest:r,save:()=>{if(!B)throw new Error("save() can only be called after init() and before digest()");const I=g.exports.Hash_GetState(),i=Q(),C=g.exports.memory.buffer,E=new Uint8Array(C,I,i),h=new Uint8Array(4+i);return w(h,A.hash),h.set(E,4),h},load:I=>{if(!(I instanceof Uint8Array))throw new Error("load() expects an Uint8Array generated by save()");const i=g.exports.Hash_GetState(),C=Q(),E=4+C,w=g.exports.memory.buffer;if(I.length!==E)throw new Error(`Bad state length (expected ${E} bytes, got ${I.length})`);if(!function(A,I){if(A.length!==2*I.length)return!1;for(let i=0;i<I.length;i++){const g=i<<1;if(I[i]!==h(A.charCodeAt(g),A.charCodeAt(g+1)))return!1}return!0}(A.hash,I.subarray(0,4)))throw new Error("This state was written by an incompatible hash implementation");const e=I.subarray(4);new Uint8Array(w,i,C).set(e),B=!0},calculate:(A,I=null,B=null)=>{if(!D(A,I))return e(I),t(A),r("hex",B);const Q=n(A);return C.set(Q),g.exports.Hash_Calculate(Q.length,I,B),o(f,C,i)},hashLength:i}})}var k={name:"blake2b",data:"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",hash:"22cf500a"};function G(A){return!Number.isInteger(A)||A<8||A>512||A%8!=0?new Error("Invalid variant! Valid values: 8, 16, ..., 512"):null}function p(A=512,I=null){if(G(A))return Promise.reject(G(A));let i=null,g=A;if(null!==I){if(i=n(I),i.length>64)return Promise.reject(new Error("Max key length is 64 bytes"));C=A,B=i.length,g=C|B<<16}var C,B;const Q=A/8;return c(k,Q).then(A=>{g>512&&A.writeMemory(i),A.init(g);const I={init:g>512?()=>(A.writeMemory(i),A.init(g),I):()=>(A.init(g),I),update:i=>(A.update(i),I),digest:I=>A.digest(I),save:()=>A.save(),load:i=>(A.load(i),I),blockSize:128,digestSize:Q};return I})}new C;const y=new DataView(new ArrayBuffer(4));function H(A){return y.setInt32(0,A,!0),new Uint8Array(y.buffer)}function u(A,i,g){return I(this,void 0,void 0,function*(){if(g<=64){const A=yield p(8*g);return A.update(H(g)),A.update(i),A.digest("binary")}const I=Math.ceil(g/32)-2,C=new Uint8Array(g);A.init(),A.update(H(g)),A.update(i);let B=A.digest("binary");C.set(B.subarray(0,32),0);for(let i=1;i<I;i++)A.init(),A.update(B),B=A.digest("binary"),C.set(B.subarray(0,32),32*i);const Q=g-32*I;let E;return 64===Q?(E=A,E.init()):E=yield p(8*Q),E.update(B),B=E.digest("binary"),C.set(B.subarray(0,Q),32*I),C})}function Y(A){return I(this,void 0,void 0,function*(){var I;const{parallelism:i,iterations:C,hashLength:B}=A,Q=n(A.password),E=n(A.salt),h=function(A){switch(A){case"d":return 0;case"i":return 1;default:return 2}}(A.hashType),{memorySize:e}=A,t=n(null!==(I=A.secret)&&void 0!==I?I:""),[f,r]=yield Promise.all([c(g,1024),p(512)]);f.setMemorySize(1024*e+1024);const D=new Uint8Array(24),a=new DataView(D.buffer);a.setInt32(0,i,!0),a.setInt32(4,B,!0),a.setInt32(8,e,!0),a.setInt32(12,C,!0),a.setInt32(16,19,!0),a.setInt32(20,h,!0),f.writeMemory(D,1024*e),r.init(),r.update(D),r.update(H(Q.length)),r.update(Q),r.update(H(E.length)),r.update(E),r.update(H(t.length)),r.update(t),r.update(H(0));const s=4*Math.floor(e/(4*i)),U=new Uint8Array(72),S=r.digest("binary");U.set(S);for(let A=0;A<i;A++){U.set(H(0),64),U.set(H(A),68);let I=A*s,i=yield u(r,U,1024);f.writeMemory(i,1024*I),I+=1,U.set(H(1),64),i=yield u(r,U,1024),f.writeMemory(i,1024*I)}const k=new Uint8Array(1024);w(k,f.calculate(new Uint8Array([]),e));const G=yield u(r,k,B);if("hex"===A.outputType){return o(new Uint8Array(2*B),G,B)}return"encoded"===A.outputType?function(A,I,i){const g=[`m=${I.memorySize}`,`t=${I.iterations}`,`p=${I.parallelism}`].join(",");return`$argon2${I.hashType}$v=19$${g}$${F(A,!1)}$${F(i,!1)}`}(E,A,G):G})}const V=A=>{var I;if(!A||"object"!=typeof A)throw new Error("Invalid options parameter. It requires an object.");if(!A.password)throw new Error("Password must be specified");if(A.password=n(A.password),A.password.length<1)throw new Error("Password must be specified");if(!A.salt)throw new Error("Salt must be specified");if(A.salt=n(A.salt),A.salt.length<8)throw new Error("Salt should be at least 8 bytes long");if(A.secret=n(null!==(I=A.secret)&&void 0!==I?I:""),!Number.isInteger(A.iterations)||A.iterations<1)throw new Error("Iterations should be a positive number");if(!Number.isInteger(A.parallelism)||A.parallelism<1)throw new Error("Parallelism should be a positive number");if(!Number.isInteger(A.hashLength)||A.hashLength<4)throw new Error("Hash length should be at least 4 bytes.");if(!Number.isInteger(A.memorySize))throw new Error("Memory size should be specified.");if(A.memorySize<8*A.parallelism)throw new Error("Memory size should be at least 8 * parallelism.");if(void 0===A.outputType&&(A.outputType="hex"),!["hex","binary","encoded"].includes(A.outputType))throw new Error(`Insupported output type ${A.outputType}. Valid values: ['hex', 'binary', 'encoded']`)};A.argon2Verify=function(A){return I(this,void 0,void 0,function*(){(A=>{if(!A||"object"!=typeof A)throw new Error("Invalid options parameter. It requires an object.");if(void 0===A.hash||"string"!=typeof A.hash)throw new Error("Hash should be specified")})(A);const I=((A,I,i)=>{const g=I.match(/^\$argon2(id|i|d)\$v=([0-9]+)\$((?:[mtp]=[0-9]+,){2}[mtp]=[0-9]+)\$([A-Za-z0-9+/]+)\$([A-Za-z0-9+/]+)$/);if(!g)throw new Error("Invalid hash");const[,C,B,Q,E,h]=g;if("19"!==B)throw new Error(`Unsupported version: ${B}`);const w={},e={m:"memorySize",p:"parallelism",t:"iterations"};for(const A of Q.split(",")){const[I,i]=A.split("=");w[e[I]]=Number(i)}return Object.assign(Object.assign({},w),{password:A,secret:i,hashType:C,salt:a(E),hashLength:D(h),outputType:"encoded"})})(A.password,A.hash,A.secret);V(I);const i=A.hash.lastIndexOf("$")+1;return(yield Y(I)).substring(i)===A.hash.substring(i)})},A.argon2d=function(A){return I(this,void 0,void 0,function*(){return V(A),Y(Object.assign(Object.assign({},A),{hashType:"d"}))})},A.argon2i=function(A){return I(this,void 0,void 0,function*(){return V(A),Y(Object.assign(Object.assign({},A),{hashType:"i"}))})},A.argon2id=function(A){return I(this,void 0,void 0,function*(){return V(A),Y(Object.assign(Object.assign({},A),{hashType:"id"}))})}});
+return exports;
+})();
+/* MIT License
+
+Copyright (c) 2022 Paul Miller (paulmillr.com), for @noble/curves and @noble/hashes
+
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in
+all copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+THE SOFTWARE. */
+var X2=(()=>{var ut=Object.defineProperty;var je=Object.getOwnPropertyDescriptor;var Ze=Object.getOwnPropertyNames;var Ce=Object.prototype.hasOwnProperty;var ze=(e,t,n)=>t in e?ut(e,t,{enumerable:!0,configurable:!0,writable:!0,value:n}):e[t]=n;var Ue=(e,t)=>{for(var n in t)ut(e,n,{get:t[n],enumerable:!0})},Ye=(e,t,n,o)=>{if(t&&typeof t=="object"||typeof t=="function")for(let r of Ze(t))!Ce.call(e,r)&&r!==n&&ut(e,r,{get:()=>t[r],enumerable:!(o=je(t,r))||o.enumerable});return e};var $e=e=>Ye(ut({},"__esModule",{value:!0}),e);var x=(e,t,n)=>ze(e,typeof t!="symbol"?t+"":t,n);var Sn={};Ue(Sn,{x25519:()=>Fe});function at(e){return e instanceof Uint8Array||ArrayBuffer.isView(e)&&e.constructor.name==="Uint8Array"&&"BYTES_PER_ELEMENT"in e&&e.BYTES_PER_ELEMENT===1}var Dt=e=>e?`"${e}" `:"";function ot(e,t=""){if(typeof e!="number")throw new TypeError(Dt(t)+"expected number, got "+typeof e);if(!Number.isSafeInteger(e)||e<0)throw new RangeError(Dt(t)+"expected integer >= 0, got "+e);return e}function dt(e,t,n=""){if(at(e)&&(t===void 0||e.length===t))return e;t!==void 0&&ot(t,"length");let o=at(e),r=t!==void 0?` of length ${t}`:"",i=o?`length=${e.length}`:`type=${typeof e}`,s=Dt(n)+"expected Uint8Array"+r+", got "+i;throw o?new RangeError(s):new TypeError(s)}var ee=typeof Uint8Array.from([]).toHex=="function"&&typeof Uint8Array.fromHex=="function",ke=Array.from({length:256},(e,t)=>t.toString(16).padStart(2,"0"));function lt(e){if(dt(e),ee)return e.toHex();let t="";for(let n=0;n<e.length;n++)t+=ke[e[n]];return t}function te(e){return e>=48&&e<=57?e-48:e>=65&&e<=70?e-55:e>=97&&e<=102?e-87:void 0}function Lt(e){if(typeof e!="string")throw new TypeError("hex string expected, got "+typeof e);if(ee)try{return Uint8Array.fromHex(e)}catch(r){throw r instanceof SyntaxError?new RangeError(r.message):r}let t=e.length,n=t/2;if(t%2)throw new RangeError("hex string expected, got unpadded hex of length "+t);let o=new Uint8Array(n);for(let r=0,i=0;r<n;r++,i+=2){let s=te(e.charCodeAt(i)),c=te(e.charCodeAt(i+1));if(s===void 0||c===void 0){let f=e[i]+e[i+1];throw new RangeError('hex string expected, got non-hex character "'+f+'" at index '+i)}o[r]=s*16+c}return o}function ne(e=32){ot(e,"bytesLength");let t=typeof globalThis=="object"?globalThis.crypto:null;if(typeof t?.getRandomValues!="function")throw new Error("crypto.getRandomValues must be defined");if(e>65536)throw new RangeError(`"bytesLength" expected <= 65536, got ${e}`);return t.getRandomValues(new Uint8Array(e))}function ht(e,t,n=()=>{}){if(!Array.isArray(e))throw new TypeError(`"${t}" expected array, got type=${typeof e}`);for(let o=0;o<e.length;o++)n(e[o],`${t}[${o}]`);return e}var H=(e,t,n)=>dt(e,t,n),Mt=ot;function V(e,t="object"){if(e===null||typeof e!="object"||Array.isArray(e))throw new TypeError(t==="object"?"expected valid options object":`"${t}" expected object, got type=${typeof e}`);return e}function W(e,t){if(typeof e!="function")throw new TypeError(`"${t}" is invalid: expected function, got ${typeof e}`);return e}var oe=lt;var ie=e=>Lt(e),mt=at,yt=e=>ne(e),pt=BigInt(0),re=BigInt(1),Xe=e=>e?`"${e}" `:"";function K(e,t=""){if(typeof e!="boolean")throw new TypeError(Xe(t)+"expected boolean, got type="+typeof e);return e}function He(e){if(typeof e=="bigint"){if(!P(e))throw new RangeError("positive bigint expected, got "+e)}else Mt(e);return e}function it(e,t=""){if(typeof e!="number"){let n=t&&`"${t}" `;throw new TypeError(n+"expected number, got type="+typeof e)}if(!Number.isSafeInteger(e)){let n=t&&`"${t}" `;throw new RangeError(n+"expected safe integer, got "+e)}}function se(e){if(typeof e!="string")throw new TypeError("hex string expected, got "+typeof e);return e===""?pt:BigInt("0x"+e)}function gt(e){return se(lt(e))}function G(e){return se(lt(Q(dt(e)).reverse()))}function jt(e,t){if(ot(t),t===0)throw new Error("zero output length is invalid");e=He(e);let n=t*2,o=e.toString(16);if(o.length>n)throw new RangeError("number is too large");return Lt(o.padStart(n,"0"))}function wt(e,t){return jt(e,t).reverse()}function Q(e){return Uint8Array.from(H(e))}function P(e){return typeof e=="bigint"&&pt<=e}function Zt(e,t,n){return P(e)&&P(t)&&P(n)&&t<=e&&e<n}function J(e,t,n,o){if(!Zt(t,n,o))throw new RangeError("expected valid "+e+": "+n+" <= n < "+o+", got "+t)}function Ct(e){if(e<pt)throw new Error("expected non-negative bigint, got "+e);return e===pt?0:e.toString(2).length}var ce=e=>(it(e,"n"),(re<<BigInt(e))-re);function tt(e,t={},n={},o="object"){V(e,o),V(t,"fields"),V(n,"optFields");function r(s,c,f){let u=o==="object"?`param "${String(s)}"`:`"${o}.${String(s)}"`,a=e[s];if(!Object.hasOwn(e,s)&&(f?a!==void 0:c!=="function"))throw new TypeError(`${u} is invalid: expected own property`);if(f&&a===void 0)return;let m=typeof a;if(m!==c||a===null)throw new TypeError(`${u} is invalid: expected ${c}, got ${m}`)}let i=(s,c)=>Object.entries(s).forEach(([f,u])=>r(f,u,c));i(t,!1),i(n,!0)}var A=BigInt(0),B=BigInt(1),et=BigInt(2),ae=BigInt(3),zt=BigInt(4),de=BigInt(5),Ve=BigInt(7),le=BigInt(8),Pe=BigInt(9),We=BigInt(15),pe=BigInt(16),Ke=BigInt("0x10000000000000000");function E(e,t){if(t<=A)throw new Error("mod: expected positive modulus, got "+t);let n=e%t;return n>=A?n:t+n}function Ge(e,t,n){if(n<=B)throw new Error("pow: expected modulus > 1, got "+n);if(typeof t!="bigint")throw new TypeError("invalid exponent: expected bigint, got "+typeof t);if(t<A)throw new Error("invalid exponent, negatives unsupported");if(t===A)return B;if(t===B)return e;let o=e%n;if(o<A&&(o+=n),t<Ke){let c=B;for(;t>A;)t&B&&(c=c*o%n),o=o*o%n,t>>=B;return c}let r=[];for(;t>A;)r.push(Number(t&We)),t>>=zt;let i=new Array(16);i[0]=B,i[1]=o;for(let c=2;c<16;c++)i[c]=i[c-1]*o%n;let s=i[r[r.length-1]];for(let c=r.length-2;c>=0;c--){s=s*s%n,s=s*s%n,s=s*s%n,s=s*s%n;let f=r[c];f!==0&&(s=s*i[f]%n)}return s}function z(e,t,n){if(n<=B)throw new Error("pow2: expected modulus > 1, got "+n);if(t<A)throw new Error("pow2: expected non-negative exponent, got "+t);let o=e;for(;t-- >A;)o*=o,o%=n;return o}function fe(e,t){if(e===A)throw new Error("invert: expected non-zero number");if(t<=B)throw new Error("invert: expected modulus > 1, got "+t);let n=E(e,t),o=t,r=A,i=B;for(;n!==A;){let c=o/n,f=o-n*c,u=r-i*c;o=n,n=f,r=i,i=u}if(o!==B)throw new Error("invert: does not exist");return E(r,t)}function Ut(e,t,n){let o=e;if(!o.eql(o.sqr(t),n))throw new Error("Cannot find square root")}function Yt(e,t){if((e&B)===A)throw new Error(t+": expected odd modulus, got "+e)}function he(e,t){let n=e,o=(n.ORDER+B)/zt,r=n.pow(t,o);return Ut(n,r,t),r}function Qe(e,t){let n=e,o=(n.ORDER-de)/le,r=n.mul(t,et),i=n.pow(r,o),s=n.mul(t,i),c=n.mul(n.mul(s,et),i),f=n.mul(s,n.sub(c,n.ONE));return Ut(n,f,t),f}function Je(e){let t=bt(e),n=me(e),o=n(t,t.neg(t.ONE)),r=n(t,o),i=n(t,t.neg(o)),s=(e+Ve)/pe;return((c,f)=>{let u=c,a=u.pow(f,s),m=u.mul(a,o),g=u.mul(a,r),w=u.mul(a,i),R=u.eql(u.sqr(m),f),b=u.eql(u.sqr(g),f);a=u.cmov(a,m,R),m=u.cmov(w,g,b);let _=u.eql(u.sqr(m),f),M=u.cmov(a,m,_);return Ut(u,M,f),M})}function me(e){if(e<ae)throw new Error("sqrt is not defined for small field");Yt(e,"tonelliShanks");let t=e-B,n=0;for(;t%et===A;)t/=et,n++;let o=et,r=bt(e);for(;st(r,o)===1;)if(o++>1e3)throw new Error("Cannot find square root: probably non-prime P");if(n===1)return he;let i=r.pow(o,t),s=(t+B)/et;return function(f,u){let a=f;if(a.is0(u))return u;if(st(a,u)!==1)throw new Error("Cannot find square root");let m=n,g=a.mul(a.ONE,i),w=a.pow(u,t),R=a.pow(u,s);for(;!a.eql(w,a.ONE);){if(a.is0(w))throw new Error("Cannot find square root: probably non-prime P");let b=1,_=a.sqr(w);for(;!a.eql(_,a.ONE);)if(b++,_=a.sqr(_),b===m)throw new Error("Cannot find square root");let M=B<<BigInt(m-b-1),p=a.pow(g,M);m=b,g=a.sqr(p),w=a.mul(w,g),R=a.mul(R,p)}return R}}function tn(e){return Yt(e,"Fp.sqrt"),e%zt===ae?he:e%le===de?Qe:e%pe===Pe?Je(e):me(e)}var ye=(e,t)=>(E(e,t)&B)===B,en=["create","isValid","is0","neg","inv","sqrt","sqr","eql","add","sub","mul","pow","div","addN","subN","mulN","sqrN"];function rt(e){if(V(e,"field"),typeof e.ORDER!="bigint")throw new TypeError('param "ORDER" is invalid: expected bigint, got '+typeof e.ORDER);it(e.BYTES,"BYTES"),it(e.BITS,"BITS");for(let t of en)W(e[t],"field."+t);if(e.BYTES<1||e.BITS<1)throw new Error("invalid field: expected BYTES/BITS > 0");if(e.ORDER<=B)throw new Error("invalid field: expected ORDER > 1, got "+e.ORDER);return e}function Et(e,t,n=!1){rt(e),ht(t,"nums"),K(n,"passZero");let o=e,r=new Array(t.length).fill(n?o.ZERO:void 0),i=t.reduce((c,f,u)=>o.is0(f)?c:(r[u]=c,o.mul(c,f)),o.ONE),s=o.inv(i);return t.reduceRight((c,f,u)=>o.is0(f)?c:(r[u]=o.mul(c,r[u]),o.mul(c,f)),s),r}function st(e,t){rt(e);let n=e;Yt(n.ORDER,"FpLegendre");let o=(n.ORDER-B)/et,r=n.pow(t,o),i=n.eql(r,n.ONE),s=n.eql(r,n.ZERO),c=n.eql(r,n.neg(n.ONE));if(!i&&!s&&!c)throw new Error("invalid Legendre symbol result");return i?1:s?0:-1}function nn(e,t){if(t!==void 0&&Mt(t),e<=A)throw new Error("invalid n length: expected positive n, got "+e);if(t!==void 0&&t<1)throw new Error("invalid n length: expected positive bit length, got "+t);let n=Ct(e);if(t!==void 0&&t<n)throw new Error(`invalid n length: expected nBitLength (${t}) >= bitLen(n) (${n})`);let o=t!==void 0?t:n,r=Math.ceil(o/8);return{nBitLength:o,nByteLength:r}}var ue=new WeakMap,xt=class{constructor(t,n={}){x(this,"ORDER");x(this,"BITS");x(this,"BYTES");x(this,"isLE");x(this,"ZERO",A);x(this,"ONE",B);x(this,"_lengths");x(this,"_mod");if(t<=B)throw new Error("invalid field: expected ORDER > 1, got "+t);let o;this.isLE=!1,n!=null&&typeof n=="object"&&(typeof n.BITS=="number"&&(o=n.BITS),typeof n.sqrt=="function"&&Object.defineProperty(this,"sqrt",{value:n.sqrt,enumerable:!0}),typeof n.isLE=="boolean"&&(this.isLE=n.isLE),n.allowedLengths&&(this._lengths=Object.freeze(n.allowedLengths.slice())),typeof n.modFromBytes=="boolean"&&(this._mod=n.modFromBytes));let{nBitLength:r,nByteLength:i}=nn(t,o);if(i>2048)throw new Error("invalid field: expected ORDER of <= 2048 bytes");this.ORDER=t,this.BITS=r,this.BYTES=i,Object.freeze(this)}create(t){return E(t,this.ORDER)}isValid(t){if(typeof t!="bigint")throw new TypeError("invalid field element: expected bigint, got "+typeof t);return A<=t&&t<this.ORDER}is0(t){return t===A}isValidNot0(t){return!this.is0(t)&&this.isValid(t)}isOdd(t){return(t&B)===B}neg(t){return E(-t,this.ORDER)}eql(t,n){return t===n}sqr(t){return E(t*t,this.ORDER)}add(t,n){return E(t+n,this.ORDER)}sub(t,n){return E(t-n,this.ORDER)}mul(t,n){return E(t*n,this.ORDER)}pow(t,n){return Ge(t,n,this.ORDER)}div(t,n){return E(t*fe(n,this.ORDER),this.ORDER)}sqrN(t){return t*t}addN(t,n){return t+n}subN(t,n){return t-n}mulN(t,n){return t*n}inv(t){return fe(t,this.ORDER)}sqrt(t){let n=ue.get(this);return n||ue.set(this,n=tn(this.ORDER)),n(this,t)}toBytes(t){return this.isLE?wt(t,this.BYTES):jt(t,this.BYTES)}fromBytes(t,n=!1){H(t);let{_lengths:o,BYTES:r,isLE:i,ORDER:s,_mod:c}=this;if(o){if(t.length<1||!o.includes(t.length)||t.length>r)throw new Error("Field.fromBytes: expected "+o+" bytes, got "+t.length);let u=new Uint8Array(r);u.set(t,i?0:u.length-t.length),t=u}if(t.length!==r)throw new Error("Field.fromBytes: expected "+r+" bytes, got "+t.length);let f=i?G(t):gt(t);if(c&&(f=E(f,s)),!n&&!this.isValid(f))throw new Error("invalid field element: outside of range 0..ORDER");return f}invertBatch(t){return Et(this,t,!0)}cmov(t,n,o){return K(o,"condition"),o?n:t}};function bt(e,t={}){return Object.freeze(xt.prototype),new xt(e,t)}var Xt=BigInt(0),ct=BigInt(1),rn=BigInt(4),$t=16,ge=128,on=5,we=2**31;function Ot(e){let t=e;if(typeof t!="function")throw new TypeError('"Point" expected constructor, got type='+typeof e);W(t.fromAffine,"Point.fromAffine"),W(t.fromBytes,"Point.fromBytes"),W(t.fromHex,"Point.fromHex"),V(t.BASE,"Point.BASE"),V(t.ZERO,"Point.ZERO"),rt(t.Fp),rt(t.Fn)}function Ee(e,t){Ot(e),be(t,e);let n=Et(e.Fp,t.map(o=>o.Z));return t.map((o,r)=>e.fromAffine(o.toAffine(n[r])))}function sn(e,t,n=1){if(!Number.isSafeInteger(e)||e<n||e>t)throw new Error("invalid window size, expected ["+n+".."+t+"], got W="+e)}function cn(e,t){let n=e*(4*t+128);if(n>we)throw new Error("invalid window size: table would need ~"+Math.ceil(n/2**20)+" MiB, max "+we/2**20+" MiB")}function fn(e,t){if(e!==void 0){W(e,"randomBytes");try{let n=e(t);if(!mt(n)||n.length!==t)return}catch{return}return e}}function be(e,t){ht(e,"points"),e.forEach((n,o)=>{if(!(n instanceof t))throw new Error("invalid point at index "+o)})}function un(e,t,n){if(!Array.isArray(e))throw new Error("array of scalars expected");e.forEach((o,r)=>{if(!(n===void 0?t.isValid(o):P(o)&&o<n))throw new Error("invalid scalar at index "+r)})}var Be=new WeakMap;function kt(e){return Be.get(e)||1}function an(e,t){let n=e.double(),o=[e];for(let r=1;r<t;r++)o.push(o[r-1].add(n));return o}function dn(e,t){let n=2**t,o=n/2,r=BigInt(n-1),i=[];for(;e>Xt;){let s=0;e&ct&&(s=Number(e&r),s>=o&&(s-=n),e-=BigInt(s)),i.push(s),e>>=ct}return i}function ln(e,t,n){let o=2**t,r=o/2,i=BigInt(o-1),s=BigInt(t),c=[];for(let f=0;f<n;f++){let u=Number(e&i);e>>=s,u>r&&(u-=o,e+=ct),c.push(u)}if(e!==Xt)throw new Error("invalid wnaf");return c}function pn(e,t,n){let o=0;for(let i of n)o=Math.max(o,i.length);let r=e;for(let i=o-1;i>=0;i--){i!==o-1&&(r=r.double());for(let s=0;s<n.length;s++){let c=n[s][i];if(c){let f=t[s][Math.abs(c)-1>>1];r=r.add(c<0?f.negate():f)}}}return r}var Bt=class{constructor(t,n){x(this,"Point");x(this,"BASE");x(this,"ZERO");x(this,"randomBytes");x(this,"wnafPrecomputes",new WeakMap);x(this,"baseCanBeBlinded");x(this,"bits");Ot(t),this.randomBytes=fn(n,$t),this.Point=t,this.BASE=t.BASE,this.ZERO=t.ZERO,this.bits=t.Fn.BITS}buildWnafTable(t,n,o){let r=Math.ceil(o/n)+1,i=2**(n-1),s=[],c=t;for(let f=0;f<r;f++){let u=c;for(let a=0;a<i;a++)s.push(u),u=u.add(c);c=s[s.length-1].double()}return{W:n,bits:o,windows:r,comp:s}}wnafCachedCT(t,n){let{W:o,windows:r,comp:i}=t,s=2**(o-1),c=ln(n,o,r),f=this.ZERO,u=this.BASE;for(let a=0;a<r;a++){let m=c[a],g=a*s,w=Math.abs(m)-1,R=i[g];for(let _=1;_<s;_++)R=_===w?i[g+_]:R;let b=R.negate();m===0?u=u.add(i[g]):f=f.add(m<0?b:R)}return{p:f,f:u}}getWnafPrecomputes(t,n,o,r){let i=this.wnafPrecomputes.get(n),s=i?.find(c=>c.W===t&&c.bits===o);return s||(s=this.buildWnafTable(n,t,o),typeof r=="function"&&(s={...s,comp:r(s.comp)}),i||(i=[],this.wnafPrecomputes.set(n,i)),i.push(s)),s}assertPoint(t){if(!(t instanceof this.Point))throw new TypeError('"point" expected Point instance, got type='+typeof t)}validateMulInput(t,n){if(this.assertPoint(t),!Zt(n,ct,this.Point.Fn.ORDER))throw new Error("invalid scalar")}runCT(t,n,o,r){let i=kt(t);return i===1?this.fixedWindowCT(t,n,o):this.wnafCachedCT(this.getWnafPrecomputes(i,t,o,r),n)}mulCT(t,n,o){return this.validateMulInput(t,n),this.runCT(t,n,this.bits,o)}mulCTBlinded(t,n,o){if(this.validateMulInput(t,n),this.randomBytes===void 0)throw new Error("randomBytes is required for scalar blinding");let r=this.Point.Fn.BITS+ge,i=this.randomBytes($t);if(!mt(i)||i.length!==$t)throw new Error("randomBytes returned invalid byte array");i[0]=i[0]&63|128;let s=n+gt(i)*this.Point.Fn.ORDER;return this.runCT(t,s,r,o)}fixedWindowCT(t,n,o){let r=on,i=1<<r,s=ce(r),c=new Array(i);c[0]=this.ZERO;for(let a=1;a<i;a++)c[a]=c[a-1].add(t);let f=Math.ceil(o/r),u=this.ZERO;for(let a=f-1;a>=0;a--){if(a!==f-1)for(let w=0;w<r;w++)u=u.double();let m=Number(n>>BigInt(a*r)&s),g=c[0];for(let w=1;w<i;w++)g=w===m?c[w]:g;u=u.add(g)}return{p:u,f:u}}shouldBlind(t,n){return this.randomBytes===void 0?!1:n===ct?!0:t!==this.BASE?!1:(this.baseCanBeBlinded===void 0&&(this.baseCanBeBlinded=this.mulUnsafe(this.BASE,this.Point.Fn.ORDER).is0()),this.baseCanBeBlinded)}mulSecret(t,n,o,r){return this.shouldBlind(t,o)?this.mulCTBlinded(t,n,r):this.mulCT(t,n,r)}mulUnsafe(t,n,o){if(this.assertPoint(t),!P(n))throw new Error("invalid scalar");let r=kt(t);if(r===1||n>=this.Point.Fn.ORDER)return hn(this.Point,[t],[n],!0);let i=this.getWnafPrecomputes(r,t,this.bits,o);return this.wnafCachedCT(i,n).p}setWindowSize(t,n){this.assertPoint(t),sn(n,this.bits);let o=Math.ceil((this.bits+ge)/n)+1;cn(o*2**(n-1),this.Point.Fp.BYTES),Be.set(t,n),this.wnafPrecomputes.delete(t)}hasWindowSize(t){return kt(t)!==1}};function hn(e,t,n,o=!1){if(Ot(e),be(t,e),K(o,"allowOversized"),un(n,e.Fn,o?e.Fn.ORDER**rn:void 0),t.length!==n.length)throw new Error("arrays of points and scalars must have equal length");let r=t.map(s=>an(s,4)),i=n.map(s=>dn(s,4));return pn(e.ZERO,r,i)}function xe(e,t,n){if(t){if(t.ORDER!==e)throw new Error("Field.ORDER must match order: Fp == p, Fn == n");return rt(t),t}else return bt(e,{isLE:n})}function Oe(e,t,n={},o){if(e!=="weierstrass"&&e!=="edwards")throw new Error('expected curve type "weierstrass" or "edwards"');if(o===void 0&&(o=e==="edwards"),!t||typeof t!="object")throw new Error(`expected valid ${e} CURVE object`);tt(n);for(let f of["p","n","h"]){let u=t[f];if(!(P(u)&&u!==Xt))throw new Error(`CURVE.${f} must be positive bigint`)}let r=xe(t.p,n.Fp,o),i=xe(t.n,n.Fn,o),c=["Gx","Gy","a",e==="weierstrass"?"b":"d"];for(let f of c)if(!r.isValid(t[f]))throw new Error(`CURVE.${f} must be valid field element of CURVE.Fp`);return t=Object.freeze(Object.assign({},t)),{CURVE:t,Fp:r,Fn:i}}function Ht(e,t){return function(o){let r=e(o);return{secretKey:r,publicKey:t(r)}}}var vt=BigInt(0),Tt=BigInt(1),St=BigInt(2),mn=BigInt(4),ve=BigInt(8);function yn(e,t,n,o){let r=e.sqr(n),i=e.sqr(o),s=e.add(e.mul(t.a,r),i),c=e.add(e.ONE,e.mul(t.d,e.mul(r,i)));return e.eql(s,c)}function Te(e,t={}){tt(t,{},{},"extraOpts");let n=t,o=Oe("edwards",e,n,n.FpFnLE),{Fp:r,Fn:i}=o,s=o.CURVE,{h:c}=s;if(st(r,s.a)!==1)throw new Error("edwards: CURVE.a must be a square in Fp for complete addition formulas");if(st(r,s.d)!==-1)throw new Error("edwards: CURVE.d must be a non-square in Fp for complete addition formulas");tt(n,{},{uvRatio:"function",randomBytes:"function"});let f=n.randomBytes===void 0?yt:n.randomBytes,u=St<<BigInt(r.BYTES*8)-Tt;function a(I){if(!r.isOdd)throw new Error("Field does not have .isOdd()");return r.isOdd(I)}let m=n.uvRatio===void 0?(I,d)=>{try{return{isValid:!0,value:r.sqrt(r.div(I,d))}}catch{return{isValid:!1,value:vt}}}:n.uvRatio;if(!yn(r,s,s.Gx,s.Gy))throw new Error("bad curve params: generator point");let g=r.eql(s.a,r.neg(r.ONE))?I=>r.neg(I):r.eql(s.a,r.ONE)?I=>I:I=>r.mul(s.a,I);function w(I,d,h=!1){let l=h?Tt:vt;return J("coordinate "+I,d,l,u),d}function R(I){if(!(I instanceof b))throw new Error("EdwardsPoint expected")}let p=class p{constructor(d,h,l,v){x(this,"X");x(this,"Y");x(this,"Z");x(this,"T");this.X=w("x",d),this.Y=w("y",h),this.Z=w("z",l,!0),this.T=w("t",v),Object.freeze(this)}static CURVE(){return s}static fromAffine(d){if(d instanceof p)throw new Error("extended point not allowed");let{x:h,y:l}=d||{};return w("x",h),w("y",l),new p(h,l,r.ONE,r.mul(h,l))}static fromBytes(d,h=!1){let l=r.BYTES,{a:v,d:q}=s;d=Q(H(d,l,"point")),K(h,"zip215");let F=Q(d),T=d[l-1];F[l-1]=T&-129;let D=G(F),L=h?u:r.ORDER;J("point.y",D,vt,L);let S=r.sqr(D),j=r.sub(S,r.ONE),C=r.sub(r.mulN(q,S),v),{isValid:y,value:O}=m(j,C);if(!y)throw new Error("bad point: invalid y coordinate");let N=a(O),Z=(T&128)!==0;if(!h&&r.is0(O)&&Z)throw new Error("bad point: x=0 and x_0=1");return Z!==N&&(O=r.neg(O)),p.fromAffine({x:O,y:D})}static fromHex(d,h=!1){return p.fromBytes(ie(d),h)}get x(){return this.toAffine().x}get y(){return this.toAffine().y}precompute(d=6,h=!0){return M.setWindowSize(this,d),h||this.multiply(St),this}assertValidity(){let d=this,{a:h,d:l}=s;if(d.is0())throw new Error("bad point: ZERO");let{X:v,Y:q,Z:F,T}=d,D=r.sqr(v),L=r.sqr(q),S=r.sqr(F),j=r.sqr(S),C=r.mul(D,h),y=r.mul(r.add(C,L),S),O=r.add(j,r.mul(l,r.mul(D,L)));if(!r.eql(y,O))throw new Error("bad point: equation left != right (1)");let N=r.mul(v,q),Z=r.mul(F,T);if(!r.eql(N,Z))throw new Error("bad point: equation left != right (2)")}equals(d){R(d);let{X:h,Y:l,Z:v}=this,{X:q,Y:F,Z:T}=d,D=r.mul(h,T),L=r.mul(q,v),S=r.mul(l,T),j=r.mul(F,v);return r.eql(D,L)&&r.eql(S,j)}is0(){return this.equals(p.ZERO)}negate(){return new p(r.neg(this.X),this.Y,this.Z,r.neg(this.T))}double(){let{X:d,Y:h,Z:l}=this,v=r.sqr(d),q=r.sqr(h),F=r.mul(r.sqr(l),St),T=g(v),D=r.addN(d,h),L=r.sub(r.subN(r.sqr(D),v),q),S=r.addN(T,q),j=r.subN(S,F),C=r.subN(T,q),y=r.mul(L,j),O=r.mul(S,C),N=r.mul(L,C),Z=r.mul(j,S);return new p(y,O,Z,N)}add(d){R(d);let{d:h}=s,{X:l,Y:v,Z:q,T:F}=this,{X:T,Y:D,Z:L,T:S}=d,j=r.mul(l,T),C=r.mul(v,D),y=r.mul(r.mulN(F,h),S),O=r.mul(q,L),N=r.sub(r.subN(r.mulN(r.addN(l,v),r.addN(T,D)),j),C),Z=r.subN(O,y),Y=r.addN(O,y),$=r.sub(C,g(j)),k=r.mul(N,Z),X=r.mul(Y,$),It=r.mul(N,$),ft=r.mul(Z,Y);return new p(k,X,ft,It)}subtract(d){return R(d),this.add(d.negate())}multiply(d){if(!i.isValidNot0(d))throw new RangeError("invalid scalar: expected 1 <= sc < curve.n");let{p:h,f:l}=M.mulSecret(this,d,c,_);return _([h,l])[0]}multiplyUnsafe(d){if(!i.isValid(d))throw new RangeError("invalid scalar: expected 0 <= sc < curve.n");return d===vt?p.ZERO:this.is0()||d===Tt?this:M.mulUnsafe(this,d,_)}isSmallOrder(){return this.clearCofactor().is0()}isTorsionFree(){return M.mulUnsafe(this,s.n).is0()}toAffine(d){let h=this,l=d;if(l!=null&&typeof l!="bigint")throw new TypeError('"invertedZ" expected bigint, got type='+typeof l);let{X:v,Y:q,Z:F}=h,T=h.is0();l==null&&(l=T?r.create(ve):r.inv(F));let D=r.mul(v,l),L=r.mul(q,l),S=r.mul(F,l);if(T)return{x:r.ZERO,y:r.ONE};if(!r.eql(S,r.ONE))throw new Error("invZ was invalid");return{x:D,y:L}}clearCofactor(){return c===Tt?this:c===St?this.double():c===mn?this.double().double():c===ve?this.double().double().double():this.multiplyUnsafe(c)}toBytes(){let{x:d,y:h}=this.toAffine(),l=r.toBytes(h);return l[l.length-1]|=a(d)?128:0,l}toHex(){return oe(this.toBytes())}toString(){return`<Point ${this.is0()?"ZERO":this.toHex()}>`}};x(p,"BASE",new p(s.Gx,s.Gy,r.ONE,r.mul(s.Gx,s.Gy))),x(p,"ZERO",new p(r.ZERO,r.ONE,r.ONE,r.ZERO)),x(p,"Fp",r),x(p,"Fn",i);let b=p,_=I=>Ee(b,I),M=new Bt(b,f);return M.bits>=6&&b.BASE.precompute(6),Object.freeze(b.prototype),Object.freeze(b),b}var nt=BigInt(0),U=BigInt(1),Rt=BigInt(2);function Se(e,t){return e+t-(t>>U<<U)}function gn(e){let t=BigInt(6)*e;return(n,o,r)=>{let i=o+r,c=((t+r-o)*n+o)%e;return{x_2:c,x_3:i-c}}}function wn(e){return tt(e,{P:"bigint",type:"string",adjustScalarBytes:"function",powPminus2:"function"},{randomBytes:"function",scalarMultBase:"function"}),Object.freeze({...e})}function Re(e){let t=wn(e),{P:n,type:o,adjustScalarBytes:r,powPminus2:i,randomBytes:s}=t,c=t.scalarMultBase,f=o==="x25519";if(!f&&o!=="x448")throw new Error("invalid type");let u=s===void 0?yt:s,a=f?255:448,m=gn(n),g=f?32:56,w=BigInt(f?9:5),R=BigInt(f?121665:39081),b=f?Rt**BigInt(254):Rt**BigInt(447),_=f?BigInt(8)*(Rt**BigInt(251)-U):BigInt(4)*(Rt**BigInt(445)-U),M=b+_+U,p=y=>E(y,n),I=d(w);function d(y){return wt(p(y),g)}function h(y){let O=Q(H(y,g,"uCoordinate"));return f&&(O[31]&=127),p(G(O))}function l(y){return G(r(Q(H(y,g,"scalar"))))}let v=new Set(f?[nt,U,n-U,BigInt("325606250916557431795983626356110631294008115727848805560023387167927233504"),BigInt("39382357235489614581723060781553021112529911719440698176882885853963445705823")]:[nt,U,n-U]);function q(y,O){let N=h(O);if(v.has(N))throw new Error("invalid private or public key received");let Z=L(N,l(y));if(Z===nt)throw new Error("invalid private or public key received");return d(Z)}function F(y){if(c===void 0)return q(y,I);let O=l(y);J("scalar",O,b,M);let N=p(c(O));if(N===nt)throw new Error("invalid private or public key received");return d(N)}let T=F,D=q;function L(y,O){J("u",y,nt,n),J("scalar",O,b,M);let N=O,Z=y,Y=U,$=nt,k=y,X=U,It=N^N>>U;for(let qt=BigInt(a-1);qt>=nt;qt--){let Vt=Se(n,It>>qt);({x_2:Y,x_3:k}=m(Vt,Y,k)),{x_2:$,x_3:X}=m(Vt,$,X);let Nt=Y+$,At=p(Nt*Nt),Ft=Y-$,Pt=p(Ft*Ft),Wt=At-Pt,Le=k+X,Me=k-X,Kt=p(Me*Nt),Gt=p(Le*Ft),Qt=Kt+Gt,Jt=Kt-Gt;k=p(Qt*Qt),X=p(Z*p(Jt*Jt)),Y=p(At*Pt),$=p(Wt*(At+p(R*Wt)))}let ft=Se(n,N);({x_2:Y,x_3:k}=m(ft,Y,k)),{x_2:$,x_3:X}=m(ft,$,X);let De=i($);return p(Y*De)}let S={secretKey:g,publicKey:g,seed:g},j=y=>(y=y===void 0?u(g):y,H(y,S.seed,"seed"),y),C={randomSecretKey:j};return Object.freeze(S),Object.freeze(C),Object.freeze({keygen:Ht(j,T),getSharedSecret:D,getPublicKey:T,scalarMult:q,scalarMultBase:F,utils:C,GuBytes:I.slice(),lengths:S})}var _e=BigInt(0),xn=BigInt(1),Ie=BigInt(2),En=BigInt(3),bn=BigInt(5),Bn=BigInt(8),_t=BigInt("0x7fffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffed"),On={p:_t,n:BigInt("0x1000000000000000000000000000000014def9dea2f79cd65812631a5cf5d3ed"),h:Bn,a:BigInt("0x7fffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffec"),d:BigInt("0x52036cee2b6ffe738cc740797779e89800700a4d4141d8ab75eb4dca135978a3"),Gx:BigInt("0x216936d3cd6e53fec0a4e231fdd6dc5c692cc7609525a7b2c9562d608f25d51a"),Gy:BigInt("0x6666666666666666666666666666666666666666666666666666666666666658")};function Ae(e){let t=BigInt(10),n=BigInt(20),o=BigInt(40),r=BigInt(80),i=_t,c=e*e%i*e%i,f=z(c,Ie,i)*c%i,u=z(f,xn,i)*e%i,a=z(u,bn,i)*u%i,m=z(a,t,i)*a%i,g=z(m,n,i)*m%i,w=z(g,o,i)*g%i,R=z(w,r,i)*w%i,b=z(R,r,i)*w%i,_=z(b,t,i)*a%i;return{pow_p_5_8:z(_,Ie,i)*e%i,b2:c}}function vn(e){return e[0]&=248,e[31]&=127,e[31]|=64,e}var qe=BigInt("19681161376707505956807079304988542015446066515923890162744021073123829784752");function Tn(e,t){let n=_t,o=E(t*t*t,n),r=E(o*o*t,n),i=Ae(e*r).pow_p_5_8,s=E(e*o*i,n),c=E(t*s*s,n),f=s,u=E(s*qe,n),a=c===e,m=c===E(-e,n),g=c===E(-e*qe,n);return a&&(s=f),(m||g)&&(s=u),ye(s,n)&&(s=E(-s,n)),{isValid:a||m,value:s}}var Ne=Te(On,{uvRatio:Tn});var Fe=(()=>{let e=_t,t=n=>{let{pow_p_5_8:o,b2:r}=Ae(n);return E(z(o,En,e)*r,e)};return Re({P:e,type:"x25519",powPminus2:t,adjustScalarBytes:vn,scalarMultBase:n=>{let o=E(n,Ne.Fn.ORDER);if(o===_e)return _e;let r=Ne.BASE.multiply(o);return E((r.Z+r.Y)*t(E(r.Z-r.Y,e)),e)}})})();return $e(Sn);})();
+(function () {
+'use strict';
+var D = document, W = window, SELF = D.currentScript ? D.currentScript.textContent : '';
+var te = new TextEncoder(), td = new TextDecoder();
+function b64d(s) {
+var bin = atob(s), n = bin.length, a = new Uint8Array(n), i;
+for (i = 0; i < n; i++) a[i] = bin.charCodeAt(i);
+return a;
+}
+function b64e(a) {
+var s = '', i;
+for (i = 0; i < a.length; i += 0x8000) s += String.fromCharCode.apply(null, a.subarray(i, i + 0x8000));
+return btoa(s);
+}
+function rand(n) { var a = new Uint8Array(n); if (n) crypto.getRandomValues(a); return a; }
+function cat() {
+var n = 0, i, o;
+for (i = 0; i < arguments.length; i++) n += arguments[i].length;
+o = new Uint8Array(n);
+for (i = 0, n = 0; i < arguments.length; i++) { o.set(arguments[i], n); n += arguments[i].length; }
+return o;
+}
+var KDF = { m: 65536, t: 3, p: 4 };
+function ascii(s) {
+var nd = /\p{Nd}/u;
+return s.replace(/\p{Nd}/gu, function (c) {
+var n = c.codePointAt(0), z = n;
+while (nd.test(String.fromCodePoint(z - 1))) z--;
+return String((n - z) % 10);
+});
+}
+function fold(pass) {
+var s = ascii(pass.normalize('NFC'));
+return /^[0-9\s\p{P}\p{Z}]+$/u.test(s) ? s.replace(/[^0-9]/g, '') : s;
+}
+async function argon(pass, salt) {
+var pw = te.encode(fold(pass));
+try {
+return await A2.argon2id({ password: pw, salt: salt, parallelism: KDF.p, iterations: KDF.t, memorySize: KDF.m, hashLength: 32, outputType: 'binary' });
+} finally { pw.fill(0); }
+}
+function aes(raw) { return crypto.subtle.importKey('raw', raw, 'AES-GCM', false, ['encrypt', 'decrypt']); }
+async function kdf(pass, salt) {
+var raw = await argon(pass, salt);
+try { return await aes(raw); } finally { raw.fill(0); }
+}
+function gcm(iv, ad) { var p = { name: 'AES-GCM', iv: iv }; if (ad) p.additionalData = te.encode(ad); return p; }
+async function seal(key, plain, ad) {
+var iv = rand(12);
+return cat(iv, new Uint8Array(await crypto.subtle.encrypt(gcm(iv, ad), key, plain)));
+}
+async function unseal(key, box, ad) {
+return new Uint8Array(await crypto.subtle.decrypt(gcm(box.subarray(0, 12), ad), key, box.subarray(12)));
+}
+async function wrap(pass, plain, ad) {
+var salt = rand(16);
+return cat(salt, await seal(await kdf(pass, salt), plain, ad));
+}
+async function unwrap(pass, blob, ad) {
+var key = await kdf(pass, blob.subarray(0, 16));
+return { key: key, data: await unseal(key, blob.subarray(16), ad) };
+}
+var NONE = new Uint8Array(0), KID = cat(te.encode('KEM'), new Uint8Array([0, 0x20])), SID = cat(te.encode('HPKE'), new Uint8Array([0, 0x20, 0, 1, 0, 2]));
+var INFO = te.encode('nt1');
+async function hmac(k, d) {
+var key = await crypto.subtle.importKey('raw', k.length ? k : new Uint8Array(32), { name: 'HMAC', hash: 'SHA-256' }, false, ['sign']);
+return new Uint8Array(await crypto.subtle.sign('HMAC', key, d));
+}
+function lx(sid, salt, label, ikm) { return hmac(salt, cat(te.encode('HPKE-v1'), sid, te.encode(label), ikm)); }
+async function le(sid, prk, label, info, n) {
+var li = cat(new Uint8Array([n >> 8, n & 255]), te.encode('HPKE-v1'), sid, te.encode(label), info), out = NONE, t = NONE, i;
+for (i = 1; out.length < n; i++) { t = await hmac(prk, cat(t, li, new Uint8Array([i]))); out = cat(out, t); }
+return out.subarray(0, n);
+}
+async function dkp(ikm) {
+var prk = await lx(KID, NONE, 'dkp_prk', ikm), sk = await le(KID, prk, 'sk', NONE, 32);
+prk.fill(0);
+return { sk: sk, pk: X2.x25519.getPublicKey(sk) };
+}
+async function kem(dh, enc, pkR) {
+var prk = await lx(KID, NONE, 'eae_prk', dh);
+try { return await le(KID, prk, 'shared_secret', cat(enc, pkR), 32); } finally { dh.fill(0); prk.fill(0); }
+}
+async function sched(ss, info) {
+var c = cat(new Uint8Array([0]), await lx(SID, NONE, 'psk_id_hash', NONE), await lx(SID, NONE, 'info_hash', info)), s = await lx(SID, ss, 'secret', NONE);
+ss.fill(0);
+try { return { key: await le(SID, s, 'key', c, 32), nonce: await le(SID, s, 'base_nonce', c, 12), exp: await le(SID, s, 'exp', c, 32) }; } finally { s.fill(0); }
+}
+async function seal2(pkR, info, ikmE) {
+var e = await dkp(ikmE || rand(32)), ss;
+try { ss = await kem(X2.x25519.getSharedSecret(e.sk, pkR), e.pk, pkR); } finally { e.sk.fill(0); }
+return { enc: e.pk, ks: await sched(ss, info) };
+}
+async function open2(enc, skR, pkR, info) { return sched(await kem(X2.x25519.getSharedSecret(skR, enc), enc, pkR), info); }
+async function fkey(ks) {
+var k = await le(SID, ks.exp, 'sec', te.encode('f'), 32);
+try { return await aes(k); } finally { k.fill(0); ks.key.fill(0); ks.nonce.fill(0); ks.exp.fill(0); }
+}
+var CL = 130, SMAX = (10n ** 130n) >> 304n;
+function big(a) { var h = '0x0', i; for (i = 0; i < a.length; i++) h += (a[i] < 16 ? '0' : '') + a[i].toString(16); return BigInt(h); }
+function bytes(n, len) { var a = new Uint8Array(len), i; for (i = len - 1; i >= 0; i--) { a[i] = Number(n & 255n); n >>= 8n; } return a; }
+async function sum(b) { return new Uint8Array(await crypto.subtle.digest('SHA-256', cat(INFO, b))).subarray(0, 4); }
+function lnum(l) {
+var m = /^([a-z]{2,3})(?![a-z])/.exec(String(l || '').toLowerCase()), n = 0, i;
+if (!m) return 0;
+for (i = 0; i < 3; i++) n = n * 27 + (i < m[1].length ? m[1].charCodeAt(i) - 96 : 0);
+return n;
+}
+function lstr(n) {
+var a = Math.floor(n / 729), b = Math.floor(n / 27) % 27, c = n % 27;
+return a > 0 && a < 27 && b > 0 ? String.fromCharCode(96 + a, 96 + b) + (c ? String.fromCharCode(96 + c) : '') : '';
+}
+async function code(pass, lang) {
+var salt, ikm, p, n = lnum(lang), b;
+do salt = rand(16); while (big(salt) >= SMAX);
+ikm = await argon(pass, salt);
+try { p = await dkp(ikm); } finally { ikm.fill(0); }
+p.sk.fill(0);
+b = cat(salt, p.pk, new Uint8Array([n >> 8, n & 255]));
+return String(big(cat(b, await sum(b)))).padStart(CL, '0').replace(/(\d{5})(?=\d)/g, '$1 ');
+}
+async function unpack(msg) {
+var parts = ascii(String(msg)).match(/[0-9]+|[^0-9]+/g) || [], runs = [], g = [], seen = {}, ok = [], i, j, n, d, b, s, pk;
+for (i = 0; i < parts.length; i++) {
+if (/^[0-9]/.test(parts[i])) g.push(parts[i]);
+else if (!/^[\s\u061c\u180e\u200b-\u200f\u202a-\u202e\u2060-\u2064\u2066-\u2069\ufeff]+$/.test(parts[i])) { runs.push(g); g = []; }
+}
+runs.push(g);
+for (i = 0; i < runs.length; i++) {
+for (j = 0; j < runs[i].length; j++) {
+for (d = '', n = j; n < runs[i].length && d.length < CL; n++) d += runs[i][n];
+if (d.length === CL) seen[d] = 1;
+}
+}
+for (d in seen) {
+b = bytes(BigInt(d), 54);
+s = await sum(b.subarray(0, 50));
+if (s[0] !== b[50] || s[1] !== b[51] || s[2] !== b[52] || s[3] !== b[53]) continue;
+pk = b.slice(16, 48);
+try { X2.x25519.getSharedSecret(rand(32), pk); } catch (e) { continue; }
+ok.push({ salt: b.slice(0, 16), pk: pk, l: lstr(b[48] << 8 | b[49]) });
+}
+return ok.length === 1 ? ok[0] : null;
+}
+function puff(src, pos) {
+var out = new Uint8Array(Math.max(1024, src.length * 4)), op = 0, bb = 0, bc = 0, last, type, n, fl, fd;
+var LB = [3, 4, 5, 6, 7, 8, 9, 10, 11, 13, 15, 17, 19, 23, 27, 31, 35, 43, 51, 59, 67, 83, 99, 115, 131, 163, 195, 227, 258],
+LE = [0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 2, 2, 2, 2, 3, 3, 3, 3, 4, 4, 4, 4, 5, 5, 5, 5, 0],
+DB = [1, 2, 3, 4, 5, 7, 9, 13, 17, 25, 33, 49, 65, 97, 129, 193, 257, 385, 513, 769, 1025, 1537, 2049, 3073, 4097, 6145, 8193, 12289, 16385, 24577],
+DE = [0, 0, 0, 0, 1, 1, 2, 2, 3, 3, 4, 4, 5, 5, 6, 6, 7, 7, 8, 8, 9, 9, 10, 10, 11, 11, 12, 12, 13, 13],
+CO = [16, 17, 18, 0, 8, 7, 9, 6, 10, 5, 11, 4, 12, 3, 13, 2, 14, 1, 15];
+function bad() { throw new Error('z'); }
+function bits(k) {
+var v;
+while (bc < k) { if (pos >= src.length) bad(); bb |= src[pos++] << bc; bc += 8; }
+v = bb & ((1 << k) - 1); bb >>>= k; bc -= k;
+return v;
+}
+function table(len, off, cnt) {
+var c = new Uint16Array(16), s = new Uint16Array(cnt), o = new Uint16Array(16), i;
+for (i = 0; i < cnt; i++) c[len[off + i]]++;
+c[0] = 0;
+for (i = 1; i < 16; i++) o[i] = o[i - 1] + c[i - 1];
+for (i = 0; i < cnt; i++) if (len[off + i]) s[o[len[off + i]]++] = i;
+return { c: c, s: s };
+}
+function sym(t) {
+var code = 0, first = 0, idx = 0, l, c;
+for (l = 1; l < 16; l++) {
+code |= bits(1); c = t.c[l];
+if (code - c < first) return t.s[idx + (code - first)];
+idx += c; first += c; first <<= 1; code <<= 1;
+}
+bad();
+}
+function room(k) {
+if (op + k > out.length) { var b = new Uint8Array(Math.max(out.length * 2, op + k)); b.set(out); out = b; }
+}
+function codes(lt, dt) {
+var s, len, d, i;
+for (;;) {
+s = sym(lt);
+if (s < 256) { room(1); out[op++] = s; continue; }
+if (s === 256) return;
+s -= 257; if (s > 28) bad();
+len = LB[s] + bits(LE[s]);
+s = sym(dt); if (s > 29) bad();
+d = DB[s] + bits(DE[s]); if (d > op) bad();
+room(len);
+for (i = 0; i < len; i++, op++) out[op] = out[op - d];
+}
+}
+function fixed() {
+var l, i;
+if (!fl) {
+l = new Uint8Array(318);
+for (i = 0; i < 144; i++) l[i] = 8;
+for (; i < 256; i++) l[i] = 9;
+for (; i < 280; i++) l[i] = 7;
+for (; i < 288; i++) l[i] = 8;
+for (; i < 318; i++) l[i] = 5;
+fl = table(l, 0, 288); fd = table(l, 288, 30);
+}
+codes(fl, fd);
+}
+function dynamic() {
+var nl = bits(5) + 257, nd = bits(5) + 1, nc = bits(4) + 4, cl = new Uint8Array(19), l = new Uint8Array(nl + nd), i, s, r, t;
+if (nl > 286 || nd > 30) bad();
+for (i = 0; i < nc; i++) cl[CO[i]] = bits(3);
+t = table(cl, 0, 19);
+for (i = 0; i < nl + nd;) {
+s = sym(t);
+if (s < 16) { l[i++] = s; continue; }
+r = 0;
+if (s === 16) { if (!i) bad(); r = l[i - 1]; s = 3 + bits(2); }
+else if (s === 17) s = 3 + bits(3);
+else s = 11 + bits(7);
+if (i + s > nl + nd) bad();
+while (s--) l[i++] = r;
+}
+codes(table(l, 0, nl), table(l, nl, nd));
+}
+do {
+last = bits(1); type = bits(2);
+if (type === 0) {
+bb = 0; bc = 0;
+if (pos + 4 > src.length) bad();
+n = src[pos] | (src[pos + 1] << 8); pos += 4;
+if (pos + n > src.length) bad();
+room(n); out.set(src.subarray(pos, pos + n), op); op += n; pos += n;
+} else if (type === 1) fixed();
+else if (type === 2) dynamic();
+else bad();
+} while (!last);
+return out.subarray(0, op);
+}
+async function unz(z) {
+if (typeof DecompressionStream === 'function' && typeof Response === 'function') {
+try {
+return new Uint8Array(await new Response(new Blob([z]).stream().pipeThrough(new DecompressionStream('deflate'))).arrayBuffer());
+} catch (e) { }
+}
+return puff(z, 2);
+}
+function unlz(src, props, size) {
+var lc = props % 9, lp = ((props / 9) | 0) % 5, pb = (props / 45) | 0;
+var out = new Uint8Array(size), op = 0, pos = 0, range = 0xffffffff, code = 0, i;
+function bad() { throw new Error('z'); }
+function P(n) { var a = new Uint16Array(n); a.fill(1024); return a; }
+function bit(p, k) {
+var v = p[k], b = (range >>> 11) * v;
+if (code < b) { range = b; p[k] = v + ((2048 - v) >>> 5); v = 0; }
+else { range -= b; code -= b; p[k] = v - (v >>> 5); v = 1; }
+if (range < 16777216) { if (pos >= src.length) bad(); range = (range << 8) >>> 0; code = ((code << 8) | src[pos++]) >>> 0; }
+return v;
+}
+function tree(p, o, n) { var m = 1, k; for (k = 0; k < n; k++) m = (m << 1) | bit(p, o + m); return m - (1 << n); }
+function rtree(p, o, n) { var m = 1, s = 0, k, b; for (k = 0; k < n; k++) { b = bit(p, o + m); m = (m << 1) | b; s |= b << k; } return s; }
+function direct(n) {
+var r = 0;
+while (n--) {
+range >>>= 1;
+if (code >= range) { code -= range; r = (r << 1) | 1; } else r <<= 1;
+if (range < 16777216) { if (pos >= src.length) bad(); range = (range << 8) >>> 0; code = ((code << 8) | src[pos++]) >>> 0; }
+}
+return r >>> 0;
+}
+function len(L, ps) {
+if (!bit(L, 0)) return tree(L, 2 + (ps << 3), 3);
+if (!bit(L, 1)) return 8 + tree(L, 130 + (ps << 3), 3);
+return 16 + tree(L, 258, 8);
+}
+if (lc > 8 || pb > 4 || src.length < 5 || src[0] !== 0) bad();
+for (i = 1; i < 5; i++) code = ((code << 8) | src[i]) >>> 0;
+pos = 5;
+var lit = P(0x300 << (lc + lp)), isM = P(192), isR = P(12), g0 = P(12), g1 = P(12), g2 = P(12), r0l = P(192),
+slot = P(256), pd = P(115), al = P(16), ld = P(514), rl = P(514);
+var st = 0, d0 = 0, d1 = 0, d2 = 0, d3 = 0, pm = (1 << pb) - 1, lm = (1 << lp) - 1, ps, s, mb, b, mbit, n, k, t;
+while (op < size) {
+ps = op & pm;
+if (!bit(isM, (st << 4) + ps)) {
+k = 0x300 * (((op & lm) << lc) + ((op ? out[op - 1] : 0) >> (8 - lc)));
+s = 1;
+if (st >= 7) {
+mb = out[op - d0 - 1];
+do { mbit = (mb >> 7) & 1; mb <<= 1; b = bit(lit, k + ((1 + mbit) << 8) + s); s = (s << 1) | b; if (mbit !== b) break; } while (s < 256);
+}
+while (s < 256) s = (s << 1) | bit(lit, k + s);
+out[op++] = s & 255;
+st = st < 4 ? 0 : st < 10 ? st - 3 : st - 6;
+continue;
+}
+if (bit(isR, st)) {
+if (!op) bad();
+if (!bit(g0, st)) {
+if (!bit(r0l, (st << 4) + ps)) { st = st < 7 ? 9 : 11; out[op] = out[op - d0 - 1]; op++; continue; }
+} else {
+if (!bit(g1, st)) t = d1;
+else { if (!bit(g2, st)) t = d2; else { t = d3; d3 = d2; } d2 = d1; }
+d1 = d0; d0 = t;
+}
+n = len(rl, ps); st = st < 7 ? 8 : 11;
+} else {
+d3 = d2; d2 = d1; d1 = d0;
+n = len(ld, ps); st = st < 7 ? 7 : 10;
+s = tree(slot, (n < 3 ? n : 3) << 6, 6);
+if (s < 4) d0 = s;
+else {
+k = (s >> 1) - 1; d0 = (2 | (s & 1)) * Math.pow(2, k);
+if (s < 14) d0 += rtree(pd, d0 - s, k);
+else d0 += direct(k - 4) * 16 + rtree(al, 0, 4);
+}
+if (d0 >= op) bad();
+}
+n += 2;
+if (op + n > size) bad();
+for (k = op - d0 - 1, t = op + n; op < t;) out[op++] = out[k++];
+}
+return out;
+}
+var LZP = 93;
+function b64at(s, off, len) {
+var a = Math.floor(off / 3), b = Math.ceil((off + len) / 3);
+return b64d(s.slice(a * 4, b * 4)).subarray(off - a * 3, off - a * 3 + len);
+}
+function b64parts(parts) {
+var out = [], rest = new Uint8Array(0), i, a, n;
+for (i = 0; i < parts.length; i++) {
+a = rest.length ? cat(rest, parts[i]) : parts[i];
+n = i === parts.length - 1 ? a.length : a.length - a.length % 3;
+out.push(b64e(a.subarray(0, n)));
+rest = a.subarray(n);
+}
+return out;
+}
+var HEAD = 52, HEAD2 = 84;
+async function open(pass, s) {
+var top = b64at(s, 0, HEAD2), ikm = await argon(pass, top.subarray(0, 16)), key, h = null, p, v, ix;
+try {
+key = await aes(ikm);
+try { h = await unseal(key, top.subarray(16, HEAD), 'h'); } catch (e) { h = null; }
+if (!h) {
+p = await dkp(ikm);
+try { key = await fkey(await open2(top.slice(16, 48), p.sk, p.pk, INFO)); } finally { p.sk.fill(0); }
+h = await unseal(key, top.subarray(48, HEAD2), 'h');
+}
+} finally { ikm.fill(0); }
+v = new DataView(h.buffer, h.byteOffset, 8);
+ix = await unseal(key, b64at(s, v.getUint32(0, true), v.getUint32(4, true)), 'i');
+return { key: key, m: JSON.parse(td.decode(ix)) };
+}
+function piece(key, s, m, i, j) { return unseal(key, b64at(s, m.t[i].k[j][0], m.t[i].k[j][1]), i + '.' + j); }
+function inflate(k, p) { return k[2] === 'x' ? unlz(p, LZP, k[3]) : unz(p); }
+async function build(to, m, get) {
+var pre, key, out = [], at, i, j, t, b, ix, h = new Uint8Array(8), v = new DataView(h.buffer), z = rand(2), e;
+if (typeof to === 'string') { pre = rand(16); key = await kdf(to, pre); }
+else { e = await seal2(to.pk, INFO); pre = cat(to.salt, e.enc); key = await fkey(e.ks); }
+at = pre.length + 36;
+for (i = 0; i < m.t.length; i++) {
+for (t = m.t[i], j = 0; j < t.k.length; j++) {
+b = await seal(key, await get(i, j), i + '.' + j);
+t.k[j][0] = at; t.k[j][1] = b.length; at += b.length; out.push(b);
+}
+}
+ix = await seal(key, te.encode(JSON.stringify(m)), 'i');
+v.setUint32(0, at, true); v.setUint32(4, ix.length, true);
+return [pre, await seal(key, h, 'h')].concat(out, [ix, rand(z[0] << 8 | z[1])]);
+}
+function norm(s) {
+return s.normalize('NFD')
+.replace(/[\u0300-\u036f\u0591-\u05c7\u064b-\u065f\u0670\u06d6-\u06ed\u0640\u200b-\u200f]/g, '')
+.replace(/[\u0622\u0623\u0625\u0671]/g, '\u0627').replace(/[\u0649\u06cc]/g, '\u064a')
+.replace(/\u06a9/g, '\u0643').replace(/\u0629/g, '\u0647').replace(/\s+/g, ' ').toLowerCase();
+}
+function esc(s) { return String(s).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/"/g, '&quot;'); }
+function assemble(p) {
+var sc = 'script';
+return '<!doctype html>\n<html lang="' + esc(p.lang) + '" dir="' + esc(p.dir) + '">\n<head>\n<meta charset="utf-8">\n' +
+'<meta name="viewport" content="width=device-width,initial-scale=1">\n' +
+'<meta http-equiv="Content-Security-Policy" content="' + esc(p.csp) + '">\n' +
+'<meta name="referrer" content="no-referrer">\n<title>' + esc(p.title) + '</title>\n' +
+'<style>' + p.css + '</style>\n</head>\n<body>\n' +
+'<' + sc + ' type="application/json" id="u">' + p.ui + '</' + sc + '>\n' +
+'<' + sc + ' type="application/octet-stream" id="d">' + p.blob + '</' + sc + '>\n' +
+'<' + sc + '>' + p.js + '</' + sc + '>\n</body>\n</html>\n';
+}
+var IC = {
+plus: 'M12 5v14M5 12h14', minus: 'M5 12h14', back: 'M15 5l-7 7 7 7', next: 'M9 5l7 7-7 7',
+x: 'M6 6l12 12M18 6L6 18', search: 'M11 4a7 7 0 1 0 0 14a7 7 0 0 0 0-14zM20 20l-4-4',
+trash: 'M5 7h14M10 7V5h4v2M7 7l1 12h8l1-12', more: 'M5 12h.01M12 12h.01M19 12h.01',
+share: 'M12 15V4M8 8l4-4 4 4M5 14v5h14v-5', down: 'M12 4v11M8 11l4 4 4-4M5 14v5h14v-5', info: 'M12 11v6M12 7.5v.01M12 3a9 9 0 1 0 0 18a9 9 0 0 0 0-18z',
+moon: 'M20 14.5A8 8 0 0 1 9.5 4a8 8 0 1 0 10.5 10.5z',
+globe: 'M12 3a9 9 0 1 0 0 18a9 9 0 0 0 0-18zM3 12h18M12 3c3 3 3 15 0 18M12 3c-3 3-3 15 0 18'
+};
+function ic(n) {
+var t = D.createElement('span');
+t.innerHTML = '<svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path' + (n === 'more' ? ' stroke-width="3"' : '') + ' d="' + IC[n] + '"/></svg>';
+return t.firstChild;
+}
+function el(tag, cls) {
+var e = D.createElement(tag), i, a;
+if (cls) e.className = cls;
+for (i = 2; i < arguments.length; i++) {
+a = arguments[i];
+if (a != null) e.appendChild(typeof a === 'string' ? D.createTextNode(a) : a);
+}
+return e;
+}
+function btn(cls, icon, label, fn) {
+var b = el('button', cls, icon ? ic(icon) : null);
+b.type = 'button';
+if (label) { b.setAttribute('aria-label', label); b.title = label; }
+b.onclick = fn;
+return b;
+}
+function wipe(n) { while (n.firstChild) n.removeChild(n.firstChild); }
+function plain(i) {
+i.autocomplete = 'off'; i.spellcheck = false;
+i.setAttribute('autocapitalize', 'none'); i.setAttribute('autocorrect', 'off');
+return i;
+}
+function later(fn, ms) { var t = 0; return function () { clearTimeout(t); t = setTimeout(fn, ms); }; }
+var mem = {};
+try { localStorage.removeItem('nt.c'); } catch (e) { }
+function sg(k) { try { var v = localStorage.getItem(k); if (v !== null) return v; } catch (e) { } return k in mem ? mem[k] : null; }
+function ss(k, v) { mem[k] = v; try { localStorage.setItem(k, v); } catch (e) { } }
+var U = JSON.parse(D.getElementById('u').textContent), LANG = D.documentElement.lang || 'en';
+var prefs = {};
+try { prefs = JSON.parse(sg('nt.p') || '{}') || {}; } catch (e) { }
+function look() {
+D.documentElement.className = prefs.t || '';
+D.documentElement.style.setProperty('--fs', (prefs.f || 18) + 'px');
+}
+function setPref(k, v) { prefs[k] = v; ss('nt.p', JSON.stringify(prefs)); look(); }
+look();
+var armed = false, skip = false;
+function arm() { if (armed) return; try { history.pushState({ z: 1 }, ''); armed = true; } catch (e) { } }
+function disarm() { if (!armed) return; armed = false; skip = true; try { history.back(); } catch (e) { skip = false; } }
+W.addEventListener('popstate', function () {
+if (skip) { skip = false; return; }
+armed = false;
+if (S) { if (rBack()) arm(); } else if (!ev.hidden) shut();
+});
+var root = el('div', 'app'), cv = el('section', 'cv'), rd = el('section', 'rd');
+var notes = [], cur = null;
+try { notes = JSON.parse(sg('nt.n') || '[]'); if (!Array.isArray(notes)) notes = []; } catch (e) { notes = []; }
+function keep() { ss('nt.n', JSON.stringify(notes)); }
+var q = plain(el('input')); q.type = 'search'; q.placeholder = U.s; q.setAttribute('aria-label', U.s); q.setAttribute('enterkeyhint', 'search');
+var sf = el('form', 'sf', q), ul = el('ul', 'ls');
+var lv = el('div', 'lv', el('header', 'hd', el('h1', null, U.t)), sf, ul);
+var fab = btn('fab', 'plus', U.n, function () { edit(null); });
+var ta = el('textarea'); ta.placeholder = U.p;
+var ev = el('div', 'ed', el('div', 'bar', btn('ib fl', 'back', U.b, function () { shut(); disarm(); }), el('span', 'gr'),
+btn('ib', 'trash', U.d, function () { drop(); disarm(); })), ta);
+ev.hidden = true;
+function when(ms) {
+try { return new Date(ms).toLocaleDateString(LANG, { day: 'numeric', month: 'short' }); } catch (e) { return ''; }
+}
+function draw() {
+var f = norm(q.value.trim()), n = 0;
+wipe(ul);
+notes.sort(function (a, b) { return b.m - a.m; });
+notes.forEach(function (o) {
+if (f && norm(o.x).indexOf(f) < 0) return;
+var lines = o.x.split('\n').filter(function (s) { return s.trim(); });
+var li = el('li', null, el('b', null, lines[0] || ''), lines.length > 1 ? el('span', null, lines.slice(1).join(' ').slice(0, 120)) : null, el('i', null, when(o.m)));
+li.onclick = function () { edit(o); };
+ul.appendChild(li); n++;
+});
+if (!n) ul.appendChild(el('p', 'em', f ? U.z : U.e));
+}
+function edit(o) {
+cur = o; ta.value = o ? o.x : '';
+lv.hidden = true; fab.hidden = true; ev.hidden = false; arm();
+if (!o) ta.focus();
+}
+function commit() {
+var x = ta.value;
+if (!cur) {
+if (!x.trim()) return;
+cur = { i: Date.now().toString(36) + Math.floor(Math.random() * 1e6).toString(36), x: x, m: Date.now() };
+notes.unshift(cur);
+} else if (cur.x !== x) { cur.x = x; cur.m = Date.now(); } else return;
+keep();
+}
+function leave() { cur = null; ta.value = ''; ev.hidden = true; lv.hidden = false; fab.hidden = false; draw(); }
+function shut() {
+if (ev.hidden) return;
+commit();
+if (cur && !cur.x.trim()) { notes.splice(notes.indexOf(cur), 1); keep(); }
+leave();
+}
+function drop() {
+var i = cur ? notes.indexOf(cur) : -1;
+if (i >= 0) { notes.splice(i, 1); keep(); }
+leave();
+}
+ta.oninput = later(function () { if (!ev.hidden) commit(); }, 400);
+q.oninput = draw;
+sf.onsubmit = function (e) { e.preventDefault(); enter(q.value); };
+var pc = null, raw = null, busy = false, away = false, S = null, R = null, hold = false, idleT = 0, mk = false;
+async function enter(v) {
+var r = null;
+v = v.trim();
+if (!v || busy || S || !W.crypto || !crypto.subtle) return;
+if (Array.from(fold(v)).length < 16) return;
+q.value = ''; draw(); q.blur();
+busy = true; away = false;
+try {
+if (!raw) raw = D.getElementById('d').textContent;
+r = await open(v, raw);
+} catch (e) { r = null; }
+busy = false; v = '';
+if (!r || away) return;
+start(r);
+}
+var HD = { s: 1, S: 1, d: 1, r: 1, a: 1 };
+var ttl, pg, pn, mn, sb, bkb, rg, rgT = 0;
+function num(x) {
+var g = S && S.m.g;
+x = String(x);
+return g ? x.replace(/[0-9]/g, function (c) { return String.fromCharCode(g + +c); }) : x;
+}
+function put(node) { wipe(pg); pg.appendChild(node); pg.scrollTop = 0; }
+function set(v) {
+if (v.t === 'books' || v.t === 'chap' || v.t === 'text') S.pv = v;
+S.v = v; hold = false; mn.hidden = true; pn.hidden = v.t !== 'text'; bkb.hidden = v.t === 'books'; sb.hidden = v.t === 'copy' || v.t === 'about'; S.tok++;
+}
+function item(icon, label, fn) {
+var b = el('button', 'it', ic(icon), el('span', null, label));
+b.type = 'button'; b.onclick = function () { mn.hidden = true; fn(); };
+return b;
+}
+function size(d) { setPref('f', Math.max(14, Math.min(30, (prefs.f || 18) + d))); }
+function flip() {
+var dark = prefs.t ? prefs.t === 'd' : !!(W.matchMedia && W.matchMedia('(prefers-color-scheme:dark)').matches);
+setPref('t', dark ? 'l' : 'd');
+}
+function fresh(k, x, i, v, pv) { return { k: k, x: x, ti: i, m: x.t[i], bl: {}, bo: [], bk: {}, ord: [], ix: [], tok: 0, v: v, pv: pv }; }
+function forget(s) { for (var k in s.bl) { try { s.bl[k].fill(0); } catch (e) { } } s.bl = {}; s.bo = []; s.bk = {}; s.ord = []; s.ix = []; }
+function use(i) {
+var o = S;
+forget(o);
+S = fresh(o.k, o.x, i, o.v, o.pv);
+pn.dir = S.m.d;
+books();
+}
+function phone(has) {
+var l = navigator.languages && navigator.languages.length ? navigator.languages : [navigator.language || ''], i, c;
+for (i = 0; i < l.length; i++) {
+c = String(l[i]).toLowerCase();
+if (has(c)) return c;
+c = c.split('-')[0];
+if (has(c)) return c;
+}
+return null;
+}
+async function start(r) {
+var x = r.m, pos = null, c, i, ti = -1;
+S = fresh(r.key, x, 0, null, null);
+var ul = phone(function (c) { return !!(x.u[c] && x.u[c].r); }) || (x.u[LANG] ? LANG : x.u.en ? 'en' : Object.keys(x.u)[0]);
+R = x.u[ul].r;
+rd.lang = ul; rd.dir = x.u[ul].dir === 'rtl' ? 'rtl' : 'ltr';
+wipe(rd);
+ttl = el('button', 'tt'); ttl.type = 'button';
+ttl.onclick = function () { var v = S.v; if (v.t === 'text') up(v.b); else books(); };
+pg = el('main', 'pg'); pg.onclick = function () { mn.hidden = true; };
+rg = ring();
+pn = el('div', 'pn', btn('rb fl', 'back', R.pv, function () { step(-1); }), rg, btn('rb fl', 'next', R.nx, function () { step(1); }));
+mn = el('div', 'mn',
+el('div', 'fr', el('span', null, R.f), btn('ib', 'minus', R.f + ' -', function () { size(-2); }), btn('ib', 'plus', R.f + ' +', function () { size(2); })),
+item('moon', R.th, flip), x.t.length > 1 ? item('globe', R.lg, langs) : null, item('share', R.cp, pass), item('down', R.rc, mine), item('info', R.ab, about));
+mn.hidden = true;
+bkb = btn('ib fl', 'back', R.bk, function () { if (S && S.v.t !== 'books') rBack(); });
+rd.appendChild(el('div', 'bar', btn('ib', 'x', R.x, function () { lock(); }), bkb, ttl,
+(sb = btn('ib', 'search', R.s, find)), btn('ib', 'more', R.m, function () { mn.hidden = !mn.hidden; })));
+rd.appendChild(pg); rd.appendChild(pn); rd.appendChild(mn);
+cv.hidden = true; rd.hidden = false; arm(); idle();
+var s = S;
+try { c = pc; if (c) pos = JSON.parse(td.decode(await unseal(s.k, c, 'c'))); } catch (e) { pos = null; }
+if (S !== s) return;
+for (i = 0; i < x.t.length; i++) if (pos && x.t[i].l === pos.l && ti < 0) ti = i;
+if (ti < 0) { pos = null; for (i = 0; i < x.t.length; i++) if (x.t[i].l === LANG && ti < 0) ti = i; }
+S = fresh(s.k, x, ti < 0 ? 0 : ti, null, null);
+S.fi = !c;
+pn.dir = S.m.d;
+if (pos && S.m.b[pos.b]) text(pos.b, pos.c); else books();
+}
+function lname(x, t) {
+var u = x.u[t.l];
+return u && u.nm && !x.t.some(function (o) { return o !== t && o.l === t.l; }) ? u.nm : t.n;
+}
+function langs() {
+var w = el('div', 'gd lg');
+set({ t: 'lang' }); ttl.textContent = R.lg;
+S.x.t.forEach(function (t, i) {
+var b = el('button', 'bk' + (i === S.ti ? ' on' : ''), lname(S.x, t));
+b.type = 'button'; b.dir = t.d;
+b.onclick = function () { if (i === S.ti) books(); else use(i); };
+w.appendChild(b);
+});
+put(w);
+}
+function lock(fromPop) {
+if (!S) return;
+clearTimeout(idleT);
+forget(S);
+S = null; R = null; hold = false;
+wipe(rd); rd.hidden = true; rd.removeAttribute('lang'); rd.removeAttribute('dir'); cv.hidden = false;
+if (!fromPop) disarm();
+}
+function idle() {
+clearTimeout(idleT);
+if (!S) return;
+idleT = setTimeout(function () { if (mk) idle(); else lock(); }, 30000);
+if (rg && Date.now() - rgT > 1000) { var c = rg.lastChild; rgT = Date.now(); c.style.animation = 'none'; void c.getBoundingClientRect(); c.style.animation = ''; }
+}
+function ring() {
+var t = D.createElement('span');
+t.innerHTML = '<svg class="rg" viewBox="0 0 24 24" aria-hidden="true"><circle class="rk" cx="12" cy="12" r="9"/><circle class="rv" cx="12" cy="12" r="9"/></svg>';
+rgT = 0;
+return t.firstChild;
+}
+function rBack() {
+var v = S.v;
+if (!mn.hidden) { mn.hidden = true; return true; }
+if (v.t === 'text') { up(v.b); return true; }
+if (v.t === 'chap') { books(); return true; }
+if (v.t === 'books') { lock(true); return false; }
+v = S.pv;
+if (v && v.t === 'text') text(v.b, v.c); else if (v && v.t === 'chap') chap(v.b); else books();
+return true;
+}
+async function block(j) {
+var s = S, d = s.bl[j], p, o;
+if (d) return d;
+p = await piece(s.k, raw, s.x, s.ti, j);
+d = await inflate(s.m.k[j], p);
+p.fill(0);
+if (S !== s) { d.fill(0); return null; }
+s.bl[j] = d; s.bo.push(j);
+if (s.bo.length > 2) { o = s.bo.shift(); if (s.bl[o]) { s.bl[o].fill(0); delete s.bl[o]; } }
+return d;
+}
+async function book(i) {
+var s = S, c = s.bk[i], e, d;
+if (c) return c;
+e = s.m.b[i];
+d = await block(e[1]);
+if (!d) return [];
+c = JSON.parse(td.decode(d.subarray(e[2], e[2] + e[3])));
+s.bk[i] = c; s.ord.push(i);
+if (s.ord.length > 3) delete s.bk[s.ord.shift()];
+return c;
+}
+function books() {
+var g = el('div', 'gd');
+set({ t: 'books' }); ttl.textContent = S.m.n;
+g.dir = S.m.d;
+S.m.b.forEach(function (e, i) {
+var b = el('button', 'bk', e[0]);
+b.type = 'button'; b.onclick = function () { chap(i); };
+if (i && i === S.m.t) g.appendChild(el('hr'));
+g.appendChild(b);
+});
+var w = el('div');
+if (S.fi) {
+var ok = el('button', 'sb', R.ok), fi = el('div', 'fi', el('p', null, R.fi), ok);
+ok.type = 'button'; ok.onclick = function () { if (S) S.fi = false; fi.remove(); };
+w.appendChild(fi);
+}
+w.appendChild(g);
+if (S.m.dd) {
+var q = S.m.dd, d = el('section', 'dd', el('h2', null, q[1]), el('p', null, q[2]), el('p', null, q[3]), bold(q[4]));
+d.dir = q[0];
+w.appendChild(d);
+}
+put(w);
+}
+function bold(s) {
+var n = el('p'), a = s.split('*'), i;
+for (i = 0; i < a.length; i++) if (a[i]) n.appendChild(i % 2 ? el('b', null, a[i]) : D.createTextNode(a[i]));
+return n;
+}
+async function up(i) {
+var s = S, bk = await book(i);
+if (S !== s) return;
+if (bk.length < 2) books(); else chap(i, bk);
+}
+async function chap(i, known) {
+var s = S, bk = known || await book(i), g;
+if (S !== s) return;
+if (bk.length < 2 && !known) return text(i, bk[0][0]);
+set({ t: 'chap', b: i }); ttl.textContent = s.m.b[i][0];
+g = el('div', 'gd cg'); g.dir = s.m.d;
+bk.forEach(function (ch) {
+var b = el('button', 'ch', num(ch[0]));
+b.type = 'button'; b.onclick = function () { text(i, ch[0]); };
+g.appendChild(b);
+});
+put(g);
+}
+async function text(i, cn, mark) {
+var s = S, bk = await book(i), ch = bk[0], x, k, j, b, p, sp, lab = '', hit = null, name;
+if (S !== s) return;
+for (k = 0; k < bk.length; k++) if (bk[k][0] === cn) ch = bk[k];
+set({ t: 'text', b: i, c: ch[0] });
+name = s.m.b[i][0] + ' ' + num(ch[0]);
+ttl.textContent = name;
+x = el('article', 'tx', el('h2', null, name)); x.dir = s.m.d;
+for (k = 1; k < ch.length; k++) {
+b = ch[k];
+if (b[0] === 'b') { x.appendChild(el('div', 'k-b')); continue; }
+p = el('p', 'k-' + b[0]);
+if (HD[b[0]]) { p.textContent = b[1]; x.appendChild(p); continue; }
+for (j = 1; j < b.length; j += 2) {
+if (b[j] !== '') lab = String(b[j]);
+sp = el('span', null, b[j] !== '' ? el('sup', null, num(b[j])) : null, b[j + 1] + ' ');
+if (mark != null && lab === String(mark)) { sp.className = 'on'; if (!hit) hit = sp; }
+p.appendChild(sp);
+}
+x.appendChild(p);
+}
+put(x);
+if (hit && hit.scrollIntoView) hit.scrollIntoView({ block: 'center' });
+try { pc = await seal(s.k, te.encode(JSON.stringify({ l: s.m.l, b: i, c: ch[0] })), 'c'); } catch (e) { }
+}
+async function step(d) {
+var s = S, v = s.v, bk, k, at = 0, nb;
+if (v.t !== 'text') return;
+bk = await book(v.b);
+if (S !== s) return;
+for (k = 0; k < bk.length; k++) if (bk[k][0] === v.c) at = k;
+if (bk[at + d]) return text(v.b, bk[at + d][0]);
+nb = v.b + d;
+if (!s.m.b[nb]) return;
+bk = await book(nb);
+if (S !== s) return;
+text(nb, bk[d > 0 ? 0 : bk.length - 1][0]);
+}
+async function index(i) {
+var s = S, ix = s.ix[i], bk, a, b, j, ch, bl, last;
+if (ix) return ix;
+bk = await book(i);
+ix = { c: [], n: [], x: [], k: [] };
+for (a = 0; a < bk.length; a++) {
+ch = bk[a]; last = -1;
+for (b = 1; b < ch.length; b++) {
+bl = ch[b];
+if (HD[bl[0]] || bl[0] === 'b') continue;
+for (j = 1; j < bl.length; j += 2) {
+if (bl[j] !== '' || last < 0) { ix.c.push(ch[0]); ix.n.push(String(bl[j])); ix.x.push(bl[j + 1]); last = ix.x.length - 1; }
+else ix.x[last] += ' ' + bl[j + 1];
+}
+}
+}
+for (j = 0; j < ix.x.length; j++) ix.k.push(norm(ix.x[j]));
+s.ix[i] = ix;
+return ix;
+}
+function spots(x, terms) {
+var k = '', mp = [], out = [], i, c, j, t, z;
+for (i = 0; i < x.length; i++) { c = norm(x.charAt(i)); for (j = 0; j < c.length; j++) mp.push(i); k += c; }
+for (t = 0; t < terms.length; t++) {
+i = k.indexOf(terms[t]);
+if (i < 0) continue;
+z = mp[i + terms[t].length - 1] + 1;
+while (z < x.length && norm(x.charAt(z)) === '') z++;
+out.push([mp[i], z]);
+}
+out.sort(function (p, q) { return p[0] - q[0]; });
+for (i = 1; i < out.length;) {
+if (out[i][0] <= out[i - 1][1]) { out[i - 1][1] = Math.max(out[i - 1][1], out[i][1]); out.splice(i, 1); } else i++;
+}
+return out;
+}
+function snip(x, terms) {
+var r = spots(x, terms), node = el('span'), a = 0, p, end, i;
+if (!r.length) { node.textContent = x.length > 220 ? x.slice(0, 220) + '\u2026' : x; return node; }
+if (r[0][0] > 70) { a = x.indexOf(' ', r[0][0] - 50); a = a < 0 || a > r[0][0] ? r[0][0] : a + 1; }
+end = Math.min(x.length, a + 260);
+if (a) node.appendChild(D.createTextNode('\u2026'));
+for (i = 0, p = a; i < r.length && r[i][0] < end; i++) {
+node.appendChild(D.createTextNode(x.slice(p, r[i][0])));
+p = Math.min(r[i][1], end);
+node.appendChild(el('mark', null, x.slice(r[i][0], p)));
+}
+node.appendChild(D.createTextNode(x.slice(p, end) + (end < x.length ? '\u2026' : '')));
+return node;
+}
+async function run(qs, out) {
+var s = S, tok = ++s.tok, phrase = norm(qs).trim(), terms = phrase.split(' ').filter(Boolean);
+var seen = {}, n = 0, bar = el('i', 'pr'), pass, i, j, k, ix, ok, fresh;
+wipe(out);
+if (phrase.replace(/ /g, '').length < 2) return;
+out.appendChild(bar);
+for (pass = 0; pass < (terms.length > 1 ? 2 : 1); pass++) {
+for (i = 0; i < s.m.b.length; i++) {
+fresh = !s.ix[i];
+ix = await index(i);
+if (S !== s || s.tok !== tok) return;
+for (j = 0; j < ix.k.length; j++) {
+if (!pass) ok = ix.k[j].indexOf(phrase) >= 0;
+else { ok = !seen[i + '.' + j]; for (k = 0; k < terms.length && ok; k++) ok = ix.k[j].indexOf(terms[k]) >= 0; }
+if (!ok) continue;
+if (!pass) seen[i + '.' + j] = 1;
+out.appendChild(found(i, ix.c[j], ix.n[j], ix.x[j], pass ? terms : [phrase]));
+if (++n >= 200) { out.removeChild(bar); out.appendChild(el('p', 'em', '\u2026')); return; }
+}
+if (!pass) bar.style.width = Math.round((i + 1) * 100 / s.m.b.length) + '%';
+if (fresh || i % 8 === 7) {
+await new Promise(function (f) { setTimeout(f, 0); });
+if (S !== s || s.tok !== tok) return;
+}
+}
+}
+out.removeChild(bar);
+if (!n) out.appendChild(el('p', 'em', R.z));
+}
+function found(i, c, n, x, terms) {
+var b = el('button', 'ht', el('b', null, S.m.b[i][0] + ' ' + num(c) + (n ? ':' + num(n) : '')), snip(x, terms));
+b.type = 'button'; b.dir = S.m.d;
+b.onclick = function () { text(i, c, n); };
+return b;
+}
+function find() {
+var inp = plain(el('input')), out = el('div');
+inp.type = 'search'; inp.placeholder = R.s; inp.setAttribute('aria-label', R.s);
+set({ t: 'find' }); ttl.textContent = R.s;
+inp.oninput = later(function () { if (S && S.v.t === 'find') run(inp.value, out); }, 250);
+put(el('div', 'fv', inp, out));
+inp.focus();
+}
+function field(label, type, value) {
+var i = plain(el('input')), l = el('label', null, label, i);
+i.type = type; if (value) i.value = value;
+if (type === 'password') i.autocomplete = 'new-password';
+l.i = i;
+return l;
+}
+function suggest() {
+var s = '', r;
+while (s.replace(/ /g, '').length < 20) {
+r = rand(1)[0];
+if (r >= 250) continue;
+if (s.length % 5 === 4) s += ' ';
+s += r % 10;
+}
+return s;
+}
+function tongue() { return (navigator.languages && navigator.languages[0]) || navigator.language || ''; }
+function pass() {
+var a = el('button', 'pb', R.ps), b = el('button', 'sb', R.pd);
+a.type = 'button'; b.type = 'button'; a.onclick = copy; b.onclick = far;
+set({ t: 'copy' }); ttl.textContent = R.cp;
+put(el('div', 'fm', a, b));
+}
+function keybox(T) {
+var o = { key: '' }, kv = el('p', 'kv'), ot = el('button', 'sb', T.ot);
+o.field = field(T.k2, 'password');
+o.fill = function () { o.key = suggest(); kv.textContent = o.key; o.field.i.value = ''; if (o.msg) o.msg.textContent = ''; };
+o.hide = function () { o.key = ''; kv.textContent = ''; o.field.i.value = ''; };
+o.ok = function () { return !!o.key && fold(o.field.i.value) === fold(o.key); };
+o.field.i.setAttribute('inputmode', 'numeric');
+ot.type = 'button'; ot.onclick = o.fill; kv.dir = 'ltr';
+o.box = el('div', 'ks', el('span', null, T.k1), kv, ot);
+o.fill();
+return o;
+}
+var ALIAS = { ms: 'zlm' };
+function choose(x, lg) {
+var f = field(R.fn, 'text', U.f), cs = [], box = null, sel = null, nf = U.f, codes = Object.keys(x.u), touched = false, first = S.ti, i;
+for (i = 0; lg && i < x.t.length; i++) if (!x.t[i].p && (x.t[i].l === lg || x.t[i].l === ALIAS[lg])) { first = i; break; }
+function follow() {
+if (!sel || touched) return;
+for (var i = 0; i < x.t.length; i++) if (!cs.length || cs[i].checked) {
+if (x.u[x.t[i].l]) { sel.value = x.t[i].l; sel.onchange(); }
+return;
+}
+}
+if (x.t.length > 1) {
+box = el('fieldset', 'ck', el('legend', null, R.cl));
+x.t.forEach(function (t, i) {
+var c = el('input'), n = el('span', null, lname(x, t)), l = el('label', null, c, n);
+c.type = 'checkbox'; c.checked = i === first && !t.p; n.dir = t.d;
+if (t.p) { c.disabled = true; l.style.opacity = '.5'; }
+c.onchange = follow;
+cs.push(c); box.appendChild(l);
+});
+var tg = el('button', 'sb tg', ''), pick = function () { return cs.filter(function (c) { return !c.disabled; }); };
+var sync = function () { tg.textContent = pick().every(function (c) { return c.checked; }) ? R.cn || '\u2610' : R.ca || '\u2611'; };
+tg.type = 'button';
+tg.onclick = function () {
+var on = pick(), v = !on.every(function (c) { return c.checked; });
+on.forEach(function (c) { c.checked = v; });
+sync(); follow();
+};
+cs.forEach(function (c) { var f0 = c.onchange; c.onchange = function () { f0(); sync(); }; });
+sync();
+box.insertBefore(tg, box.children[1]);
+}
+if (codes.length > 1) {
+var start = lg && x.u[lg] ? lg : LANG;
+sel = el('select');
+codes.forEach(function (c) { var o = el('option', null, x.u[c].nm || c); o.value = c; if (c === start) o.selected = true; sel.appendChild(o); });
+sel.onchange = function () { var v = x.u[sel.value].c.f; if (f.i.value === nf) f.i.value = v; nf = v; };
+sel.addEventListener('change', function () { touched = true; });
+if (start !== LANG) { sel.onchange(); touched = true; }
+follow();
+}
+return {
+f: f, box: box, sel: sel ? el('label', null, R.cc, sel) : null,
+keep: function () { var k = [], i; for (i = 0; i < x.t.length; i++) if (!x.t[i].p && (!cs.length || cs[i].checked)) k.push(i); return k; },
+cov: function () { return sel ? sel.value : LANG; },
+name: function (u) { return (f.i.value.trim().replace(/\.html?$/i, '').replace(/[\\\/:*?"<>|\u0000-\u001f]/g, '') || u.c.f) + '.html'; }
+};
+}
+function page(same, cov, u, blob, ui) {
+return assemble({
+lang: same ? D.documentElement.lang : cov, dir: same ? D.documentElement.dir || 'ltr' : u.dir === 'rtl' ? 'rtl' : 'ltr', title: same ? U.t : u.c.t,
+csp: D.querySelector('meta[http-equiv]').content, css: D.querySelector('style').textContent,
+ui: ui || (same ? D.getElementById('u').textContent : JSON.stringify(u.c).replace(/</g, '\\u003c')), blob: blob, js: SELF
+});
+}
+async function make(to, c, msg, go, h) {
+var s = S, x = s.x, keep = c.keep(), cov = c.cov(), u = x.u[cov] || { c: U }, m, parts, html, at;
+if (!keep.length) { msg.textContent = R.e3; return; }
+msg.textContent = ''; go.disabled = true; mk = true;
+try {
+m = { v: 2, u: x.u, t: keep.map(function (i) { return Object.assign({}, x.t[i], { k: x.t[i].k.map(function (k) { return k.slice(); }) }); }) };
+parts = await build(to, m, function (i, j) { return piece(s.k, raw, x, keep[i], j); });
+html = page(cov === LANG, cov, u, '\u0001');
+at = html.indexOf('\u0001');
+parts = [html.slice(0, at)].concat(b64parts(parts), [html.slice(at + 1)]);
+} catch (e) { go.disabled = false; return; } finally { mk = false; }
+if (S !== s || s.v.t !== 'copy') return;
+ready(new Blob(parts, { type: 'text/html' }), c.name(u), h);
+}
+function copy() {
+var x = S.x, msg = el('p', 'er'), go = el('button', 'pb', R.mk), k = keybox(R), c = choose(x, '');
+k.msg = msg; go.type = 'button';
+go.onclick = function () {
+if (!k.ok()) { msg.textContent = R.e2; return; }
+make(k.key, c, msg, go, R.h2);
+};
+set({ t: 'copy' }); ttl.textContent = R.cp;
+var h = /^([\s\S]*?[.!?\u3002\u0964\u06d4\u0f0d\u104b])\s*([^.!?\u3002\u0964\u06d4\u0f0d\u104b]+[.!?\u3002\u0964\u06d4\u0f0d\u104b]?)$/.exec(R.h1.trim());
+put(el('div', 'fm', h ? el('p', null, h[1]) : null, el('p', 'wn', h ? h[2] : R.h1), el('p', 'wn', R.h3), k.box, k.field, c.f, c.box, c.sel, msg, go));
+}
+function far() {
+var x = S.x, ta = plain(el('textarea')), er = el('p', 'er'), msg = el('p', 'er'), go = el('button', 'pb', R.mk), opt = el('div'), iv = el('button', 'sb', R.iv), pb = null, n = 0;
+ta.placeholder = R.pg; ta.rows = 4; ta.dir = 'ltr';
+iv.type = 'button'; go.type = 'button'; iv.onclick = invite;
+async function read() {
+var k = ++n, v = ta.value, r = null, c;
+try { if (v.trim()) r = await unpack(v); } catch (e) { r = null; }
+if (k !== n || !S || S.v.t !== 'copy') return;
+er.textContent = r || !v.trim() ? '' : R.e4;
+wipe(opt); opt.hidden = !r;
+if (!r) return;
+c = choose(x, r.l);
+go.disabled = false;
+go.onclick = function () { make({ salt: r.salt, pk: r.pk }, c, msg, go, R.h4); };
+opt.appendChild(el('div', null, c.f, c.box, c.sel, msg, go));
+}
+if (navigator.clipboard && navigator.clipboard.readText) {
+pb = el('button', 'sb', R.pe); pb.type = 'button';
+pb.onclick = function () {
+hold = true;
+navigator.clipboard.readText().then(function (t) { ta.value = t; read(); }, function () { ta.focus(); }).then(function () { hold = false; });
+};
+}
+ta.oninput = later(read, 300);
+opt.hidden = true;
+set({ t: 'copy' }); ttl.textContent = R.pd;
+put(el('div', 'fm', el('p', null, R.h5), iv, ta, pb, er, opt));
+}
+function invite() {
+var x = S.x, u = {}, k, r;
+for (k in x.u) {
+r = x.u[k].r;
+if (x.u[k].i && r) u[k] = Object.assign({ dir: x.u[k].dir }, x.u[k].i, { k1: r.k1, k2: r.k2, ot: r.ot, e2: r.e2, mc: r.mc, sd: r.sd, cy: r.cy, h7: r.h7 });
+}
+ready(new Blob([page(true, LANG, null, '', JSON.stringify(u).replace(/</g, '\\u003c'))], { type: 'text/html' }), R.vn + '.html', R.h4);
+}
+function mine() {
+var b = field(R.k2, 'password'), msg = el('p', 'er'), go = el('button', 'pb', R.mc);
+go.type = 'button';
+go.onclick = async function () {
+var s = S, v = b.i.value, c = null;
+msg.textContent = ''; go.disabled = true; mk = true;
+try { if (Array.from(fold(v.trim())).length >= 16) { await open(v.trim(), raw); c = await code(v.trim(), tongue()); } } catch (e) { c = null; } finally { mk = false; }
+v = ''; b.i.value = '';
+if (S !== s || s.v.t !== 'copy') return;
+go.disabled = false;
+if (!c) { msg.textContent = R.e2; return; }
+put(el('div', 'fm', shown(c, R, brief), el('p', 'wn', R.h7)));
+};
+set({ t: 'copy' }); ttl.textContent = R.rc;
+put(el('div', 'fm', el('p', null, R.h6), b, msg, go));
+}
+function shown(c, T, before) {
+var w = el('div'), p = el('p', 'cd', c), b, y;
+p.dir = 'ltr';
+w.appendChild(p);
+if (navigator.share) {
+b = el('button', 'pb', T.sd); b.type = 'button';
+b.onclick = function () { if (before) before(); try { navigator.share({ text: c }).catch(function () { }); } catch (e) { } };
+w.appendChild(b);
+}
+y = el('button', navigator.share ? 'sb' : 'pb', T.cy); y.type = 'button';
+y.onclick = function () { clip(c, function () { y.textContent = T.cy + ' \u2713'; }); };
+w.appendChild(y);
+return w;
+}
+function clip(t, done) {
+function old() {
+var a = el('textarea');
+a.value = t; a.readOnly = true; a.style.position = 'fixed'; a.style.opacity = '0';
+D.body.appendChild(a); a.select();
+try { if (D.execCommand('copy')) done(); } catch (e) { }
+D.body.removeChild(a);
+}
+try { navigator.clipboard.writeText(t).then(done, old); } catch (e) { old(); }
+}
+function ready(blob, name, h) {
+var file = null, can = false, box = el('div', 'fm', el('p', null, h || R.h2)), b;
+try { file = new File([blob], name, { type: 'text/html' }); can = !!(navigator.canShare && navigator.canShare({ files: [file] })); } catch (e) { }
+if (can) {
+b = el('button', 'pb', R.sd); b.type = 'button';
+b.onclick = function () { brief(); try { navigator.share({ files: [file] }).catch(function () { }); } catch (e) { } };
+box.appendChild(b);
+}
+b = el('button', can ? 'sb' : 'pb', R.sv); b.type = 'button';
+b.onclick = function () {
+brief();
+var u = URL.createObjectURL(blob), l = el('a');
+l.href = u; l.download = name; rd.appendChild(l); l.click(); rd.removeChild(l);
+setTimeout(function () { URL.revokeObjectURL(u); }, 60000);
+};
+box.appendChild(b);
+b = el('button', 'sb', R.ok); b.type = 'button';
+b.onclick = function () { if (S) rBack(); };
+box.appendChild(b);
+put(box);
+}
+function brief() {
+var t = setTimeout(back, 60000);
+function back() { clearTimeout(t); W.removeEventListener('focus', back); rd.removeEventListener('pointerdown', back, true); hold = false; }
+hold = true;
+W.addEventListener('focus', back); rd.addEventListener('pointerdown', back, true);
+}
+function about() {
+set({ t: 'about' }); ttl.textContent = R.ab;
+put(el('div', 'ab', el('h3', null, S.m.n), S.m.a ? el('p', null, S.m.a) : null, el('p', 'nt', R.hp + '\n' + R.nc)));
+}
+D.addEventListener('visibilitychange', function () { if (!D.hidden) return; if (busy) away = true; if (S && !hold) lock(); });
+W.addEventListener('blur', function () { if (busy) away = true; if (S && !hold) lock(); });
+W.addEventListener('pagehide', function () { if (busy) away = true; if (S) lock(true); });
+D.addEventListener('keydown', function (e) { if (e.key === 'Escape') { if (busy) away = true; if (S) lock(); } idle(); });
+['pointerdown', 'touchstart', 'scroll'].forEach(function (n) { rd.addEventListener(n, idle, { capture: true, passive: true }); });
+function invitation() {
+var lg = phone(function (c) { return !!U[c]; }) || (U[LANG] ? LANG : U.en ? 'en' : Object.keys(U)[0]), T = U[lg];
+var w = el('div', 'iv fm'), k = keybox(T), msg = el('p', 'er'), go = el('button', 'pb', T.mc), done = false;
+D.documentElement.lang = lg; D.documentElement.dir = T.dir === 'rtl' ? 'rtl' : 'ltr';
+k.msg = msg; go.type = 'button';
+function first() { done = false; wipe(w); k.fill(); go.disabled = false; w.appendChild(el('div', null, el('p', null, T.a), k.box, el('p', 'wn', T.b), k.field, msg, go)); }
+go.onclick = async function () {
+var v, c = null;
+if (!k.ok()) { msg.textContent = T.e2; return; }
+v = k.key; done = true; go.disabled = true; k.hide(); wipe(w);
+try { c = await code(v, tongue()); } catch (e) { c = null; }
+v = '';
+if (!c) { first(); return; }
+w.appendChild(el('div', null, shown(c, T), el('p', 'wn', T.h7), el('p', null, T.c)));
+};
+function away() { if (!done) k.hide(); }
+function back() { if (!done && !k.key && !D.hidden) k.fill(); }
+W.addEventListener('blur', away); W.addEventListener('pagehide', away); W.addEventListener('focus', back);
+D.addEventListener('visibilitychange', function () { if (D.hidden) away(); else back(); });
+first();
+D.body.appendChild(el('div', 'app', w));
+}
+rd.hidden = true;
+if (!D.getElementById('d').firstChild) invitation();
+else {
+cv.appendChild(lv); cv.appendChild(fab); cv.appendChild(ev);
+root.appendChild(cv); root.appendChild(rd);
+D.body.appendChild(root);
+draw();
+}
+})();</script>
+</body>
+</html>
