@@ -15,6 +15,7 @@ Objetivo de ZION: que alguien en un país con censura pueda **tener**, **leer** 
 - **Se cierra al instante**: con ✕, con Atrás, con Escape o al cambiar de aplicación. Vuelve a las notas y borra el texto de la pantalla y de la memoria.
 - **Avisa donde hace falta**: al abrir el lector, un aviso breve encima de los libros explica cómo cerrar y que la clave va en papel, nunca en una nota (sale cada vez que se abre el archivo, hasta que se lee algo; no se guarda nada para ello). «Pasar una copia» recuerda que cada persona necesita su propia copia y que una clave perdida no se recupera. «Acerca de» añade que el archivo no se conecta a nada.
 - **Pasar una copia**: desde dentro se genera otro archivo con clave nueva. La clave la pone siempre la app: 20 cifras al azar en grupos de cuatro (por ejemplo `4821 0937 5512 8846 0393`, 66 bits); no se puede inventar una, porque una frase o un versículo se adivinan sin conexión en segundos. Cualquier teclado tiene cifras y en cualquier idioma se pueden dictar. Vale escrita con las cifras de cualquier alfabeto (٤٨٢١, ۴۸۲۱, ४८२१…) y con o sin espacios, guiones o puntos. «Otra» da otra distinta. Hay que volver a escribirla antes de crear la copia, para asegurarse de que se ha apuntado bien. Solo se ve en esa pantalla y no se guarda en ningún sitio. Es distinto byte a byte del original, así que no se puede detectar comparándolo con una lista de archivos conocidos. Por defecto lleva solo el idioma que se está leyendo; se pueden marcar más y elegir el idioma de las notas de la copia. Cualquier copia puede a su vez hacer copias. A cada persona hay que darle su propia copia: un mismo archivo reenviado a varias es idéntico en todas y una lista de huellas lo encuentra.
+- **Pasar una copia a distancia** («candado»): para alguien lejano, por un chat de WhatsApp o Signal, sin que su clave viaje por ningún sitio y sin que quien la manda la conozca. Quien recibe crea su clave de 20 cifras y saca un código público de 130 cifras; quien manda pega ese código y la copia sale cerrada para esa clave. Quien intercepte todo el chat (invitación, código y copia) no puede abrirla. Si la otra persona aún no tiene ningún archivo, primero se le manda una **invitación**: un archivo pequeño con el mismo programa y sin ningún contenido, que se explica solo en el idioma de su teléfono. Detalles en [AMENAZAS.md](AMENAZAS.md#envío-a-distancia-candado).
 - **No se conecta a nada**: el propio archivo prohíbe al navegador cualquier conexión.
 
 ## Historia
@@ -27,7 +28,19 @@ Semilla sustituye a la primera versión de ZION (ZION Web/Core/Lite: PDF en clar
 2. Escribe la clave en **Buscar** y pulsa Intro.
 3. Para cerrar: ✕, Atrás, o cambia de aplicación.
 4. Para cambiar de idioma: **⋯ → Idioma**.
-5. Para dárselo a otra persona: **⋯ → Pasar una copia**, la otra persona apunta la clave que propone la app (o pulsa «Otra»), la vuelve a escribir para comprobarla; dísela en persona o en un papel aparte, nunca por mensaje ni en una nota del teléfono. Una copia para cada persona: no reenvíes el mismo archivo a varias. Por defecto la copia lleva solo el idioma que estás leyendo (pesa 2–4 MB en vez de ~32 MB y llama menos la atención); marca más idiomas si los necesitas. El idioma de las notas (la portada que se ve sin clave) sigue al primer idioma marcado hasta que lo cambies a mano.
+5. Para dárselo a otra persona: **⋯ → Pasar una copia → En persona**, la otra persona apunta la clave que propone la app (o pulsa «Otra»), la vuelve a escribir para comprobarla; dísela en persona o en un papel aparte, nunca por mensaje ni en una nota del teléfono. Una copia para cada persona: no reenvíes el mismo archivo a varias. Por defecto la copia lleva solo el idioma que estás leyendo (pesa 2–4 MB en vez de ~32 MB y llama menos la atención); marca más idiomas si los necesitas. El idioma de las notas (la portada que se ve sin clave) sigue al primer idioma marcado hasta que lo cambies a mano.
+
+### A distancia (por WhatsApp o Signal)
+
+**Regla para los usuarios: todo (invitación, código y copia) por el mismo chat de WhatsApp o Signal, o en mano. Si una copia no abre, se borra y se pide otra.** Al terminar, conviene borrar la invitación y los mensajes del código (no la copia, que es lo que se lee).
+
+1. **Quien manda**, si la otra persona no tiene todavía ningún archivo: **⋯ → Pasar una copia → A distancia → Crear invitación**, y la manda por el chat.
+2. **Quien recibe** abre la invitación: le habla en el idioma de su teléfono y le da una clave de 20 cifras. La apunta en papel, la vuelve a escribir y pulsa **Crear mi código**; después **Enviar** (menú de compartir) o **Copiar**, y lo manda al mismo chat. Si sale de la página antes de crear el código, la clave cambia (para que no quede en la miniatura de «recientes»): hay que apuntar la nueva.
+   Quien **ya tiene** una copia no necesita invitación: **⋯ → Recibir una copia**, escribe la clave con la que abre su archivo y manda el código. La copia nueva se abrirá con esa misma clave.
+3. **Quien manda** copia el mensaje entero del chat (antes de abrir su archivo: al cambiar de aplicación, el lector se cierra), y en **⋯ → Pasar una copia → A distancia** lo pega (o pulsa **Pegar**). La app busca el código dentro del mensaje (da igual la hora, un teléfono o las cifras de otro alfabeto); si no hay exactamente un código válido, lo rechaza: nunca lo usa como clave. Marca ya la traducción y el idioma de las notas del teléfono de la otra persona, si el archivo los tiene. **Crear copia** y se manda por el mismo chat.
+4. **Quien recibe** la abre como siempre: su clave en **Buscar** e Intro.
+
+Cada código sirve para una copia: para otra copia, un código nuevo.
 
 ## Cómo se genera (quien reparte)
 
@@ -59,16 +72,17 @@ También acepta una carpeta con archivos `.usfm` o un archivo `.usfx.xml`.
 node verificar.js dist/notas.html
 ```
 
-Dice si el archivo lleva exactamente una versión publicada del programa, sin nada añadido, y cuál: la actual o una anterior (con su aviso, si esa versión tiene un fallo conocido). Las versiones publicadas están en `versiones.json`. Verifica siempre con el repositorio actualizado: una lista antigua no conoce las versiones más nuevas y las daría por falsas. Sirve para quien reparte: una copia que llega de otra persona puede haber sido manipulada, y esto lo detecta. Funciona porque el navegador solo ejecuta el código cuyo hash va escrito en el propio archivo.
+Dice si el archivo lleva exactamente una versión publicada del programa, sin nada añadido, y cuál: la actual o una anterior (con su aviso, si esa versión tiene un fallo conocido). Las versiones publicadas están en `versiones.json`. Verifica siempre con el repositorio actualizado: una lista antigua no conoce las versiones más nuevas y las daría por falsas. Sirve para quien reparte: una copia que llega de otra persona puede haber sido manipulada, y esto lo detecta. También comprueba invitaciones del envío a distancia: el programa y, además, que sus textos sean los del repositorio. Funciona porque el navegador solo ejecuta el código cuyo hash va escrito en el propio archivo.
 
 ## Qué está comprobado
 
-`npm test` ejecuta 48 pruebas sobre el código real (no sobre copias):
+`npm test` ejecuta 64 pruebas sobre el código real (no sobre copias):
 
 - **Cifrado**: ida y vuelta; clave incorrecta o un bit cambiado no abre; la clave que sale de Argon2id es idéntica a la de la implementación de referencia en C, y el formato lo descifra la criptografía estándar de Node sin usar la app.
+- **Envío a distancia**: X25519 da los resultados de RFC 7748; HPKE da exactamente el vector de prueba oficial de RFC 9180 para esta combinación (claves, secreto compartido, clave, nonce, secreto de exportación, exportaciones y cifrados); la librería X25519 es byte a byte la que dice su cabecera; el código se encuentra en mensajes con hora, teléfono, saltos de línea, marcas invisibles de los chats y cifras árabes o persas, y se rechaza si falta o cambia una cifra o si hay dos códigos distintos; la copia con candado solo la abre la clave del receptor; la invitación lleva el mismo programa, ningún contenido y ninguna palabra delatora en los 35 idiomas; una copia hecha con el programa anterior (25-11-2026, `tests/fixtures/copia-2026-11-25.html`) se verifica y se abre.
 - **Lectura de traducciones**: USFM y USFX. Aparte de las pruebas automáticas, pasé 16 Biblias reales completas por el lector sin que quedara un solo resto de marcado.
 - **El archivo**: no contiene ninguna palabra delatora ni ninguna vía de red en claro; el programa va sin comentarios (los del repo explican el diseño; en el archivo solo queda la licencia MIT de Argon2id), y `verificar.js` aplica la misma limpieza al comparar; solo puede ejecutarse el código cuyo hash figura en él; dos archivos con el mismo texto y la misma clave no se parecen.
-- **En navegador real** (Chrome sin interfaz, tamaño de móvil, sin red): notas, apertura, navegación, búsqueda, cierre por las cuatro vías, copia con clave nueva, árabe de derecha a izquierda con cifras propias, y funcionamiento sin descompresor nativo ni almacenamiento. Durante toda la sesión: cero errores y cero peticiones de red.
+- **En navegador real** (Chrome sin interfaz, tamaño de móvil, sin red): notas, apertura, navegación, búsqueda, cierre por las cuatro vías, copia con clave nueva, el envío a distancia completo entre dos «teléfonos» en idiomas distintos (invitación, clave, código, copia con candado, «Recibir una copia» con la clave de siempre, idioma marcado según el código), una copia del programa anterior, árabe de derecha a izquierda con cifras propias, y funcionamiento sin descompresor nativo ni almacenamiento. Durante toda la sesión: cero errores y cero peticiones de red.
 
 La prueba de navegador necesita Playwright (`npm i -D playwright`); si no está, se salta sola.
 
@@ -171,11 +185,11 @@ La carpeta de fuentes lleva los zips USFM de eBible.org (`engfbv_usfm.zip`, `arb
 ## Qué falta antes de dárselo a alguien en riesgo
 
 1. **Probarlo en teléfonos reales**, sobre todo Android antiguos. La clave se deriva con Argon2id en WebAssembly: un navegador que no lo permita dentro del archivo (`'wasm-unsafe-eval'`) no podrá abrirlo nunca, y quien lo intente creerá que la clave está mal. Comprobado en Chrome 157 (Android 10) y en Brave y Chrome abriéndolo desde WhatsApp (Android, 4 GB); faltan Samsung Internet, Firefox y navegadores antiguos. **iPhone no sirve**: su vista previa no ejecuta el programa y Safari no abre archivos HTML guardados (probado en un iPhone 13). abrir el archivo desde el gestor de archivos, desde WhatsApp y desde Telegram; que la clave abra; que «Enviar» funcione por Bluetooth. No sé todavía si todos los navegadores móviles permiten descifrar en un archivo abierto de esa forma. Con los 18 idiomas (~28 MB): probar en teléfonos de **1–2 GB de RAM** y medir cuánto tarda en pasar por Bluetooth.
-2. **Revisión por hablantes nativos** de la interfaz en los 23 idiomas que no son español ni inglés; primero las frases de clave y copia (`h1`, `hp`, `h2`, `e1`, `e2`). Los textos nuevos de idioma y copia (`nm`, `lg`, `cl`, `cc`, `e3`, `ks`, `ot`, `h3`, `fi`, `nc` en `src/ui.js`) también son de IA.
+2. **Revisión por hablantes nativos** de la interfaz en los idiomas que no son español ni inglés. Los textos del envío a distancia (`ps`, `pd`, `rc`, `iv`, `vn`, `pg`, `pe`, `e4`, `mc`, `cy`, `h4`, `h5`, `h6`, `h7` y los de la invitación `i.a`, `i.b`, `i.c` en `src/ui.js`) los ha traducido una IA a los 34 idiomas que no son español: sin revisar. Los de la invitación van en claro, así que son los primeros que hay que revisar (que se entiendan y que no digan nada delator); primero las frases de clave y copia (`h1`, `hp`, `h2`, `e1`, `e2`). Los textos nuevos de idioma y copia (`nm`, `lg`, `cl`, `cc`, `e3`, `ks`, `ot`, `h3`, `fi`, `nc` en `src/ui.js`) también son de IA.
 3. **Licencias**: elegir, para cada uno de los 44 idiomas, una traducción que se pueda redistribuir.
 4. **Auditoría externa** del cifrado y del modelo de amenazas.
 5. **Decidir el origen**: cómo llega la primera copia a cada país (ver [AMENAZAS.md](AMENAZAS.md)).
-6. **Programa congelado**: desde ahora, cada cambio en `src/app.js`, `src/app.css` o `src/argon2.js` añade su versión a `versiones.json` en el mismo commit (`node versiones.js --añadir`); `npm test` falla si falta. Ninguna versión se borra nunca: las copias repartidas dependen de la lista. Si una versión resulta tener un fallo, se le pone un aviso en vez de quitarla.
+6. **Programa congelado**: desde ahora, cada cambio en `src/app.js`, `src/app.css`, `src/argon2.js` o `src/x25519.js` añade su versión a `versiones.json` en el mismo commit (`node versiones.js --añadir`); `npm test` falla si falta. Ninguna versión se borra nunca: las copias repartidas dependen de la lista. Si una versión resulta tener un fallo, se le pone un aviso en vez de quitarla.
 
 ## Estructura
 
@@ -186,6 +200,7 @@ La carpeta de fuentes lleva los zips USFM de eBible.org (`engfbv_usfm.zip`, `arb
   versiones.js      calcula la huella actual y la añade a versiones.json
   src/app.js        la app (portada + lector). Va tal cual dentro del archivo, sin minificar
   src/argon2.js     Argon2id para derivar la clave (hash-wasm 4.13.0, licencia MIT, sin cambios). Va delante de la app
+  src/x25519.js     X25519 para el envío a distancia (noble-curves 2.3.0, licencia MIT, empaquetado sin cambios). Va detrás de Argon2id
   src/app.css       estilos
   src/ui.js         textos de la interfaz por idioma
   lib/texto.js      lee USFM y USFX
@@ -201,8 +216,8 @@ La carpeta de fuentes lleva los zips USFM de eBible.org (`engfbv_usfm.zip`, `arb
   movil/            páginas de diagnóstico para teléfonos (sin Biblia)
 ```
 
-Dentro del archivo solo va una librería de terceros: el Argon2id de hash-wasm (`src/argon2.js`, licencia MIT; su cabecera lleva la huella del original para comprobar que no se ha tocado). Para generar: Node y, para LZMA, la orden `xz`.
+Dentro del archivo van dos librerías de terceros, las dos MIT y con la huella del original en su cabecera para comprobar que no se han tocado: el Argon2id de hash-wasm (`src/argon2.js`) y el X25519 de noble-curves 2.3.0 con noble-hashes 2.3.0 (`src/x25519.js`, empaquetado con esbuild; la orden exacta está en la cabecera). Para generar: Node y, para LZMA, la orden `xz`.
 
 ## Cómo se contribuye
 
-Los cambios entran por pull request y se fusionan con **Squash and merge**: `main` recibe un solo commit por PR, creado y firmado por GitHub (sale «Verified»). Antes de fusionar, el CI debe ejecutar `npm test` en verde (48 pruebas).
+Los cambios entran por pull request y se fusionan con **Squash and merge**: `main` recibe un solo commit por PR, creado y firmado por GitHub (sale «Verified»). Antes de fusionar, el CI debe ejecutar `npm test` en verde (64 pruebas).

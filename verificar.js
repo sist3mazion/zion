@@ -24,6 +24,12 @@ async function main() {
   else if (v.actual) console.log('✔ Programa auténtico: versión actual (' + v.fecha + '), sin nada añadido, y no puede conectarse a la red.');
   else console.log('✔ Programa auténtico: versión anterior (' + v.fecha + '), sin nada añadido, y no puede conectarse a la red. Hay una versión más nueva.');
   if (v.aviso) console.log('! Aviso de esta versión: ' + v.aviso);
+  if (r.invitacion) {
+    console.log('  Es una invitación (envío a distancia): no lleva contenido, solo textos en ' + Object.keys(JSON.parse(r.piezas.ui)).length + ' idiomas.');
+    if (!r.distintos.length) console.log('✔ Sus textos son exactamente los de este repositorio.');
+    else console.log('! Textos distintos de los de este repositorio en: ' + r.distintos.join(', ') + '. Pueden ser de otra versión o estar cambiados: léelos antes de pasarla (una invitación con otras instrucciones es una trampa).');
+    return;
+  }
   console.log('  Portada: "' + r.piezas.title + '" (' + r.piezas.lang + '). Contenido cifrado: ' + (r.piezas.blob.length * 3 / 4 / 1048576).toFixed(2) + ' MB.');
   const i = args.indexOf('--clave');
   if (i < 0) return;
